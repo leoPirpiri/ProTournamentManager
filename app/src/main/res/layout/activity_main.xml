@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gerenciador de Torneios"
+            android:textSize="20dp"
+            android:layout_margin="50dp"
+            android:textAlignment="center"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Começar novo torneio:"
+        android:textSize="18dp"
+        android:layout_margin="10dp"
+    />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:shinkColumns="*"
+        android:stretchColumns="*"
+        android:padding="10dp">
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/nome_torneio"
+                android:layout_width="238dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="Nome"
+            />
+            <Button
+                android:id="@+id/btn_novo_tourneio"
+                android:text="NOVO"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:background="@drawable/buttonshape"
+                android:shadowColor="#3D3D3D"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:layout_weight="1"
+            />
+        </TableRow>
+    </TableLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Torneios recentes:"
+        android:textSize="18dp"
+        android:layout_margin="10dp"
+    />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>
