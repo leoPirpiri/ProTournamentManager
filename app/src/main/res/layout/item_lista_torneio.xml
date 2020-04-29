@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+        <TextView
+            android:id="@+id/nome_torneio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exemplo Super Cup"
+            android:textColor="#040489"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        />
+        <TextView
+            android:id="@+id/situacao_torneio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Situação: aberto" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_del_torneio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apagar\ntorneio"
+        android:textSize="12sp" />
+//vídeo aula parte 8 Adapter.
+
+
+</LinearLayout>
