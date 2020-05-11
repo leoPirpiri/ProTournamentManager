@@ -70,10 +70,30 @@
         android:textSize="18dp"
         android:layout_margin="10dp"
     />
-    <ListView
-        android:id="@+id/list_recentes"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ListView>
+        <ListView
+            android:id="@+id/list_recentes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </ListView>
+        <Button
+            android:id="@+id/btn_simulador"
+            android:text="Simular Partida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_shape_enabled"
+            android:shadowColor="#3D3D3D"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>
