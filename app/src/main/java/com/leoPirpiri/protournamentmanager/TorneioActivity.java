@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import control.Olimpia;
 import model.Torneio;
 
@@ -42,8 +44,12 @@ public class TorneioActivity extends AppCompatActivity {
         Bundle dados = intent.getExtras();
         if(dados!=null){
             santuarioOlimpia = (Olimpia) dados.getSerializable("olimpia");
-            torneio = new Torneio(dados.getString("nome_torneio"));
-            Toast.makeText(TorneioActivity.this, dados.getString("nome_torneio"), Toast.LENGTH_LONG).show();
+            torneio = (Torneio) dados.getSerializable("torneio");
+            setTitle(torneio.getNome());
+            santuarioOlimpia.addTorneio(torneio);
+            persistirSantuario();
+            Toast.makeText(TorneioActivity.this, torneio.getNome(), Toast.LENGTH_LONG).show();
+
         }
     }
     private void mostrarAlertaNovaEquipe(){
@@ -65,5 +71,14 @@ public class TorneioActivity extends AppCompatActivity {
         builder.setView(view);
         alertaNovaEquipe = builder.create();
         alertaNovaEquipe.show();
+    }
+    private void persistirSantuario (){
+        try {
+            santuarioOlimpia.salvarSantuario(santuarioOlimpia);
+            Toast.makeText(TorneioActivity.this, "Santuario Salvo.", Toast.LENGTH_LONG).show();;
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            Toast.makeText(TorneioActivity.this, R.string.erro_gravar_santuario, Toast.LENGTH_LONG).show();
+        }
     }
 }

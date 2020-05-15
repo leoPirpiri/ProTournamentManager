@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
+
 import control.Olimpia;
 import model.Partida;
 import model.Torneio;
@@ -27,10 +30,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        santuarioOlimpia = new Olimpia();
         nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
         btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
         btn_simulador_partida = findViewById(R.id.btn_simulador);
+        //Carrega ou inicia o santuário onde ocorre os jogos.
+        //getFilesDir(); Pegar o caminho local do aplicativo ou activity em uso.
+
+        if (new File(Olimpia.NOME_ARQUIVO_SERIALIZADO).exists()) {
+            try {
+                santuarioOlimpia = Olimpia.carregarSantuario();
+                Toast.makeText(MainActivity.this, "Carregou o arquivo!", Toast.LENGTH_LONG).show();
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+                Toast.makeText(MainActivity.this, R.string.erro_leitura_santuario, Toast.LENGTH_LONG).show();
+            }
+        }
+        if (santuarioOlimpia == null) {
+            santuarioOlimpia = new Olimpia();
+        }
 
         //Listeners
         nome_novo_torneio.addTextChangedListener(new TextWatcher() {
@@ -75,26 +92,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void esconderTeclado(Context context, View editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
+
     private void abrirTorneio(Torneio torneio){
-        santuarioOlimpia.addTorneio(torneio);
-        //aqui
-        System.out.println(torneio.toString());
-        System.out.println(santuarioOlimpia.toString());
         Intent intent = new Intent(getApplicationContext(), TorneioActivity.class);
         Bundle dados = new Bundle();
-        dados.putString("nome_torneio", torneio.getNome());
-        //aqui
-        torneio.setFechado(true);
-        System.out.println(torneio.toString());
-        System.out.println(santuarioOlimpia.toString());
+        //Passa alguns dados para a próxima activity
+        dados.putSerializable("torneio", torneio);
         dados.putSerializable("olimpia", santuarioOlimpia);
         intent.putExtras(dados);
         startActivity(intent);
     }
+
     private void abrirSimulador(){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
         intent.putExtra("partida", new Partida());
