@@ -14,9 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import control.Olimpia;
+import model.Torneio;
+
 public class TorneioActivity extends AppCompatActivity {
     //atributo da classe.
     private AlertDialog alertaNovaEquipe;
+    private Olimpia santuarioOlimpia;
+    private Torneio torneio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,8 @@ public class TorneioActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if(dados!=null){
+            santuarioOlimpia = (Olimpia) dados.getSerializable("olimpia");
+            torneio = new Torneio(dados.getString("nome_torneio"));
             Toast.makeText(TorneioActivity.this, dados.getString("nome_torneio"), Toast.LENGTH_LONG).show();
         }
     }

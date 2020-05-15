@@ -1,22 +1,19 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Torneio {
-    private int id;
+public class Torneio implements Serializable {
     private String nome;
-    private boolean estado; //True::Não permite adicionar mais equipes no torneio, tabela definida.
+    private boolean fechado; //True::Não permite adicionar mais equipes no torneio, tabela definida.
     private ArrayList<Equipe> times;
     private ArrayList<Partida> partidas;
 
-    public Torneio(int id, String nome, boolean estado) {
-        this.id = id;
+    public Torneio(String nome) {
         this.nome = nome;
-        this.estado = estado;
-    }
-
-    public int getId() {
-        return id;
+        this.fechado = false;
+        this.times = new ArrayList<>();
+        this.partidas = new ArrayList<>();
     }
 
     public String getNome() {
@@ -24,7 +21,7 @@ public class Torneio {
     }
 
     public boolean isEstado() {
-        return estado;
+        return fechado;
     }
 
     public ArrayList<Equipe> getTimes() {
@@ -33,5 +30,17 @@ public class Torneio {
 
     public ArrayList<Partida> getPartidas() {
         return partidas;
+    }
+
+    public void setFechado(boolean fechado) {
+        this.fechado = fechado;
+    }
+
+    public void addTime(Equipe time) {
+        this.times.add(time);
+    }
+
+    public void addPartida(Partida partida) {
+        this.partidas.add(partida);
     }
 }
