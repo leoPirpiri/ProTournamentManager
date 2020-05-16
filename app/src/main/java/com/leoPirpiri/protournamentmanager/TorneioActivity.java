@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -24,6 +25,8 @@ public class TorneioActivity extends AppCompatActivity {
     private AlertDialog alertaNovaEquipe;
     private Olimpia santuarioOlimpia;
     private Torneio torneio;
+    private ListView ltv_equipes_torneio;
+    private EquipesAdapter equipesAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,17 +45,28 @@ public class TorneioActivity extends AppCompatActivity {
         });
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
-        if(dados!=null){
+        if (dados!=null) {
             santuarioOlimpia = (Olimpia) dados.getSerializable("olimpia");
             torneio = (Torneio) dados.getSerializable("torneio");
             setTitle(torneio.getNome());
-            if(santuarioOlimpia.getTorneio(torneio) != -1){
+            System.out.println("\n"+torneio.toString()+"\n");
+            System.out.println(santuarioOlimpia.toString());
+            /*for(Torneio i: santuarioOlimpia.getTorneios()){
+                System.out.println(i.toString());
+            }
+            //Verifica se o torneio já está salvo no santuário
+            //Se veio Carregado ou Como um novo Torneio.
+            if (santuarioOlimpia.getTorneio(torneio) == -1) {
                 santuarioOlimpia.addTorneio(torneio);
                 persistirSantuario();
-            }else{
+            } else {
                 ArrayList<Equipe> equipes = torneio.getTimes();
-                listarTimes(equipes);
-            }
+                if (equipes.size()!=0) {
+                    listarTimes(equipes);
+                } else {
+
+                }
+            }*/
             Toast.makeText(TorneioActivity.this, torneio.getNome(), Toast.LENGTH_LONG).show();
         }
     }
@@ -90,11 +104,8 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void listarTimes(ArrayList<Equipe> equipes){
-        torneiosAdapter = new TorneiosAdapter(MainActivity.this, torneios);
-        ltv_torneios_recentes.setAdapter(torneiosAdapter);
-        for (Torneio torneio:torneios){
-            System.out.println("Nome: " + torneio.getNome() + " Fechado: " + torneio.isFechado());
-        }
-        torneiosAdapter.notifyDataSetChanged();
+        equipesAdapter = new EquipesAdapter(TorneioActivity.this, equipes);
+        ltv_equipes_torneio.setAdapter(equipesAdapter);
+        equipesAdapter.notifyDataSetChanged();
     }
 }

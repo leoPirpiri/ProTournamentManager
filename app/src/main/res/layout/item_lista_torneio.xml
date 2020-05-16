@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,13 +27,11 @@
             android:text="Situação: aberto" />
     </LinearLayout>
 
-    <Button
+    <!--<Button
         android:id="@+id/btn_del_torneio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apagar\ntorneio"
-        android:textSize="16sp" />
-//vídeo aula parte 8 Adapter.
-
+        android:textSize="16sp" />-->
 
 </LinearLayout>

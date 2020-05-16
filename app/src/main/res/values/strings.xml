@@ -15,6 +15,9 @@
     <string name="estado_fechado">Fechado.</string>
     <string name="estado_aberto">Aberto.</string>
     <string name="estado_encerrado">Encerrado.</string>
+    <string name="torneio_sem_equipe">Adicione novas equipes usando o botão baixo (+)</string>
+
+    Mensagens envolvendo Equipes-->
 
     <!-- Mensagens de erros para o usuário -->
     <string name="erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>

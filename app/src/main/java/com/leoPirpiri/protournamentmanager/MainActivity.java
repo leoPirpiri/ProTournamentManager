@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Torneio t = (Torneio) parent.getAdapter().getItem(position);
+                System.out.println(t.toString());
+                Toast.makeText(MainActivity.this, "Clicou no ítem", Toast.LENGTH_SHORT).show();
                 abrirTorneio(t);
             }
         });
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
         //Passa alguns dados para a próxima activity
         dados.putSerializable("torneio", torneio);
         dados.putSerializable("olimpia", santuarioOlimpia);
+        System.out.println(santuarioOlimpia.toString());
         intent.putExtras(dados);
         startActivity(intent);
     }
@@ -128,9 +131,11 @@ public class MainActivity extends AppCompatActivity {
     private void listarTorneios(ArrayList<Torneio> torneios){
         torneiosAdapter = new TorneiosAdapter(MainActivity.this, torneios);
         ltv_torneios_recentes.setAdapter(torneiosAdapter);
-        for (Torneio torneio:torneios){
-            System.out.println("Nome: " + torneio.getNome() + " Fechado: " + torneio.isFechado());
-        }
+//        System.out.println();
+//        for (Torneio torneio:torneios){
+//            System.out.println(torneio.toString());
+//            //System.out.println("Nome: " + torneio.getNome() + " Fechado: " + torneio.isFechado());
+//        }
         torneiosAdapter.notifyDataSetChanged();
     }
 
