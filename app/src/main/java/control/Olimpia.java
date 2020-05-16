@@ -1,6 +1,5 @@
 package control;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
     public final static String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
-    public static File file;
 
     private ArrayList<Torneio> torneios;
 
@@ -21,26 +19,15 @@ public class Olimpia implements Serializable {
         torneios = new ArrayList<>();
     }
 
-    public static void salvarSantuario( Olimpia santuario) throws IOException{
-        salvarSantuario(santuario, NOME_ARQUIVO_SERIALIZADO);
-    }
-
-    public static void salvarSantuario (Olimpia santuario, String destino) throws IOException{
-
-        FileOutputStream fileOutputStream =  new FileOutputStream(destino);
+    public static void salvarSantuario (Olimpia santuario, FileOutputStream fileOutputStream) throws IOException{
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(santuario);
         objectOutputStream.flush();
         objectOutputStream.close();
     }
 
-    public static Olimpia carregarSantuario() throws IOException{
-        return carregarSantuario(NOME_ARQUIVO_SERIALIZADO);
-    }
-
-    public static Olimpia carregarSantuario(String origem) throws IOException {
+    public static Olimpia carregarSantuario(FileInputStream fileInputStream) throws IOException {
         try {
-            FileInputStream fileInputStream = new FileInputStream(origem);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Olimpia santuario = (Olimpia) objectInputStream.readObject();
             objectInputStream.close();
@@ -51,7 +38,14 @@ public class Olimpia implements Serializable {
     }
 
     public void addTorneio(Torneio torneio){
-        this.torneios.add(torneio);
+        torneios.add(torneio);
     }
 
+    public int getTorneio(Torneio torneio){
+        return torneios.indexOf(torneio);
+    }
+
+    public ArrayList<Torneio> getTorneios(){
+        return torneios;
+    }
 }

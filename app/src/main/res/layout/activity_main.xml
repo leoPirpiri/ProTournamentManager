@@ -74,9 +74,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ListView
-            android:id="@+id/list_recentes"
+            android:id="@+id/list_torneios_recentes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="15dp">
         </ListView>
         <Button
             android:id="@+id/btn_simulador"

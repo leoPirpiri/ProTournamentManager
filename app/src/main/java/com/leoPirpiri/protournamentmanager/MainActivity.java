@@ -9,12 +9,16 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import control.Olimpia;
 import model.Partida;
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText nome_novo_torneio;
     private Button btn_novo_torneio;
     private Button btn_simulador_partida;
+    private ListView ltv_torneios_recentes;
+    private TorneiosAdapter torneiosAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,21 +39,8 @@ public class MainActivity extends AppCompatActivity {
         nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
         btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
         btn_simulador_partida = findViewById(R.id.btn_simulador);
-        //Carrega ou inicia o santuário onde ocorre os jogos.
-        //getFilesDir(); Pegar o caminho local do aplicativo ou activity em uso.
-
-        if (new File(Olimpia.NOME_ARQUIVO_SERIALIZADO).exists()) {
-            try {
-                santuarioOlimpia = Olimpia.carregarSantuario();
-                Toast.makeText(MainActivity.this, "Carregou o arquivo!", Toast.LENGTH_LONG).show();
-            } catch (IOException ex) {
-                System.out.println(ex.getMessage());
-                Toast.makeText(MainActivity.this, R.string.erro_leitura_santuario, Toast.LENGTH_LONG).show();
-            }
-        }
-        if (santuarioOlimpia == null) {
-            santuarioOlimpia = new Olimpia();
-        }
+        ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
+        carregarSantuario();
 
         //Listeners
         nome_novo_torneio.addTextChangedListener(new TextWatcher() {
@@ -91,8 +84,32 @@ public class MainActivity extends AppCompatActivity {
                 abrirSimulador();
             }
         });
+        ltv_torneios_recentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Torneio t = (Torneio) parent.getAdapter().getItem(position);
+                abrirTorneio(t);
+            }
+        });
     }
 
+    //Carrega ou inicia o santuário onde ocorre os jogos.
+    private void carregarSantuario(){
+        if (new File(getFileStreamPath(Olimpia.NOME_ARQUIVO_SERIALIZADO).toString()).exists()) {
+            try {
+                santuarioOlimpia = Olimpia.carregarSantuario(openFileInput(Olimpia.NOME_ARQUIVO_SERIALIZADO));
+                listarTorneios(santuarioOlimpia.getTorneios());
+            } catch (IOException ex) {
+                //System.out.println(ex.getMessage());
+                Toast.makeText(MainActivity.this, R.string.erro_leitura_santuario, Toast.LENGTH_LONG).show();
+            }
+        }else{
+            //Não existe torneios anteriores, Informar na lista.
+        }
+        if (santuarioOlimpia == null) {
+            santuarioOlimpia = new Olimpia();
+        }
+    }
     private void esconderTeclado(Context context, View editText) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
@@ -106,6 +123,15 @@ public class MainActivity extends AppCompatActivity {
         dados.putSerializable("olimpia", santuarioOlimpia);
         intent.putExtras(dados);
         startActivity(intent);
+    }
+
+    private void listarTorneios(ArrayList<Torneio> torneios){
+        torneiosAdapter = new TorneiosAdapter(MainActivity.this, torneios);
+        ltv_torneios_recentes.setAdapter(torneiosAdapter);
+        for (Torneio torneio:torneios){
+            System.out.println("Nome: " + torneio.getNome() + " Fechado: " + torneio.isFechado());
+        }
+        torneiosAdapter.notifyDataSetChanged();
     }
 
     private void abrirSimulador(){

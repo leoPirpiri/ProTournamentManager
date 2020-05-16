@@ -8,20 +8,26 @@ public class Torneio implements Serializable {
     private boolean fechado; //True::Não permite adicionar mais equipes no torneio, tabela definida.
     private ArrayList<Equipe> times;
     private ArrayList<Partida> partidas;
+    private Equipe campeao;
 
     public Torneio(String nome) {
         this.nome = nome;
         this.fechado = false;
         this.times = new ArrayList<>();
         this.partidas = new ArrayList<>();
+        this.campeao = null;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public boolean isEstado() {
+    public boolean isFechado() {
         return fechado;
+    }
+
+    public Equipe getCampeao() {
+        return campeao;
     }
 
     public ArrayList<Equipe> getTimes() {
@@ -34,6 +40,10 @@ public class Torneio implements Serializable {
 
     public void setFechado(boolean fechado) {
         this.fechado = fechado;
+    }
+
+    public void setCampeao(Equipe campeao) {
+        this.campeao = campeao;
     }
 
     public void addTime(Equipe time) {
