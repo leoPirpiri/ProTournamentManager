@@ -46,8 +46,8 @@ public class Olimpia implements Serializable {
         return torneios.indexOf(torneio);
     }
 
-    public int getTorneio(Torneio torneio){
-        return torneios.indexOf(torneio);
+    public Torneio getTorneio(int pos){
+        return torneios.get(pos);
     }
 
     public ArrayList<Torneio> getTorneios(){

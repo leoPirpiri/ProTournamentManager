@@ -47,7 +47,7 @@ public class TorneioActivity extends AppCompatActivity {
         Bundle dados = intent.getExtras();
         if (dados!=null) {
             santuarioOlimpia = (Olimpia) dados.getSerializable("olimpia");
-            torneio = (Torneio) dados.getSerializable("torneio");
+            torneio = santuarioOlimpia.getTorneio(dados.getInt("torneio"));
             setTitle(torneio.getNome());
             System.out.println("\n"+torneio.toString()+"\n");
             System.out.println(santuarioOlimpia.toString());
