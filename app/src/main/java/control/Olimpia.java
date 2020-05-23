@@ -12,6 +12,7 @@ import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
     public final static String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
+    public final int TORNEIO_MAX = 8;
 
     private ArrayList<Torneio> torneios;
 
@@ -37,8 +38,12 @@ public class Olimpia implements Serializable {
         }
     }
 
-    public void addTorneio(Torneio torneio){
-        torneios.add(torneio);
+    public int addTorneio(Torneio torneio){
+        if(torneios.size()<TORNEIO_MAX){
+            torneios.add(torneio);
+        }
+        //Retorna o índice do elemento que está sendo adicionado
+        return torneios.indexOf(torneio);
     }
 
     public int getTorneio(Torneio torneio){

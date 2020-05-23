@@ -3,23 +3,23 @@
     <string name="title_activity_torneio">Nome do Torneio</string>
 
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
-    <!--Mensagens envolvendo Torneios-->
+    <!-- Mensagens envolvendo Torneios -->
+    <string name="torneio_com_equipes">Torneios recentes: </string>
+    <string name="torneio_sem_equipes">Sem torneios recentes
+        \nAdicione novas equipes usando o botão baixo (+)</string>
     <string name="estado_fechado">Fechado.</string>
     <string name="estado_aberto">Aberto.</string>
     <string name="estado_encerrado">Encerrado.</string>
-    <string name="torneio_sem_equipe">Adicione novas equipes usando o botão baixo (+)</string>
 
-    Mensagens envolvendo Equipes-->
+    <!-- Mensagens envolvendo Equipes -->
+
+    <!-- Mensagens de sucesso para o usuário -->
+    <string name="dados_salvando">Granvando dados...</string>
+    <string name="dados_salvo">Dados gravados com sucesso!</string>
 
     <!-- Mensagens de erros para o usuário -->
-    <string name="erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
-    <string name="erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
+    <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
+    <string name="dados_erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
 </resources>

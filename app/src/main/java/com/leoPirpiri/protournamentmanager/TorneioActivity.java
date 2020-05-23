@@ -93,16 +93,6 @@ public class TorneioActivity extends AppCompatActivity {
         alertaNovaEquipe.show();
     }
 
-    private void persistirSantuario (){
-        try {
-            santuarioOlimpia.salvarSantuario(santuarioOlimpia, openFileOutput(santuarioOlimpia.NOME_ARQUIVO_SERIALIZADO, MODE_PRIVATE));
-            Toast.makeText(TorneioActivity.this, "Santuario Salvo.", Toast.LENGTH_LONG).show();;
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());//apagar quando der certo.
-            Toast.makeText(TorneioActivity.this, R.string.erro_gravar_santuario, Toast.LENGTH_LONG).show();
-        }
-    }
-
     private void listarTimes(ArrayList<Equipe> equipes){
         equipesAdapter = new EquipesAdapter(TorneioActivity.this, equipes);
         ltv_equipes_torneio.setAdapter(equipesAdapter);
