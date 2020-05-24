@@ -2,18 +2,23 @@
     <string name="app_name">Pro Tournament Manager</string>
     <string name="title_activity_torneio">Nome do Torneio</string>
 
-    <!-- Strings used for fragments for navigation -->
-
+    <!-- Mensagens envolvendo Santuário Olímpia -->
+    <string name="santuario_com_torneios">Torneios recentes: </string>
+    <string name="santuario_cheio">Limite alcançado</string>
+    <string name="santuario_vazio">Sem torneios recentes
+        \nAdicione novos a partir do botão novo</string>
 
     <!-- Mensagens envolvendo Torneios -->
-    <string name="torneio_com_equipes">Torneios recentes: </string>
-    <string name="torneio_sem_equipes">Sem torneios recentes
-        \nAdicione novas equipes usando o botão baixo (+)</string>
+    <string name="torneio_com_equipes">Equipes participantes: </string>
+    <string name="torneio_sem_equipes">Torneio não possue equipes
+        \nAdicione novas equipes usando o botão abaixo (+)</string>
+    <string name="novo_torneio">Meu Torneio</string>
     <string name="estado_fechado">Fechado.</string>
     <string name="estado_aberto">Aberto.</string>
     <string name="estado_encerrado">Encerrado.</string>
 
     <!-- Mensagens envolvendo Equipes -->
+    <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

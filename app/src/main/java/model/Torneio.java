@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Torneio implements Serializable {
+    public final int MAX_EQUIPE = 16;
+    public final int MIN_EQUIPE = 4;
+
     private String nome;
     private boolean fechado; //True::Não permite adicionar mais equipes no torneio, tabela definida.
     private ArrayList<Equipe> times;

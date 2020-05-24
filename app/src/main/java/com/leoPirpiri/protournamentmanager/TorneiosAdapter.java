@@ -49,8 +49,8 @@ public class TorneiosAdapter extends BaseAdapter {
         TextView itemEstado = (TextView) v.findViewById(R.id.situacao_torneio);
 
         itemNome.setText(torneio.getNome());
-        itemEstado.setText(torneio.isFechado() ? R.string.estado_fechado: (
-                torneio.getCampeao() == null) ? R.string.estado_aberto : R.string.estado_encerrado);
+        itemEstado.setText(torneio.isFechado() ? R.string.estado_fechado : (
+                torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
         return v;
     }
 }

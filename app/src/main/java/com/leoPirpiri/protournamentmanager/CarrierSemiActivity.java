@@ -15,7 +15,7 @@ public final class CarrierSemiActivity {
             santuarioOlimpia.salvarSantuario(santuarioOlimpia,
                     ctx.openFileOutput(santuarioOlimpia.NOME_ARQUIVO_SERIALIZADO, ctx.MODE_PRIVATE));
             Toast.makeText(ctx, R.string.dados_salvando, Toast.LENGTH_LONG).show();
-            Toast.makeText(ctx, R.string.dados_salvo, Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, R.string.dados_salvo, Toast.LENGTH_SHORT).show();
         } catch (IOException ex) {
             //System.out.println(ex.getMessage());//apagar quando der certo.
             Toast.makeText(ctx, R.string.dados_erro_gravar_santuario, Toast.LENGTH_LONG).show();

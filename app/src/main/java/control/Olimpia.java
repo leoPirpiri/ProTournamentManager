@@ -41,9 +41,11 @@ public class Olimpia implements Serializable {
     public int addTorneio(Torneio torneio){
         if(torneios.size()<TORNEIO_MAX){
             torneios.add(torneio);
+            //Retorna o índice do elemento que está sendo adicionado
+            return torneios.indexOf(torneio);
+        } else {
+            return -1;
         }
-        //Retorna o índice do elemento que está sendo adicionado
-        return torneios.indexOf(torneio);
     }
 
     public Torneio getTorneio(int pos){
@@ -52,5 +54,9 @@ public class Olimpia implements Serializable {
 
     public ArrayList<Torneio> getTorneios(){
         return torneios;
+    }
+
+    public int getOcupacao(){
+        return this.torneios.size();
     }
 }

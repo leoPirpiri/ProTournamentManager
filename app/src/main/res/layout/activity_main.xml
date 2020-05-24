@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:maxLength="35"
-                android:hint="Meu Torneio"
+                android:hint="@string/novo_torneio"
                 android:singleLine="true" />
 
             <Button
@@ -64,7 +64,7 @@
         </TableRow>
     </TableLayout>
     <TextView
-        android:id="@+id/txt_torneios_recentes"
+        android:id="@+id/txv_torneios_recentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/torneio_sem_equipes"

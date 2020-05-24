@@ -13,4 +13,13 @@ public class Equipe implements Serializable {
         this.sigla = sigla;
         this.jogadores = new ArrayList<>();
     }
+
+    public String getNome(){
+        return this.nome;
+    }
+
+    public String getSigla(){
+        return this.sigla;
+    }
+
 }

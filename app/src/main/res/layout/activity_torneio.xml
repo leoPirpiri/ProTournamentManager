@@ -25,13 +25,13 @@
         android:layout_marginTop="60dp"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/ttv_estado_torneio"
+            android:id="@+id/txv_estado_torneio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Copa exemplo de Futsal"
             android:textSize="20dp"
             android:layout_marginBottom="10dp"
-            android:textAlignment="center"/>
+            android:textAlignment="textStart"/>
         <Button
             android:id="@+id/btn_novo_tourneio"
             android:layout_width="match_parent"
@@ -47,9 +47,10 @@
             android:textSize="20sp"
             />
         <TextView
+            android:id="@+id/txv_equipes_salvas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Times Participantes:"
+            android:text="@string/torneio_com_equipes"
             android:textSize="18dp"
             android:layout_margin="10dp"
             />
