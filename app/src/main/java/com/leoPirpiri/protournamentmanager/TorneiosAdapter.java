@@ -38,10 +38,10 @@ public class TorneiosAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
-        if(convertView == null){
+        if(convertView == null) {
             LayoutInflater inflater = ((Activity) ctx).getLayoutInflater();
             v = inflater.inflate(R.layout.item_lista_torneio, null);
-        }else {
+        } else {
             v = convertView;
         }
         Torneio torneio = getItem(position);

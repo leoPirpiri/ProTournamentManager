@@ -27,6 +27,7 @@
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome da equipe</string>
     <string name="hint_nome_equipe">Exemplo Futebol Club</string>
+    <string name="hint_quant_jogadores">Quantidade de atletas</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

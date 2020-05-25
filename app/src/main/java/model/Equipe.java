@@ -22,4 +22,12 @@ public class Equipe implements Serializable {
         return this.sigla;
     }
 
+    public int getTamanhoEquipe() {
+        return jogadores.size();
+    }
+
+    public ArrayList<Jogador> getJogadores() {
+        return this.jogadores;
+    }
+
 }

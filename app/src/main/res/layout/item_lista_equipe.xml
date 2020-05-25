@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:padding="8dp"
+        >
+        <TextView
+            android:id="@+id/adp_equipe_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exemplo Basquetebol Clube - EBC"
+            android:textColor="#040489"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/adp_equipe_quant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hint_quant_jogadores" />
+    </LinearLayout>
+
+</LinearLayout>

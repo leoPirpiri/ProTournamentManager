@@ -26,15 +26,15 @@
             android:layout_height="wrap_content"
             android:text="@string/lbl_sigla_equipe"
             android:padding="5dp"/>
+
         <EditText
             android:id="@+id/etx_sigla_nova_equipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLength="5"
             android:hint="@string/hint_sigla_equipe"
-            android:singleLine="true"
+            android:maxLength="5"
             android:padding="5dp"
-            android:textAllCaps="true"/>
+            android:singleLine="true"/>
     </LinearLayout>
 
     <TableLayout

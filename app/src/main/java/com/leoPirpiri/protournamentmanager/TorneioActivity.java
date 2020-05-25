@@ -43,6 +43,7 @@ public class TorneioActivity extends AppCompatActivity {
 
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
         txv_equipes_salvas = findViewById(R.id.txv_equipes_salvas);
+        ltv_equipes_torneio = findViewById(R.id.list_equipes);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,8 +81,12 @@ public class TorneioActivity extends AppCompatActivity {
                 //exibe um Toast informativo.
                 String nome = etx_nome_equipe.getText().toString();
                 String sigla = etx_sigla_equipe.getText().toString();
+                if(!nome.isEmpty() && !sigla.isEmpty()) {
+                    torneio.addTime(new Equipe(nome, sigla));
+                    Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
+                    listarTimes(torneio.getTimes());
+                }
                 Toast.makeText(TorneioActivity.this, nome+" "+sigla, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
                 alertaNovaEquipe.dismiss();
             }
         });
@@ -99,11 +104,16 @@ public class TorneioActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etx_nome_equipe.getText().toString().isEmpty() ||
-                        etx_sigla_equipe.getText().toString().isEmpty()){
+                String nome = etx_nome_equipe.getText().toString();
+                String sigla = etx_sigla_equipe.getText().toString();
+                if(nome.isEmpty()){
+                    etx_sigla_equipe.setText("");
                     desativarOKalertaEquipe();
                 } else {
-                    etx_sigla_equipe.setText(siglatation(etx_nome_equipe.getText().toString()));
+                    String sigla_bot = siglatation(nome);
+                    if(!sigla.equals(sigla_bot)) {
+                        etx_sigla_equipe.setText(sigla_bot);
+                    }
                     ativarOKalertaEquipe();
                 }
             }
@@ -136,14 +146,15 @@ public class TorneioActivity extends AppCompatActivity {
         String sigla = "";
         for (String word : entrada.split(" ")) {
             if (word.length()>2){
-                sigla.concat(word.substring(0,1));
+                sigla = sigla.concat(word.substring(0,1));
             }
             if(sigla.length()>4){
-                return sigla.toUpperCase();
+                break;
             }
         }
         return sigla.toUpperCase();
     }
+
     private void ativarOKalertaEquipe(){
         btn_confirma_equipe.setEnabled(true);
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
