@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome da equipe"
+        android:text="@string/lbl_nome_equipe"
         android:textSize="20dp"
         android:padding="5dp"/>
     <EditText
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLength="35"
-        android:hint="Exemplo Futebol Club"
+        android:hint="@string/hint_nome_equipe"
         android:singleLine="true"
         android:padding="5dp"/>
     <LinearLayout
@@ -24,16 +24,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SIGLA: "
+            android:text="@string/lbl_sigla_equipe"
             android:padding="5dp"/>
         <EditText
             android:id="@+id/etx_sigla_nova_equipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLength="5"
-            android:hint="EFC"
+            android:hint="@string/hint_sigla_equipe"
             android:singleLine="true"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:textAllCaps="true"/>
     </LinearLayout>
 
     <TableLayout
@@ -52,7 +53,7 @@
                 android:id="@+id/btn_confirmar_equipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Adicionar"
+                android:text="@string/btn_adicionar"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/button_shape_desabled"
@@ -68,7 +69,7 @@
                 android:id="@+id/btn_cancelar_equipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cancelar"
+                android:text="@string/btn_cancelar"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/button_shape_enabled"

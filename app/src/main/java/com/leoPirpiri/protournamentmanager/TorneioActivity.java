@@ -78,7 +78,10 @@ public class TorneioActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_confirmar_equipe).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 //exibe um Toast informativo.
-                Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
+                String nome = etx_nome_equipe.getText().toString();
+                String sigla = etx_sigla_equipe.getText().toString();
+                Toast.makeText(TorneioActivity.this, nome+" "+sigla, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
                 alertaNovaEquipe.dismiss();
             }
         });
@@ -100,6 +103,7 @@ public class TorneioActivity extends AppCompatActivity {
                         etx_sigla_equipe.getText().toString().isEmpty()){
                     desativarOKalertaEquipe();
                 } else {
+                    etx_sigla_equipe.setText(siglatation(etx_nome_equipe.getText().toString()));
                     ativarOKalertaEquipe();
                 }
             }
@@ -128,6 +132,18 @@ public class TorneioActivity extends AppCompatActivity {
         mostrarAlerta("Informações da equipe:", view);
     }
 
+    private String siglatation(String entrada) {
+        String sigla = "";
+        for (String word : entrada.split(" ")) {
+            if (word.length()>2){
+                sigla.concat(word.substring(0,1));
+            }
+            if(sigla.length()>4){
+                return sigla.toUpperCase();
+            }
+        }
+        return sigla.toUpperCase();
+    }
     private void ativarOKalertaEquipe(){
         btn_confirma_equipe.setEnabled(true);
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
@@ -147,13 +163,13 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void listarTimes(ArrayList<Equipe> equipes){
-        if (equipes.size()!=0) {
+        if (equipes.isEmpty()) {
+            txv_equipes_salvas.setText(R.string.torneio_sem_equipes);
+        } else {
             txv_equipes_salvas.setText(R.string.torneio_com_equipes);
             equipesAdapter = new EquipesAdapter(TorneioActivity.this, equipes);
             ltv_equipes_torneio.setAdapter(equipesAdapter);
             equipesAdapter.notifyDataSetChanged();
-        } else {
-            txv_equipes_salvas.setText(R.string.torneio_sem_equipes);
         }
     }
 }

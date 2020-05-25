@@ -2,6 +2,10 @@
     <string name="app_name">Pro Tournament Manager</string>
     <string name="title_activity_torneio">Nome do Torneio</string>
 
+    <!-- Mensagens de usu geral -->
+    <string name="btn_adicionar">Adicionar</string>
+    <string name="btn_cancelar">Cancelar</string>
+
     <!-- Mensagens envolvendo Santuário Olímpia -->
     <string name="santuario_com_torneios">Torneios recentes: </string>
     <string name="santuario_cheio">Limite alcançado</string>
@@ -19,6 +23,10 @@
 
     <!-- Mensagens envolvendo Equipes -->
     <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
+    <string name="hint_sigla_equipe">EFC</string>
+    <string name="lbl_sigla_equipe">SIGLA:</string>
+    <string name="lbl_nome_equipe">Nome da equipe</string>
+    <string name="hint_nome_equipe">Exemplo Futebol Club</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

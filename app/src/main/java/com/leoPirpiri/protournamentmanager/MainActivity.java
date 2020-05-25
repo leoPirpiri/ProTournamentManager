@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
                     desarmaBTNnovoTorneio();
                 } else {
                     CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
-                    nome_novo_torneio.setText("");
                     desarmaBTNnovoTorneio();
                     abrirTorneio(torneioSalvo);
                 }
+                nome_novo_torneio.setText("");
             }
         });
 
