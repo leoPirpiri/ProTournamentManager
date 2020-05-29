@@ -3,6 +3,7 @@
     <string name="title_activity_torneio">Nome do Torneio</string>
 
     <!-- Mensagens de usu geral -->
+    <string name="btn_confirmar">Ok!</string>
     <string name="btn_adicionar">Adicionar</string>
     <string name="btn_cancelar">Cancelar</string>
 
@@ -36,4 +37,7 @@
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
     <string name="dados_erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
+    <string name="msg_alerta_confir_equipe">Deseja editar essa equipe?</string>
+    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
+    <string name="title_alerta_nova_equipe">Informações da equipe</string>
 </resources>

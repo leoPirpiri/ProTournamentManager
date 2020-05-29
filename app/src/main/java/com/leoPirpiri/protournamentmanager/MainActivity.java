@@ -41,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
         btn_simulador_partida = findViewById(R.id.btn_simulador);
         ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
         txv_torneios_recentes = findViewById(R.id.txv_torneios_recentes);
-        //Carrega ou inicia o santuário onde ocorre os jogos.
-        santuarioOlimpia = CarrierSemiActivity.carregarSantuario(MainActivity.this);
-        desarmaBTNnovoTorneio();
-        //Lista os torneios salvos anteriormente.
-        listarTorneios(santuarioOlimpia.getTorneios());
+        //Inicio padrão.
+        metodoRaiz();
 
         //Listeners
         nome_novo_torneio.addTextChangedListener(new TextWatcher() {
@@ -109,13 +106,24 @@ public class MainActivity extends AppCompatActivity {
         ltv_torneios_recentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Torneio t = (Torneio) parent.getAdapter().getItem(position);
-                System.out.println(t.toString());
                 abrirTorneio(position);
             }
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        metodoRaiz();
+    }
+
+    private void metodoRaiz(){
+        //Carrega ou inicia o santuário onde ocorre os jogos.
+        santuarioOlimpia = CarrierSemiActivity.carregarSantuario(MainActivity.this);
+        desarmaBTNnovoTorneio();
+        //Lista os torneios salvos anteriormente.
+        listarTorneios(santuarioOlimpia.getTorneios());
+    }
     private void desarmaBTNnovoTorneio() {
         if(santuarioOlimpia.TORNEIO_MAX==santuarioOlimpia.getOcupacao()) {
             nome_novo_torneio.setHint(R.string.santuario_cheio);
@@ -147,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
         Bundle dados = new Bundle();
         //Passa alguns dados para a próxima activity
         dados.putInt("torneio", torneio);
-        dados.putSerializable("olimpia", santuarioOlimpia);
         intent.putExtras(dados);
         startActivity(intent);
     }

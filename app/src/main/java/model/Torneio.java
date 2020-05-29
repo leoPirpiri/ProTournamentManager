@@ -53,6 +53,10 @@ public class Torneio implements Serializable {
         this.times.add(time);
     }
 
+    public Equipe delTime(int pos){
+        return times.remove(pos);
+    }
+
     public void addPartida(Partida partida) {
         this.partidas.add(partida);
     }

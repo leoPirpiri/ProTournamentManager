@@ -1,5 +1,6 @@
 package com.leoPirpiri.protournamentmanager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -25,8 +27,9 @@ import model.Equipe;
 import model.Torneio;
 
 public class TorneioActivity extends AppCompatActivity {
-    private AlertDialog alertaNovaEquipe;
+    private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
+    private int torneioIndice;
     private Torneio torneio;
     private ListView ltv_equipes_torneio;
     private TextView txv_estado_torneio;
@@ -35,6 +38,7 @@ public class TorneioActivity extends AppCompatActivity {
     private EditText etx_nome_equipe;
     private Button btn_confirma_equipe;
     private EquipesAdapter equipesAdapter;
+    private boolean atualizar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,40 +65,95 @@ public class TorneioActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if (dados!=null) {
-            santuarioOlimpia = (Olimpia) dados.getSerializable("olimpia");
-            torneio = santuarioOlimpia.getTorneio(dados.getInt("torneio"));
+            torneioIndice = dados.getInt("torneio");
+            metodoRaiz();
             setTitle(torneio.getNome());
-            txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
-                    torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
-            listarTimes(torneio.getTimes());
+        }
+
+        ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                abrirEquipe(position);
+            }
+        });
+
+        ltv_equipes_torneio.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                excluirEquipe(position);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(atualizar){
+            CarrierSemiActivity.persistirSantuario(TorneioActivity.this, santuarioOlimpia);
         }
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        metodoRaiz();
+    }
+
+    private void metodoRaiz(){
+        santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
+        atualizar=false;
+        torneio = santuarioOlimpia.getTorneio(torneioIndice);
+        txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
+                torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
+        listarTimes(torneio.getTimes());
+    }
+
+    private void mostrarAlertaBasico(final int posEquipe){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_confir_abrir_equipe);
+        //define a mensagem
+        builder.setMessage(R.string.msg_alerta_confir_equipe);
+        //define um botão como positivo
+        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                abrirEquipe(posEquipe);
+            }
+        });
+        //define um botão como negativo.
+        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        mostrarAlerta(builder);
+    }
     private void mostrarAlertaNovaEquipe(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
         etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
         btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_equipe);
+
         //Listeners possíveis do alerta
         view.findViewById(R.id.btn_confirmar_equipe).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                //exibe um Toast informativo.
                 String nome = etx_nome_equipe.getText().toString();
                 String sigla = etx_sigla_equipe.getText().toString();
-                if(!nome.isEmpty() && !sigla.isEmpty()) {
+                if (!nome.isEmpty() && !sigla.isEmpty()) {
                     torneio.addTime(new Equipe(nome, sigla));
                     Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
+                    atualizar=true;
                     listarTimes(torneio.getTimes());
                 }
-                Toast.makeText(TorneioActivity.this, nome+" "+sigla, Toast.LENGTH_SHORT).show();
-                alertaNovaEquipe.dismiss();
+                alertaDialog.dismiss();
             }
         });
 
         view.findViewById(R.id.btn_cancelar_equipe).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 //desfaz o alerta.
-                alertaNovaEquipe.dismiss();
+                alertaDialog.dismiss();
             }
         });
 
@@ -104,14 +163,19 @@ public class TorneioActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String nome = etx_nome_equipe.getText().toString();
+                String nome = etx_nome_equipe.getText().toString().trim();
                 String sigla = etx_sigla_equipe.getText().toString();
                 if(nome.isEmpty()){
                     etx_sigla_equipe.setText("");
                     desativarOKalertaEquipe();
                 } else {
-                    String sigla_bot = siglatation(nome);
-                    if(!sigla.equals(sigla_bot)) {
+                    String sigla_bot;
+                    if(nome.contains(" ")) {
+                         sigla_bot = siglatation(nome);
+                    } else {
+                        sigla_bot = nome.substring(0,1).toUpperCase();
+                    }
+                    if(!sigla.trim().equals(sigla_bot)) {
                         etx_sigla_equipe.setText(sigla_bot);
                     }
                     ativarOKalertaEquipe();
@@ -139,7 +203,9 @@ public class TorneioActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {}
         });
-        mostrarAlerta("Informações da equipe:", view);
+        builder.setView(view);
+        builder.setTitle(R.string.title_alerta_nova_equipe);
+        mostrarAlerta(builder);
     }
 
     private String siglatation(String entrada) {
@@ -165,12 +231,9 @@ public class TorneioActivity extends AppCompatActivity {
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_desabled));
     }
 
-    private void mostrarAlerta(String titulo, View view){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(titulo);
-        builder.setView(view);
-        alertaNovaEquipe = builder.create();
-        alertaNovaEquipe.show();
+    private void mostrarAlerta(AlertDialog.Builder builder){
+        alertaDialog = builder.create();
+        alertaDialog.show();
     }
 
     private void listarTimes(ArrayList<Equipe> equipes){
@@ -181,6 +244,22 @@ public class TorneioActivity extends AppCompatActivity {
             equipesAdapter = new EquipesAdapter(TorneioActivity.this, equipes);
             ltv_equipes_torneio.setAdapter(equipesAdapter);
             equipesAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void abrirEquipe(int position) {
+//        Intent intent = new Intent(getApplicationContext(), TorneioActivity.class);
+//        Bundle dados = new Bundle();
+//        //Passa alguns dados para a próxima activity
+//        dados.putInt("torneio", torneio);
+//        intent.putExtras(dados);
+//        startActivity(intent);
+    }
+
+    private void excluirEquipe(int position) {
+        if(torneio.delTime(position) != null){
+            Toast.makeText(this, "Long click (Excluir): "+position, Toast.LENGTH_SHORT).show();
+            atualizar = true;
         }
     }
 }
