@@ -73,7 +73,7 @@ public class TorneioActivity extends AppCompatActivity {
         ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                abrirEquipe(position);
+                mostrarAlertaBasico(position);
             }
         });
 
@@ -128,6 +128,7 @@ public class TorneioActivity extends AppCompatActivity {
         });
         mostrarAlerta(builder);
     }
+
     private void mostrarAlertaNovaEquipe(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
@@ -258,8 +259,8 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void excluirEquipe(int position) {
         if(torneio.delTime(position) != null){
-            Toast.makeText(this, "Long click (Excluir): "+position, Toast.LENGTH_SHORT).show();
             atualizar = true;
+            listarTimes(torneio.getTimes());
         }
     }
 }

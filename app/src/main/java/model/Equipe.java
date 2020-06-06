@@ -1,21 +1,23 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Equipe implements Serializable {
-    private String nome;
+public class Equipe extends EntConcreta {
+    public final int JOGADORES_MAX = 25;
+    private int novoIdJogador;
+
     private String sigla; //definir sigla tamanho máximo de 4 carcteres.
     private ArrayList<Jogador> jogadores;
 
-    public Equipe(String nome, String sigla) {
-        this.nome = nome;
+    public Equipe(int id, String nome, String sigla) {
+        super(id, nome);
         this.sigla = sigla;
+        this.novoIdJogador = 0;
         this.jogadores = new ArrayList<>();
     }
 
-    public String getNome(){
-        return this.nome;
+    private int getIdNovoJogador(){
+        return 0;
     }
 
     public String getSigla(){
@@ -26,8 +28,17 @@ public class Equipe implements Serializable {
         return jogadores.size();
     }
 
+    public int addJogador(Jogador jogador){
+        if(jogadores.size()<JOGADORES_MAX) {
+            jogador.setId(this.getIdNovoJogador());
+            jogadores.add(jogador);
+            return jogador.getId();
+        } else {
+            return -1;
+        }
+    }
+
     public ArrayList<Jogador> getJogadores() {
         return this.jogadores;
     }
-
 }

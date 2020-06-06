@@ -40,4 +40,11 @@
     <string name="msg_alerta_confir_equipe">Deseja editar essa equipe?</string>
     <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="title_alerta_nova_equipe">Informações da equipe</string>
+    <string name="equipe_com_jogador">Jogadores inscritos:</string>
+    <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
+        \nAdicione novos usando o botão abaixo (+)</string>
+    <string name="lbl_posicao">Posição</string>
+    <string name="hint_nome_jogador">Thibaut Courtois</string>
+    <string name="lbl_nome_jogador">Nome do Jogador</string>
+    <string name="title_alerta_novo_jogador">Informações do jogador</string>
 </resources>

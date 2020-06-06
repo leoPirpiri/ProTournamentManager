@@ -1,28 +1,22 @@
 package model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Torneio implements Serializable {
+public class Torneio extends EntConcreta {
     public final int MAX_EQUIPE = 16;
     public final int MIN_EQUIPE = 4;
 
-    private String nome;
     private boolean fechado; //True::Não permite adicionar mais equipes no torneio, tabela definida.
     private ArrayList<Equipe> times;
     private ArrayList<Partida> partidas;
     private Equipe campeao;
 
-    public Torneio(String nome) {
-        this.nome = nome;
+    public Torneio(int id, String nome) {
+        super(id, nome);
         this.fechado = false;
         this.times = new ArrayList<>();
         this.partidas = new ArrayList<>();
         this.campeao = null;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public boolean isFechado() {
