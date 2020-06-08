@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Jogador extends EntConcreta {
     private String posicao; //definir tamanho máximo de 3 caracteres.
     private int numero;
@@ -27,8 +29,7 @@ public class Jogador extends EntConcreta {
     }
 
     public String toString() {
-        return "Id: "+ getId() +
-               " Nome: "+ getId() +
+        return super.toString() +
                " Posição: "+ posicao +
                " Número: "+ numero;
     }

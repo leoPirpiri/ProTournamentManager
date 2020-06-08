@@ -33,4 +33,7 @@ public class EntGeral implements Serializable {
         return id%100;
     }
 
+    public String toString(){
+        return "Id: "+ id;
+    }
 }

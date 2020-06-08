@@ -13,7 +13,11 @@
         <activity
             android:name=".TorneioActivity"
             android:label="@string/title_activity_torneio"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".EquipeActivity"
+            android:label="@string/title_activity_equipe"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">

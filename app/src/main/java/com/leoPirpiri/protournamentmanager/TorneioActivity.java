@@ -27,9 +27,11 @@ import model.Equipe;
 import model.Torneio;
 
 public class TorneioActivity extends AppCompatActivity {
+    private int torneioIndice;
+    private boolean atualizar;
+
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
-    private int torneioIndice;
     private Torneio torneio;
     private ListView ltv_equipes_torneio;
     private TextView txv_estado_torneio;
@@ -38,7 +40,6 @@ public class TorneioActivity extends AppCompatActivity {
     private EditText etx_nome_equipe;
     private Button btn_confirma_equipe;
     private EquipesAdapter equipesAdapter;
-    private boolean atualizar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class TorneioActivity extends AppCompatActivity {
         Bundle dados = intent.getExtras();
         if (dados!=null) {
             torneioIndice = dados.getInt("torneio");
+            System.out.println(torneioIndice);
             metodoRaiz();
             setTitle(torneio.getNome());
         }
@@ -73,7 +75,7 @@ public class TorneioActivity extends AppCompatActivity {
         ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mostrarAlertaBasico(position);
+                mostrarAlertaBasico(torneio.getTimes().get(position).getId());
             }
         });
 
@@ -104,9 +106,17 @@ public class TorneioActivity extends AppCompatActivity {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
         atualizar=false;
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
-        txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
-                torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
-        listarTimes(torneio.getTimes());
+        System.out.println(torneio.toString());
+        if(torneio != null){
+            txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
+                    torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
+            equipesAdapter = new EquipesAdapter(TorneioActivity.this, torneio.getTimes());
+            ltv_equipes_torneio.setAdapter(equipesAdapter);
+            listarTimes();
+        } else {
+            Toast.makeText(TorneioActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private void mostrarAlertaBasico(final int posEquipe){
@@ -142,10 +152,10 @@ public class TorneioActivity extends AppCompatActivity {
                 String nome = etx_nome_equipe.getText().toString();
                 String sigla = etx_sigla_equipe.getText().toString();
                 if (!nome.isEmpty() && !sigla.isEmpty()) {
-                    torneio.addTime(new Equipe(nome, sigla));
+                    torneio.addTime(new Equipe(torneio.getNovoElementoId(torneio.TIPO_TIME), nome, sigla));
                     Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
                     atualizar=true;
-                    listarTimes(torneio.getTimes());
+                    listarTimes();
                 }
                 alertaDialog.dismiss();
             }
@@ -237,30 +247,28 @@ public class TorneioActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    private void listarTimes(ArrayList<Equipe> equipes){
-        if (equipes.isEmpty()) {
+    private void listarTimes(){
+        if (torneio.getTimes().isEmpty()) {
             txv_equipes_salvas.setText(R.string.torneio_sem_equipes);
         } else {
             txv_equipes_salvas.setText(R.string.torneio_com_equipes);
-            equipesAdapter = new EquipesAdapter(TorneioActivity.this, equipes);
-            ltv_equipes_torneio.setAdapter(equipesAdapter);
             equipesAdapter.notifyDataSetChanged();
         }
     }
 
-    private void abrirEquipe(int position) {
-//        Intent intent = new Intent(getApplicationContext(), TorneioActivity.class);
-//        Bundle dados = new Bundle();
-//        //Passa alguns dados para a próxima activity
-//        dados.putInt("torneio", torneio);
-//        intent.putExtras(dados);
-//        startActivity(intent);
+    private void abrirEquipe(int idEquipe) {
+        Intent intent = new Intent(getApplicationContext(), EquipeActivity.class);
+        Bundle dados = new Bundle();
+        //Passa alguns dados para a próxima activity
+        dados.putInt("equipe", idEquipe);
+        intent.putExtras(dados);
+        startActivity(intent);
     }
 
     private void excluirEquipe(int position) {
         if(torneio.delTime(position) != null){
             atualizar = true;
-            listarTimes(torneio.getTimes());
+            listarTimes();
         }
     }
 }

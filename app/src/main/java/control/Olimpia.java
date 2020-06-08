@@ -41,15 +41,19 @@ public class Olimpia implements Serializable {
     public int addTorneio(Torneio torneio){
         if(torneios.size()<TORNEIO_MAX){
             torneios.add(torneio);
-            //Retorna o índice do elemento que está sendo adicionado
-            return torneios.indexOf(torneio);
+            return torneio.getId();
         } else {
             return -1;
         }
     }
 
-    public Torneio getTorneio(int pos){
-        return torneios.get(pos);
+    public Torneio getTorneio(int index){
+        for (Torneio t : torneios) {
+            if (t.getId() == index){
+                return t;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Torneio> getTorneios(){
@@ -58,5 +62,33 @@ public class Olimpia implements Serializable {
 
     public int getOcupacao(){
         return this.torneios.size();
+    }
+
+    public int getNovoTorneioId(){
+        ArrayList index = new ArrayList();
+        for (Torneio t:torneios) {
+            index.add(t.getIdNivel0());
+        }
+        int i = index.size()+1;
+        do {
+            if(!index.contains(i)){
+                return i*10000;
+            } else {
+                i++;
+            }
+        }while (i<100);
+        return 0;
+    }
+
+    //retorna o id completo de uma entidade de nível 0
+    public int extrairIdEntidadeSuperiorLv0(int id){
+        //Do id 102030 retorna 100000
+        return ((id/10000)*10000);
+    }
+
+    //retorna o id completo de uma entidade de nível 1
+    public int extrairIdEntidadeSuperiorLv1(int id){
+        //Do id 102030 retorna 102000
+        return ((id/100)*100);
     }
 }

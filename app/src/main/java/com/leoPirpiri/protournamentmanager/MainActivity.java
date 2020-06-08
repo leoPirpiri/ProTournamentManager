@@ -80,16 +80,18 @@ public class MainActivity extends AppCompatActivity {
         btn_novo_torneio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int torneioSalvo;
                 esconderTeclado(MainActivity.this, nome_novo_torneio);
-                torneioSalvo = santuarioOlimpia.addTorneio(new Torneio(nome_novo_torneio.getText().toString()));
-                if (torneioSalvo == -1){
-                    desarmaBTNnovoTorneio();
-                } else {
-                    CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
-                    desarmaBTNnovoTorneio();
-                    abrirTorneio(torneioSalvo);
+                int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
+                if (idNovoTorneio != 0){
+                    idNovoTorneio = santuarioOlimpia.addTorneio(new Torneio( idNovoTorneio,
+                                                                    nome_novo_torneio.getText().toString())
+                                                                );
+                    if (idNovoTorneio != -1){
+                        CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
+                        abrirTorneio(idNovoTorneio);
+                    }
                 }
+                desarmaBTNnovoTorneio();
                 nome_novo_torneio.setText("");
             }
         });
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         ltv_torneios_recentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                abrirTorneio(position);
+                abrirTorneio(santuarioOlimpia.getTorneios().get(position).getId());
             }
         });
     }
@@ -161,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirSimulador(){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", new Partida());
+        intent.putExtra("partida", new Partida(0, 0, 0));
         startActivity(intent);
     }
 

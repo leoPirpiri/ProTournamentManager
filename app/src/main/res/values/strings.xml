@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Pro Tournament Manager</string>
     <string name="title_activity_torneio">Nome do Torneio</string>
+    <string name="title_activity_equipe">Nome da Equipe</string>
 
     <!-- Mensagens de usu geral -->
     <string name="btn_confirmar">Ok!</string>
@@ -29,6 +30,18 @@
     <string name="lbl_nome_equipe">Nome da equipe</string>
     <string name="hint_nome_equipe">Exemplo Futebol Club</string>
     <string name="hint_quant_jogadores">Quantidade de atletas</string>
+    <string name="msg_alerta_confir_equipe">Deseja editar essa equipe?</string>
+    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
+    <string name="title_alerta_nova_equipe">Informações da equipe</string>
+    <string name="equipe_com_jogador">Jogadores inscritos:</string>
+    <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
+        \nAdicione novos usando o botão abaixo (+)</string>
+
+    <!-- Mensagens envolvendo Jogador-->
+    <string name="lbl_posicao">Posição</string>
+    <string name="hint_nome_jogador">Thibaut Courtois</string>
+    <string name="lbl_nome_jogador">Nome do Jogador</string>
+    <string name="title_alerta_novo_jogador">Informações do jogador</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
@@ -37,14 +50,6 @@
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
     <string name="dados_erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
-    <string name="msg_alerta_confir_equipe">Deseja editar essa equipe?</string>
-    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
-    <string name="title_alerta_nova_equipe">Informações da equipe</string>
-    <string name="equipe_com_jogador">Jogadores inscritos:</string>
-    <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
-        \nAdicione novos usando o botão abaixo (+)</string>
-    <string name="lbl_posicao">Posição</string>
-    <string name="hint_nome_jogador">Thibaut Courtois</string>
-    <string name="lbl_nome_jogador">Nome do Jogador</string>
-    <string name="title_alerta_novo_jogador">Informações do jogador</string>
+    <string name="dados_erro_transitar_em_activity">Erro fatal!
+                                \nPassagem de parâmentro entre activities!</string>
 </resources>

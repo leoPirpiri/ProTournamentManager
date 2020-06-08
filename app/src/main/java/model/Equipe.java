@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Equipe extends EntConcreta {
     public final int JOGADORES_MAX = 25;
-    private int novoIdJogador;
 
     private String sigla; //definir sigla tamanho máximo de 4 carcteres.
     private ArrayList<Jogador> jogadores;
@@ -12,12 +11,11 @@ public class Equipe extends EntConcreta {
     public Equipe(int id, String nome, String sigla) {
         super(id, nome);
         this.sigla = sigla;
-        this.novoIdJogador = 0;
         this.jogadores = new ArrayList<>();
     }
 
-    private int getIdNovoJogador(){
-        return 0;
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 
     public String getSigla(){
@@ -30,7 +28,6 @@ public class Equipe extends EntConcreta {
 
     public int addJogador(Jogador jogador){
         if(jogadores.size()<JOGADORES_MAX) {
-            jogador.setId(this.getIdNovoJogador());
             jogadores.add(jogador);
             return jogador.getId();
         } else {
@@ -40,5 +37,27 @@ public class Equipe extends EntConcreta {
 
     public ArrayList<Jogador> getJogadores() {
         return this.jogadores;
+    }
+
+    public int getNovoJogadorId(){
+        ArrayList index = new ArrayList();
+        for (Jogador j:jogadores) {
+            index.add(j.getIdNivel0());
+        }
+        int i = index.size()+1;
+        do {
+            if(!index.contains(i)){
+                return getId() + i;
+            } else {
+                i++;
+            }
+        }while (i<100);
+        return 0;
+    }
+
+    public String toString() {
+        return super.toString() +
+               " Sigla: "+ sigla +
+               " Quantidade de jogadores: " + jogadores.size();
     }
 }

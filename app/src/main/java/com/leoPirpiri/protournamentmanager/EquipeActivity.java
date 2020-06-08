@@ -34,6 +34,7 @@ public class EquipeActivity extends AppCompatActivity {
     private JogadoresAdapter jogadoresAdapter;
 
     private ListView ltv_jogadores_equipe;
+    private TextView txv_sigla_equipe;
     private TextView txv_jogadores_inscritos;
     private EditText etx_nome_jogador;
     private Button btn_confirma_jogador;
@@ -46,6 +47,7 @@ public class EquipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_equipe);
 
         txv_jogadores_inscritos = findViewById(R.id.txv_jogadores_salvos);
+        txv_sigla_equipe = findViewById(R.id.txv_sigla_equipe);
         ltv_jogadores_equipe = findViewById(R.id.list_jogadores);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -70,7 +72,7 @@ public class EquipeActivity extends AppCompatActivity {
         ltv_jogadores_equipe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mostrarAlertaBasico(position);
+                mostrarAlertaBasico(equipe.getJogadores().get(position).getId());
             }
         });
 
@@ -100,7 +102,18 @@ public class EquipeActivity extends AppCompatActivity {
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
-        listarJogadores(equipe.getJogadores());
+        equipe = santuarioOlimpia
+                .getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice))
+                .getTime(equipeIndice);
+        if(equipe != null){
+            txv_sigla_equipe.setText(equipe.getSigla());
+            jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
+            ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
+            listarJogadores();
+        } else {
+            Toast.makeText(EquipeActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 
     private void mostrarAlertaBasico(final int posJogador){
@@ -112,7 +125,6 @@ public class EquipeActivity extends AppCompatActivity {
         //define um botão como positivo
         builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-
             }
         });
         //define um botão como negativo.
@@ -178,13 +190,11 @@ public class EquipeActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    private void listarJogadores(ArrayList<Jogador> jogadores){
-        if (jogadores.isEmpty()) {
+    private void listarJogadores(){
+        if (equipe.getJogadores().isEmpty()) {
             txv_jogadores_inscritos.setText(R.string.equipe_sem_jogador);
         } else {
             txv_jogadores_inscritos.setText(R.string.equipe_com_jogador);
-            jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, jogadores);
-            ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
             jogadoresAdapter.notifyDataSetChanged();
         }
     }
