@@ -20,8 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import control.Olimpia;
 import model.Equipe;
 import model.Torneio;
@@ -57,7 +55,7 @@ public class TorneioActivity extends AppCompatActivity {
         btn_add_equipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            mostrarAlertaNovaEquipe();
+            montarAlertaNovaEquipe();
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
             }
@@ -75,14 +73,14 @@ public class TorneioActivity extends AppCompatActivity {
         ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mostrarAlertaBasico(torneio.getTimes().get(position).getId());
+                montarAlertaAbrirEquipe(torneio.getTimes().get(position).getId());
             }
         });
 
         ltv_equipes_torneio.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                excluirEquipe(position);
+                montarAlertaExcluirEquipe(position);
                 return true;
             }
         });
@@ -119,12 +117,12 @@ public class TorneioActivity extends AppCompatActivity {
         }
     }
 
-    private void mostrarAlertaBasico(final int posEquipe){
+    private void montarAlertaAbrirEquipe(final int posEquipe){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
         builder.setTitle(R.string.title_alerta_confir_abrir_equipe);
         //define a mensagem
-        builder.setMessage(R.string.msg_alerta_confir_equipe);
+        builder.setMessage(R.string.msg_alerta_confir_abrir_equipe);
         //define um botão como positivo
         builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
@@ -139,7 +137,27 @@ public class TorneioActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void mostrarAlertaNovaEquipe(){
+    private void montarAlertaExcluirEquipe(final int posEquipe){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_confir_excluir_equipe);
+        //define a mensagem
+        builder.setMessage(R.string.msg_alerta_confir_excluir_equipe);
+        //define um botão como positivo
+        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                excluirEquipe(posEquipe);
+            }
+        });
+        //define um botão como negativo.
+        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        mostrarAlerta(builder);
+    }
+
+    private void montarAlertaNovaEquipe(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);

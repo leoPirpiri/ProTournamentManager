@@ -1,8 +1,10 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,6 +25,7 @@ import model.Partida;
 import model.Torneio;
 
 public class MainActivity extends AppCompatActivity {
+    private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
     private EditText nome_novo_torneio;
     private Button btn_novo_torneio;
@@ -111,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 abrirTorneio(santuarioOlimpia.getTorneios().get(position).getId());
             }
         });
+
+        ltv_torneios_recentes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaExcluirTorneio(position);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -122,10 +133,38 @@ public class MainActivity extends AppCompatActivity {
     private void metodoRaiz(){
         //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(MainActivity.this);
+        torneiosAdapter = new TorneiosAdapter(MainActivity.this, santuarioOlimpia.getTorneios());
+        ltv_torneios_recentes.setAdapter(torneiosAdapter);
         desarmaBTNnovoTorneio();
         //Lista os torneios salvos anteriormente.
-        listarTorneios(santuarioOlimpia.getTorneios());
+        listarTorneios();
     }
+
+    private void montarAlertaExcluirTorneio(final int posTorneio){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_confir_excluir_torneio);
+        //define a mensagem
+        builder.setMessage(R.string.msg_alerta_confir_excluir_torneio);
+        //define um botão como positivo
+        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                excluirTorneio(posTorneio);
+            }
+        });
+        //define um botão como negativo.
+        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        mostrarAlerta(builder);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder){
+        alertaDialog = builder.create();
+        alertaDialog.show();
+    }
+
     private void desarmaBTNnovoTorneio() {
         if(santuarioOlimpia.TORNEIO_MAX==santuarioOlimpia.getOcupacao()) {
             nome_novo_torneio.setHint(R.string.santuario_cheio);
@@ -141,13 +180,11 @@ public class MainActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    private void listarTorneios(ArrayList<Torneio> torneios){
-        if(torneios.isEmpty()){
+    private void listarTorneios(){
+        if(santuarioOlimpia.getTorneios().isEmpty()){
             txv_torneios_recentes.setText(R.string.santuario_vazio);
         } else {
             txv_torneios_recentes.setText(R.string.santuario_com_torneios);
-            torneiosAdapter = new TorneiosAdapter(MainActivity.this, torneios);
-            ltv_torneios_recentes.setAdapter(torneiosAdapter);
             torneiosAdapter.notifyDataSetChanged();
         }
     }
@@ -159,6 +196,13 @@ public class MainActivity extends AppCompatActivity {
         dados.putInt("torneio", torneio);
         intent.putExtras(dados);
         startActivity(intent);
+    }
+
+    private void excluirTorneio(int position) {
+        if(santuarioOlimpia.delTorneio(position) != null){
+            CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
+            listarTorneios();
+        }
     }
 
     private void abrirSimulador(){

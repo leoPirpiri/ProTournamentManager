@@ -15,6 +15,8 @@
         \nAdicione novos a partir do botão novo</string>
 
     <!-- Mensagens envolvendo Torneios -->
+    <string name="title_alerta_confir_excluir_torneio">Excluindo Torneio</string>
+    <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
         \nAdicione novas equipes usando o botão abaixo (+)</string>
@@ -30,9 +32,11 @@
     <string name="lbl_nome_equipe">Nome da equipe</string>
     <string name="hint_nome_equipe">Exemplo Futebol Club</string>
     <string name="hint_quant_jogadores">Quantidade de atletas</string>
-    <string name="msg_alerta_confir_equipe">Deseja editar essa equipe?</string>
-    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="title_alerta_nova_equipe">Informações da equipe</string>
+    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
+    <string name="title_alerta_confir_excluir_equipe">Excluindo Equipe</string>
+    <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
+    <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
     <string name="equipe_com_jogador">Jogadores inscritos:</string>
     <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
         \nAdicione novos usando o botão abaixo (+)</string>
