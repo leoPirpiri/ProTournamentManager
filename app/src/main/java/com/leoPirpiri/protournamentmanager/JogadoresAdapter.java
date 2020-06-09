@@ -46,12 +46,13 @@ public class JogadoresAdapter extends BaseAdapter {
             v = convertView;
         }
         Jogador jogador = getItem(position);
-//        TextView itemNome = (TextView) v.findViewById(R.id.adp_equipe_nome);
-//        TextView itemQjogadores = (TextView) v.findViewById(R.id.adp_equipe_quant);
-//
-//        itemNome.setText(equipe.getNome()+" - "+equipe.getSigla());
-//        String label = ctx.getResources().getString(R.string.hint_quant_jogadores);
-//        itemQjogadores.setText( label +": "+ Integer.toString(equipe.getTamanhoEquipe()));
+        TextView itemNome = (TextView) v.findViewById(R.id.adp_jogador_nome);
+        TextView itemNumber = (TextView) v.findViewById(R.id.adp_jogador_number);
+        TextView itemPosicao = (TextView) v.findViewById(R.id.adp_jogador_posicao);
+
+        itemNome.setText(jogador.getNome());
+        itemNumber.setText(Integer.toString(jogador.getNumero()));
+        itemPosicao.setText(jogador.getPosicao());
         return v;
     }
 }

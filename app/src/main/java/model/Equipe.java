@@ -35,6 +35,10 @@ public class Equipe extends EntConcreta {
         }
     }
 
+    public Jogador delJogador(int pos){
+        return this.jogadores.remove(pos);
+    }
+
     public ArrayList<Jogador> getJogadores() {
         return this.jogadores;
     }

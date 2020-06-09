@@ -8,6 +8,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import model.Equipe;
+import model.Jogador;
 import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
@@ -94,5 +96,17 @@ public class Olimpia implements Serializable {
     public int extrairIdEntidadeSuperiorLv1(int id){
         //Do id 102030 retorna 102000
         return ((id/100)*100);
+    }
+
+    public Olimpia testeExemplos (Olimpia teste){
+        Torneio tTeste = new Torneio(teste.getNovoTorneioId(), "Taça Pirpiri de Futsal");
+        Equipe eTeste = new Equipe(tTeste.getNovoElementoId(tTeste.TIPO_TIME), "Maciel de Cima Futsal", "MCF");
+        Jogador jTeste = new Jogador(eTeste.getNovoJogadorId(), "João Cana-brava", "ATK", 2);
+        eTeste.addJogador(jTeste);
+        jTeste = new Jogador(eTeste.getNovoJogadorId(), "Nome do goleiro", "GK", 1);
+        eTeste.addJogador(jTeste);
+        tTeste.addTime(eTeste);
+        teste.addTorneio(tTeste);
+        return teste;
     }
 }

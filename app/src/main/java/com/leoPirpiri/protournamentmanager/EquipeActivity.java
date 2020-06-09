@@ -19,12 +19,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-
 import control.Olimpia;
 import model.Equipe;
 import model.Jogador;
-import model.Torneio;
 
 public class EquipeActivity extends AppCompatActivity {
     private AlertDialog alertaDialog;
@@ -57,7 +54,7 @@ public class EquipeActivity extends AppCompatActivity {
         btn_add_jogador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mostrarAlertaNovoJogador();
+                montarAlertaNovoEditaJogador(null);
             }
         });
 
@@ -72,14 +69,14 @@ public class EquipeActivity extends AppCompatActivity {
         ltv_jogadores_equipe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mostrarAlertaBasico(equipe.getJogadores().get(position).getId());
+                montarAlertaNovoEditaJogador(equipe.getJogadores().get(position));
             }
         });
 
         ltv_jogadores_equipe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                excluirEquipe(position);
+                MontarAlertaDeletarJogador(position);
                 return true;
             }
         });
@@ -116,15 +113,16 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void mostrarAlertaBasico(final int posJogador){
+    private void MontarAlertaDeletarJogador(final int posJogador){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
-        builder.setTitle("");
+        builder.setTitle(R.string.title_alerta_confir_excluir_jogador);
         //define a mensagem
-        builder.setMessage("");
+        builder.setMessage(R.string.msg_alerta_confir_excluir_jogador);
         //define um botão como positivo
         builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
+                excluirJogador(posJogador);
             }
         });
         //define um botão como negativo.
@@ -135,7 +133,7 @@ public class EquipeActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void mostrarAlertaNovoJogador(){
+    private void montarAlertaNovoEditaJogador(Jogador novoJogador){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -188,6 +186,12 @@ public class EquipeActivity extends AppCompatActivity {
     private void mostrarAlerta(AlertDialog.Builder builder){
         alertaDialog = builder.create();
         alertaDialog.show();
+        Button btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button1));
+        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
+        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
+        btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button2));
+        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
+        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
     }
 
     private void listarJogadores(){
@@ -200,18 +204,12 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     private void abrirEquipe(int position) {
-//        Intent intent = new Intent(getApplicationContext(), TorneioActivity.class);
-//        Bundle dados = new Bundle();
-//        //Passa alguns dados para a próxima activity
-//        dados.putInt("torneio", torneio);
-//        intent.putExtras(dados);
-//        startActivity(intent);
     }
 
-    private void excluirEquipe(int position) {
-//        if(torneio.delTime(position) != null){
-//            atualizar = true;
-//            listarTimes(torneio.getTimes());
-//        }
+    private void excluirJogador(int position) {
+        if(equipe.delJogador(position) != null){
+            atualizar = true;
+            listarJogadores();
+        }
     }
 }

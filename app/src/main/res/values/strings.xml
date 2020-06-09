@@ -46,6 +46,9 @@
     <string name="hint_nome_jogador">Thibaut Courtois</string>
     <string name="lbl_nome_jogador">Nome do Jogador</string>
     <string name="title_alerta_novo_jogador">Informações do jogador</string>
+    <string name="title_alerta_confir_abrir_jogador">Editando jogador</string>
+    <string name="title_alerta_confir_excluir_jogador">Excluindo jogador</string>
+    <string name="msg_alerta_confir_excluir_jogador">Deseja excluir esse jogador?</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
