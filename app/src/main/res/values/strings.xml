@@ -6,6 +6,7 @@
     <!-- Mensagens de usu geral -->
     <string name="btn_confirmar">Ok!</string>
     <string name="btn_adicionar">Adicionar</string>
+    <string name="btn_editar">Editar</string>
     <string name="btn_cancelar">Cancelar</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
@@ -42,13 +43,28 @@
         \nAdicione novos usando o botão abaixo (+)</string>
 
     <!-- Mensagens envolvendo Jogador-->
+    <string name="jogador_adicionado">Jogador adicionado com sucesso!</string>
+    <string name="jogador_editado">Jogador editado com sucesso!</string>
     <string name="lbl_posicao">Posição</string>
-    <string name="hint_nome_jogador">Thibaut Courtois</string>
+    <string name="lbl_numero">Número</string>
     <string name="lbl_nome_jogador">Nome do Jogador</string>
+    <string name="hint_nome_jogador">Thibaut Courtois</string>
     <string name="title_alerta_novo_jogador">Informações do jogador</string>
     <string name="title_alerta_confir_abrir_jogador">Editando jogador</string>
     <string name="title_alerta_confir_excluir_jogador">Excluindo jogador</string>
     <string name="msg_alerta_confir_excluir_jogador">Deseja excluir esse jogador?</string>
+    <string-array name="posicoes_jogador">
+        <item>DEF - Defensor</item>
+        <item>MID - Meio</item>
+        <item>PIV - Pivot</item>
+        <item>ATK - Atacante</item>
+        <item>GLK - Goleiro</item>
+        <item>LIB - Líbero</item>
+        <item>LEV - Levantador</item>
+        <item>POT - Ponta</item>
+        <item>ARM - Armador</item>
+        <item>ALA - Ala</item>
+    </string-array>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

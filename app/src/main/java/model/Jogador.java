@@ -1,18 +1,16 @@
 package model;
 
-import java.util.ArrayList;
-
-public class Jogador extends EntConcreta {
-    private String posicao; //definir tamanho máximo de 3 caracteres.
+public class Jogador extends EntConcreta implements Comparable<Jogador> {
+    private int posicao; //definir tamanho máximo de 3 caracteres.
     private int numero;
 
-    public Jogador(int id, String nome, String posicao, int numero) {
+    public Jogador(int id, String nome, int posicao, int numero) {
         super(id, nome);
         this.posicao = posicao;
         this.numero = numero;
     }
 
-    public String getPosicao() {
+    public int getPosicao() {
         return posicao;
     }
 
@@ -20,7 +18,7 @@ public class Jogador extends EntConcreta {
         return numero;
     }
 
-    public void setPosicao(String posicao) {
+    public void setPosicao(int posicao) {
         this.posicao = posicao;
     }
 
@@ -28,9 +26,15 @@ public class Jogador extends EntConcreta {
         this.numero = numero;
     }
 
+    @Override
+    public int compareTo(Jogador pl) {
+        return Integer.compare(numero, pl.numero);
+    }
+
     public String toString() {
         return super.toString() +
                " Posição: "+ posicao +
                " Número: "+ numero;
     }
+
 }

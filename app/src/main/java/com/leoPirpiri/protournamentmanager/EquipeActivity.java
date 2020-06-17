@@ -7,9 +7,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 import control.Olimpia;
 import model.Equipe;
@@ -35,6 +39,8 @@ public class EquipeActivity extends AppCompatActivity {
     private TextView txv_jogadores_inscritos;
     private EditText etx_nome_jogador;
     private Button btn_confirma_jogador;
+    private Spinner spnr_numero;
+    private Spinner spnr_posicao;
 
     private boolean atualizar;
 
@@ -85,24 +91,24 @@ public class EquipeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(atualizar){
+        if(atualizar) {
             CarrierSemiActivity.persistirSantuario(EquipeActivity.this, santuarioOlimpia);
         }
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         metodoRaiz();
     }
 
-    private void metodoRaiz(){
+    private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
         equipe = santuarioOlimpia
                 .getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice))
                 .getTime(equipeIndice);
-        if(equipe != null){
+        if(equipe != null) {
             txv_sigla_equipe.setText(equipe.getSigla());
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
             ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
@@ -113,7 +119,7 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void MontarAlertaDeletarJogador(final int posJogador){
+    private void MontarAlertaDeletarJogador(final int posJogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
         builder.setTitle(R.string.title_alerta_confir_excluir_jogador);
@@ -133,16 +139,43 @@ public class EquipeActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaNovoEditaJogador(Jogador novoJogador){
+    private void montarAlertaNovoEditaJogador(Jogador velhoJogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
         btn_confirma_jogador = view.findViewById(R.id.btn_confirmar_jogador);
-
+        spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
+        spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
+        spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
+        ArrayList<Integer> numeros;
+        if (velhoJogador == null) {
+            numeros = equipe.getNumeracaoLivrePlantel(-1);
+            spnr_posicao.setSelection(0);
+        } else {
+            numeros = equipe.getNumeracaoLivrePlantel(velhoJogador.getNumero());
+            btn_confirma_jogador.setText(R.string.btn_editar);
+            etx_nome_jogador.setText(velhoJogador.getNome());
+            spnr_posicao.setSelection(velhoJogador.getPosicao());
+        }
+        spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
+        spnr_numero.setSelection(0);
         //Listeners possíveis do alerta
         view.findViewById(R.id.btn_confirmar_jogador).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                String nome = etx_nome_jogador.getText().toString();
+                String nome = etx_nome_jogador.getText().toString().trim();
+                int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
+                int posicao = spnr_posicao.getSelectedItemPosition();
+                if(velhoJogador==null) {
+                    equipe.addJogador(new Jogador(equipe.getNovoJogadorId(), nome, posicao, numero));
+                    Toast.makeText(EquipeActivity.this, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
+                } else {
+                    velhoJogador.setNome(nome);
+                    velhoJogador.setNumero(numero);
+                    velhoJogador.setPosicao(posicao);
+                }
+
+                listarJogadores();
+                atualizar=true;
                 alertaDialog.dismiss();
             }
         });
@@ -160,12 +193,31 @@ public class EquipeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String nome = etx_nome_jogador.getText().toString().trim();
-
+                validarEdicao(velhoJogador);
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+
+        spnr_numero.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                validarEdicao(velhoJogador);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spnr_posicao.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                validarEdicao(velhoJogador);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         builder.setView(view);
@@ -173,28 +225,39 @@ public class EquipeActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void ativarOKalertaJogador(){
+    private void validarEdicao(Jogador pl1) {
+        String nome = etx_nome_jogador.getText().toString().trim();
+        if(!nome.isEmpty()) {
+            if(pl1 == null) {
+                ativarOKalertaJogador();
+            }else if (!pl1.getNome().equals(nome) ||
+                    pl1.getNumero() != Integer.parseInt(spnr_numero.getSelectedItem().toString()) ||
+                    pl1.getPosicao() != spnr_posicao.getSelectedItemPosition()) {
+                ativarOKalertaJogador();
+            } else {
+                desativarOKalertaJogador();
+            }
+        } else {
+            desativarOKalertaJogador();
+        }
+    }
+
+    private void ativarOKalertaJogador() {
         btn_confirma_jogador.setEnabled(true);
         btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_enabled));
     }
 
-    private void desativarOKalertaJogador(){
+    private void desativarOKalertaJogador() {
         btn_confirma_jogador.setEnabled(false);
         btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_desabled));
     }
 
-    private void mostrarAlerta(AlertDialog.Builder builder){
+    private void mostrarAlerta(AlertDialog.Builder builder) {
         alertaDialog = builder.create();
         alertaDialog.show();
-        Button btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button1));
-        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
-        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
-        btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button2));
-        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
-        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
     }
 
-    private void listarJogadores(){
+    private void listarJogadores() {
         if (equipe.getJogadores().isEmpty()) {
             txv_jogadores_inscritos.setText(R.string.equipe_sem_jogador);
         } else {
@@ -203,11 +266,8 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void abrirEquipe(int position) {
-    }
-
     private void excluirJogador(int position) {
-        if(equipe.delJogador(position) != null){
+        if(equipe.delJogador(position) != null) {
             atualizar = true;
             listarJogadores();
         }

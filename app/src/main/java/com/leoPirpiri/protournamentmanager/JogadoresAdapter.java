@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import model.Jogador;
 
@@ -17,6 +18,7 @@ public class JogadoresAdapter extends BaseAdapter {
     private Context ctx;
 
     public JogadoresAdapter(Context ctx, ArrayList<Jogador> jogadores) {
+        Collections.sort(jogadores);
         this.jogadores = jogadores;
         this.ctx = ctx;
     }
@@ -51,8 +53,9 @@ public class JogadoresAdapter extends BaseAdapter {
         TextView itemPosicao = (TextView) v.findViewById(R.id.adp_jogador_posicao);
 
         itemNome.setText(jogador.getNome());
-        itemNumber.setText(Integer.toString(jogador.getNumero()));
-        itemPosicao.setText(jogador.getPosicao());
+        int num = jogador.getNumero();
+        itemNumber.setText(num<10 ? "0"+num : ""+num);
+        itemPosicao.setText(ctx.getResources().getStringArray(R.array.posicoes_jogador)[jogador.getPosicao()].substring(0, 3));
         return v;
     }
 }

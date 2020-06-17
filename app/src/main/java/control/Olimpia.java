@@ -101,9 +101,9 @@ public class Olimpia implements Serializable {
     public Olimpia testeExemplos (Olimpia teste){
         Torneio tTeste = new Torneio(teste.getNovoTorneioId(), "Taça Pirpiri de Futsal");
         Equipe eTeste = new Equipe(tTeste.getNovoElementoId(tTeste.TIPO_TIME), "Maciel de Cima Futsal", "MCF");
-        Jogador jTeste = new Jogador(eTeste.getNovoJogadorId(), "João Cana-brava", "ATK", 2);
+        Jogador jTeste = new Jogador(eTeste.getNovoJogadorId(), "João Cana-brava", 3, 2);
         eTeste.addJogador(jTeste);
-        jTeste = new Jogador(eTeste.getNovoJogadorId(), "Nome do goleiro", "GK", 1);
+        jTeste = new Jogador(eTeste.getNovoJogadorId(), "Nome do goleiro", 4, 1);
         eTeste.addJogador(jTeste);
         tTeste.addTime(eTeste);
         teste.addTorneio(tTeste);

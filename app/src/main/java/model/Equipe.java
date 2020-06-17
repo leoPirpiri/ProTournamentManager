@@ -59,6 +59,28 @@ public class Equipe extends EntConcreta {
         return 0;
     }
 
+    public ArrayList<Integer> getNumeracaoPlantel() {
+        ArrayList<Integer> numeros = new ArrayList();
+        for (Jogador j:jogadores) {
+            numeros.add(j.getNumero());
+        }
+        return numeros;
+    }
+
+    public ArrayList<Integer> getNumeracaoLivrePlantel(int numEditado) {
+        ArrayList<Integer> numeros = new ArrayList();
+        ArrayList<Integer> plantel = getNumeracaoPlantel();
+        if(numEditado!=-1){
+            numeros.add(numEditado);
+        }
+        for(int i=1; i<=JOGADORES_MAX; i++) {
+            if(!plantel.contains(i)){
+                numeros.add(i);
+            }
+        }
+        return numeros;
+    }
+
     public String toString() {
         return super.toString() +
                " Sigla: "+ sigla +

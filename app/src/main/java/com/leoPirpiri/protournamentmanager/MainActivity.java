@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -160,12 +161,6 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarAlerta(AlertDialog.Builder builder){
         alertaDialog = builder.create();
         alertaDialog.show();
-        Button btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button1));
-        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
-        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
-        btnDialog = ((Button)alertaDialog.findViewById(android.R.id.button2));
-        btnDialog.setBackgroundResource(R.drawable.button_shape_enabled);
-        btnDialog.setTextColor(getResources().getColor(R.color.btn_default_color));
     }
 
     private void desarmaBTNnovoTorneio() {

@@ -28,12 +28,13 @@ public final class CarrierSemiActivity {
             try {
                 santuarioOlimpia = Olimpia.carregarSantuario(ctx.openFileInput(Olimpia.NOME_ARQUIVO_SERIALIZADO));
             } catch (IOException ex) {
-                //Remover ao término do projeto.
-                santuarioOlimpia = santuarioOlimpia.testeExemplos(santuarioOlimpia);
-                persistirSantuario(ctx, santuarioOlimpia);
-                //System.out.println(ex.getMessage());
                 Toast.makeText(ctx, R.string.dados_erro_leitura_santuario, Toast.LENGTH_LONG).show();
             }
+        }
+        //Remover ao término do projeto.
+        if(santuarioOlimpia.getTorneios().isEmpty()) {
+            santuarioOlimpia = santuarioOlimpia.testeExemplos(santuarioOlimpia);
+            persistirSantuario(ctx, santuarioOlimpia);
         }
         return santuarioOlimpia;
     }
