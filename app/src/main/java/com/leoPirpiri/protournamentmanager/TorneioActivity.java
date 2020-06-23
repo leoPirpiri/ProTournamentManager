@@ -38,6 +38,7 @@ public class TorneioActivity extends AppCompatActivity {
     private EditText etx_sigla_equipe;
     private EditText etx_nome_equipe;
     private Button btn_confirma_equipe;
+    private Button btn_gerar_tabela;
     private EquipesAdapter equipesAdapter;
 
     @Override
@@ -45,12 +46,13 @@ public class TorneioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_torneio);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
         txv_equipes_salvas = findViewById(R.id.txv_equipes_salvas);
         ltv_equipes_torneio = findViewById(R.id.list_equipes);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
 
         FloatingActionButton btn_add_equipe = findViewById(R.id.btn_nova_equipe);
         btn_add_equipe.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +61,13 @@ public class TorneioActivity extends AppCompatActivity {
             montarAlertaNovaEquipe();
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                   //      .setAction("Action", null).show();
+            }
+        });
+
+        btn_gerar_tabela.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                abrirTabela();
             }
         });
 
@@ -280,6 +289,15 @@ public class TorneioActivity extends AppCompatActivity {
         Bundle dados = new Bundle();
         //Passa alguns dados para a próxima activity
         dados.putInt("equipe", idEquipe);
+        intent.putExtras(dados);
+        startActivity(intent);
+    }
+
+    private void abrirTabela() {
+        Intent intent = new Intent(getApplicationContext(), TabelaActivity.class);
+        Bundle dados = new Bundle();
+        //Passa alguns dados para a próxima activity
+        dados.putInt("torneio", torneioIndice);
         intent.putExtras(dados);
         startActivity(intent);
     }

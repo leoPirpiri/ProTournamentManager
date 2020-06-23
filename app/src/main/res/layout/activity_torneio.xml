@@ -32,8 +32,9 @@
             android:textSize="20dp"
             android:layout_marginBottom="10dp"
             android:textAlignment="textStart"/>
+
         <Button
-            android:id="@+id/btn_novo_tourneio"
+            android:id="@+id/btn_gerar_tabela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -44,8 +45,7 @@
             android:shadowRadius="5"
             android:text="Fechar copa e gerar tabela"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
         <TextView
             android:id="@+id/txv_equipes_salvas"
             android:layout_width="wrap_content"

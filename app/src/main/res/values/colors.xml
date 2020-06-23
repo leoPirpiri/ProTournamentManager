@@ -7,4 +7,9 @@
     <color name="exo">#00A429</color>
     <color name="core">#FFE607</color>
     <color name="midle">#0027C1</color>
+    <color name="background_default">#F7C7D6FF</color>
+    <color name="text_default">#000</color>
+    <color name="branco">#FFF</color>
+
+
 </resources>

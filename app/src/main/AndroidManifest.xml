@@ -9,15 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PartidaActivity"></activity>
+        <activity
+            android:name=".TabelaActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".PartidaActivity" />
         <activity
             android:name=".TorneioActivity"
             android:label="@string/title_activity_torneio"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EquipeActivity"
             android:label="@string/title_activity_equipe"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">
