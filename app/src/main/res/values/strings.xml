@@ -73,6 +73,8 @@
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
     <string name="dados_erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
+    <string name="dados_erro_inconsistencia">Erro grave. Dados com inconsistência!</string>
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmentro entre activities!</string>
+    <string name="erro_default_string">X</string>
 </resources>

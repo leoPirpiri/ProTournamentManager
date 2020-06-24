@@ -46,7 +46,7 @@ public class Equipe extends EntConcreta {
     public int getNovoJogadorId(){
         ArrayList index = new ArrayList();
         for (Jogador j:jogadores) {
-            index.add(j.getIdNivel0());
+            index.add(j.getIdNivel2());
         }
         int i = index.size()+1;
         do {

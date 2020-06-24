@@ -75,7 +75,6 @@ public class TorneioActivity extends AppCompatActivity {
         Bundle dados = intent.getExtras();
         if (dados!=null) {
             torneioIndice = dados.getInt("torneio");
-            System.out.println(torneioIndice);
             metodoRaiz();
             setTitle(torneio.getNome());
         }
@@ -114,7 +113,6 @@ public class TorneioActivity extends AppCompatActivity {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
         atualizar=false;
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
-        System.out.println(torneio.toString());
         if(torneio != null){
             txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
                     torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
