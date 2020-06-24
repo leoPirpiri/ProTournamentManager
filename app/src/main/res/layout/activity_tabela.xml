@@ -12,6 +12,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:orientation="horizontal"
+        android:background="@drawable/background_soft"
         >
         <!--Oitavas#1-->
         <LinearLayout
@@ -19,10 +20,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
+
             <ListView
                 android:id="@+id/ltv_partidas_oitava_e"
                 android:layout_width="@dimen/partida_largura"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:divider="@drawable/divider_none"
+                android:dividerHeight="0dp"/>
         </LinearLayout>
         <!--Quartas#1-->
         <LinearLayout
@@ -390,19 +394,127 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
         <!--Final-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
-            <TextView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:text="Final aqui" />
-        </LinearLayout>
+                android:focusable="true"
+                android:onClick="exemplo"
+                android:orientation="vertical"
+                android:transitionName="partida final">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/tamanho_linha"
+                    android:gravity="left">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/espaco_siglas_default"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/final_homer_nome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_vet"
+                                android:text="PFC"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+
+                            <TextView
+                                android:id="@+id/final_homer_ponto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_vet"
+                                android:text="2"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/altura_trofeu"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/trofeu">
+                </ImageView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/tamanho_linha"
+                    android:gravity="right">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/espaco_siglas_default"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/final_visitor_ponto"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_vet"
+                                android:text="10"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/final_visitor_nome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_vet"
+                                android:text="MFCRS"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
         <!--Semi#2-->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -763,10 +875,13 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
+
             <ListView
                 android:id="@+id/ltv_partidas_oitava_d"
                 android:layout_width="@dimen/partida_largura"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:divider="@drawable/divider_none"
+                android:dividerHeight="0dp" />
         </LinearLayout>
     </LinearLayout>
 </com.leoPirpiri.protournamentmanager.ZoomLayout>
