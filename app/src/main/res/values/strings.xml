@@ -70,6 +70,7 @@
     <string name="partida_score_gols">Gols:</string>
     <string name="partida_score_pontos">Pontos:</string>
     <string name="partida_score_falta">Faltas:</string>
+    <string name="partida_nome_default">Simulação</string>
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>

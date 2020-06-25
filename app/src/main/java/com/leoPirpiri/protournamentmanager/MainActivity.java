@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import control.Olimpia;
-import model.Partida;
 import model.Torneio;
 
 public class MainActivity extends AppCompatActivity {
@@ -205,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void abrirSimulador(){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", new Partida(0, 0, 0));
+        intent.putExtra("partida", -1);
         startActivity(intent);
     }
 

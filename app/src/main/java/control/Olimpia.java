@@ -112,13 +112,13 @@ public class Olimpia implements Serializable {
         eTeste2.addJogador(jTeste);
         tTeste.addTime(eTeste);
         tTeste.addTime(eTeste2);
-        Partida pTeste = new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA), eTeste.getId(), eTeste2.getId());
+        Partida pTeste = new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId());
         Score sTeste = new Score(pTeste.getNovoScoreId(), Score.TIPO_PONTO, jTeste.getId());
         pTeste.addScore(sTeste);
         tTeste.addPartida(pTeste);
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA), eTeste.getId(), eTeste2.getId()));
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA), eTeste.getId(), eTeste2.getId()));
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA), eTeste.getId(), eTeste2.getId()));
+        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
+        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
+        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
         teste.addTorneio(tTeste);
         return teste;
     }

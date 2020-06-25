@@ -4,17 +4,18 @@ import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
-public class Partida extends EntGeral {
+public class Partida extends EntConcreta {
     private int mandante; //Equipe mandante da partida
     private int visitante; //Equipe visitante
     private boolean estado; //True::partida encerrada
     private ArrayList<Score> placar;
 
-    public Partida(int id, int mandante, int visitante) {
-        super(id);
+    public Partida(int id, String nome, int mandante, int visitante) {
+        super(id, nome);
         this.mandante = mandante;
         this.visitante = visitante;
-        placar = new ArrayList<>();
+        this.estado = false;
+        this.placar = new ArrayList<>();
     }
 
     public int getMandante() {
@@ -44,6 +45,7 @@ public class Partida extends EntGeral {
     public void addScore(Score score) {
         this.placar.add(score);
     }
+
     public int[] getPlacarPontos() {
         int pontos[] = new int[2];
         int pontosMandante, pontosVisitante;
@@ -62,6 +64,26 @@ public class Partida extends EntGeral {
         pontos[0] = pontosMandante;
         pontos[1] = pontosVisitante;
         return pontos;
+    }
+
+    public int[] getPlacarFaltas() {
+        int falta[] = new int[2];
+        int faltaMandante, faltaVisitante;
+        faltaMandante = faltaVisitante= 0;
+        for (Score s : placar) {
+            if (s.getTipo() == s.TIPO_FALTA_INDIVIDUAL){
+                if (mandante == s.extrairIdEntidadeSuperiorLv1()) {
+                    faltaMandante++;
+                } else if (visitante == s.extrairIdEntidadeSuperiorLv1()) {
+                    faltaVisitante++;
+                } else {
+                    break;
+                }
+            }
+        }
+        falta[0] = faltaMandante;
+        falta[1] = faltaVisitante;
+        return falta;
     }
 
     public int getNovoScoreId(){

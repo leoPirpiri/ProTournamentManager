@@ -12,27 +12,28 @@
         android:layout_height="wrap_content"
         android:text="1"
         android:textSize="25dp"
-        android:layout_margin="8dp"
-        android:padding="8dp"
+        android:layout_margin="@dimen/jogador_pad_ver"
+        android:padding="@dimen/placar_pad_ver"
         />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingVertical="8dp"
+        android:gravity="center"
         >
 
         <TextView
             android:id="@+id/adp_jogador_posicao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"
             android:background="#F7C7D6FF"
+            android:layout_marginVertical="@dimen/jogador_pad_ver"
+            android:layout_marginRight="@dimen/jogador_pad_hor"
             android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:paddingVertical="@dimen/jogador_pad_ver"
             android:text="GK"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            />
         <TextView
             android:id="@+id/adp_jogador_nome"
             android:layout_width="match_parent"
@@ -40,8 +41,9 @@
             android:text="@string/hint_nome_jogador"
             android:textColor="#000"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_margin="8dp"
-            android:padding="8dp"
+            android:layout_marginVertical="@dimen/jogador_pad_ver"
+            android:paddingVertical="@dimen/jogador_pad_ver"
+            android:singleLine="true"
             />
     </LinearLayout>
 

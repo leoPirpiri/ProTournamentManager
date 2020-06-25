@@ -1,172 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PartidaActivity"
-    android:orientation="vertical"
+    android:background="@drawable/background_soft"
     android:gravity="center"
-    android:background="@drawable/background_soft">
-<!--    Placar -->
+    android:orientation="vertical"
+    tools:context=".PartidaActivity">
+    <!--    Placar -->
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:shrinkColumns="*"
-        android:stretchColumns="*"
-        android:padding="10dp">
+        android:stretchColumns="*">
+
         <TableRow
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_gravity="center"
-            >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
             <TextView
                 android:id="@+id/txv_partida_nome"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center|left"
                 android:text="@string/nome_partida"
                 android:textSize="@dimen/partida_fonte"
-                android:textStyle="bold"
-                android:background="@drawable/placar_time_shape"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/placar_time_shape">
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/txv_partida_sigla_mandante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/partida_fonte"
                     android:text="AUXFC"
-                    android:textStyle="bold"/>
+                    android:textSize="@dimen/partida_fonte"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
                 <TextView
                     android:id="@+id/txv_partida_sigla_visitante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/partida_fonte"
                     android:text="AUXFC"
-                    android:textStyle="bold"/>
+                    android:textSize="@dimen/partida_fonte"
+                    android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
+
         <TableRow
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_gravity="center"
-            >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
             <TextView
                 android:id="@+id/txv_partida_score_ponto"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center|left"
                 android:text="@string/partida_score_gols"
                 android:textSize="@dimen/partida_fonte"
-                android:textStyle="bold"
-                android:background="@drawable/placar_time_shape"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/placar_time_shape">
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/txv_partida_score_ponto_mandante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
+                    android:text="6"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
-                    android:text="6"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
                 <TextView
                     android:id="@+id/txv_partida_score_ponto_visitante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
+                    android:text="8"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
-                    android:text="8"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
+
         <TableRow
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_gravity="center"
-            >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
             <TextView
-                android:id="@+id/txv_partida_score_falta"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center|left"
                 android:text="@string/partida_score_falta"
                 android:textSize="@dimen/partida_fonte"
-                android:textStyle="bold"
-                android:background="@drawable/placar_time_shape"/>
+                android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/placar_time_shape"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@drawable/placar_time_shape">
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/txv_partida_score_falta_mandante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
+                    android:text="6"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
-                    android:text="6"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
                 <TextView
                     android:id="@+id/txv_partida_score_falta_visitante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:layout_marginHorizontal="@dimen/partida_pad_hor"
+                    android:text="8"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
-                    android:text="8"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
         </TableRow>
     </TableLayout>
-<!--    Relógio -->
+    <!--    Relógio -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -182,18 +192,19 @@
             android:background="@android:drawable/stat_notify_sync_noanim"
             android:backgroundTint="@color/midle"
             android:backgroundTintMode="add"
-            android:onClick="zerarCronometro"/>
+            android:onClick="zerarCronometro" />
+
         <Chronometer
             android:id="@+id/cronometro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/placar_pad_hor"
-            android:textSize="@dimen/cronometro_fonte"
-            android:textColor="@color/cor_relogio"
-            android:textStyle="bold"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textAlignment="center"/>
+            android:paddingHorizontal="@dimen/placar_pad_hor"
+            android:textAlignment="center"
+            android:textColor="@color/cor_relogio"
+            android:textSize="@dimen/cronometro_fonte"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/play_cron"
@@ -207,7 +218,7 @@
             android:onClick="rodarCronometro" />
 
     </LinearLayout>
-<!--    Lista de jogadores dos times -->
+    <!--    Lista de jogadores dos times -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -215,73 +226,75 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
             android:shrinkColumns="*"
-            android:stretchColumns="*"
-            android:paddingHorizontal="10dp">
-<!--    Nomes das equipes -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            >
-            <TextView
-                android:id="@+id/txv_partida_nome_mandante"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center|left"
-                android:text="Clube Pirpiri de Futsal"
-                android:textSize="@dimen/partida_fonte"
-                android:textStyle="bold"
-                android:background="@drawable/placar_time_shape"
-                android:layout_marginRight="@dimen/placar_pad_ver"/>
-            <TextView
-            android:id="@+id/txv_partida_nome_visitante"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center|left"
-            android:text="Clube Maciel de Futsal"
-            android:textSize="@dimen/partida_fonte"
-            android:textStyle="bold"
-            android:background="@drawable/placar_time_shape"
-                android:layout_marginLeft="@dimen/placar_pad_ver"/>
-        </TableRow>
-<!--    Jogadores das equipes -->
-        <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_gravity="center"
-            >
-            <ListView
-                android:id="@+id/list_partida_jogadores_mandantes"
+            android:stretchColumns="*">
+            <!--    Nomes das equipes -->
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/lista_pad_default">
-            </ListView>
-            <ListView
-                android:id="@+id/list_partida_jogadores_visitantes"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/txv_partida_nome_mandante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/placar_pad_ver"
+                    android:layout_weight="1"
+                    android:background="@drawable/placar_time_shape"
+                    android:gravity="center|left"
+                    android:text="Clube Pirpiri de Futsal"
+                    android:textSize="@dimen/partida_fonte"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txv_partida_nome_visitante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/placar_pad_ver"
+                    android:layout_weight="1"
+                    android:background="@drawable/placar_time_shape"
+                    android:gravity="center|left"
+                    android:text="Clube Maciel de Futsal"
+                    android:textSize="@dimen/partida_fonte"
+                    android:textStyle="bold" />
+            </TableRow>
+            <!--    Jogadores das equipes -->
+            <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/lista_pad_default">
-            </ListView>
-        </TableRow>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:divider="@drawable/linha_chaveamento"
+                android:showDividers="middle">
+
+                <ListView
+                    android:id="@+id/list_partida_jogadores_mandantes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/lista_pad_default"></ListView>
+
+                <ListView
+                    android:id="@+id/list_partida_jogadores_visitantes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/lista_pad_default"></ListView>
+            </TableRow>
         </TableLayout>
+
         <Button
             android:id="@+id/btn_encerrar_partida"
-            android:text="@string/encerrar_partida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_weight="1"
             android:layout_marginBottom="5dp"
+            android:layout_weight="1"
             android:background="@drawable/button_shape_enabled"
             android:shadowColor="#3D3D3D"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
+            android:text="@string/encerrar_partida"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

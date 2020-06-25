@@ -16,11 +16,13 @@ import model.Jogador;
 public class JogadoresAdapter extends BaseAdapter {
     private ArrayList<Jogador> jogadores;
     private Context ctx;
+    private boolean flagCompleto;
 
-    public JogadoresAdapter(Context ctx, ArrayList<Jogador> jogadores) {
+    public JogadoresAdapter(Context ctx, ArrayList<Jogador> jogadores, boolean flagCompleto) {
         Collections.sort(jogadores);
         this.jogadores = jogadores;
         this.ctx = ctx;
+        this.flagCompleto = flagCompleto;
     }
 
     @Override
@@ -47,15 +49,24 @@ public class JogadoresAdapter extends BaseAdapter {
         } else {
             v = convertView;
         }
+
         Jogador jogador = getItem(position);
         TextView itemNome = (TextView) v.findViewById(R.id.adp_jogador_nome);
         TextView itemNumber = (TextView) v.findViewById(R.id.adp_jogador_number);
         TextView itemPosicao = (TextView) v.findViewById(R.id.adp_jogador_posicao);
 
-        itemNome.setText(jogador.getNome());
+        if (flagCompleto) {
+            itemPosicao.setText(ctx.getResources().getStringArray(R.array.posicoes_jogador)[jogador.getPosicao()].substring(0, 3));
+            itemNome.setText(jogador.getNome());
+        } else {
+            itemPosicao.setVisibility(View.GONE);
+            itemNome.setText(jogador.getNome().split(" ")[0]);
+            itemNumber.setTextSize(18);
+            itemNome.setTextSize(18);
+        }
+
         int num = jogador.getNumero();
         itemNumber.setText(num<10 ? "0"+num : ""+num);
-        itemPosicao.setText(ctx.getResources().getStringArray(R.array.posicoes_jogador)[jogador.getPosicao()].substring(0, 3));
         return v;
     }
 }

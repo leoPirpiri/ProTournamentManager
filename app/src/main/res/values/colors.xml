@@ -6,6 +6,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="exo">#00A429</color>
     <color name="core">#FFE607</color>
+    <color name="advertido">#FFE607</color>
+    <color name="expulsao">#E30000</color>
     <color name="midle">#0027C1</color>
     <color name="background_default">#F7C7D6FF</color>
     <color name="background_closed">#E7768C8A</color>
