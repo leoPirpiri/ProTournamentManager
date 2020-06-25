@@ -11,4 +11,5 @@
     <color name="background_closed">#E7768C8A</color>
     <color name="text_default">#000</color>
     <color name="branco">#FFF</color>
+    <color name="cor_relogio">#0027C1</color>
 </resources>

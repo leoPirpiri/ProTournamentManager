@@ -65,10 +65,16 @@
         <item>ARM - Armador</item>
         <item>ALA - Ala</item>
     </string-array>
-
+    <!-- Mensagens envolvendo Partida -->
+    <string name="nome_partida">Oitavas-Jogo #1</string>
+    <string name="partida_score_gols">Gols:</string>
+    <string name="partida_score_pontos">Pontos:</string>
+    <string name="partida_score_falta">Faltas:</string>
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>
+    <string name="simular_partida">Simular Partida</string>
+    <string name="encerrar_partida">Finalizar Partida</string>
 
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
