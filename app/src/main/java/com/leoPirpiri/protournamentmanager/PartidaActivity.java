@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import control.Olimpia;
 import model.Equipe;
 import model.Jogador;
-import model.Partida;
+import model.NoPartida;
 
 public class PartidaActivity extends AppCompatActivity {
     private boolean relogio_parado;
@@ -23,7 +22,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     private Chronometer relogio;
     private Olimpia santuarioOlimpia;
-    private Partida partida;
+    private NoPartida partida;
     private Equipe mandante;
     private Equipe visitante;
     private ListView ltv_jogadores_mandantes;
@@ -62,10 +61,14 @@ public class PartidaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         partidaIndice = intent.getIntExtra("partida", -1);
         if (partidaIndice==-1) {
+            String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
             visitante = mandante = new Equipe(999900,
                                 getResources().getString(R.string.hint_nome_equipe),
                                 getResources().getString(R.string.hint_sigla_equipe));
-            partida = new Partida(999900, getResources().getString(R.string.partida_nome_default), mandante.getId(), visitante.getId());
+            partida = new NoPartida(999902, nome_padrao);
+            partida.setMandante(new NoPartida(999901, nome_padrao, mandante.getId()));
+            partida.setVisitante(new NoPartida(999903, nome_padrao, visitante.getId()));
+
         } else {
             metodoRaiz();
         }

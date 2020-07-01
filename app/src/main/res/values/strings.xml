@@ -66,11 +66,28 @@
         <item>ALA - Ala</item>
     </string-array>
     <!-- Mensagens envolvendo Partida -->
+    <string-array name="partida_nomes">
+        <item>Simulação</item>
+        <item>Grande Final</item>
+        <item>Semifinal-Jogo #1</item>
+        <item>Quartas-Jogo #1</item>
+        <item>Oitavas-Jogo #1</item>
+        <item>Oitavas-Jogo #2</item>
+        <item>Quartas-Jogo #2</item>
+        <item>Oitavas-Jogo #3</item>
+        <item>Oitavas-Jogo #4</item>
+        <item>Semifinal-jogo #2</item>
+        <item>Quartas-Jogo #3</item>
+        <item>Oitavas-Jogo #5</item>
+        <item>Oitavas-Jogo #6</item>
+        <item>Quartas-Jogo #4</item>
+        <item>Oitavas-Jogo #7</item>
+        <item>Oitavas-Jogo #8</item>
+    </string-array>
     <string name="nome_partida">Oitavas-Jogo #1</string>
     <string name="partida_score_gols">Gols:</string>
     <string name="partida_score_pontos">Pontos:</string>
     <string name="partida_score_falta">Faltas:</string>
-    <string name="partida_nome_default">Simulação</string>
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>

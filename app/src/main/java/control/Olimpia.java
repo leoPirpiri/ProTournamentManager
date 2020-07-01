@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import model.Equipe;
 import model.Jogador;
-import model.Partida;
+import model.NoPartida;
 import model.Score;
 import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
@@ -102,8 +102,11 @@ public class Olimpia implements Serializable {
 
     public Olimpia testeExemplos (Olimpia teste){
         Torneio tTeste = new Torneio(10000, "Taça Pirpiri de Futsal");
-        Equipe eTeste = new Equipe(10100, "Maciel de Cima Futsal", "MCF");
+        Equipe eTeste = new Equipe(10100, "Maciel de Baixo Futsal", "MCF");
         Equipe eTeste2 = new Equipe(10200, "Pirpiri do Meio Futsal", "PMF");
+        Equipe eTeste3 = new Equipe(10300, "Sítio Escrivão Futsal", "ECF");
+        Equipe eTeste4 = new Equipe(10400, "Lagoa Azul Futsal", "LAF");
+        Equipe eTeste5 = new Equipe(10500, "Passagem de Cima Futsal", "PCF");
         Jogador jTeste = new Jogador(10101, "João Cana-brava", 3, 2);
         eTeste.addJogador(jTeste);
         Jogador jTeste2 = new Jogador(10202, "Nill do Maciel", 3, 10);
@@ -112,13 +115,9 @@ public class Olimpia implements Serializable {
         eTeste2.addJogador(jTeste);
         tTeste.addTime(eTeste);
         tTeste.addTime(eTeste2);
-        Partida pTeste = new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId());
-        Score sTeste = new Score(pTeste.getNovoScoreId(), Score.TIPO_PONTO, jTeste.getId());
-        pTeste.addScore(sTeste);
-        tTeste.addPartida(pTeste);
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
-        tTeste.addPartida(new Partida(tTeste.getNovoElementoId(tTeste.TIPO_PARTIDA),"Teste Exemplo", eTeste.getId(), eTeste2.getId()));
+        tTeste.addTime(eTeste3);
+        tTeste.addTime(eTeste4);
+        tTeste.addTime(eTeste5);
         teste.addTorneio(tTeste);
         return teste;
     }

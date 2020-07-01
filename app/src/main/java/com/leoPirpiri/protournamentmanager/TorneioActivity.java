@@ -13,7 +13,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -178,7 +177,7 @@ public class TorneioActivity extends AppCompatActivity {
                 String nome = etx_nome_equipe.getText().toString();
                 String sigla = etx_sigla_equipe.getText().toString();
                 if (!nome.isEmpty() && !sigla.isEmpty()) {
-                    torneio.addTime(new Equipe(torneio.getNovoElementoId(torneio.TIPO_TIME), nome, sigla));
+                    torneio.addTime(new Equipe(torneio.getNovaEquipeId(), nome, sigla));
                     Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
                     atualizar=true;
                     listarTimes();
@@ -297,7 +296,10 @@ public class TorneioActivity extends AppCompatActivity {
         //Passa alguns dados para a próxima activity
         dados.putInt("torneio", torneioIndice);
         intent.putExtras(dados);
-        startActivity(intent);
+        if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
+            atualizar = true;
+            startActivity(intent);
+        }
     }
 
     private void excluirEquipe(int position) {
