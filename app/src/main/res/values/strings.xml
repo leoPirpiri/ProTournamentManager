@@ -28,6 +28,8 @@
 
     <!-- Mensagens envolvendo Equipes -->
     <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
+    <string name="equipe_sigla_partida_aberta"> </string>
+    <string name="equipe_ponto_partida_aberta">-</string>
     <string name="hint_sigla_equipe">EFC</string>
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome da equipe</string>

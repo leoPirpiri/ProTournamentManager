@@ -296,7 +296,11 @@ public class TorneioActivity extends AppCompatActivity {
         //Passa alguns dados para a próxima activity
         dados.putInt("torneio", torneioIndice);
         intent.putExtras(dados);
-        if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
+//        if(torneio.isFechado()){
+//            startActivity(intent);
+//        } else
+//
+            if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
             atualizar = true;
             startActivity(intent);
         }

@@ -1,7 +1,5 @@
 package model;
 
-import com.leoPirpiri.protournamentmanager.CarrierSemiActivity;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,6 +32,10 @@ public class Torneio extends EntConcreta {
         return this.campeao;
     }
 
+    public ArvoreTabela getTabela() {
+        return tabela;
+    }
+
     public ArrayList<Equipe> getTimes() {
         return times;
     }
@@ -42,19 +44,21 @@ public class Torneio extends EntConcreta {
         if(times.size()<MIN_EQUIPE) {
             return false;
         }
-        System.out.println(isFechado());
         tabela.gerarTabela(new ArrayList<>(times), new ArrayList<>(Arrays.asList(partida_nomes)));
         tabela.testarArvore(tabela.getRaiz());
-        System.out.println(isFechado());
         return isFechado();
     }
 
     public void addTime(Equipe time) {
-        this.times.add(time);
+        //if(!isFechado()){
+            this.times.add(time);
+        //}
     }
 
     public Equipe delTime(int pos){
-        return times.remove(pos);
+        //if(!isFechado()) {
+            return times.remove(pos);
+        //}else return null;
     }
 
     public Equipe getTime(int index){
@@ -89,17 +93,15 @@ public class Torneio extends EntConcreta {
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }
 
-    public ArrayList<NoPartida> getPartidasOitavas() {
+    public ArrayList<NoPartida> getPartidasOitavas(int c) {
         ArrayList<NoPartida> oitavas = new ArrayList<>();
         NoPartida p;
-        for(int i = 2; i<=30; i+=4){
-            p = tabela.getNo(i);
+        for(int i = c; i<=c+12; i+=4){
+            p = tabela.getPartida(i);
             if(p!=null){
-                System.out.println("Não é nulo: "+ p.getId());
                 oitavas.add(p);
             }
         }
-        System.out.println("\nTamanho dos jogos das oitavas: "+oitavas.size()+" \n");
         return oitavas;
     }
 }

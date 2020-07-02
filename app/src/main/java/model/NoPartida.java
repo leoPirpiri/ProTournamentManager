@@ -15,6 +15,7 @@ public class NoPartida extends EntConcreta {
         this.placar = new ArrayList<>();
         this.campeaoId = 0;
     }
+
     public NoPartida(int id, String nome, int campeaoId) {
         this(id, nome);
         this.campeaoId = campeaoId;
@@ -34,12 +35,13 @@ public class NoPartida extends EntConcreta {
     }
 
     public boolean isEncerrada() {
-        return (campeaoId != 0);
+        return (campeaoId!=0);
     }
 
     public void setCampeaoId(int campeaoId){
         this.campeaoId = campeaoId;
     }
+
     public void setMandante(NoPartida mandante) {
         this.mandante = mandante;
     }
@@ -102,7 +104,6 @@ public class NoPartida extends EntConcreta {
         falta[1] = faltaVisitante;
         return falta;
     }
-
 //    public int getNovoScoreId(){
 //        ArrayList index = new ArrayList();
 //        for (Score s: placar) {
@@ -118,7 +119,6 @@ public class NoPartida extends EntConcreta {
 //        }while (i<100);
 //        return 0;
 //    }
-
     public String toString() {
         return super.toString() +
                " Nó Equipe MandanteId: " + (mandante!=null ? mandante.getId() : "Nó folha") +

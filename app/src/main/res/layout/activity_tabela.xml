@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TabelaActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
         android:background="@drawable/background_soft"
-        >
+        android:gravity="center"
+        android:orientation="horizontal">
         <!--Oitavas#1-->
         <LinearLayout
             android:layout_width="wrap_content"
@@ -23,177 +23,63 @@
 
             <ListView
                 android:id="@+id/ltv_partidas_oitava_e"
+                android:visibility="gone"
                 android:layout_width="@dimen/partida_largura"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/divider_none"
-                android:dividerHeight="0dp"/>
+                android:dividerHeight="0dp" />
         </LinearLayout>
         <!--Quartas#1-->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:id="@+id/partida_quarta1"
-                android:transitionName="partida 1 quarta de final"
-                android:clickable="true"
-                android:onClick="exemplo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/espaco_partida">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="@dimen/equipe_largura"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
-                            android:layout_marginVertical="@dimen/espaco_siglas_quartas"
-                            android:gravity="right"
-                            >
-                            <TextView
-                                android:id="@+id/quarta1_homer_nome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="@dimen/sigla_pad_hor"
-                                android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
-                            <TextView
-                                android:id="@+id/quarta1_homer_ponto"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/background_default"
-                                android:paddingHorizontal="@dimen/placar_pad_hor"
-                                android:paddingVertical="@dimen/placar_pad_ver"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                android:text="2"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="@dimen/equipe_largura"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
-                            android:layout_marginVertical="@dimen/espaco_siglas_quartas"
-                            android:gravity="right"
-                            >
-                            <TextView
-                                android:id="@+id/quarta1_visitor_nome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="@dimen/sigla_pad_hor"
-                                android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
-                            <TextView
-                                android:id="@+id/quarta1_visitor_ponto"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/background_default"
-                                android:paddingHorizontal="@dimen/placar_pad_hor"
-                                android:paddingVertical="@dimen/placar_pad_ver"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                android:text="10"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                    <LinearLayout
-                        android:layout_width="@dimen/altura_linha"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/linha_pad_quartas"
-                        android:background="@drawable/linha_chaveamento"/>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/partida_quarta2"
-                android:transitionName="partida 2 quarta de final"
-                android:clickable="true"
-                android:onClick="exemplo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
 
                 <LinearLayout
+                    android:id="@+id/layout_quarta1"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="exemplo"
                     android:orientation="vertical"
-                    >
+                    android:transitionName="4">
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="right"
-                            >
+                            android:orientation="horizontal">
+
                             <TextView
-                                android:id="@+id/quarta2_homer_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
+
                             <TextView
-                                android:id="@+id/quarta2_homer_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -201,45 +87,43 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="2"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="right"
-                            >
+                            android:orientation="horizontal">
+
                             <TextView
-                                android:id="@+id/quarta2_visitor_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
+
                             <TextView
-                                android:id="@+id/quarta2_visitor_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -247,24 +131,142 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="10"
                                 android:textStyle="bold" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="@dimen/altura_linha"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/linha_pad_quartas"
-                        android:background="@drawable/linha_chaveamento"/>
+                        android:background="@drawable/linha_chaveamento" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/espaco_partida">
+
+                <LinearLayout
+                    android:id="@+id/layout_quarta2"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="exemplo"
+                    android:orientation="vertical"
+                    android:transitionName="12">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="@dimen/altura_linha"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/linha_pad_quartas"
+                        android:background="@drawable/linha_chaveamento" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -273,23 +275,25 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/partida_semi1"
-                    android:transitionName="partida 1 da semi-final"
+                    android:id="@+id/layout_semi1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="exemplo"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:transitionName="8">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/espaco_siglas_semi"
+                        android:layout_marginBottom="@dimen/espaco_siglas_semi"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -306,23 +310,19 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/seme1_homer_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte" />
 
                             <TextView
-                                android:id="@+id/seme1_homer_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
                                 android:paddingHorizontal="@dimen/placar_pad_hor"
                                 android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="2"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
                                 android:textStyle="bold" />
@@ -337,7 +337,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/espaco_siglas_semi"
+                        android:layout_marginTop="@dimen/espaco_siglas_semi"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -354,23 +354,19 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/seme1_visitor_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte" />
 
                             <TextView
-                                android:id="@+id/seme1_visitor_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
                                 android:paddingHorizontal="@dimen/placar_pad_hor"
                                 android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="10"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
                                 android:textStyle="bold" />
@@ -382,14 +378,16 @@
                             android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
-                <LinearLayout
-                    android:layout_width="@dimen/altura_linha"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="@dimen/linha_pad_semi"
-                    android:background="@drawable/linha_chaveamento"/>
+
+                    <LinearLayout
+                        android:layout_width="@dimen/altura_linha"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/linha_pad_semi"
+                        android:background="@drawable/linha_chaveamento" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -399,119 +397,95 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center">
-
             <LinearLayout
+                android:id="@+id/layout_final"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="exemplo"
                 android:orientation="vertical"
-                android:transitionName="partida final">
-
+                android:transitionName="16">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/tamanho_linha"
-                    android:gravity="left">
-
+                    android:layout_marginVertical="@dimen/espaco_siglas_default"
+                    android:gravity="center"
+                    android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/espaco_siglas_default"
-                        android:gravity="center"
+                        android:layout_width="@dimen/tamanho_linha"
+                        android:layout_height="@dimen/altura_linha"
+                        android:background="@drawable/linha_chaveamento"></LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/equipe_largura"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/placar_time_shape"
+                        android:gravity="right"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento"></LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="@dimen/equipe_largura"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
-                            android:orientation="horizontal">
+                            android:paddingHorizontal="@dimen/sigla_pad_hor"
+                            android:paddingVertical="@dimen/sigla_pad_ver"
+                            android:textColor="@color/text_default"
+                            android:textSize="@dimen/placar_fonte" />
 
-                            <TextView
-                                android:id="@+id/final_homer_nome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="@dimen/sigla_pad_hor"
-                                android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte" />
-
-                            <TextView
-                                android:id="@+id/final_homer_ponto"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/background_default"
-                                android:paddingHorizontal="@dimen/placar_pad_hor"
-                                android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="2"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/background_default"
+                            android:paddingHorizontal="@dimen/placar_pad_hor"
+                            android:paddingVertical="@dimen/placar_pad_ver"
+                            android:textColor="@color/text_default"
+                            android:textSize="@dimen/placar_fonte"
+                            android:textStyle="bold" />
                     </LinearLayout>
                 </LinearLayout>
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/altura_trofeu"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/trofeu">
-                </ImageView>
+                    android:src="@drawable/trofeu"></ImageView>
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/tamanho_linha"
-                    android:gravity="right">
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/espaco_siglas_default"
+                    android:gravity="center"
+                    android:orientation="horizontal">
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="@dimen/tamanho_linha"
+                        android:layout_height="@dimen/altura_linha"
+                        android:baselineAligned="false"></LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/equipe_largura"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/espaco_siglas_default"
-                        android:gravity="center"
+                        android:background="@drawable/placar_time_shape"
+                        android:gravity="left"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="@dimen/equipe_largura"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
-                            android:orientation="horizontal">
+                            android:background="@color/background_default"
+                            android:paddingHorizontal="@dimen/placar_pad_hor"
+                            android:paddingVertical="@dimen/placar_pad_ver"
+                            android:textColor="@color/text_default"
+                            android:textSize="@dimen/placar_fonte"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/final_visitor_ponto"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@color/background_default"
-                                android:paddingHorizontal="@dimen/placar_pad_hor"
-                                android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="10"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/final_visitor_nome"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:paddingHorizontal="@dimen/sigla_pad_hor"
-                                android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
-                                android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="@dimen/tamanho_linha"
-                            android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="@dimen/sigla_pad_hor"
+                            android:paddingVertical="@dimen/sigla_pad_ver"
+                            android:textColor="@color/text_default"
+                            android:textSize="@dimen/placar_fonte" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="@dimen/tamanho_linha"
+                        android:layout_height="@dimen/altura_linha"
+                        android:background="@drawable/linha_chaveamento"></LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -519,6 +493,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:baselineAligned="false"
             android:gravity="center">
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -526,25 +501,27 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="@dimen/altura_linha"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/linha_pad_semi"
-                        android:background="@drawable/linha_chaveamento"/>
+                        android:background="@drawable/linha_chaveamento" />
 
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/partida_semi2"
-                    android:transitionName="partida 2 da semi-final"
+                    android:id="@+id/layout_semi2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="exemplo"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:transitionName="24">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginVertical="@dimen/espaco_siglas_semi"
+                        android:layout_marginBottom="@dimen/espaco_siglas_semi"
                         android:gravity="center"
                         android:orientation="horizontal">
                         <LinearLayout
@@ -558,23 +535,19 @@
                             android:gravity="left"
                             android:orientation="horizontal">
                             <TextView
-                                android:id="@+id/seme2_homer_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
                                 android:paddingHorizontal="@dimen/placar_pad_hor"
                                 android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="2"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
                                 android:textStyle="bold" />
                             <TextView
-                                android:id="@+id/seme2_homer_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
@@ -586,40 +559,41 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/espaco_siglas_semi"
+                        android:layout_marginTop="@dimen/espaco_siglas_semi"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
                             android:background="@drawable/linha_chaveamento"></LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
                             android:gravity="left"
                             android:orientation="horizontal">
+
                             <TextView
-                                android:id="@+id/seme2_visitor_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
                                 android:paddingHorizontal="@dimen/placar_pad_hor"
                                 android:paddingVertical="@dimen/placar_pad_ver"
-                                android:text="10"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
                                 android:textStyle="bold" />
+
                             <TextView
-                                android:id="@+id/seme2_visitor_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
@@ -630,34 +604,35 @@
         </LinearLayout>
         <!--Quartas#2-->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center">
-
+            android:gravity="center"
+            android:orientation="vertical">
             <LinearLayout
-                android:id="@+id/partida_quarta3"
-                android:transitionName="partida 3 quarta de final"
-                android:clickable="true"
-                android:onClick="exemplo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="@dimen/altura_linha"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/linha_pad_quartas"
-                        android:background="@drawable/linha_chaveamento"/>
+                        android:background="@drawable/linha_chaveamento" />
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/layout_quarta3"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="exemplo"
                     android:orientation="vertical"
-                    >
+                    android:transitionName="20">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -666,18 +641,15 @@
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="left"
-                            >
+                            android:orientation="horizontal">
                             <TextView
-                                android:id="@+id/quarta3_homer_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -685,45 +657,40 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="2"
                                 android:textStyle="bold" />
                             <TextView
-                                android:id="@+id/quarta3_homer_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="horizontal">
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="left"
-                            >
+                            android:orientation="horizontal">
+
                             <TextView
-                                android:id="@+id/quarta3_visitor_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -731,32 +698,25 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="10"
                                 android:textStyle="bold" />
+
                             <TextView
-                                android:id="@+id/quarta3_visitor_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/partida_quarta4"
-                android:transitionName="partida 4 quarta de final"
-                android:clickable="true"
-                android:onClick="exemplo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -767,13 +727,18 @@
                         android:layout_width="@dimen/altura_linha"
                         android:layout_height="match_parent"
                         android:layout_marginVertical="@dimen/linha_pad_quartas"
-                        android:background="@drawable/linha_chaveamento"/>
+                        android:background="@drawable/linha_chaveamento" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/layout_quarta4"
+                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="exemplo"
                     android:orientation="vertical"
-                    >
+                    android:transitionName="28">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -782,18 +747,15 @@
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="left"
-                            >
+                            android:orientation="horizontal">
                             <TextView
-                                android:id="@+id/quarta4_homer_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -801,24 +763,19 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="2"
                                 android:textStyle="bold" />
                             <TextView
-                                android:id="@+id/quarta4_homer_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="PFC"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -828,18 +785,15 @@
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:background="@drawable/placar_time_shape"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
+                            android:background="@drawable/placar_time_shape"
                             android:gravity="left"
-                            >
+                            android:orientation="horizontal">
                             <TextView
-                                android:id="@+id/quarta4_visitor_ponto"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/background_default"
@@ -847,24 +801,19 @@
                                 android:paddingVertical="@dimen/placar_pad_ver"
                                 android:textColor="@color/text_default"
                                 android:textSize="@dimen/placar_fonte"
-                                android:text="10"
                                 android:textStyle="bold" />
                             <TextView
-                                android:id="@+id/quarta4_visitor_nome"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingHorizontal="@dimen/sigla_pad_hor"
                                 android:paddingVertical="@dimen/sigla_pad_ver"
-                                android:text="MFCRS"
                                 android:textColor="@color/text_default"
-                                android:textSize="@dimen/placar_fonte"
-                                />
+                                android:textSize="@dimen/placar_fonte" />
                         </LinearLayout>
                         <LinearLayout
                             android:layout_width="@dimen/tamanho_linha"
                             android:layout_height="@dimen/altura_linha"
-                            android:background="@drawable/linha_chaveamento">
-                        </LinearLayout>
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -875,9 +824,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical">
-
             <ListView
                 android:id="@+id/ltv_partidas_oitava_d"
+                android:visibility="gone"
                 android:layout_width="@dimen/partida_largura"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/divider_none"
