@@ -67,8 +67,9 @@ public class PartidasAdapter extends BaseAdapter {
         TextView visitanteScore = (TextView) v.findViewById(R.id.adp_visitor_ponto);
 
         NoPartida partida = getItem(position);
+        System.out.println(partida.getMandante().getCampeaoId()+" e "+partida.getVisitante().getCampeaoId());
         if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
-            if(partida.isEncerrada()){
+            if(partida.isEncerrada()) {
                 int[] pontos = partida.getPlacarPontos();
                 if (pontos == null) {
                     CarrierSemiActivity.exemplo(ctx, ctx.getResources().getString(R.string.dados_erro_inconsistencia));
@@ -81,17 +82,24 @@ public class PartidasAdapter extends BaseAdapter {
                     mandanteScore.setText(Integer.toString(pontos[0]));
                     visitanteScore.setText(Integer.toString(pontos[1]));
                 }
+                v.setBackground(ctx.getDrawable(R.drawable.chave_background_desabled));
+            } else {
+                v.setBackground(ctx.getDrawable(R.drawable.chave_background_enabled));
+                mandanteScore.setText(R.string.equipe_ponto_partida_aberta);
+                visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
             }
+            v.setClickable(false);
             chave.setVisibility(View.VISIBLE);
         } else {
-            mandanteScore.setText(R.string.equipe_ponto_partida_aberta);
-            visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
+            v.setClickable(true);
         }
+
         if(partida.getMandante() != null && partida.getMandante().getCampeaoId()>0) {
             mandanteSigla.setText(major.getTime(partida.getMandante().getCampeaoId()).getSigla());
         } else {
             mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
+
         if(partida.getVisitante() != null && partida.getVisitante().getCampeaoId()>0) {
             visitanteSigla.setText(major.getTime(partida.getVisitante().getCampeaoId()).getSigla());
         } else {

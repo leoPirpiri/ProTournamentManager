@@ -37,21 +37,19 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/layout_quarta1"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
-
                 <LinearLayout
-                    android:id="@+id/layout_quarta1"
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="4">
-
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -95,7 +93,6 @@
                             android:layout_height="@dimen/altura_linha"
                             android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,11 +137,9 @@
                             android:background="@drawable/linha_chaveamento"></LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="@dimen/altura_linha"
                         android:layout_height="match_parent"
@@ -154,20 +149,20 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_quarta2"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
 
                 <LinearLayout
-                    android:id="@+id/layout_quarta2"
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="12">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -277,18 +272,18 @@
             android:gravity="center">
 
             <LinearLayout
+                android:id="@+id/layout_semi1"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:id="@+id/layout_semi1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="8">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -399,93 +394,98 @@
             android:gravity="center">
             <LinearLayout
                 android:id="@+id/layout_final"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="exemplo"
-                android:orientation="vertical"
-                android:transitionName="16">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginVertical="@dimen/espaco_siglas_default"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="@dimen/tamanho_linha"
-                        android:layout_height="@dimen/altura_linha"
-                        android:background="@drawable/linha_chaveamento"></LinearLayout>
-                    <LinearLayout
-                        android:layout_width="@dimen/equipe_largura"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/placar_time_shape"
-                        android:gravity="right"
-                        android:orientation="horizontal">
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="@dimen/sigla_pad_hor"
-                            android:paddingVertical="@dimen/sigla_pad_ver"
-                            android:textColor="@color/text_default"
-                            android:textSize="@dimen/placar_fonte" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/background_default"
-                            android:paddingHorizontal="@dimen/placar_pad_hor"
-                            android:paddingVertical="@dimen/placar_pad_ver"
-                            android:textColor="@color/text_default"
-                            android:textSize="@dimen/placar_fonte"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/altura_trofeu"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/trofeu"></ImageView>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/espaco_siglas_default"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
                     <LinearLayout
-                        android:layout_width="@dimen/tamanho_linha"
-                        android:layout_height="@dimen/altura_linha"
-                        android:baselineAligned="false"></LinearLayout>
-                    <LinearLayout
-                        android:layout_width="@dimen/equipe_largura"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/placar_time_shape"
-                        android:gravity="left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginVertical="@dimen/espaco_siglas_default"
+                        android:gravity="center"
                         android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
-                            android:background="@color/background_default"
-                            android:paddingHorizontal="@dimen/placar_pad_hor"
-                            android:paddingVertical="@dimen/placar_pad_ver"
-                            android:textColor="@color/text_default"
-                            android:textSize="@dimen/placar_fonte"
-                            android:textStyle="bold" />
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="right"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="@dimen/sigla_pad_hor"
-                            android:paddingVertical="@dimen/sigla_pad_ver"
-                            android:textColor="@color/text_default"
-                            android:textSize="@dimen/placar_fonte" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+                        </LinearLayout>
                     </LinearLayout>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/altura_trofeu"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/trofeu"></ImageView>
                     <LinearLayout
-                        android:layout_width="@dimen/tamanho_linha"
-                        android:layout_height="@dimen/altura_linha"
-                        android:background="@drawable/linha_chaveamento"></LinearLayout>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/espaco_siglas_default"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:baselineAligned="false"></LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/equipe_largura"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/placar_time_shape"
+                            android:gravity="left"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/background_default"
+                                android:paddingHorizontal="@dimen/placar_pad_hor"
+                                android:paddingVertical="@dimen/placar_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingHorizontal="@dimen/sigla_pad_hor"
+                                android:paddingVertical="@dimen/sigla_pad_ver"
+                                android:textColor="@color/text_default"
+                                android:textSize="@dimen/placar_fonte" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/tamanho_linha"
+                            android:layout_height="@dimen/altura_linha"
+                            android:background="@drawable/linha_chaveamento"></LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -496,6 +496,11 @@
             android:baselineAligned="false"
             android:gravity="center">
             <LinearLayout
+                android:id="@+id/layout_semi2"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="24"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -510,14 +515,9 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/layout_semi2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="24">
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -609,6 +609,12 @@
             android:gravity="center"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/layout_quarta3"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -624,15 +630,9 @@
 
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/layout_quarta3"
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="20">
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -717,6 +717,12 @@
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/layout_quarta4"
+                android:visibility="invisible"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="eventoLayoutParticaOnClick"
+                android:transitionName="28"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -730,15 +736,9 @@
                         android:background="@drawable/linha_chaveamento" />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/layout_quarta4"
-                    android:visibility="invisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:onClick="exemplo"
-                    android:orientation="vertical"
-                    android:transitionName="28">
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"

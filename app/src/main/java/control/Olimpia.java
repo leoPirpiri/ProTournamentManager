@@ -104,7 +104,7 @@ public class Olimpia implements Serializable {
         Torneio tTeste = new Torneio(10000, "Taça Pirpiri de Futsal");
         Equipe eTeste = new Equipe(10100, "Maciel de Baixo Futsal", "MCF");
         Equipe eTeste2 = new Equipe(10200, "Pirpiri do Meio Futsal", "PMF");
-        Equipe eTeste3 = new Equipe(10300, "Sítio Escrivão Futsal", "ECF");
+        Equipe eTeste3 = new Equipe(10300, "Sítio Escrivão Futsal", "SEF");
         Equipe eTeste4 = new Equipe(10400, "Lagoa Azul Futsal", "LAF");
         Equipe eTeste5 = new Equipe(10500, "Passagem de Cima Futsal", "PCF");
         Jogador jTeste = new Jogador(10101, "João Cana-brava", 3, 2);

@@ -7,9 +7,10 @@
     android:gravity="center|left"
     >
     <LinearLayout
+        android:id="@+id/layout_chave_oitava"
+        android:visibility="invisible"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
@@ -51,7 +52,7 @@
                         android:paddingVertical="@dimen/placar_pad_ver"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
-                        android:text="2"
+                        android:text=""
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/adp_homer_nome"
@@ -59,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="@dimen/sigla_pad_hor"
                         android:paddingVertical="@dimen/sigla_pad_ver"
-                        android:text="PFC"
+                        android:text="AAA"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
                         />
@@ -92,7 +93,7 @@
                         android:paddingVertical="@dimen/placar_pad_ver"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
-                        android:text="10"
+                        android:text=""
                         android:textStyle="bold" />
                     <TextView
                         android:id="@+id/adp_visitor_nome"
@@ -100,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="@dimen/sigla_pad_hor"
                         android:paddingVertical="@dimen/sigla_pad_ver"
-                        android:text="MFCRS"
+                        android:text="BBB"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
                         />

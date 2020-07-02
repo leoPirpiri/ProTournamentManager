@@ -1,11 +1,13 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewParent;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class TabelaActivity extends AppCompatActivity {
     private ListView ltv_oitavas_direita;
     private PartidasAdapter partidasAdapterE;
     private PartidasAdapter partidasAdapterD;
+    private AlertDialog alertaDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +47,27 @@ public class TabelaActivity extends AppCompatActivity {
         ltv_quartafinal4 = findViewById(R.id.layout_quarta4);
         ltv_oitavas_esquerda = findViewById(R.id.ltv_partidas_oitava_e);
         ltv_oitavas_direita = findViewById(R.id.ltv_partidas_oitava_d);
+
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if (dados!=null) {
             torneioIndice = dados.getInt("torneio");
             metodoRaiz();
         }
+
+        ltv_oitavas_esquerda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaAbrirPartida(partidasAdapterE.getItem(position));
+            }
+        });
+
+        ltv_oitavas_direita.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaAbrirPartida(partidasAdapterD.getItem(position));
+            }
+        });
     }
 
     private void metodoRaiz() {
@@ -67,8 +85,40 @@ public class TabelaActivity extends AppCompatActivity {
         }
     }
 
+    private void montarAlertaAbrirPartida(NoPartida partida){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_confir_abrir_partida);
+        //define a mensagem
+        Equipe mandante = torneio.getTime(partida.getMandante().getCampeaoId());
+        Equipe visitante = torneio.getTime(partida.getVisitante().getCampeaoId());
+        builder.setMessage(getString(R.string.msg_alerta_confir_abrir_partida)+" "+ partida.getNome()+"?\n\n"+
+                            (mandante!=null ? mandante.getNome() : getString(R.string.erro_default_string))+"\nVs.\n"+
+                            (visitante!=null ? visitante.getNome() : getString(R.string.erro_default_string))
+                            );
+        //define um botão como positivo
+        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                abrirPartida(partida.getId());
+            }
+        });
+        //define um botão como negativo.
+        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            }
+        });
+        mostrarAlerta(builder);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder){
+        alertaDialog = builder.create();
+        alertaDialog.show();
+    }
+
     private void listarPartidas() {
         int tamanhoTorneio = torneio.getTimes().size();
+        boolean precessoresQuartas = tamanhoTorneio != 16;
+        boolean precessoresSemi = true;
         if(tamanhoTorneio>9) {
             ltv_oitavas_direita.deferNotifyDataSetChanged();
             ltv_oitavas_direita.setVisibility(View.VISIBLE);
@@ -79,37 +129,46 @@ public class TabelaActivity extends AppCompatActivity {
                 ltv_oitavas_esquerda.setVisibility(View.VISIBLE);
                 ltv_oitavas_esquerda.deferNotifyDataSetChanged();
             case 8:
-                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().getPartida(28));
+                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().getPartida(28), precessoresQuartas);
+                precessoresSemi = false;
             case 7:
-                desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().getPartida(12));
+                desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().getPartida(12), precessoresQuartas);
             case 6:
-                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().getPartida(20));
+                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().getPartida(20), precessoresQuartas);
             case 5:
-                desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().getPartida(4));
+                desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().getPartida(4), precessoresQuartas);
             default:
-                desenharChaveTabela(ltv_semifinal2, torneio.getTabela().getPartida(24));
-                desenharChaveTabela(ltv_semifinal1, torneio.getTabela().getPartida(8));
-                desenharChaveTabela(ltv_final, torneio.getTabela().getPartida(16));
+                desenharChaveTabela(ltv_semifinal2, torneio.getTabela().getPartida(24), precessoresSemi);
+                desenharChaveTabela(ltv_semifinal1, torneio.getTabela().getPartida(8), precessoresSemi);
+                desenharChaveTabela(ltv_final, torneio.getTabela().getPartida(16),false);
                 break;
         }
     }
 
-    private void desenharChaveTabela(LinearLayout v, NoPartida partida){
+    private void desenharChaveTabela(LinearLayout v, NoPartida partida, boolean separarPrecessores){
         int id = partida.getId();
+        v.setTransitionName(String.valueOf(id));
         v.setVisibility(View.VISIBLE);
-        LinearLayout ltn1 = (LinearLayout) v.getChildAt(0);
-        if(partida.getMandante().getMandante().getCampeaoId()<=0||partida.getMandante().getVisitante().getCampeaoId()<=0) {
-            LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
-            lt_linha.setVisibility(View.INVISIBLE);
+        LinearLayout ltn0 = (LinearLayout) v.getChildAt(id <= 16 ? 0 : 1);
+        LinearLayout ltn1 = (LinearLayout) ltn0.getChildAt(0);
+        if(separarPrecessores){
+            if(partida.getMandante().getMandante().getCampeaoId()<=0 ||
+               partida.getMandante().getVisitante().getCampeaoId()<=0 ){
+                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
+                lt_linha.setVisibility(View.INVISIBLE);
+            }
         }
         LinearLayout ltn2 = (LinearLayout) ltn1.getChildAt(1);
         TextView mandanteSigla = (TextView) ltn2.getChildAt(id<=16 ? 0 : 1);
         TextView mandanteScore = (TextView) ltn2.getChildAt(id<=16 ? 1 : 0);
 
-        ltn1 = (LinearLayout) v.getChildAt(v.getChildCount()-1);
-        if(partida.getMandante().getMandante().getCampeaoId()<=0 || partida.getMandante().getVisitante().getCampeaoId()<=0) {
-            LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
-            lt_linha.setVisibility(View.INVISIBLE);
+        ltn1 = (LinearLayout) ltn0.getChildAt(ltn0.getChildCount()-1);
+        if(separarPrecessores){
+            if(partida.getVisitante().getMandante().getCampeaoId()<=0 ||
+                    partida.getVisitante().getVisitante().getCampeaoId()<=0 ){
+                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
+                lt_linha.setVisibility(View.INVISIBLE);
+            }
         }
         ltn2 = (LinearLayout) ltn1.getChildAt(1);
         TextView visitanteSigla = (TextView) ltn2.getChildAt(id>=16 ? 1 : 0);
@@ -135,19 +194,12 @@ public class TabelaActivity extends AppCompatActivity {
         }
     }
 
-    public void exemplo(View view) {
+    public void eventoLayoutParticaOnClick(View view) {
         int id = Integer.parseInt(view.getTransitionName());
-        LinearLayout ltn0 = (LinearLayout) view;
-        LinearLayout ltn1 = (LinearLayout) ltn0.getChildAt(0);
-        LinearLayout ltn2 = (LinearLayout) ltn1.getChildAt(1);
-        TextView mandanteSigla = (TextView) ltn2.getChildAt(id<=16 ? 0 : 1);
-        TextView mandanteScore = (TextView) ltn2.getChildAt(id<=16 ? 1 : 0);
+        montarAlertaAbrirPartida(torneio.getTabela().getPartida(id));
+    }
 
-        ltn1 = (LinearLayout) ltn0.getChildAt(ltn0.getChildCount()-1);
-        ltn2 = (LinearLayout) ltn1.getChildAt(1);
-        TextView visitanteSigla = (TextView) ltn2.getChildAt(id>=16 ? 1 : 0);
-        TextView visitanteScore = (TextView) ltn2.getChildAt(id>=16 ? 0 : 1);
-        CarrierSemiActivity.exemplo(this, mandanteSigla.getText()+" - " +mandanteScore.getText()+
-                                    "\nVS\n"+visitanteSigla.getText()+" - " +visitanteScore.getText());
+    private void abrirPartida(int idPartida){
+        CarrierSemiActivity.exemplo(this, String.valueOf(torneioIndice+idPartida));
     }
 }
