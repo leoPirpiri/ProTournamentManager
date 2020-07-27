@@ -1,15 +1,15 @@
 package com.leoPirpiri.protournamentmanager;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -38,6 +38,7 @@ public class TorneioActivity extends AppCompatActivity {
     private EditText etx_nome_equipe;
     private Button btn_confirma_equipe;
     private Button btn_gerar_tabela;
+    private FloatingActionButton btn_add_equipe;
     private EquipesAdapter equipesAdapter;
 
     @Override
@@ -52,14 +53,24 @@ public class TorneioActivity extends AppCompatActivity {
         txv_equipes_salvas = findViewById(R.id.txv_equipes_salvas);
         ltv_equipes_torneio = findViewById(R.id.list_equipes);
         btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
+        btn_add_equipe = findViewById(R.id.btn_nova_equipe);
 
-        FloatingActionButton btn_add_equipe = findViewById(R.id.btn_nova_equipe);
+        Intent intent = getIntent();
+        Bundle dados = intent.getExtras();
+        if (dados!=null) {
+            torneioIndice = dados.getInt("torneio");
+            metodoRaiz();
+            setTitle(torneio.getNome());
+        } else {
+            finish();
+        }
+
         btn_add_equipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            montarAlertaNovaEquipe();
+                montarAlertaNovaEquipe();
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                  //      .setAction("Action", null).show();
+                //      .setAction("Action", null).show();
             }
         });
 
@@ -69,14 +80,6 @@ public class TorneioActivity extends AppCompatActivity {
                 abrirTabela();
             }
         });
-
-        Intent intent = getIntent();
-        Bundle dados = intent.getExtras();
-        if (dados!=null) {
-            torneioIndice = dados.getInt("torneio");
-            metodoRaiz();
-            setTitle(torneio.getNome());
-        }
 
         ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -164,7 +167,7 @@ public class TorneioActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaNovaEquipe(){
+private void montarAlertaNovaEquipe(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
@@ -179,7 +182,7 @@ public class TorneioActivity extends AppCompatActivity {
                 if (!nome.isEmpty() && !sigla.isEmpty()) {
                     torneio.addTime(new Equipe(torneio.getNovaEquipeId(), nome, sigla));
                     Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
-                    atualizar=true;
+                    atualizar = true;
                     listarTimes();
                 }
                 alertaDialog.dismiss();
@@ -195,23 +198,24 @@ public class TorneioActivity extends AppCompatActivity {
 
         etx_nome_equipe.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String nome = etx_nome_equipe.getText().toString().trim();
                 String sigla = etx_sigla_equipe.getText().toString();
-                if(nome.isEmpty()){
+                if (nome.isEmpty()) {
                     etx_sigla_equipe.setText("");
                     desativarOKalertaEquipe();
                 } else {
                     String sigla_bot;
-                    if(nome.contains(" ")) {
-                         sigla_bot = siglatation(nome);
+                    if (nome.contains(" ")) {
+                        sigla_bot = siglatation(nome);
                     } else {
-                        sigla_bot = nome.substring(0,1).toUpperCase();
+                        sigla_bot = nome.substring(0, 1).toUpperCase();
                     }
-                    if(!sigla.trim().equals(sigla_bot)) {
+                    if (!sigla.trim().equals(sigla_bot)) {
                         etx_sigla_equipe.setText(sigla_bot);
                     }
                     ativarOKalertaEquipe();
@@ -219,17 +223,19 @@ public class TorneioActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         etx_sigla_equipe.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etx_nome_equipe.getText().toString().isEmpty() ||
-                        etx_sigla_equipe.getText().toString().isEmpty()){
+                if (etx_nome_equipe.getText().toString().isEmpty() ||
+                        etx_sigla_equipe.getText().toString().isEmpty()) {
                     desativarOKalertaEquipe();
                 } else {
                     ativarOKalertaEquipe();
@@ -237,7 +243,8 @@ public class TorneioActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
@@ -257,14 +264,24 @@ public class TorneioActivity extends AppCompatActivity {
         return sigla.toUpperCase();
     }
 
-    private void ativarOKalertaEquipe(){
+    private void ativarOKalertaEquipe() {
         btn_confirma_equipe.setEnabled(true);
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
     }
 
-    private void desativarOKalertaEquipe(){
+    private void desativarOKalertaEquipe() {
         btn_confirma_equipe.setEnabled(false);
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_desabled));
+    }
+
+    private void ativarAddBtnNovaEquipe() {
+        btn_add_equipe.setEnabled(true);
+        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.core)));
+    }
+
+    private void desativarAddBtnNovaEquipe() {
+        btn_add_equipe.setEnabled(false);
+        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.background_closed)));
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder){
@@ -274,8 +291,27 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void listarTimes(){
         if (torneio.getTimes().isEmpty()) {
+            ativarAddBtnNovaEquipe();
             txv_equipes_salvas.setText(R.string.torneio_sem_equipes);
         } else {
+            if(torneio.getTimes().size()<torneio.MAX_EQUIPE && !torneio.isFechado()){
+                ativarAddBtnNovaEquipe();
+            } else {
+                desativarAddBtnNovaEquipe();
+            }
+            if(torneio.getTimes().size() < torneio.MIN_EQUIPE) {
+                btn_gerar_tabela.setEnabled(false);
+                btn_gerar_tabela.setBackground(getDrawable(R.drawable.button_shape_desabled));
+                btn_gerar_tabela.setText(R.string.lbl_btn_tabela_desabled);
+            } else {
+                if(torneio.isFechado()) {
+                    btn_gerar_tabela.setText(R.string.lbl_btn_tabela_visualizar);
+                } else {
+                    btn_gerar_tabela.setText(R.string.lbl_btn_tabela_fechar);
+                }
+                btn_gerar_tabela.setEnabled(true);
+                btn_gerar_tabela.setBackground(getDrawable(R.drawable.button_shape_enabled));
+            }
             txv_equipes_salvas.setText(R.string.torneio_com_equipes);
             equipesAdapter.notifyDataSetChanged();
         }
@@ -296,13 +332,13 @@ public class TorneioActivity extends AppCompatActivity {
         //Passa alguns dados para a próxima activity
         dados.putInt("torneio", torneioIndice);
         intent.putExtras(dados);
-//        if(torneio.isFechado()){
-//            startActivity(intent);
-//        } else
-//
-            if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
+        if(torneio.isFechado()){
+            startActivity(intent);
+        } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
             atualizar = true;
             startActivity(intent);
+        } else {
+            finish();
         }
     }
 

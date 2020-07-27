@@ -21,6 +21,9 @@
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
         \nAdicione novas equipes usando o botão abaixo (+)</string>
+    <string name="lbl_btn_tabela_desabled">Número insuficiente de times</string>
+    <string name="lbl_btn_tabela_fechar">Fechar torneio/gerar tabela</string>
+    <string name="lbl_btn_tabela_visualizar">Visualizar Tabela</string>
     <string name="novo_torneio">Meu Torneio</string>
     <string name="estado_fechado">Fechado.</string>
     <string name="estado_aberto">Aberto.</string>
@@ -67,6 +70,7 @@
         <item>ARM - Armador</item>
         <item>ALA - Ala</item>
     </string-array>
+
     <!-- Mensagens envolvendo Partida -->
     <string-array name="partida_nomes">
         <item>Simulação</item>
@@ -91,7 +95,10 @@
     <string name="partida_score_pontos">Pontos:</string>
     <string name="partida_score_falta">Faltas:</string>
     <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>
-    <string name="msg_alerta_confir_abrir_partida">Deseja abrir a partida</string>
+    <string name="lbl_msg_inicio_aberta">Deseja iniciar partidaja</string>
+    <string name="lbl_msg_inicio_finalizada">Rever os dados da partida</string>
+    <string name="lbl_vs_default">Vs.</string>
+
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>

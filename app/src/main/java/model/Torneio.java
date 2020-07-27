@@ -50,15 +50,15 @@ public class Torneio extends EntConcreta {
     }
 
     public void addTime(Equipe time) {
-        //if(!isFechado()){
+        if(!isFechado() && times.size()<MAX_EQUIPE){
             this.times.add(time);
-        //}
+        }
     }
 
     public Equipe delTime(int pos){
-        //if(!isFechado()) {
+        if(!isFechado()) {
             return times.remove(pos);
-        //}else return null;
+        }else return null;
     }
 
     public Equipe getTime(int index){

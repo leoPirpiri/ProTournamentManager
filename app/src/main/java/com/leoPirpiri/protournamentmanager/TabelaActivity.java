@@ -3,7 +3,6 @@ package com.leoPirpiri.protournamentmanager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -87,26 +86,37 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void montarAlertaAbrirPartida(NoPartida partida){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
-        builder.setTitle(R.string.title_alerta_confir_abrir_partida);
-        //define a mensagem
+
         Equipe mandante = torneio.getTime(partida.getMandante().getCampeaoId());
         Equipe visitante = torneio.getTime(partida.getVisitante().getCampeaoId());
-        builder.setMessage(getString(R.string.msg_alerta_confir_abrir_partida)+" "+ partida.getNome()+"?\n\n"+
-                            (mandante!=null ? mandante.getNome() : getString(R.string.erro_default_string))+"\nVs.\n"+
-                            (visitante!=null ? visitante.getNome() : getString(R.string.erro_default_string))
-                            );
-        //define um botão como positivo
-        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
+
+        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
+        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
+        TextView nomeMandante = view.findViewById(R.id.lbl_alerta_nome_mandante);
+        TextView nomeVisitante = view.findViewById(R.id.lbl_alerta_nome_visitante);
+
+        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
+                          " "+partida.getNome()+"?");
+        nomeMandante.setText(mandante.getNome());
+        nomeVisitante.setText(visitante.getNome());
+
+        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                alertaDialog.dismiss();
                 abrirPartida(partida.getId());
             }
         });
-        //define um botão como negativo.
-        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
+
+        view.findViewById(R.id.btn_cancelar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                //desfaz o alerta.
+                alertaDialog.dismiss();
             }
         });
+
+        builder.setView(view);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_confir_abrir_partida);
         mostrarAlerta(builder);
     }
 
@@ -196,10 +206,16 @@ public class TabelaActivity extends AppCompatActivity {
 
     public void eventoLayoutParticaOnClick(View view) {
         int id = Integer.parseInt(view.getTransitionName());
-        montarAlertaAbrirPartida(torneio.getTabela().getPartida(id));
+        NoPartida partida = torneio.getTabela().getPartida(id);
+        if (partida.getMandante().isEncerrada() && partida.getVisitante().isEncerrada()) {
+            montarAlertaAbrirPartida(partida);
+        }
     }
 
     private void abrirPartida(int idPartida){
-        CarrierSemiActivity.exemplo(this, String.valueOf(torneioIndice+idPartida));
+        Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
+        intent.putExtra("partida", torneioIndice+idPartida);
+        startActivity(intent);
+        //CarrierSemiActivity.exemplo(this, String.valueOf());
     }
 }

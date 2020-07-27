@@ -15,7 +15,8 @@
             android:screenOrientation="landscape"/>
         <activity
             android:name=".PartidaActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".TorneioActivity"
             android:label="@string/title_activity_torneio"

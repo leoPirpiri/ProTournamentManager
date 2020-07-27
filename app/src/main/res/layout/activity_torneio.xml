@@ -38,12 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="@drawable/button_shape_enabled"
+            android:background="@drawable/button_shape_desabled"
+            android:enabled="false"
             android:shadowColor="#3D3D3D"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
-            android:text="Fechar copa e gerar tabela"
+            android:text="@string/lbl_btn_tabela_desabled"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
         <TextView
@@ -69,7 +70,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:tint="@color/midle"
-        app:backgroundTint="@color/core"
+        android:enabled="false"
+        app:backgroundTint="@color/background_closed"
         app:maxImageSize="60dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 

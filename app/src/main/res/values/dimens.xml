@@ -24,4 +24,9 @@
     <dimen name="lista_pad_default">30dp</dimen>
     <dimen name="jogador_pad_hor">5dp</dimen>
     <dimen name="jogador_pad_ver">8dp</dimen>
+
+    <!-- Fontes -->
+    <dimen name="partida_nomes_equipes">16dp</dimen>
+
+
 </resources>
