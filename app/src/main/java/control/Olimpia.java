@@ -19,9 +19,11 @@ public class Olimpia implements Serializable {
     public final int TORNEIO_MAX = 8;
 
     private ArrayList<Torneio> torneios;
+    private Torneio simulacao;
 
     public Olimpia(){
         torneios = new ArrayList<>();
+        simulacao = null;
     }
 
     public static void salvarSantuario (Olimpia santuario, FileOutputStream fileOutputStream) throws IOException{
@@ -86,6 +88,14 @@ public class Olimpia implements Serializable {
             }
         }while (i<100);
         return 0;
+    }
+
+    public Torneio getSimulacao() {
+        return simulacao;
+    }
+
+    public void setSimulacao(Torneio simulacao) {
+        this.simulacao = simulacao;
     }
 
     //retorna o id completo de uma entidade de nível 0

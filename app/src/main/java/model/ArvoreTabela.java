@@ -16,6 +16,10 @@ public class ArvoreTabela implements Serializable {
         return raiz;
     }
 
+    public void setRaiz(NoPartida raiz) {
+        this.raiz = raiz;
+    }
+
     public int getCampeaoId() {
         return raiz.getCampeaoId();
     }

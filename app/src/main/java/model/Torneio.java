@@ -36,6 +36,10 @@ public class Torneio extends EntConcreta {
         return tabela;
     }
 
+    public void setTabela(NoPartida raiz) {
+        this.tabela.setRaiz(raiz);
+    }
+
     public ArrayList<Equipe> getTimes() {
         return times;
     }
@@ -45,7 +49,7 @@ public class Torneio extends EntConcreta {
             return false;
         }
         tabela.gerarTabela(new ArrayList<>(times), new ArrayList<>(Arrays.asList(partida_nomes)));
-        tabela.testarArvore(tabela.getRaiz());
+        //tabela.testarArvore(tabela.getRaiz());
         return isFechado();
     }
 

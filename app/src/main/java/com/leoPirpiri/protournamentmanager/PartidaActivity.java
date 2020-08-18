@@ -14,17 +14,18 @@ import control.Olimpia;
 import model.Equipe;
 import model.Jogador;
 import model.NoPartida;
+import model.Torneio;
 
 public class PartidaActivity extends AppCompatActivity {
     private boolean relogio_parado;
     private long deslocamento;
     private int partidaIndice;
 
-    private Chronometer relogio;
     private Olimpia santuarioOlimpia;
     private NoPartida partida;
     private Equipe mandante;
     private Equipe visitante;
+    private Chronometer relogio;
     private ListView ltv_jogadores_mandantes;
     private ListView ltv_jogadores_visitantes;
     private TextView txv_partida_nome;
@@ -60,25 +61,45 @@ public class PartidaActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         partidaIndice = intent.getIntExtra("partida", -1);
-        if (partidaIndice==-1) {
-            String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
-            visitante = mandante = new Equipe(999900,
-                                getResources().getString(R.string.hint_nome_equipe),
-                                getResources().getString(R.string.hint_sigla_equipe));
-            partida = new NoPartida(999902, nome_padrao);
-            partida.setMandante(new NoPartida(999901, nome_padrao, mandante.getId()));
-            partida.setVisitante(new NoPartida(999903, nome_padrao, visitante.getId()));
-
-        } else {
-            metodoRaiz();
-        }
+        metodoRaiz();
         atualizarCampos();
         listarJogadores();
     }
 
+    private boolean isSimulacao(){
+        return partidaIndice==-1;
+    }
+
     private void metodoRaiz() {
         //Carrega ou inicia o santuário onde ocorre os jogos.
+        Torneio t;
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(PartidaActivity.this);
+        if (isSimulacao()) {
+            t = santuarioOlimpia.getSimulacao();
+            if (t == null){
+                t = new Torneio(990000, getResources().getString(R.string.novo_torneio));
+                for (int i=0; i<=1; i++) {
+                    t.addTime(new Equipe(t.getNovaEquipeId(),
+                            getResources().getString(R.string.hint_nome_equipe),
+                            getResources().getString(R.string.hint_sigla_equipe)));
+                }
+
+                String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
+                partida = new NoPartida(02, nome_padrao);
+                partida.setMandante(new NoPartida(01, nome_padrao, 990100));
+                partida.setVisitante(new NoPartida(03, nome_padrao, 990200));
+                t.setTabela(partida);
+                santuarioOlimpia.setSimulacao(t);
+            } else {
+                partida = t.getTabela().getRaiz();
+            }
+
+        } else {
+            t = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
+            partida = t.getTabela().getPartida(partidaIndice-t.getId());
+        }
+        mandante = t.getTime(partida.getMandante().getId());
+        visitante = t.getTime(partida.getVisitante().getId());
     }
 
     private void atualizarCampos() {
@@ -96,14 +117,16 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void listarJogadores(){
-        if (mandante.getJogadores().isEmpty()) {
-            preencherEquipe(mandante);
-        }
-        if (visitante.getJogadores().isEmpty()) {
-            preencherEquipe(visitante);
+        if (isSimulacao()) {
+            if (mandante.getJogadores().isEmpty()) {
+                preencherEquipe(mandante);
+            }
+            if (visitante.getJogadores().isEmpty()) {
+                preencherEquipe(visitante);
+            }
         }
         JogadoresAdapter jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), false);
-        JogadoresAdapter jav = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), false);
+        JogadoresAdapter jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), false);
         ltv_jogadores_mandantes.setAdapter(jam);
         ltv_jogadores_visitantes.setAdapter(jav);
         jam.notifyDataSetChanged();
