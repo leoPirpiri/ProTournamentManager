@@ -33,6 +33,7 @@ public class TabelaActivity extends AppCompatActivity {
     private PartidasAdapter partidasAdapterE;
     private PartidasAdapter partidasAdapterD;
     private AlertDialog alertaDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

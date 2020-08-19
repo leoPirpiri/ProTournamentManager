@@ -1,12 +1,16 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,6 +41,10 @@ public class PartidaActivity extends AppCompatActivity {
     private TextView txv_partida_score_falta_visitante;
     private TextView txv_partida_nome_mandante;
     private TextView txv_partida_nome_visitante;
+    private Button btn_finalizar_partida;
+    private AlertDialog alertaDialog;
+    private JogadoresAdapter jam;
+    private JogadoresAdapter jav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +67,21 @@ public class PartidaActivity extends AppCompatActivity {
         txv_partida_nome_mandante = findViewById(R.id.txv_partida_nome_mandante);
         txv_partida_nome_visitante = findViewById(R.id.txv_partida_nome_visitante);
 
+        btn_finalizar_partida = findViewById(R.id.btn_encerrar_partida);
+
         Intent intent = getIntent();
         partidaIndice = intent.getIntExtra("partida", -1);
         metodoRaiz();
+
         atualizarCampos();
         listarJogadores();
+
+        ltv_jogadores_mandantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaAcaoPartida(jam.getItem(position));
+            }
+        });
     }
 
     private boolean isSimulacao(){
@@ -98,8 +116,8 @@ public class PartidaActivity extends AppCompatActivity {
             t = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
             partida = t.getTabela().getPartida(partidaIndice-t.getId());
         }
-        mandante = t.getTime(partida.getMandante().getId());
-        visitante = t.getTime(partida.getVisitante().getId());
+        mandante = t.getTime(partida.getMandante().getCampeaoId());
+        visitante = t.getTime(partida.getVisitante().getCampeaoId());
     }
 
     private void atualizarCampos() {
@@ -116,6 +134,90 @@ public class PartidaActivity extends AppCompatActivity {
         txv_partida_nome_visitante.setText(visitante.getNome());
     }
 
+    private void montarAlertaEquipeImcompleta(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
+//        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
+//
+//        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
+//                " "+partida.getNome()+"?");
+//
+//        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View arg0) {
+//                alertaDialog.dismiss();
+//            }
+//        });
+//
+//        builder.setView(view);
+//        //define o titulo
+//        builder.setTitle(R.string.title_alerta_partida_equipes_incompletas);
+//        mostrarAlerta(builder);
+    }
+
+    private void montarAlertaAcaoPartida(Jogador j) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_acao_placar, null);
+
+        TextView acao_jogador_number = view.findViewById(R.id.acao_jogador_number);
+        TextView acao_jogador_posicao = view.findViewById(R.id.acao_jogador_posicao);
+        TextView acao_jogador_nome = view.findViewById(R.id.acao_jogador_nome);
+        LinearLayout acao_jogador_segundo_amarelo = view.findViewById(R.id.acao_jogador_segundo_amarelo);
+
+        Button btn_del_gol = view.findViewById(R.id.btn_del_acao_gol);
+        Button btn_del_falta = view.findViewById(R.id.btn_del_acao_falta);
+        Button btn_del_vermelho = view.findViewById(R.id.btn_del_acao_cartao_vermelho);
+        Button btn_del_amarelo = view.findViewById(R.id.btn_del_acao_cartao_amarelo);
+        Button btn_add_gol = view.findViewById(R.id.btn_add_acao_gol);
+        Button btn_add_falta = view.findViewById(R.id.btn_add_acao_falta);
+        Button btn_add_vermelho = view.findViewById(R.id.btn_add_acao_cartao_vermelho);
+        Button btn_add_amarelo = view.findViewById(R.id.btn_add_acao_cartao_amarelo);
+
+        acao_jogador_number.setText(Integer.toString(j.getNumero()));
+        acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
+        acao_jogador_nome.setText(j.getNome());
+
+        btn_add_vermelho.setEnabled(true);
+        btn_add_vermelho.setBackground(getDrawable(R.drawable.acao_add_card_vermelho));
+
+        view.findViewById(R.id.btn_cancelar_acao).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                alertaDialog.dismiss();
+            }
+        });
+
+        builder.setView(view);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_partida_acao_jogador);
+        mostrarAlerta(builder);
+    }
+
+    private void montarAlertaDetalhesJogador(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//
+//        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
+//        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
+//
+//        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
+//                " "+partida.getNome()+"?");
+//
+//        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View arg0) {
+//                alertaDialog.dismiss();
+//            }
+//        });
+//
+//        builder.setView(view);
+//        //define o titulo
+//        builder.setTitle(R.string.title_alerta_partida_equipes_incompletas);
+//        mostrarAlerta(builder);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder){
+        alertaDialog = builder.create();
+        alertaDialog.show();
+    }
+
     private void listarJogadores(){
         if (isSimulacao()) {
             if (mandante.getJogadores().isEmpty()) {
@@ -125,8 +227,10 @@ public class PartidaActivity extends AppCompatActivity {
                 preencherEquipe(visitante);
             }
         }
-        JogadoresAdapter jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), false);
-        JogadoresAdapter jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), false);
+        ativarFinalizarPartida();
+
+        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), false);
+        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), false);
         ltv_jogadores_mandantes.setAdapter(jam);
         ltv_jogadores_visitantes.setAdapter(jav);
         jam.notifyDataSetChanged();
@@ -143,6 +247,20 @@ public class PartidaActivity extends AppCompatActivity {
         }
     }
 
+    private void ativarFinalizarPartida() {
+        if(mandante.getJogadores().isEmpty() || visitante.getJogadores().isEmpty()){
+            montarAlertaEquipeImcompleta();
+        } else {
+            btn_finalizar_partida.setEnabled(true);
+            btn_finalizar_partida.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        }
+    }
+
+    private void desativarFinalizarPartida() {
+        btn_finalizar_partida.setEnabled(false);
+        btn_finalizar_partida.setBackground(getDrawable(R.drawable.button_shape_desabled));
+    }
+
     public void zerarCronometro(View v) {
         if(relogio_parado) {
             relogio.setBase(SystemClock.elapsedRealtime());
@@ -155,11 +273,13 @@ public class PartidaActivity extends AppCompatActivity {
             v.setBackground(getDrawable(android.R.drawable.ic_media_pause));
             relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
             relogio.start();
+            desativarFinalizarPartida();
             relogio_parado = false;
         } else {
             v.setBackground(getDrawable(android.R.drawable.ic_media_play));
             relogio.stop();
             deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
+            ativarFinalizarPartida();
             relogio_parado = true;
         }
     }

@@ -94,7 +94,13 @@
     <string name="partida_score_gols">Gols:</string>
     <string name="partida_score_pontos">Pontos:</string>
     <string name="partida_score_falta">Faltas:</string>
+    <string name="partida_acao_ponto">Ponto</string>
+    <string name="partida_acao_gol">Gol</string>
+    <string name="partida_acao_falta">Falta</string>
+    <string name="partida_acao_cartao">Cartões</string>
     <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>
+    <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
+    <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partidaja</string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida</string>
     <string name="lbl_vs_default">Vs.</string>

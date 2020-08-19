@@ -3,6 +3,7 @@
     <dimen name="equipe_largura">70dp</dimen>
     <dimen name="partida_largura">90dp</dimen>
     <dimen name="partida_pad_hor">10dp</dimen>
+    <dimen name="partida_pad_ver">12dp</dimen>
     <dimen name="placar_pad_hor">4dp</dimen>
     <dimen name="placar_pad_ver">3dp</dimen>
     <dimen name="sigla_pad_hor">5dp</dimen>
@@ -15,6 +16,7 @@
     <dimen name="tamanho_linha">5dp</dimen>
     <dimen name="altura_linha">2dp</dimen>
     <dimen name="altura_trofeu">50dp</dimen>
+    <dimen name="altura_ic_acao">70dp</dimen>
     <dimen name="placar_fonte">10dp</dimen>
     <dimen name="partida_fonte">18dp</dimen>
     <dimen name="cronometro_fonte">50dp</dimen>
@@ -24,6 +26,7 @@
     <dimen name="lista_pad_default">30dp</dimen>
     <dimen name="jogador_pad_hor">5dp</dimen>
     <dimen name="jogador_pad_ver">8dp</dimen>
+    <dimen name="acao_margin_hor">8dp</dimen>
 
     <!-- Fontes -->
     <dimen name="partida_nomes_equipes">16dp</dimen>
