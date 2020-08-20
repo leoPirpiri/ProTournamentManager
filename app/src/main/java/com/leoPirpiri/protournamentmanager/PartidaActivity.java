@@ -1,9 +1,12 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -14,10 +17,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import control.Olimpia;
 import model.Equipe;
 import model.Jogador;
 import model.NoPartida;
+import model.Score;
 import model.Torneio;
 
 public class PartidaActivity extends AppCompatActivity {
@@ -46,6 +54,16 @@ public class PartidaActivity extends AppCompatActivity {
     private JogadoresAdapter jam;
     private JogadoresAdapter jav;
 
+    private Drawable ic_gol;
+    private Drawable ic_falta;
+    private Drawable ic_cartao_vermelho;
+    private Drawable ic_cartao_amarelo;
+    private Drawable ic_del_default;
+    private Drawable ic_del_desabled;
+    private Drawable ic_gol_desabled;
+    private Drawable ic_cartao_desabled;
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +87,26 @@ public class PartidaActivity extends AppCompatActivity {
 
         btn_finalizar_partida = findViewById(R.id.btn_encerrar_partida);
 
+        ic_gol = getDrawable(R.drawable.acao_add_ponto);
+        ic_falta = getDrawable(R.drawable.acao_add_falta);
+        ic_cartao_vermelho = getDrawable(R.drawable.acao_add_card_vermelho);
+        ic_cartao_amarelo = getDrawable(R.drawable.acao_add_card_amarelo);
+        ic_cartao_desabled = getDrawable(R.drawable.acao_add_card_desabled);
+        ic_gol_desabled = getDrawable(R.drawable.acao_add_ponto_desabled);
+        ic_del_default = getDrawable(R.drawable.acao_del_default);
+        ic_del_desabled = getDrawable(R.drawable.acao_del_default_desabled);
+
         Intent intent = getIntent();
         partidaIndice = intent.getIntExtra("partida", -1);
         metodoRaiz();
 
         atualizarCampos();
-        listarJogadores();
 
         ltv_jogadores_mandantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAcaoPartida(jam.getItem(position));
+                montarAlertaAcaoPartida(jam.getItem(position), jam.getAcoesTime());
             }
         });
     }
@@ -120,42 +147,34 @@ public class PartidaActivity extends AppCompatActivity {
         visitante = t.getTime(partida.getVisitante().getCampeaoId());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void atualizarCampos() {
+        ArrayList<List> acoesGerais = partida.getScoreGeral();
+        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
         txv_partida_nome.setText(partida.getNome());
         txv_partida_sigla_mandante.setText(mandante.getSigla());
         txv_partida_sigla_visitante.setText(visitante.getSigla());
-        int[] pontos = partida.getPlacarPontos();
-        txv_partida_score_ponto_mandante.setText(Integer.toString(pontos[0]));
-        txv_partida_score_ponto_visitante.setText(Integer.toString(pontos[1]));
-        int[] faltas = partida.getPlacarFaltas();
-        txv_partida_score_falta_mandante.setText(Integer.toString(faltas[0]));
-        txv_partida_score_falta_visitante.setText(Integer.toString(faltas[1]));
+        txv_partida_score_ponto_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)));
+        txv_partida_score_ponto_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
+        txv_partida_score_falta_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
+        txv_partida_score_falta_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
         txv_partida_nome_mandante.setText(mandante.getNome());
         txv_partida_nome_visitante.setText(visitante.getNome());
+        listarJogadores((ArrayList<Score>) acoesGerais.get(0), (ArrayList<Score>) acoesGerais.get(1));
     }
 
     private void montarAlertaEquipeImcompleta(){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
-//        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
-//
-//        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
-//                " "+partida.getNome()+"?");
-//
-//        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                alertaDialog.dismiss();
-//            }
-//        });
-//
-//        builder.setView(view);
-//        //define o titulo
-//        builder.setTitle(R.string.title_alerta_partida_equipes_incompletas);
-//        mostrarAlerta(builder);
+
     }
 
-    private void montarAlertaAcaoPartida(Jogador j) {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void montarAlertaAcaoPartida(Jogador j, ArrayList<Score> acoesTime) {
+        int[] acoes_jogador = {0,0,0,0,0};
+        for (Score s : acoesTime){
+            if(s.getIdJogador() == j.getId()){
+                acoes_jogador[s.getTipo()]+=1;
+            }
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_acao_placar, null);
 
@@ -176,9 +195,69 @@ public class PartidaActivity extends AppCompatActivity {
         acao_jogador_number.setText(Integer.toString(j.getNumero()));
         acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
         acao_jogador_nome.setText(j.getNome());
+        acao_jogador_segundo_amarelo.setVisibility(View.VISIBLE);
 
-        btn_add_vermelho.setEnabled(true);
-        btn_add_vermelho.setBackground(getDrawable(R.drawable.acao_add_card_vermelho));
+
+        btn_del_falta.setBackground(ic_falta);
+        btn_del_falta.setForeground(ic_del_default);
+        btn_del_amarelo.setBackground(ic_cartao_amarelo);
+        btn_del_amarelo.setForeground(ic_del_default);
+        btn_del_vermelho.setBackground(ic_cartao_vermelho);
+        btn_del_vermelho.setForeground(ic_del_default);
+
+        if(acoes_jogador[Score.TIPO_AMARELO]>=2 || acoes_jogador[Score.TIPO_VERMELHO] !=0){
+            //Jogador expulso: NÃO recebe ponto, falta ou novo cartão
+            btn_add_gol.setBackground(ic_gol_desabled);
+            btn_add_falta.setBackground(ic_falta);
+            btn_add_vermelho.setBackground(ic_cartao_desabled);
+            btn_add_amarelo.setBackground(ic_cartao_desabled);
+
+
+            btn_del_vermelho.setBackground(ic_cartao_vermelho);
+            btn_del_vermelho.setForeground(ic_del_default);
+            btn_del_vermelho.setEnabled(true);
+        } else {
+            //Linha dos pontos
+            if(acoes_jogador[Score.TIPO_PONTO]==0){
+                btn_del_gol.setBackground(ic_gol_desabled);
+                btn_del_gol.setForeground(ic_del_desabled);
+            } else {
+                btn_del_gol.setBackground(ic_gol);
+                btn_del_gol.setForeground(ic_del_default);
+                btn_del_gol.setEnabled(true);
+            }
+            btn_add_gol.setBackground(ic_gol);
+            btn_add_gol.setEnabled(true);
+            //Linha das faltas
+            if(acoes_jogador[Score.TIPO_FALTA_INDIVIDUAL]==0){
+                btn_del_falta.setBackground(ic_falta);
+                btn_del_falta.setForeground(ic_del_desabled);
+            } else {
+                btn_del_falta.setBackground(ic_falta);
+                btn_del_falta.setForeground(ic_del_default);
+                btn_del_falta.setEnabled(true);
+            }
+            btn_add_falta.setBackground(ic_falta);
+            btn_add_falta.setEnabled(true);
+            //Linha do cartão vermelho
+            btn_del_vermelho.setBackground(ic_cartao_desabled);
+            btn_del_vermelho.setForeground(ic_del_desabled);
+            btn_add_vermelho.setBackground(ic_cartao_vermelho);
+            btn_add_vermelho.setEnabled(true);
+            //Linha do cartão amarelo
+            if(acoes_jogador[Score.TIPO_AMARELO]==0){
+                btn_del_amarelo.setBackground(ic_cartao_desabled);
+                btn_del_amarelo.setForeground(ic_del_desabled);
+            } else {
+                btn_del_amarelo.setBackground(ic_cartao_amarelo);
+                btn_del_amarelo.setForeground(ic_del_default);
+                btn_del_amarelo.setEnabled(true);
+                acao_jogador_segundo_amarelo.setVisibility(View.VISIBLE);
+            }
+            btn_add_amarelo.setEnabled(true);
+            btn_add_amarelo.setBackground(ic_cartao_amarelo);
+
+        }
 
         view.findViewById(R.id.btn_cancelar_acao).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -193,24 +272,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void montarAlertaDetalhesJogador(){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//
-//        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
-//        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
-//
-//        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
-//                " "+partida.getNome()+"?");
-//
-//        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                alertaDialog.dismiss();
-//            }
-//        });
-//
-//        builder.setView(view);
-//        //define o titulo
-//        builder.setTitle(R.string.title_alerta_partida_equipes_incompletas);
-//        mostrarAlerta(builder);
+
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder){
@@ -218,7 +280,7 @@ public class PartidaActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    private void listarJogadores(){
+    private void listarJogadores(ArrayList<Score> acoesMandantes, ArrayList<Score> acoesVisitantes){
         if (isSimulacao()) {
             if (mandante.getJogadores().isEmpty()) {
                 preencherEquipe(mandante);
@@ -229,10 +291,14 @@ public class PartidaActivity extends AppCompatActivity {
         }
         ativarFinalizarPartida();
 
-        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), false);
-        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), false);
+        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
+        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
         ltv_jogadores_mandantes.setAdapter(jam);
         ltv_jogadores_visitantes.setAdapter(jav);
+        notificarMudancaAdapters();
+    }
+
+    private void notificarMudancaAdapters(){
         jam.notifyDataSetChanged();
         jav.notifyDataSetChanged();
     }

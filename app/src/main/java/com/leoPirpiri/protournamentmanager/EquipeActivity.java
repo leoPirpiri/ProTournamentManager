@@ -110,7 +110,7 @@ public class EquipeActivity extends AppCompatActivity {
                 .getTime(equipeIndice);
         if(equipe != null) {
             txv_sigla_equipe.setText(equipe.getSigla());
-            jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores(), true);
+            jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
             ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
             listarJogadores();
         } else {

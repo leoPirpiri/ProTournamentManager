@@ -1,6 +1,14 @@
 package model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NoPartida extends EntConcreta {
     private int campeaoId;
@@ -65,6 +73,33 @@ public class NoPartida extends EntConcreta {
         this.placar.add(score);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Score> getScoreTimeIndividual(boolean isMandante) {
+        return new ArrayList(isMandante ? getScoreGeral().get(0) : getScoreGeral().get(1));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public HashMap<String, Integer> getDetalhesPartida() {
+        return new HashMap((Map) getScoreGeral().get(2));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<List> getScoreGeral() {
+        ArrayList<Score> rm = new ArrayList<>();
+        ArrayList<Score> rv = new ArrayList<>();
+        HashMap<String, Integer> r = new HashMap<>();
+        for (Score s : placar) {
+            if(s.extrairIdEntidadeSuperiorLv1() == mandante.getCampeaoId()){
+                rm.add(s);
+                r.compute("Mand_"+s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
+            }else {
+                rv.add(s);
+                r.compute("Vist_"+s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
+            }
+        }
+        return new ArrayList(Arrays.asList(rm, rv, r));
+    }
+
     public int[] getPlacarPontos() {
         int pontos[] = new int[2];
         int pontosMandante = 0;
@@ -104,21 +139,7 @@ public class NoPartida extends EntConcreta {
         falta[1] = faltaVisitante;
         return falta;
     }
-//    public int getNovoScoreId(){
-//        ArrayList index = new ArrayList();
-//        for (Score s: placar) {
-//            index.add(s.getIdNivel2());
-//        }
-//        int i = index.size()+1;
-//        do {
-//            if(!index.contains(i)){
-//                return getId() + i;
-//            } else {
-//                i++;
-//            }
-//        }while (i<100);
-//        return 0;
-//    }
+
     public String toString() {
         return super.toString() +
                " Nó Equipe MandanteId: " + (mandante!=null ? mandante.getId() : "Nó folha") +

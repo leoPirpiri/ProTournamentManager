@@ -2,6 +2,7 @@ package com.leoPirpiri.protournamentmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import model.Equipe;
 import model.NoPartida;
+import model.Score;
 import model.Torneio;
 
 public class PartidasAdapter extends BaseAdapter {
@@ -47,6 +52,7 @@ public class PartidasAdapter extends BaseAdapter {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
@@ -70,18 +76,9 @@ public class PartidasAdapter extends BaseAdapter {
         System.out.println(partida.getMandante().getCampeaoId()+" e "+partida.getVisitante().getCampeaoId());
         if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
             if(partida.isEncerrada()) {
-                int[] pontos = partida.getPlacarPontos();
-                if (pontos == null) {
-                    CarrierSemiActivity.exemplo(ctx, ctx.getResources().getString(R.string.dados_erro_inconsistencia));
-                    mandanteScore.setText(R.string.erro_default_string);
-                    visitanteScore.setText(R.string.erro_default_string);
-                    mandanteSigla.setText(R.string.erro_default_string);
-                    visitanteSigla.setText(R.string.erro_default_string);
-                    return v;
-                } else {
-                    mandanteScore.setText(Integer.toString(pontos[0]));
-                    visitanteScore.setText(Integer.toString(pontos[1]));
-                }
+                HashMap<String, Integer> placar = partida.getDetalhesPartida();
+                mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
+                visitanteScore.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
                 v.setBackground(ctx.getDrawable(R.drawable.chave_background_desabled));
             } else {
                 v.setBackground(ctx.getDrawable(R.drawable.chave_background_enabled));

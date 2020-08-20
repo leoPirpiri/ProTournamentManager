@@ -1,9 +1,11 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,9 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import control.Olimpia;
 import model.Equipe;
 import model.NoPartida;
+import model.Score;
 import model.Torneio;
 
 public class TabelaActivity extends AppCompatActivity {
@@ -34,6 +39,7 @@ public class TabelaActivity extends AppCompatActivity {
     private PartidasAdapter partidasAdapterD;
     private AlertDialog alertaDialog;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +76,7 @@ public class TabelaActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TabelaActivity.this);
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
@@ -126,6 +133,7 @@ public class TabelaActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void listarPartidas() {
         int tamanhoTorneio = torneio.getTimes().size();
         boolean precessoresQuartas = tamanhoTorneio != 16;
@@ -156,6 +164,7 @@ public class TabelaActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void desenharChaveTabela(LinearLayout v, NoPartida partida, boolean separarPrecessores){
         int id = partida.getId();
         v.setTransitionName(String.valueOf(id));
@@ -186,9 +195,9 @@ public class TabelaActivity extends AppCompatActivity {
         TextView visitanteScore = (TextView) ltn2.getChildAt(id>=16 ? 0 : 1);
 
         if(partida.isEncerrada() && partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
-            int[] pontos = partida.getPlacarPontos();
-            mandanteScore.setText(Integer.toString(pontos[0]));
-            visitanteScore.setText(Integer.toString(pontos[1]));
+            HashMap<String, Integer> placar = partida.getDetalhesPartida();
+            mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
+            visitanteScore.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
         } else {
             mandanteScore.setText(R.string.equipe_ponto_partida_aberta);
             visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
