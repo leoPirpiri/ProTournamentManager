@@ -35,6 +35,10 @@ public class JogadoresAdapter extends BaseAdapter {
         return this.acoesTime;
     }
 
+    public void setAcoesTime(ArrayList<Score> acoesTime) {
+        this.acoesTime = acoesTime;
+    }
+
     @Override
     public int getCount() {
         return jogadores.size();

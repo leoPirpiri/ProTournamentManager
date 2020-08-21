@@ -26,7 +26,7 @@ import model.Torneio;
 
 public class TorneioActivity extends AppCompatActivity {
     private int torneioIndice;
-    private boolean atualizar;
+    private boolean atualizar = false;
 
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
@@ -69,8 +69,6 @@ public class TorneioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 montarAlertaNovaEquipe();
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //      .setAction("Action", null).show();
             }
         });
 
@@ -113,7 +111,6 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
-        atualizar=false;
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
         if(torneio != null){
             txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
@@ -191,7 +188,6 @@ private void montarAlertaNovaEquipe(){
 
         view.findViewById(R.id.btn_cancelar_equipe).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                //desfaz o alerta.
                 alertaDialog.dismiss();
             }
         });

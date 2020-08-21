@@ -30,6 +30,7 @@ import model.Torneio;
 
 public class PartidaActivity extends AppCompatActivity {
     private boolean relogio_parado;
+    private boolean atualizar = false;
     private long deslocamento;
     private int partidaIndice;
 
@@ -99,16 +100,32 @@ public class PartidaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         partidaIndice = intent.getIntExtra("partida", -1);
         metodoRaiz();
-
         atualizarCampos();
 
         ltv_jogadores_mandantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAcaoPartida(jam.getItem(position), jam.getAcoesTime());
+                montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesTime());
             }
         });
+
+        ltv_jogadores_visitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesTime());
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(atualizar){
+            CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
+            atualizar=false;
+        }
     }
 
     private boolean isSimulacao(){
@@ -128,17 +145,16 @@ public class PartidaActivity extends AppCompatActivity {
                             getResources().getString(R.string.hint_nome_equipe),
                             getResources().getString(R.string.hint_sigla_equipe)));
                 }
-
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
                 partida = new NoPartida(02, nome_padrao);
                 partida.setMandante(new NoPartida(01, nome_padrao, 990100));
                 partida.setVisitante(new NoPartida(03, nome_padrao, 990200));
                 t.setTabela(partida);
                 santuarioOlimpia.setSimulacao(t);
+                atualizar=true;
             } else {
                 partida = t.getTabela().getRaiz();
             }
-
         } else {
             t = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
             partida = t.getTabela().getPartida(partidaIndice-t.getId());
@@ -149,18 +165,67 @@ public class PartidaActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void atualizarCampos() {
-        ArrayList<List> acoesGerais = partida.getScoreGeral();
-        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
         txv_partida_nome.setText(partida.getNome());
         txv_partida_sigla_mandante.setText(mandante.getSigla());
         txv_partida_sigla_visitante.setText(visitante.getSigla());
-        txv_partida_score_ponto_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)));
-        txv_partida_score_ponto_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
-        txv_partida_score_falta_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
-        txv_partida_score_falta_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
         txv_partida_nome_mandante.setText(mandante.getNome());
         txv_partida_nome_visitante.setText(visitante.getNome());
-        listarJogadores((ArrayList<Score>) acoesGerais.get(0), (ArrayList<Score>) acoesGerais.get(1));
+
+        ArrayList<List> acoesGerais = partida.getScoreGeral();
+        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
+        atualizarCamposMandante(acoesGerais);
+        atualizarCamposVisitante(acoesGerais);
+        ativarFinalizarPartida();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void atualizarCamposMandante(ArrayList<List> acoesGerais) {
+        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
+        txv_partida_score_ponto_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)));
+        txv_partida_score_falta_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
+
+        listarJogadoresMandantes((ArrayList<Score>) acoesGerais.get(0));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void atualizarCamposVisitante(ArrayList<List> acoesGerais) {
+        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
+        txv_partida_score_ponto_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
+        txv_partida_score_falta_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
+
+        listarJogadoresVisitantes((ArrayList<Score>) acoesGerais.get(1));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void atualizarCamposTime(boolean isMandante) {
+        if(isMandante){
+            atualizarCamposMandante(partida.getScoreGeral());
+        } else {
+            atualizarCamposVisitante(partida.getScoreGeral());
+        }
+
+    }
+
+    private void listarJogadoresMandantes(ArrayList<Score> acoesMandantes){
+        if (isSimulacao()) {
+            if (mandante.getJogadores().isEmpty()) {
+                preencherEquipe(mandante);
+            }
+        }
+
+        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
+        ltv_jogadores_mandantes.setAdapter(jam);
+        jam.notifyDataSetChanged();
+    }
+    private void listarJogadoresVisitantes(ArrayList<Score> acoesVisitantes){
+        if (isSimulacao()) {
+            if (visitante.getJogadores().isEmpty()) {
+                preencherEquipe(visitante);
+            }
+        }
+        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
+        ltv_jogadores_visitantes.setAdapter(jav);
+        jav.notifyDataSetChanged();
     }
 
     private void montarAlertaEquipeImcompleta(){
@@ -168,7 +233,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void montarAlertaAcaoPartida(Jogador j, ArrayList<Score> acoesTime) {
+    private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, ArrayList<Score> acoesTime) {
         int[] acoes_jogador = {0,0,0,0,0};
         for (Score s : acoesTime){
             if(s.getIdJogador() == j.getId()){
@@ -195,8 +260,6 @@ public class PartidaActivity extends AppCompatActivity {
         acao_jogador_number.setText(Integer.toString(j.getNumero()));
         acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
         acao_jogador_nome.setText(j.getNome());
-        acao_jogador_segundo_amarelo.setVisibility(View.VISIBLE);
-
 
         btn_del_falta.setBackground(ic_falta);
         btn_del_falta.setForeground(ic_del_default);
@@ -211,11 +274,23 @@ public class PartidaActivity extends AppCompatActivity {
             btn_add_falta.setBackground(ic_falta);
             btn_add_vermelho.setBackground(ic_cartao_desabled);
             btn_add_amarelo.setBackground(ic_cartao_desabled);
-
-
-            btn_del_vermelho.setBackground(ic_cartao_vermelho);
-            btn_del_vermelho.setForeground(ic_del_default);
-            btn_del_vermelho.setEnabled(true);
+            btn_del_gol.setBackground(ic_gol_desabled);
+            btn_del_gol.setForeground(ic_del_desabled);
+            btn_del_falta.setBackground(ic_falta);
+            btn_del_falta.setForeground(ic_del_desabled);
+            if(acoes_jogador[Score.TIPO_VERMELHO] !=0) {
+                btn_del_vermelho.setBackground(ic_cartao_vermelho);
+                btn_del_vermelho.setForeground(ic_del_default);
+                btn_del_vermelho.setEnabled(true);
+                btn_del_amarelo.setBackground(ic_cartao_desabled);
+                btn_del_amarelo.setForeground(ic_del_desabled);
+            } else {
+                btn_del_amarelo.setBackground(ic_cartao_amarelo);
+                btn_del_amarelo.setForeground(ic_del_default);
+                btn_del_amarelo.setEnabled(true);
+                btn_del_vermelho.setBackground(ic_cartao_desabled);
+                btn_del_vermelho.setForeground(ic_del_desabled);
+            }
         } else {
             //Linha dos pontos
             if(acoes_jogador[Score.TIPO_PONTO]==0){
@@ -256,8 +331,71 @@ public class PartidaActivity extends AppCompatActivity {
             }
             btn_add_amarelo.setEnabled(true);
             btn_add_amarelo.setBackground(ic_cartao_amarelo);
-
         }
+
+        btn_add_gol.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_add_falta.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_add_vermelho.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_VERMELHO));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_add_amarelo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AMARELO));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_del_gol.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_del_falta.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_del_vermelho.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_VERMELHO));
+                alertaDialog.dismiss();
+            }
+        });
+
+        btn_del_amarelo.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            public void onClick(View arg0) {
+                apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AMARELO));
+                alertaDialog.dismiss();
+            }
+        });
 
         view.findViewById(R.id.btn_cancelar_acao).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -280,27 +418,18 @@ public class PartidaActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    private void listarJogadores(ArrayList<Score> acoesMandantes, ArrayList<Score> acoesVisitantes){
-        if (isSimulacao()) {
-            if (mandante.getJogadores().isEmpty()) {
-                preencherEquipe(mandante);
-            }
-            if (visitante.getJogadores().isEmpty()) {
-                preencherEquipe(visitante);
-            }
-        }
-        ativarFinalizarPartida();
-
-        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
-        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
-        ltv_jogadores_mandantes.setAdapter(jam);
-        ltv_jogadores_visitantes.setAdapter(jav);
-        notificarMudancaAdapters();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void adicionarAcaoJogador(boolean isMandante, Score s) {
+        partida.addScore(s);
+        atualizar=true;
+        atualizarCamposTime(isMandante);
     }
 
-    private void notificarMudancaAdapters(){
-        jam.notifyDataSetChanged();
-        jav.notifyDataSetChanged();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void apagarAcaoJogador(boolean isMandante, Score s) {
+        partida.delScore(s);
+        atualizar=true;
+        atualizarCamposTime(isMandante);
     }
 
     private void preencherEquipe(Equipe equipe) {
@@ -309,7 +438,8 @@ public class PartidaActivity extends AppCompatActivity {
             equipe.addJogador(new Jogador(equipe.getNovoJogadorId(),
                     "Jogador"+i,
                     i%tamanhoArrayPosicoes,
-                    i));
+                    i
+                ));
         }
     }
 

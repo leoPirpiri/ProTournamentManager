@@ -99,13 +99,13 @@ public class Olimpia implements Serializable {
     }
 
     //retorna o id completo de uma entidade de nível 0
-    public int extrairIdEntidadeSuperiorLv0(int id){
+    public static int extrairIdEntidadeSuperiorLv0(int id){
         //Do id 102030 retorna 100000
         return ((id/10000)*10000);
     }
 
     //retorna o id completo de uma entidade de nível 1
-    public int extrairIdEntidadeSuperiorLv1(int id){
+    public static int extrairIdEntidadeSuperiorLv1(int id){
         //Do id 102030 retorna 102000
         return ((id/100)*100);
     }

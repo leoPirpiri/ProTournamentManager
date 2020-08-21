@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import control.Olimpia;
+
 public class NoPartida extends EntConcreta {
     private int campeaoId;
     private NoPartida mandante; //Nó esquerdo do ramo. Equipe mandante da partida
@@ -59,18 +61,24 @@ public class NoPartida extends EntConcreta {
     }
 
     public void setEncerrada() {
-        int[] pontos = getPlacarPontos();
-        if(pontos[0]>pontos[1]){
-            setCampeaoId(mandante.getCampeaoId());
-        } else if(pontos[1]>pontos[0]) {
-            setCampeaoId(visitante.getCampeaoId());
-        } else {
-            setCampeaoId(0);
-        }
+//        int[] pontos = getPlacarPontos();
+//        if(pontos[0]>pontos[1]){
+//            setCampeaoId(mandante.getCampeaoId());
+//        } else if(pontos[1]>pontos[0]) {
+//            setCampeaoId(visitante.getCampeaoId());
+//        } else {
+//            setCampeaoId(0);
+//        }
     }
 
     public void addScore(Score score) {
         this.placar.add(score);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean delScore(Score score) {
+        Score s_to_del = placar.stream().filter(s -> s.getTipo() == score.getTipo() && s.getIdJogador() == score.getIdJogador()).findFirst().get();
+        return this.placar.remove(s_to_del);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -89,55 +97,15 @@ public class NoPartida extends EntConcreta {
         ArrayList<Score> rv = new ArrayList<>();
         HashMap<String, Integer> r = new HashMap<>();
         for (Score s : placar) {
-            if(s.extrairIdEntidadeSuperiorLv1() == mandante.getCampeaoId()){
+            if(Olimpia.extrairIdEntidadeSuperiorLv1(s.getIdJogador()) == mandante.getCampeaoId()){
                 rm.add(s);
                 r.compute("Mand_"+s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
-            }else {
+            } else {
                 rv.add(s);
                 r.compute("Vist_"+s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
             }
         }
         return new ArrayList(Arrays.asList(rm, rv, r));
-    }
-
-    public int[] getPlacarPontos() {
-        int pontos[] = new int[2];
-        int pontosMandante = 0;
-        int pontosVisitante = 0;
-        for (Score s : placar) {
-            if (s.getTipo() == s.TIPO_PONTO){
-                if (mandante.getCampeaoId() == s.extrairIdEntidadeSuperiorLv1()) {
-                    pontosMandante++;
-                } else if (visitante.getCampeaoId() == s.extrairIdEntidadeSuperiorLv1()) {
-                    pontosVisitante++;
-                } else {
-                    return null;
-                }
-            }
-        }
-        pontos[0] = pontosMandante;
-        pontos[1] = pontosVisitante;
-        return pontos;
-    }
-
-    public int[] getPlacarFaltas() {
-        int falta[] = new int[2];
-        int faltaMandante, faltaVisitante;
-        faltaMandante = faltaVisitante= 0;
-        for (Score s : placar) {
-            if (s.getTipo() == s.TIPO_FALTA_INDIVIDUAL){
-                if (mandante.getCampeaoId() == s.extrairIdEntidadeSuperiorLv1()) {
-                    faltaMandante++;
-                } else if (visitante.getCampeaoId() == s.extrairIdEntidadeSuperiorLv1()) {
-                    faltaVisitante++;
-                } else {
-                    break;
-                }
-            }
-        }
-        falta[0] = faltaMandante;
-        falta[1] = faltaVisitante;
-        return falta;
     }
 
     public String toString() {

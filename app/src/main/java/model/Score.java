@@ -7,21 +7,21 @@ public class Score extends EntGeral {
     public static final int TIPO_FALTA_INDIVIDUAL = 3;
     public static final int TIPO_FALTA_TATICA_COLETIVA = 4;
 
-    private int tipo;
     private int idJogador;
+    private int tipo;
 
-    public Score(int id, int tipo, int idJogador) {
+    public Score(int id, int idJogador, int tipo) {
         super(id);
-        this.tipo = tipo;
         this.idJogador = idJogador;
-    }
-
-    public int getTipo() {
-        return tipo;
+        this.tipo = tipo;
     }
 
     public int getIdJogador() {
         return idJogador;
+    }
+
+    public int getTipo() {
+        return tipo;
     }
 
     @Override
