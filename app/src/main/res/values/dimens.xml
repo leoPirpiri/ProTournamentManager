@@ -25,7 +25,7 @@
     <dimen name="linha_pad_quartas">32dp</dimen>
     <dimen name="linha_pad_semi">12dp</dimen>
     <dimen name="lista_pad_default">30dp</dimen>
-    <dimen name="jogador_pad_hor">5dp</dimen>
+    <dimen name="jogador_pad_hor">3dp</dimen>
     <dimen name="jogador_pad_ver">8dp</dimen>
     <dimen name="acao_margin_hor">8dp</dimen>
 

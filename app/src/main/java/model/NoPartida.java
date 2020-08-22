@@ -82,11 +82,6 @@ public class NoPartida extends EntConcreta {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Score> getScoreTimeIndividual(boolean isMandante) {
-        return new ArrayList(isMandante ? getScoreGeral().get(0) : getScoreGeral().get(1));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public HashMap<String, Integer> getDetalhesPartida() {
         return new HashMap((Map) getScoreGeral().get(2));
     }

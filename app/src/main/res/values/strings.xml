@@ -58,6 +58,11 @@
     <string name="title_alerta_confir_abrir_jogador">Editando jogador</string>
     <string name="title_alerta_confir_excluir_jogador">Excluindo jogador</string>
     <string name="msg_alerta_confir_excluir_jogador">Deseja excluir esse jogador?</string>
+    <string name="title_ficha_tec_jogador">Ficha técnica na partida</string>
+    <string name="pontos_ficha_tec_jogador">Pontos na partida:</string>
+    <string name="gols_ficha_tec_jogador">Gols na partida:</string>
+    <string name="faltas_ficha_tec_jogador">Faltas na partida:</string>
+    <string name="cartoes_ficha_tec_jogador">Cartões na partida:</string>
     <string-array name="posicoes_jogador">
         <item>DEF - Defensor</item>
         <item>MID - Meio</item>

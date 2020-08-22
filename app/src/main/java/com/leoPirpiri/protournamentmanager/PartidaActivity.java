@@ -6,15 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.LinkAddress;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -103,18 +108,36 @@ public class PartidaActivity extends AppCompatActivity {
         atualizarCampos();
 
         ltv_jogadores_mandantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesTime());
+                montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
             }
         });
 
         ltv_jogadores_visitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesTime());
+                montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+            }
+        });
+
+        ltv_jogadores_mandantes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+                return true;
+            }
+        });
+
+        ltv_jogadores_visitantes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+                return true;
             }
         });
     }
@@ -232,14 +255,8 @@ public class PartidaActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, ArrayList<Score> acoesTime) {
-        int[] acoes_jogador = {0,0,0,0,0};
-        for (Score s : acoesTime){
-            if(s.getIdJogador() == j.getId()){
-                acoes_jogador[s.getTipo()]+=1;
-            }
-        }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_acao_placar, null);
 
@@ -267,67 +284,79 @@ public class PartidaActivity extends AppCompatActivity {
         btn_del_amarelo.setForeground(ic_del_default);
         btn_del_vermelho.setBackground(ic_cartao_vermelho);
         btn_del_vermelho.setForeground(ic_del_default);
-
-        if(acoes_jogador[Score.TIPO_AMARELO]>=2 || acoes_jogador[Score.TIPO_VERMELHO] !=0){
+        if( acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0) >= 2
+           || acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
             //Jogador expulso: NÃO recebe ponto, falta ou novo cartão
             btn_add_gol.setBackground(ic_gol_desabled);
+            btn_add_gol.setEnabled(false);
             btn_add_falta.setBackground(ic_falta);
+            btn_add_falta.setEnabled(false);
             btn_add_vermelho.setBackground(ic_cartao_desabled);
+            btn_add_vermelho.setEnabled(false);
             btn_add_amarelo.setBackground(ic_cartao_desabled);
+            btn_add_amarelo.setEnabled(false);
             btn_del_gol.setBackground(ic_gol_desabled);
             btn_del_gol.setForeground(ic_del_desabled);
+            btn_del_gol.setEnabled(false);
             btn_del_falta.setBackground(ic_falta);
             btn_del_falta.setForeground(ic_del_desabled);
-            if(acoes_jogador[Score.TIPO_VERMELHO] !=0) {
+            btn_del_falta.setEnabled(false);
+            if(acoes_jogador.containsKey(Score.TIPO_VERMELHO)) {
                 btn_del_vermelho.setBackground(ic_cartao_vermelho);
                 btn_del_vermelho.setForeground(ic_del_default);
                 btn_del_vermelho.setEnabled(true);
                 btn_del_amarelo.setBackground(ic_cartao_desabled);
                 btn_del_amarelo.setForeground(ic_del_desabled);
+                btn_del_amarelo.setEnabled(false);
             } else {
                 btn_del_amarelo.setBackground(ic_cartao_amarelo);
                 btn_del_amarelo.setForeground(ic_del_default);
                 btn_del_amarelo.setEnabled(true);
                 btn_del_vermelho.setBackground(ic_cartao_desabled);
                 btn_del_vermelho.setForeground(ic_del_desabled);
+                btn_del_vermelho.setEnabled(false);
             }
         } else {
             //Linha dos pontos
-            if(acoes_jogador[Score.TIPO_PONTO]==0){
-                btn_del_gol.setBackground(ic_gol_desabled);
-                btn_del_gol.setForeground(ic_del_desabled);
-            } else {
+            if(acoes_jogador.containsKey(Score.TIPO_PONTO)) {
                 btn_del_gol.setBackground(ic_gol);
                 btn_del_gol.setForeground(ic_del_default);
                 btn_del_gol.setEnabled(true);
+            } else {
+                btn_del_gol.setBackground(ic_gol_desabled);
+                btn_del_gol.setForeground(ic_del_desabled);
+                btn_del_gol.setEnabled(false);
             }
             btn_add_gol.setBackground(ic_gol);
             btn_add_gol.setEnabled(true);
             //Linha das faltas
-            if(acoes_jogador[Score.TIPO_FALTA_INDIVIDUAL]==0){
-                btn_del_falta.setBackground(ic_falta);
-                btn_del_falta.setForeground(ic_del_desabled);
-            } else {
+            if(acoes_jogador.containsKey(Score.TIPO_FALTA_INDIVIDUAL)){
                 btn_del_falta.setBackground(ic_falta);
                 btn_del_falta.setForeground(ic_del_default);
                 btn_del_falta.setEnabled(true);
+            } else {
+                btn_del_falta.setBackground(ic_falta);
+                btn_del_falta.setForeground(ic_del_desabled);
+                btn_del_falta.setEnabled(false);
             }
             btn_add_falta.setBackground(ic_falta);
             btn_add_falta.setEnabled(true);
             //Linha do cartão vermelho
             btn_del_vermelho.setBackground(ic_cartao_desabled);
             btn_del_vermelho.setForeground(ic_del_desabled);
+            btn_del_vermelho.setEnabled(false);
             btn_add_vermelho.setBackground(ic_cartao_vermelho);
             btn_add_vermelho.setEnabled(true);
             //Linha do cartão amarelo
-            if(acoes_jogador[Score.TIPO_AMARELO]==0){
-                btn_del_amarelo.setBackground(ic_cartao_desabled);
-                btn_del_amarelo.setForeground(ic_del_desabled);
-            } else {
+            if(acoes_jogador.containsKey(Score.TIPO_AMARELO)){
                 btn_del_amarelo.setBackground(ic_cartao_amarelo);
                 btn_del_amarelo.setForeground(ic_del_default);
                 btn_del_amarelo.setEnabled(true);
                 acao_jogador_segundo_amarelo.setVisibility(View.VISIBLE);
+            } else {
+                btn_del_amarelo.setBackground(ic_cartao_desabled);
+                btn_del_amarelo.setForeground(ic_del_desabled);
+                btn_del_amarelo.setEnabled(false);
             }
             btn_add_amarelo.setEnabled(true);
             btn_add_amarelo.setBackground(ic_cartao_amarelo);
@@ -409,8 +438,81 @@ public class PartidaActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaDetalhesJogador(){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void montarAlertaInfromacoesIndividuais(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
 
+        view.findViewById(R.id.quadro_info_acoes_jogador).setVisibility(View.VISIBLE);
+        TextView txv_jogador_pontos = view.findViewById(R.id.txv_jogador_pontos);
+        TextView txv_jogador_faltas = view.findViewById(R.id.txv_jogador_faltas);
+        TextView txv_jogador_divisor = view.findViewById(R.id.txv_jogador_divisor_cartoes);
+        ImageView img_sem_cartao = view.findViewById(R.id.img_jogador_sem_cartao);
+        ImageView img_primeiro_amarelo = view.findViewById(R.id.img_jogador_amarelo1);
+        ImageView img_cartao_vermelho = view.findViewById(R.id.img_jogador_vermelho);
+        LinearLayout img_segundo_amarelo = view.findViewById(R.id.img_jogador_amarelo2);
+
+        txv_jogador_pontos.setText(Integer.toString(acoes_jogador.getOrDefault(Score.TIPO_PONTO, 0)));
+        txv_jogador_faltas.setText(Integer.toString(acoes_jogador.getOrDefault(Score.TIPO_FALTA_INDIVIDUAL, 0)));
+        if(acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
+            img_cartao_vermelho.setVisibility(View.VISIBLE);
+            img_segundo_amarelo.setVisibility(View.GONE);
+            if(acoes_jogador.containsKey(Score.TIPO_AMARELO)){
+                img_primeiro_amarelo.setVisibility(View.VISIBLE);
+                txv_jogador_divisor.setVisibility(View.VISIBLE);
+            } else {
+                img_primeiro_amarelo.setVisibility(View.GONE);
+                txv_jogador_divisor.setVisibility(View.GONE);
+            }
+        } else {
+            txv_jogador_divisor.setVisibility(View.GONE);
+            switch (acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0)){
+                case 2:
+                    img_primeiro_amarelo.setVisibility(View.VISIBLE);
+                    img_segundo_amarelo.setVisibility(View.VISIBLE);
+                    img_cartao_vermelho.setVisibility(View.VISIBLE);
+                    break;
+                case 1:
+                    img_primeiro_amarelo.setVisibility(View.VISIBLE);
+                    img_segundo_amarelo.setVisibility(View.GONE);
+                    img_cartao_vermelho.setVisibility(View.GONE);
+                    break;
+                default:
+                    img_primeiro_amarelo.setVisibility(View.GONE);
+                    img_segundo_amarelo.setVisibility(View.GONE);
+                    img_cartao_vermelho.setVisibility(View.GONE);
+                    img_sem_cartao.setVisibility(View.VISIBLE);
+                    break;
+            }
+        }
+
+
+        EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
+        Button btn_confirma_jogador = view.findViewById(R.id.btn_confirmar_jogador);
+        Spinner spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
+        Spinner spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
+        spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
+
+        ArrayList<Integer> numeros;
+        btn_confirma_jogador.setEnabled(true);
+        btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_enabled));
+
+        btn_confirma_jogador.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                alertaDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_cancelar_jogador).setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                alertaDialog.dismiss();
+            }
+        });
+
+        builder.setView(view);
+        //define o titulo
+        builder.setTitle(R.string.title_alerta_partida_acao_jogador);
+        mostrarAlerta(builder);
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder){

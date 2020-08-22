@@ -2,6 +2,7 @@ package com.leoPirpiri.protournamentmanager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import model.Jogador;
 import model.Score;
@@ -31,14 +35,6 @@ public class JogadoresAdapter extends BaseAdapter {
         this.acoesTime = acoesTime;
     }
 
-    public ArrayList<Score> getAcoesTime(){
-        return this.acoesTime;
-    }
-
-    public void setAcoesTime(ArrayList<Score> acoesTime) {
-        this.acoesTime = acoesTime;
-    }
-
     @Override
     public int getCount() {
         return jogadores.size();
@@ -54,6 +50,7 @@ public class JogadoresAdapter extends BaseAdapter {
         return 0;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
@@ -68,6 +65,7 @@ public class JogadoresAdapter extends BaseAdapter {
         TextView itemNome = v.findViewById(R.id.adp_jogador_nome);
         TextView itemNumber = v.findViewById(R.id.adp_jogador_number);
         TextView itemPosicao = v.findViewById(R.id.adp_jogador_posicao);
+        TextView itemPontos = v.findViewById(R.id.adp_jogador_points);
         ImageView itemPunicao = v.findViewById(R.id.adp_jogador_punicao);
 
         if (acoesTime == null) {
@@ -79,36 +77,45 @@ public class JogadoresAdapter extends BaseAdapter {
             itemNome.setText(jogador.getNome().split(" ")[0]);
             itemNumber.setTextSize(18);
             itemNome.setTextSize(18);
-            switch (hasHeCard(position)){
+            HashMap<Integer, Integer> acoesIndividuais = getAcoesIndividuais(position);
+            if (acoesIndividuais.containsKey(Score.TIPO_PONTO)){
+                int points = acoesIndividuais.get(Score.TIPO_PONTO);
+                if(points!=1){
+                    itemPontos.setText(Integer.toString(points));
+                }
+                itemPontos.setVisibility(View.VISIBLE);
+            } else {
+                itemPontos.setVisibility(View.GONE);
+            }
+            int quantCartoes = acoesIndividuais.getOrDefault(Score.TIPO_AMARELO, 0)
+                    + acoesIndividuais.getOrDefault(Score.TIPO_VERMELHO, 0)*2;
+            switch (quantCartoes){
+                case 0:
+                    itemPunicao.setVisibility(View.GONE);
+                    break;
                 case 1:
                     itemPunicao.setBackground(ctx.getDrawable(R.drawable.acao_add_card_amarelo));
                     itemPunicao.setVisibility(View.VISIBLE);
                     break;
-                case 2:
+                default:
                     itemPunicao.setBackground(ctx.getDrawable(R.drawable.acao_add_card_vermelho));
                     itemPunicao.setVisibility(View.VISIBLE);
                     break;
-                default:
-                    break;
             }
         }
-
         int num = jogador.getNumero();
         itemNumber.setText(num<10 ? "0"+num : ""+num);
         return v;
     }
 
-    private int hasHeCard(int position) {
-        int amarelos = 0;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public HashMap getAcoesIndividuais(int position) {
+        HashMap<Integer, Integer> acoes = new HashMap<>();
         for (Score s : acoesTime) {
             if (s.getIdJogador() == getItem(position).getId()){
-                if(s.getTipo() == s.TIPO_VERMELHO){
-                    return 2;
-                } else if(s.getTipo() == s.TIPO_AMARELO){
-                    if(++amarelos==2) break;
-                }
+                acoes.compute(s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
             }
         }
-        return amarelos;
+        return acoes;
     }
 }
