@@ -58,7 +58,7 @@
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:text="NOVO"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/btn_texto_ic"
                 android:textSize="20sp"
                 />
         </TableRow>
@@ -93,7 +93,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/btn_texto_ic"
             android:textSize="18sp"
             />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

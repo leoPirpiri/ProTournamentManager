@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pro Tournament Manager</string>
+    <string name="app_name">Peladeiro Digital</string>
     <string name="title_activity_torneio">Nome do Torneio</string>
     <string name="title_activity_equipe">Nome da Equipe</string>
 
@@ -28,6 +28,7 @@
     <string name="estado_fechado">Fechado.</string>
     <string name="estado_aberto">Aberto.</string>
     <string name="estado_encerrado">Encerrado.</string>
+    <string name="lbl_estado_torneio">Estado do torneio: </string>
 
     <!-- Mensagens envolvendo Equipes -->
     <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
@@ -95,6 +96,7 @@
         <item>Oitavas-Jogo #6</item>
         <item>Oitavas-Jogo #8</item>
     </string-array>
+    <string name="simular_partida">Simular Pelada</string>
     <string name="nome_partida">Oitavas-Jogo #1</string>
     <string name="partida_score_gols">Gols:</string>
     <string name="partida_score_pontos">Pontos:</string>
@@ -106,6 +108,7 @@
     <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>
     <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
     <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
+    <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador na partida</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partidaja</string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida</string>
     <string name="lbl_vs_default">Vs.</string>
@@ -113,7 +116,7 @@
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>
-    <string name="simular_partida">Simular Partida</string>
+    <string name="del_jogador_sucesso">Contrato rescindido!</string>
     <string name="encerrar_partida">Finalizar Partida</string>
 
     <!-- Mensagens de erros para o usuário -->
@@ -123,4 +126,6 @@
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmentro entre activities!</string>
     <string name="erro_default_string">X</string>
+    <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
+    <string name="erro_atualizar_mesmo_jogador_em_partida">Informações iguais!</string>
 </resources>

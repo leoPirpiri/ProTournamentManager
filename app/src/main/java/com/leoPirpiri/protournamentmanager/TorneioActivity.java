@@ -82,7 +82,8 @@ public class TorneioActivity extends AppCompatActivity {
         ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAbrirEquipe(torneio.getTimes().get(position).getId());
+                abrirEquipe(torneio.getTimes().get(position).getId());
+                //montarAlertaAbrirEquipe(torneio.getTimes().get(position).getId());
             }
         });
 

@@ -82,7 +82,7 @@ public class EquipeActivity extends AppCompatActivity {
         ltv_jogadores_equipe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                MontarAlertaDeletarJogador(position);
+                MontarAlertaDeletarJogador(jogadoresAdapter.getItem(position));
                 return true;
             }
         });
@@ -119,7 +119,7 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void MontarAlertaDeletarJogador(final int posJogador) {
+    private void MontarAlertaDeletarJogador(Jogador j) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
         builder.setTitle(R.string.title_alerta_confir_excluir_jogador);
@@ -128,7 +128,7 @@ public class EquipeActivity extends AppCompatActivity {
         //define um botão como positivo
         builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
-                excluirJogador(posJogador);
+                excluirJogador(j);
             }
         });
         //define um botão como negativo.
@@ -266,9 +266,8 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void excluirJogador(int position) {
-        if(equipe.delJogador(position) != null) {
-            atualizar = true;
+    private void excluirJogador(Jogador jogador) {
+        if(atualizar = equipe.delJogador(jogador)) {
             listarJogadores();
         }
     }

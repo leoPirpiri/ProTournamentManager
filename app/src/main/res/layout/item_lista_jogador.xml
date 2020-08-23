@@ -34,7 +34,7 @@
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
             android:background="@drawable/acao_add_ponto"
-            android:textColor="#000"
+            android:textColor="@color/ic_texto"
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>

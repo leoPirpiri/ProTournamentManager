@@ -24,15 +24,27 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/txv_estado_torneio"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estado do torneio"
-            android:textSize="20dp"
-            android:layout_marginBottom="10dp"
-            android:textAlignment="textStart"/>
-
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lbl_estado_torneio"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textAlignment="textStart"
+                android:layout_marginHorizontal="@dimen/equipe_pad_hor"/>
+            <TextView
+                android:id="@+id/txv_estado_torneio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Estado do torneio"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textAlignment="textStart"/>
+        </LinearLayout>
         <Button
             android:id="@+id/btn_gerar_tabela"
             android:layout_width="match_parent"
@@ -45,8 +57,9 @@
             android:shadowDy="0"
             android:shadowRadius="5"
             android:text="@string/lbl_btn_tabela_desabled"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
+            android:textColor="@color/btn_texto_ic"
+            android:textSize="20sp"
+            android:layout_marginHorizontal="@dimen/equipe_pad_hor"/>
         <TextView
             android:id="@+id/txv_equipes_salvas"
             android:layout_width="wrap_content"

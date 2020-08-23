@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ import model.Torneio;
 public class TabelaActivity extends AppCompatActivity {
     private int torneioIndice;
     private Olimpia santuarioOlimpia;
+    private MediaPlayer efeitos_sonoros;
     private Torneio torneio;
     private LinearLayout ltv_final;
     private LinearLayout ltv_semifinal1;
@@ -58,6 +60,8 @@ public class TabelaActivity extends AppCompatActivity {
         Bundle dados = intent.getExtras();
         if (dados!=null) {
             torneioIndice = dados.getInt("torneio");
+            efeitos_sonoros = MediaPlayer.create(TabelaActivity.this, R.raw.tema_tabela);
+            play_efeito_sonoro();
             metodoRaiz();
         }
 
@@ -74,6 +78,12 @@ public class TabelaActivity extends AppCompatActivity {
                 montarAlertaAbrirPartida(partidasAdapterD.getItem(position));
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pause_efeito_sonoro();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -227,5 +237,17 @@ public class TabelaActivity extends AppCompatActivity {
         intent.putExtra("partida", torneioIndice+idPartida);
         startActivity(intent);
         //CarrierSemiActivity.exemplo(this, String.valueOf());
+    }
+
+    private void play_efeito_sonoro(){
+        efeitos_sonoros.setLooping(false);
+        efeitos_sonoros.seekTo(0);
+        efeitos_sonoros.start();
+    }
+
+    private void pause_efeito_sonoro(){
+        if(efeitos_sonoros.isPlaying()){
+            efeitos_sonoros.stop();
+        }
     }
 }

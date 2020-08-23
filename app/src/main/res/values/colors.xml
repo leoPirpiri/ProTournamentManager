@@ -4,14 +4,16 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="exo">#00A429</color>
-    <color name="core">#FFE607</color>
+    <color name="exo">#2ED914</color>
+    <color name="core">#F7FF00</color>
     <color name="advertido">#FFE607</color>
     <color name="expulsao">#E30000</color>
-    <color name="midle">#0027C1</color>
+    <color name="midle">#051EFF</color>
     <color name="background_default">#F7C7D6FF</color>
     <color name="background_closed">#E7768C8A</color>
     <color name="text_default">#000</color>
     <color name="branco">#FFF</color>
+    <color name="btn_texto_ic">#FFF</color>
+    <color name="ic_texto">#A60000</color>
     <color name="cor_relogio">#0027C1</color>
 </resources>

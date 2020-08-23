@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.LinkAddress;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ public class PartidaActivity extends AppCompatActivity {
     private Equipe mandante;
     private Equipe visitante;
     private Chronometer relogio;
+    private MediaPlayer efeitos_sonoros;
     private ListView ltv_jogadores_mandantes;
     private ListView ltv_jogadores_visitantes;
     private TextView txv_partida_nome;
@@ -75,7 +77,6 @@ public class PartidaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partida);
         relogio_parado = true;
-        deslocamento = 0;
 
         relogio = findViewById(R.id.cronometro);
         ltv_jogadores_mandantes = findViewById(R.id.list_partida_jogadores_mandantes);
@@ -145,6 +146,12 @@ public class PartidaActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        if(!relogio_parado) {
+            relogio.stop();
+            deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
+            partida.setTempo(deslocamento);
+            atualizar = true;
+        }
         if(atualizar){
             CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
             atualizar=false;
@@ -184,6 +191,8 @@ public class PartidaActivity extends AppCompatActivity {
         }
         mandante = t.getTime(partida.getMandante().getCampeaoId());
         visitante = t.getTime(partida.getVisitante().getCampeaoId());
+        deslocamento = partida.getTempo();
+        relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -240,6 +249,7 @@ public class PartidaActivity extends AppCompatActivity {
         ltv_jogadores_mandantes.setAdapter(jam);
         jam.notifyDataSetChanged();
     }
+
     private void listarJogadoresVisitantes(ArrayList<Score> acoesVisitantes){
         if (isSimulacao()) {
             if (visitante.getJogadores().isEmpty()) {
@@ -365,6 +375,8 @@ public class PartidaActivity extends AppCompatActivity {
         btn_add_gol.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View arg0) {
+                efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
+                play_efeito_sonoro();
                 adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
                 alertaDialog.dismiss();
             }
@@ -373,6 +385,8 @@ public class PartidaActivity extends AppCompatActivity {
         btn_add_falta.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View arg0) {
+                efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_falta);
+                play_efeito_sonoro();
                 adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
                 alertaDialog.dismiss();
             }
@@ -442,7 +456,33 @@ public class PartidaActivity extends AppCompatActivity {
     private void montarAlertaInfromacoesIndividuais(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
+        //Preenchendo atributos pessoais do jogador.
+        EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
+        Button btn_confirma_jogador = view.findViewById(R.id.btn_confirmar_jogador);
+        Button btn_deletar_jogador = view.findViewById(R.id.btn_del_jogador);
+        Spinner spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
+        Spinner spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
+        spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
 
+        ArrayList<Integer> numeros;
+        etx_nome_jogador.setText(j.getNome());
+        spnr_posicao.setSelection(j.getPosicao());
+        if(isMandante) {
+            numeros = mandante.getNumeracaoLivrePlantel(j.getNumero());
+        } else {
+            numeros = visitante.getNumeracaoLivrePlantel(j.getNumero());
+        }
+        spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
+        spnr_numero.setSelection(0);
+
+        btn_confirma_jogador.setEnabled(true);
+        btn_confirma_jogador.setText(R.string.btn_editar);
+        btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_enabled));
+
+        if(acoes_jogador.isEmpty()) {
+            btn_deletar_jogador.setVisibility(View.VISIBLE);
+        }
+        //Preenchendo informações do jogador na partida.
         view.findViewById(R.id.quadro_info_acoes_jogador).setVisibility(View.VISIBLE);
         TextView txv_jogador_pontos = view.findViewById(R.id.txv_jogador_pontos);
         TextView txv_jogador_faltas = view.findViewById(R.id.txv_jogador_faltas);
@@ -486,19 +526,42 @@ public class PartidaActivity extends AppCompatActivity {
             }
         }
 
-
-        EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
-        Button btn_confirma_jogador = view.findViewById(R.id.btn_confirmar_jogador);
-        Spinner spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
-        Spinner spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
-        spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
-
-        ArrayList<Integer> numeros;
-        btn_confirma_jogador.setEnabled(true);
-        btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_enabled));
-
         btn_confirma_jogador.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
+                String nome = etx_nome_jogador.getText().toString().trim();
+                int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
+                int posicao = spnr_posicao.getSelectedItemPosition();
+                boolean mudou = true;
+                if(!nome.isEmpty()) {
+                    if (!nome.equals(j.getNome()) || numero != j.getNumero() || posicao != j.getPosicao()) {
+                        j.setNome(nome);
+                        j.setNumero(numero);
+                        j.setPosicao(posicao);
+                        atualizar = true;
+                        atualizarCamposTime(isMandante);
+                    } else {
+                        Toast.makeText(PartidaActivity.this, R.string.erro_atualizar_mesmo_jogador_em_partida, Toast.LENGTH_LONG).show();
+                    }
+                    alertaDialog.dismiss();
+                } else {
+                    Toast.makeText(PartidaActivity.this, R.string.erro_atualizar_jogador_em_partida, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btn_deletar_jogador.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                if(isMandante){
+                    if(atualizar = mandante.delJogador(j)){
+                        Toast.makeText(PartidaActivity.this, R.string.del_jogador_sucesso, Toast.LENGTH_LONG).show();
+                        atualizarCamposTime(isMandante);
+                    }
+                } else {
+                    if (atualizar = visitante.delJogador(j)) {
+                        Toast.makeText(PartidaActivity.this, R.string.del_jogador_sucesso, Toast.LENGTH_LONG).show();
+                        atualizarCamposTime(isMandante);
+                    }
+                }
                 alertaDialog.dismiss();
             }
         });
@@ -511,7 +574,7 @@ public class PartidaActivity extends AppCompatActivity {
 
         builder.setView(view);
         //define o titulo
-        builder.setTitle(R.string.title_alerta_partida_acao_jogador);
+        builder.setTitle(R.string.title_alerta_partida_detalhes_jogador);
         mostrarAlerta(builder);
     }
 
@@ -539,7 +602,7 @@ public class PartidaActivity extends AppCompatActivity {
         for (int i=1; i<=11; i++) {
             equipe.addJogador(new Jogador(equipe.getNovoJogadorId(),
                     "Jogador"+i,
-                    i%tamanhoArrayPosicoes,
+                    4,
                     i
                 ));
         }
@@ -577,8 +640,16 @@ public class PartidaActivity extends AppCompatActivity {
             v.setBackground(getDrawable(android.R.drawable.ic_media_play));
             relogio.stop();
             deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
+            partida.setTempo(deslocamento);
+            atualizar = true;
             ativarFinalizarPartida();
             relogio_parado = true;
         }
+    }
+
+    private void play_efeito_sonoro(){
+        efeitos_sonoros.setLooping(false);
+        efeitos_sonoros.seekTo(0);
+        efeitos_sonoros.start();
     }
 }

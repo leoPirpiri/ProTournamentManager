@@ -17,6 +17,7 @@ public class NoPartida extends EntConcreta {
     private NoPartida mandante; //Nó esquerdo do ramo. Equipe mandante da partida
     private NoPartida visitante; //Nó direito do ramo. Equipe visitante
     private ArrayList<Score> placar;
+    private long tempo;
 
     public NoPartida(int id, String nome) {
         super(id, nome);
@@ -24,6 +25,7 @@ public class NoPartida extends EntConcreta {
         this.visitante = null;
         this.placar = new ArrayList<>();
         this.campeaoId = 0;
+        this.tempo = 0;
     }
 
     public NoPartida(int id, String nome, int campeaoId) {
@@ -44,6 +46,10 @@ public class NoPartida extends EntConcreta {
         return visitante;
     }
 
+    public long getTempo() {
+        return tempo;
+    }
+
     public boolean isEncerrada() {
         return (campeaoId!=0);
     }
@@ -58,6 +64,10 @@ public class NoPartida extends EntConcreta {
 
     public void setVisitante(NoPartida visitante) {
         this.visitante = visitante;
+    }
+
+    public void setTempo(long tempo) {
+        this.tempo = tempo;
     }
 
     public void setEncerrada() {

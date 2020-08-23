@@ -4,13 +4,39 @@
     android:layout_height="match_parent"
     android:divider="?android:attr/listDivider"
     android:orientation="vertical">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="@string/lbl_nome_jogador"
-        android:textSize="20dp" />
+        android:padding="@dimen/equipe_pad_ver"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/lbl_nome_jogador"
+            android:textSize="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/btn_del_jogador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:textColor="@color/branco"
+                android:background="@drawable/button_shape_danger"
+                android:foreground="@android:drawable/ic_menu_delete"
+                android:foregroundGravity="center"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etx_nome_novo_jogador"
@@ -81,6 +107,7 @@
             android:text="@string/title_ficha_tec_jogador"
             android:layout_marginVertical="@dimen/jogador_pad_ver"
             android:textSize="@dimen/partida_fonte"
+            android:textColor="@color/text_default"
             android:textStyle="bold"/>
         <View
         android:layout_width="match_parent"
@@ -106,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/jogador_pad_hor"
             android:text="1"
-            android:textColor="#000"
+            android:textColor="@color/text_default"
             android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
@@ -128,7 +155,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/jogador_pad_hor"
             android:text="1"
-            android:textColor="#000"
+            android:textColor="@color/text_default"
             android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
@@ -157,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="→"
-                    android:textColor="#000"
+                    android:textColor="@color/text_default"
                     android:textStyle="bold"
                 />
             </LinearLayout>
@@ -166,7 +193,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="|"
-                android:textColor="#000"
+                android:textColor="@color/text_default"
                 android:textStyle="bold"
                 />
             <ImageView
@@ -210,7 +237,7 @@
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:text="@string/btn_adicionar"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/btn_texto_ic"
                 android:textSize="16sp" />
 
             <Button
@@ -225,7 +252,7 @@
                 android:shadowDy="0"
                 android:shadowRadius="5"
                 android:text="@string/btn_cancelar"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/btn_texto_ic"
                 android:textSize="16sp" />
         </TableRow>
     </TableLayout>

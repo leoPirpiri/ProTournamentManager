@@ -261,6 +261,6 @@
         android:shadowDy="0"
         android:shadowRadius="5"
         android:text="@string/btn_cancelar"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/btn_texto_ic"
         android:textSize="16sp" />
 </LinearLayout>
