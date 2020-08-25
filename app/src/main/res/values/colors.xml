@@ -16,4 +16,5 @@
     <color name="btn_texto_ic">#FFF</color>
     <color name="ic_texto">#A60000</color>
     <color name="cor_relogio">#0027C1</color>
+    <color name="cor_transparente">#00FFFFFF</color>
 </resources>

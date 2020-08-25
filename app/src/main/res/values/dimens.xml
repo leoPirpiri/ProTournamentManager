@@ -18,6 +18,7 @@
     <dimen name="altura_trofeu">50dp</dimen>
     <dimen name="altura_ic_acao">60dp</dimen>
     <dimen name="altura_ic_acao_min">25dp</dimen>
+    <dimen name="img_alerta_default">200dp</dimen>
     <dimen name="placar_fonte">10dp</dimen>
     <dimen name="partida_fonte">18dp</dimen>
     <dimen name="cronometro_fonte">50dp</dimen>

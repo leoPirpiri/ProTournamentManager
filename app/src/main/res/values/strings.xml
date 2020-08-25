@@ -17,6 +17,7 @@
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="title_alerta_confir_excluir_torneio">Excluindo Torneio</string>
+    <string name="title_alerta_sorteio">Sorteando...</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
@@ -118,6 +119,7 @@
     <string name="dados_salvo">Dados gravados com sucesso!</string>
     <string name="del_jogador_sucesso">Contrato rescindido!</string>
     <string name="encerrar_partida">Finalizar Partida</string>
+    <string name="msg_alerta_aguarde">Aguarde!</string>
 
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>

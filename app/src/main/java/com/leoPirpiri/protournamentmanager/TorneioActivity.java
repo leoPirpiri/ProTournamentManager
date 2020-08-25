@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,6 +24,8 @@ import android.widget.Toast;
 import control.Olimpia;
 import model.Equipe;
 import model.Torneio;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
     private int torneioIndice;
@@ -75,7 +78,8 @@ public class TorneioActivity extends AppCompatActivity {
         btn_gerar_tabela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                abrirTabela();
+                montarAlertaSorteio();
+                //abrirTabela();
             }
         });
 
@@ -101,6 +105,14 @@ public class TorneioActivity extends AppCompatActivity {
         super.onPause();
         if(atualizar){
             CarrierSemiActivity.persistirSantuario(TorneioActivity.this, santuarioOlimpia);
+        }
+        if(alertaDialog!=null && alertaDialog.isShowing()){
+            try {
+                Thread.sleep(2000);
+                alertaDialog.dismiss();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -165,7 +177,7 @@ public class TorneioActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-private void montarAlertaNovaEquipe(){
+    private void montarAlertaNovaEquipe(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
@@ -248,6 +260,37 @@ private void montarAlertaNovaEquipe(){
         mostrarAlerta(builder);
     }
 
+    private void montarAlertaSorteio(){
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // verificar se a caixa de diálogo está visível
+                if (alertaDialog.isShowing()) {
+                    // fecha a caixa de diálogo
+                    alertaDialog.dismiss();
+                }
+            }
+        };
+
+        handler.postDelayed(runnable, 10000);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+        GifImageView img = view.findViewById(R.id.img_alerta_default);
+        img.setVisibility(View.VISIBLE);
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                handler.removeCallbacks(runnable);
+            }
+        });
+        builder.setView(view);
+        builder.setCustomTitle(null);
+        builder.setCancelable(false);
+        mostrarAlerta(builder);
+        handler.postDelayed(runnable, 4000);
+    }
+
     private String siglatation(String entrada) {
         String sigla = "";
         for (String word : entrada.split(" ")) {
@@ -283,6 +326,7 @@ private void montarAlertaNovaEquipe(){
 
     private void mostrarAlerta(AlertDialog.Builder builder){
         alertaDialog = builder.create();
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(R.color.cor_transparente));
         alertaDialog.show();
     }
 
@@ -333,6 +377,7 @@ private void montarAlertaNovaEquipe(){
             startActivity(intent);
         } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
             atualizar = true;
+            montarAlertaSorteio();
             startActivity(intent);
         } else {
             finish();
