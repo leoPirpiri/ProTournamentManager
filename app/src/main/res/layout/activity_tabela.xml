@@ -5,15 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TabelaActivity">
+    tools:context=".TabelaActivity"
+    android:background="@drawable/background_soft">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/background_soft"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/placar_pad_hor">
         <!--Oitavas#1-->
         <LinearLayout
             android:layout_width="wrap_content"

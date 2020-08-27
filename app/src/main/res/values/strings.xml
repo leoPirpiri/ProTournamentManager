@@ -110,7 +110,7 @@
     <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
     <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
     <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador na partida</string>
-    <string name="lbl_msg_inicio_aberta">Deseja iniciar partidaja</string>
+    <string name="lbl_msg_inicio_aberta">Deseja iniciar partida </string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida</string>
     <string name="lbl_vs_default">Vs.</string>
 

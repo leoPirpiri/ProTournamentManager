@@ -78,8 +78,14 @@ public class TorneioActivity extends AppCompatActivity {
         btn_gerar_tabela.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                montarAlertaSorteio();
-                //abrirTabela();
+                if(torneio.isFechado()){
+                    abrirTabela();
+                } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
+                    atualizar = true;
+                    montarAlertaSorteio();
+                } else {
+                    finish();
+                }
             }
         });
 
@@ -107,12 +113,7 @@ public class TorneioActivity extends AppCompatActivity {
             CarrierSemiActivity.persistirSantuario(TorneioActivity.this, santuarioOlimpia);
         }
         if(alertaDialog!=null && alertaDialog.isShowing()){
-            try {
-                Thread.sleep(2000);
-                alertaDialog.dismiss();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            alertaDialog.dismiss();
         }
     }
 
@@ -282,6 +283,7 @@ public class TorneioActivity extends AppCompatActivity {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 handler.removeCallbacks(runnable);
+                abrirTabela();
             }
         });
         builder.setView(view);
@@ -373,15 +375,7 @@ public class TorneioActivity extends AppCompatActivity {
         //Passa alguns dados para a próxima activity
         dados.putInt("torneio", torneioIndice);
         intent.putExtras(dados);
-        if(torneio.isFechado()){
-            startActivity(intent);
-        } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
-            atualizar = true;
-            montarAlertaSorteio();
-            startActivity(intent);
-        } else {
-            finish();
-        }
+        startActivity(intent);
     }
 
     private void excluirEquipe(int position) {

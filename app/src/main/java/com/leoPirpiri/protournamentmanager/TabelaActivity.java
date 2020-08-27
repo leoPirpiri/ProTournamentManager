@@ -5,11 +5,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -108,24 +113,31 @@ public class TabelaActivity extends AppCompatActivity {
         Equipe mandante = torneio.getTime(partida.getMandante().getCampeaoId());
         Equipe visitante = torneio.getTime(partida.getVisitante().getCampeaoId());
 
-        View view = getLayoutInflater().inflate(R.layout.alerta_abrir_partida, null);
-        TextView msgAlerta = view.findViewById(R.id.msg_alerta_partida);
-        TextView nomeMandante = view.findViewById(R.id.lbl_alerta_nome_mandante);
-        TextView nomeVisitante = view.findViewById(R.id.lbl_alerta_nome_visitante);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
 
-        msgAlerta.setText(getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
-                          " "+partida.getNome()+"?");
-        nomeMandante.setText(mandante.getNome());
-        nomeVisitante.setText(visitante.getNome());
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        msg.setVisibility(View.VISIBLE);
+        String alerta = getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
+                          " "+partida.getNome()+"?";
+        String nomeMandante = alerta + "\n\n" + mandante.getNome();
+        String nomeVisitante = visitante.getNome();
 
-        view.findViewById(R.id.btn_confirmar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+        SpannableString textoNegrito = new SpannableString(nomeMandante + "\n" + getString(R.string.lbl_vs_default) + "\n" + nomeVisitante);
+        textoNegrito.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), nomeMandante.length(), textoNegrito.length() - nomeVisitante.length(), 0);
+        msg.setText(textoNegrito);
+
+        btn_confirmar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 alertaDialog.dismiss();
                 abrirPartida(partida.getId());
             }
         });
 
-        view.findViewById(R.id.btn_cancelar_abrir_partida).setOnClickListener(new View.OnClickListener() {
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 //desfaz o alerta.
                 alertaDialog.dismiss();

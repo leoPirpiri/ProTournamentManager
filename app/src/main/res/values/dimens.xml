@@ -4,7 +4,7 @@
     <dimen name="partida_largura">90dp</dimen>
     <dimen name="partida_pad_hor">10dp</dimen>
     <dimen name="partida_pad_ver">12dp</dimen>
-    <dimen name="placar_pad_hor">4dp</dimen>
+        <dimen name="placar_pad_hor">4dp</dimen>
     <dimen name="placar_pad_ver">3dp</dimen>
     <dimen name="sigla_pad_hor">5dp</dimen>
     <dimen name="sigla_pad_ver">3dp</dimen>
