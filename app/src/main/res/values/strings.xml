@@ -8,6 +8,7 @@
     <string name="btn_adicionar">Adicionar</string>
     <string name="btn_editar">Editar</string>
     <string name="btn_cancelar">Cancelar</string>
+    <string name="btn_sortear">Sortear!</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
     <string name="santuario_com_torneios">Torneios recentes: </string>
@@ -17,7 +18,7 @@
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="title_alerta_confir_excluir_torneio">Excluindo Torneio</string>
-    <string name="title_alerta_sorteio">Sorteando...</string>
+    <string name="title_alerta_sorteio">Escalando jogadores...</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
@@ -41,6 +42,7 @@
     <string name="hint_nome_equipe">Clube Esportivo Exemplo</string>
     <string name="hint_quant_jogadores">Quantidade de atletas</string>
     <string name="title_alerta_nova_equipe">Informações da equipe</string>
+    <string name="title_alerta_equipe_vazia">Equipe sem plantel</string>
     <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="title_alerta_confir_excluir_equipe">Excluindo Equipe</string>
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
@@ -107,12 +109,32 @@
     <string name="partida_acao_falta">Falta</string>
     <string name="partida_acao_cartao">Cartões</string>
     <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>
+    <string name="title_alerta_confir_finalizar_partida">Encerrar Partida</string>
+    <string name="title_alerta_confir_finalizar_pelada">Encerrar Pelada</string>
+    <string name="title_alerta_confir_abrir_desempate">Iniciar Desempate</string>
     <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
     <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
     <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador na partida</string>
-    <string name="lbl_msg_inicio_aberta">Deseja iniciar partida </string>
-    <string name="lbl_msg_inicio_finalizada">Rever os dados da partida</string>
+    <string name="title_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
     <string name="lbl_vs_default">Vs.</string>
+    <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
+    <string name="lbl_msg_inicio_finalizada">Rever os dados da partida: </string>
+    <string name="lbl_msg_inicio_desempate">Deseja iniciar o módulo de desempate? </string>
+    <string name="lbl_msg_finalizar_partida">Deseja finalizar a partida </string>
+    <string name="lbl_msg_finalizar_pelada">Deseja finalizar a pelada </string>
+    <string name="lbl_msg_partida_empatada">A partida terminou empatada! </string>
+    <string name="lbl_msg_partida_equipe_vazia_pelada">
+        O arbitro só incirá a pelada quando ambas as equipes estiverem prontas e uma das equipes não possue jogadores em seu plantel.\n
+        Deseja adicionar nomes de jogadores para que sejam distribuídos aleatoriamente entre as equipes, como um sorteio?\n
+        \nCaso contrário o sistema contratará jogadores padrões.
+    </string>
+    <string name="lbl_msg_partida_equipe_vazia_partida">
+        O arbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefini-la
+        através da tela de Edição de Equipe.
+    </string>
+    <string name="lbl_msg_partida_sorteio_jogadores">
+        Preencha com o nomes dos jogadores que participarão da partida.
+    </string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

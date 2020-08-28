@@ -184,7 +184,7 @@
         android:padding="@dimen/espaco_siglas_default">
 
         <Button
-            android:id="@+id/pause_cron"
+            android:id="@+id/btn_cron_pause"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,7 +192,7 @@
             android:background="@android:drawable/stat_notify_sync_noanim"
             android:backgroundTint="@color/midle"
             android:backgroundTintMode="add"
-            android:onClick="zerarCronometro" />
+            android:onClick="zerarCronometro"/>
 
         <Chronometer
             android:id="@+id/cronometro"
@@ -207,7 +207,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/play_cron"
+            android:id="@+id/btn_cron_play"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

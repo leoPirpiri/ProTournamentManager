@@ -15,9 +15,9 @@
         android:type="linear"
         />
     <padding
-        android:left="20dp"
+        android:left="15dp"
         android:top="5dp"
-        android:right="20dp"
+        android:right="15dp"
         android:bottom="5dp"
         />
     <stroke

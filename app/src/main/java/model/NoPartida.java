@@ -70,15 +70,21 @@ public class NoPartida extends EntConcreta {
         this.tempo = tempo;
     }
 
-    public void setEncerrada() {
-//        int[] pontos = getPlacarPontos();
-//        if(pontos[0]>pontos[1]){
-//            setCampeaoId(mandante.getCampeaoId());
-//        } else if(pontos[1]>pontos[0]) {
-//            setCampeaoId(visitante.getCampeaoId());
-//        } else {
-//            setCampeaoId(0);
-//        }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public boolean setEncerrada() {
+        HashMap<String, Integer> pontosGerais = getDetalhesPartida();
+        int pontosMandante  = pontosGerais.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) +
+                              pontosGerais.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0);
+        int pontosVisitante = pontosGerais.getOrDefault("Vist_"+Score.TIPO_PONTO, 0) +
+                              pontosGerais.getOrDefault("Mand_"+Score.TIPO_AUTO_PONTO, 0);
+
+        if(pontosMandante>pontosVisitante){
+            setCampeaoId(mandante.getCampeaoId());
+        } else if(pontosVisitante>pontosMandante) {
+            setCampeaoId(visitante.getCampeaoId());
+        }
+
+        return isEncerrada();
     }
 
     public void addScore(Score score) {

@@ -19,6 +19,7 @@
     <dimen name="altura_ic_acao">60dp</dimen>
     <dimen name="altura_ic_acao_min">25dp</dimen>
     <dimen name="img_alerta_default">200dp</dimen>
+    <dimen name="lista_nomes_sorteio">250dp</dimen>
     <dimen name="placar_fonte">10dp</dimen>
     <dimen name="partida_fonte">18dp</dimen>
     <dimen name="cronometro_fonte">50dp</dimen>
@@ -31,9 +32,11 @@
     <dimen name="jogador_pad_hor">3dp</dimen>
     <dimen name="jogador_pad_ver">8dp</dimen>
     <dimen name="acao_margin_hor">8dp</dimen>
+    <dimen name="lista_sorteio_pad">14dp</dimen>
 
     <!-- Fontes -->
     <dimen name="partida_nomes_equipes">16dp</dimen>
+    <dimen name="partida_nomes_jogador">20dp</dimen>
 
 
 </resources>

@@ -7,17 +7,17 @@
         android:radius="30dp"
         />
     <gradient
-        android:angle="180"
+        android:angle="0"
         android:centerX="50%"
-        android:centerColor="@color/midle"
         android:startColor="@color/exo"
+        android:centerColor="@color/midle"
         android:endColor="@color/core"
         android:type="linear"
         />
     <padding
-        android:left="20dp"
+        android:left="15dp"
         android:top="5dp"
-        android:right="20dp"
+        android:right="15dp"
         android:bottom="5dp"
         />
     <stroke
