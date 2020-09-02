@@ -67,7 +67,6 @@ public class TabelaActivity extends AppCompatActivity {
             torneioIndice = dados.getInt("torneio");
             efeitos_sonoros = MediaPlayer.create(TabelaActivity.this, R.raw.tema_tabela);
             play_efeito_sonoro();
-            metodoRaiz();
         }
 
         ltv_oitavas_esquerda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,6 +88,12 @@ public class TabelaActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         pause_efeito_sonoro();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        metodoRaiz();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -145,13 +150,17 @@ public class TabelaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        //define o titulo
         builder.setTitle(R.string.title_alerta_confir_abrir_partida);
         mostrarAlerta(builder);
     }
 
-    private void mostrarAlerta(AlertDialog.Builder builder){
+    private void mostrarAlerta(AlertDialog.Builder builder) {
+        mostrarAlerta(builder, R.drawable.background_alerta);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();
     }
 
@@ -248,7 +257,6 @@ public class TabelaActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
         intent.putExtra("partida", torneioIndice+idPartida);
         startActivity(intent);
-        //CarrierSemiActivity.exemplo(this, String.valueOf());
     }
 
     private void play_efeito_sonoro(){

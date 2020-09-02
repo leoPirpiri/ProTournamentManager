@@ -39,7 +39,8 @@
                 android:hint="@string/hint_nome_jogador"
                 android:textAlignment="textStart"
                 android:textSize="20dp"
-                android:maxLength="20"
+                android:singleLine="true"
+                android:maxLength="13"
                 />
         </LinearLayout>
         <LinearLayout
@@ -69,18 +70,19 @@
         android:id="@+id/ltv_sorteio_jogadores"
         android:layout_width="match_parent"
         android:layout_height="@dimen/lista_nomes_sorteio"
-        android:background="@color/branco"
         android:padding="@dimen/lista_sorteio_pad"
         android:textStyle="bold"
+        android:background="@drawable/background_soft"
+        android:layout_marginVertical="@dimen/acao_margin_hor"
         />
-
     <Button
         android:id="@+id/btn_sortear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_sortear"
         android:layout_gravity="center"
-        android:background="@drawable/button_shape_enabled"
+        android:background="@drawable/button_shape_desabled"
+        android:enabled="false"
         android:shadowColor="#3D3D3D"
         android:shadowDx="0"
         android:shadowDy="0"

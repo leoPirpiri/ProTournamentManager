@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -74,7 +75,7 @@ public class JogadoresAdapter extends BaseAdapter {
 
         } else {
             itemPosicao.setVisibility(View.GONE);
-            itemNome.setText(jogador.getNome().split(" ")[0]);
+            itemNome.setText(getNomeCompacto(jogador.getNome()));
             itemNumber.setTextSize(18);
             itemNome.setTextSize(18);
             HashMap<Integer, Integer> acoesIndividuais = getAcoesIndividuais(position);
@@ -108,7 +109,6 @@ public class JogadoresAdapter extends BaseAdapter {
         return v;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public HashMap getAcoesIndividuais(int position) {
         HashMap<Integer, Integer> acoes = new HashMap<>();
         for (Score s : acoesTime) {
@@ -117,5 +117,26 @@ public class JogadoresAdapter extends BaseAdapter {
             }
         }
         return acoes;
+    }
+
+    @org.jetbrains.annotations.NotNull
+    private String getNomeCompacto(String nomeBruto){
+        ArrayList<String> pulos = new ArrayList(Arrays.asList("da", "do", "de", "das", "dos"));
+        int limite = 10;
+        int margemErro = limite+4;
+        String nome = "";
+        for(String s : nomeBruto.split(" ")){
+            if(!pulos.contains(s)){
+                if(nome.length() + s.length() <= limite){
+                    nome = nome.concat(s.concat(" "));
+                } else if (nome.length() + s.length() <= margemErro){
+                    nome = nome.concat(s);
+                    break;
+                } else{
+                    break;
+                }
+            }
+        }
+        return nome.trim();
     }
 }

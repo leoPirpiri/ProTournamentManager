@@ -139,26 +139,37 @@ public class MainActivity extends AppCompatActivity {
 
     private void montarAlertaExcluirTorneio(final int posTorneio){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_excluir_torneio);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+            excluirTorneio(posTorneio);
+        });
+
+        btn_cancelar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+        });
+
+        builder.setView(view);
         builder.setTitle(R.string.title_alerta_confir_excluir_torneio);
-        //define a mensagem
-        builder.setMessage(R.string.msg_alerta_confir_excluir_torneio);
-        //define um botão como positivo
-        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                excluirTorneio(posTorneio);
-            }
-        });
-        //define um botão como negativo.
-        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
         mostrarAlerta(builder);
     }
 
-    private void mostrarAlerta(AlertDialog.Builder builder){
+    private void mostrarAlerta(AlertDialog.Builder builder) {
+        mostrarAlerta(builder, R.drawable.background_alerta);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();
     }
 

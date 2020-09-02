@@ -12,9 +12,7 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:padding="10dp">
 
         <TableRow
             android:layout_width="match_parent"
@@ -240,8 +238,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/placar_pad_ver"
-                    android:layout_weight="1"
                     android:background="@drawable/placar_time_shape"
+                    android:drawableTint="@color/colorPrimaryDark"
+                    android:drawableTintMode="multiply"
                     android:gravity="center|left"
                     android:text="Clube Pirpiri de Futsal"
                     android:textSize="@dimen/partida_fonte"
@@ -254,6 +253,8 @@
                     android:layout_marginLeft="@dimen/placar_pad_ver"
                     android:layout_weight="1"
                     android:background="@drawable/placar_time_shape"
+                    android:drawableTint="@color/colorPrimaryDark"
+                    android:drawableTintMode="multiply"
                     android:gravity="center|left"
                     android:text="Clube Maciel de Futsal"
                     android:textSize="@dimen/partida_fonte"

@@ -4,11 +4,11 @@
     android:shape="rectangle"
     tools:ignore="MissingDefaultResource">
     <gradient
-        android:angle="45"
+        android:angle="135"
         android:centerX="50%"
-        android:startColor="#EEEEEE"
-        android:centerColor="#666666"
-        android:endColor="#EEEEEE"
+        android:startColor="@color/background_alerta_polo"
+        android:centerColor="@color/background_alerta_center"
+        android:endColor="@color/background_alerta_polo"
         android:type="linear"
         />
     <padding

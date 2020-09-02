@@ -52,9 +52,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="10dp"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:shrinkColumns="1"
+        android:stretchColumns="0,2">
 
         <View
             android:layout_width="match_parent"
@@ -66,16 +65,13 @@
             android:gravity="center"
             android:text="@string/partida_acao_gol"/>
         <TableRow
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark">
+            android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginRight="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_del_acao_gol"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -85,11 +81,18 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="@dimen/divider_acao_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginLeft="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_add_acao_gol"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -111,14 +114,11 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark">
+            android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginRight="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_del_acao_falta"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -128,11 +128,18 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="@dimen/divider_acao_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginLeft="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_add_acao_falta"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -145,7 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"
-            android:layout_marginTop="@dimen/jogador_pad_ver"/><TextView
+            android:layout_marginTop="@dimen/jogador_pad_ver"/>
+        <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -153,14 +161,11 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark">
+            android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginRight="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_del_acao_cartao_vermelho"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -170,11 +175,18 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="@dimen/divider_acao_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginLeft="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_add_acao_cartao_vermelho"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -188,17 +200,22 @@
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"
             android:layout_marginVertical="@dimen/jogador_pad_ver"/>
+    </TableLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="10dp"
+        android:shrinkColumns="1"
+        android:stretchColumns="0,2">
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@color/colorPrimaryDark">
+            android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginRight="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_del_acao_cartao_amarelo"
                     android:layout_width="@dimen/altura_ic_acao"
@@ -208,11 +225,18 @@
                     />
             </LinearLayout>
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="@dimen/divider_acao_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@color/branco"
-                android:layout_marginLeft="@dimen/acao_margin_hor">
+                android:gravity="center">
                 <Button
                     android:id="@+id/btn_add_acao_cartao_amarelo"
                     android:layout_width="@dimen/altura_ic_acao"

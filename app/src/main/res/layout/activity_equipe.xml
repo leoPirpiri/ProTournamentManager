@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_soft"
     tools:context=".EquipeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -94,9 +95,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/midle"
+        android:tint="@color/colorPrimaryDark"
+        android:tintMode="multiply"
         app:backgroundTint="@color/core"
-        app:maxImageSize="60dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:maxImageSize="50dp"
+        app:srcCompat="@android:drawable/ic_menu_myplaces" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

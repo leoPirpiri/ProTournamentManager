@@ -100,7 +100,11 @@ public class TorneioActivity extends AppCompatActivity {
         ltv_equipes_torneio.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaExcluirEquipe(position);
+                if(torneio.isFechado()){
+                    CarrierSemiActivity.exemplo(TorneioActivity.this, getString(R.string.msg_alerta_erro_excluir_equipe));
+                } else {
+                    montarAlertaExcluirEquipe(position);
+                }
                 return true;
             }
         });
@@ -160,21 +164,27 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void montarAlertaExcluirEquipe(final int posEquipe){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_excluir_equipe);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+            excluirEquipe(posEquipe);
+        });
+
+        btn_cancelar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+        });
+
+        builder.setView(view);
         builder.setTitle(R.string.title_alerta_confir_excluir_equipe);
-        //define a mensagem
-        builder.setMessage(R.string.msg_alerta_confir_excluir_equipe);
-        //define um botão como positivo
-        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                excluirEquipe(posEquipe);
-            }
-        });
-        //define um botão como negativo.
-        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
         mostrarAlerta(builder);
     }
 
@@ -188,8 +198,8 @@ public class TorneioActivity extends AppCompatActivity {
         //Listeners possíveis do alerta
         view.findViewById(R.id.btn_confirmar_equipe).setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                String nome = etx_nome_equipe.getText().toString();
-                String sigla = etx_sigla_equipe.getText().toString();
+                String nome = etx_nome_equipe.getText().toString().trim();
+                String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
                 if (!nome.isEmpty() && !sigla.isEmpty()) {
                     torneio.addTime(new Equipe(torneio.getNovaEquipeId(), nome, sigla));
                     Toast.makeText(TorneioActivity.this, R.string.equipe_adicionada, Toast.LENGTH_SHORT).show();
@@ -214,7 +224,7 @@ public class TorneioActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String nome = etx_nome_equipe.getText().toString().trim();
-                String sigla = etx_sigla_equipe.getText().toString();
+                String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
                 if (nome.isEmpty()) {
                     etx_sigla_equipe.setText("");
                     desativarOKalertaEquipe();
@@ -225,7 +235,7 @@ public class TorneioActivity extends AppCompatActivity {
                     } else {
                         sigla_bot = nome.substring(0, 1).toUpperCase();
                     }
-                    if (!sigla.trim().equals(sigla_bot)) {
+                    if (!sigla.equals(sigla_bot)) {
                         etx_sigla_equipe.setText(sigla_bot);
                     }
                     ativarOKalertaEquipe();
@@ -274,7 +284,7 @@ public class TorneioActivity extends AppCompatActivity {
             }
         };
 
-        handler.postDelayed(runnable, 10000);
+        handler.postDelayed(runnable, 3000);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
         GifImageView img = view.findViewById(R.id.img_alerta_default);
@@ -289,8 +299,7 @@ public class TorneioActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setCustomTitle(null);
         builder.setCancelable(false);
-        mostrarAlerta(builder);
-        handler.postDelayed(runnable, 4000);
+        mostrarAlerta(builder, R.color.cor_transparente);
     }
 
     private String siglatation(String entrada) {
@@ -327,8 +336,12 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder){
+        mostrarAlerta(builder, R.drawable.background_alerta);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder, int background){
         alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(R.color.cor_transparente));
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();
     }
 

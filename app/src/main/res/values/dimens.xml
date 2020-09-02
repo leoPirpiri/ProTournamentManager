@@ -32,7 +32,11 @@
     <dimen name="jogador_pad_hor">3dp</dimen>
     <dimen name="jogador_pad_ver">8dp</dimen>
     <dimen name="acao_margin_hor">8dp</dimen>
-    <dimen name="lista_sorteio_pad">14dp</dimen>
+    <dimen name="divider_acao_width">6dp</dimen>
+    <dimen name="lista_sorteio_pad">10dp</dimen>
+    <dimen name="btn_shape_pad_hor">15dp</dimen>
+    <dimen name="btn_shape_pad_ver">5dp</dimen>
+    <dimen name="btn_shape_borda">2dp</dimen>
 
     <!-- Fontes -->
     <dimen name="partida_nomes_equipes">16dp</dimen>

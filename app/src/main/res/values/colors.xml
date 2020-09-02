@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="btn_default_color">#000</color>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#026934</color>
+    <color name="colorPrimaryDark">#004722</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="background_soft_polo">#B5D4FF</color>
+    <color name="background_soft_center">#D0FBBF</color>
+    <color name="background_alerta_polo">#AEC6F4</color>
+    <color name="background_alerta_center">#E8FFE6</color>
+    <color name="background_placar_polo">#E4DDFF</color>
+    <color name="background_placar_center">#FFFFFF</color>
     <color name="exo">#2ED914</color>
     <color name="core">#F7FF00</color>
     <color name="advertido">#FFE607</color>

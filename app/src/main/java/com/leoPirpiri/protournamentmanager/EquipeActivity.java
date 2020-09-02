@@ -1,6 +1,5 @@
 package com.leoPirpiri.protournamentmanager;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -69,22 +68,19 @@ public class EquipeActivity extends AppCompatActivity {
         if (dados!=null) {
             equipeIndice = dados.getInt("equipe");
             metodoRaiz();
-            setTitle(equipe.getNome());
         }
 
-        ltv_jogadores_equipe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaNovoEditaJogador(equipe.getJogadores().get(position));
-            }
+        ltv_jogadores_equipe.setOnItemClickListener((parent, view, position, id) -> {
+            montarAlertaNovoEditaJogador(equipe.getJogadores().get(position));
         });
 
-        ltv_jogadores_equipe.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                MontarAlertaDeletarJogador(jogadoresAdapter.getItem(position));
-                return true;
-            }
+        ltv_jogadores_equipe.setOnItemLongClickListener((parent, view, position, id) -> {
+            montarAlertaDeletarJogador(jogadoresAdapter.getItem(position));
+            return true;
+        });
+
+        findViewById(R.id.btn_edt_equipe).setOnClickListener(v -> {
+            montarAlertaEditarEquipe();
         });
     }
 
@@ -109,7 +105,7 @@ public class EquipeActivity extends AppCompatActivity {
                 .getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice))
                 .getTime(equipeIndice);
         if(equipe != null) {
-            txv_sigla_equipe.setText(equipe.getSigla());
+            atualizarNomesEquipes();
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
             ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
             listarJogadores();
@@ -119,23 +115,100 @@ public class EquipeActivity extends AppCompatActivity {
         }
     }
 
-    private void MontarAlertaDeletarJogador(Jogador j) {
+    private void atualizarNomesEquipes(){
+        setTitle(equipe.getNome());
+        txv_sigla_equipe.setText(equipe.getSigla());
+    }
+
+    private void montarAlertaEditarEquipe() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
+        View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
+
+        EditText etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
+        EditText etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
+        Button btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_equipe);
+        btn_confirma_equipe.setEnabled(true);
+        btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        btn_confirma_equipe.setText(R.string.btn_editar);
+
+        etx_nome_equipe.setText(equipe.getNome());
+        etx_sigla_equipe.setText(equipe.getSigla());
+        //Listeners possíveis do alerta
+        btn_confirma_equipe.setOnClickListener(arg0 -> {
+            String nome = etx_nome_equipe.getText().toString().trim();
+            String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
+            if (!nome.isEmpty() && !sigla.isEmpty()) {
+                if (!equipe.getNome().equals(nome) || !equipe.getSigla().equals(sigla)) {
+                    equipe.setNome(nome);
+                    equipe.setSigla(sigla);
+                    atualizar = true;
+                    atualizarNomesEquipes();
+                } else {
+                    CarrierSemiActivity.exemplo(EquipeActivity.this, getString(R.string.erro_atualizar_mesma_informacoes_da_entidade));
+                }
+                alertaDialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.btn_cancelar_equipe).setOnClickListener(arg0 -> alertaDialog.dismiss());
+
+        etx_nome_equipe.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String nome = etx_nome_equipe.getText().toString().trim();
+                String sigla = etx_sigla_equipe.getText().toString();
+                if (nome.isEmpty()) {
+                    etx_sigla_equipe.setText("");
+                } else {
+                    String sigla_bot;
+                    if (nome.contains(" ")) {
+                        sigla_bot = siglatation(nome);
+                    } else {
+                        sigla_bot = nome.substring(0, 1).toUpperCase();
+                    }
+                    if (!sigla.trim().equals(sigla_bot)) {
+                        etx_sigla_equipe.setText(sigla_bot);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        builder.setView(view);
+        builder.setTitle(R.string.title_alerta_nova_equipe);
+        mostrarAlerta(builder);
+    }
+
+    private void montarAlertaDeletarJogador(Jogador j) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_excluir_jogador);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+            excluirJogador(j);
+        });
+
+        btn_cancelar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+        });
+
+        builder.setView(view);
         builder.setTitle(R.string.title_alerta_confir_excluir_jogador);
-        //define a mensagem
-        builder.setMessage(R.string.msg_alerta_confir_excluir_jogador);
-        //define um botão como positivo
-        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                excluirJogador(j);
-            }
-        });
-        //define um botão como negativo.
-        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
         mostrarAlerta(builder);
     }
 
@@ -225,6 +298,19 @@ public class EquipeActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
+    private String siglatation(String entrada) {
+        String sigla = "";
+        for (String word : entrada.split(" ")) {
+            if (word.length()>2){
+                sigla = sigla.concat(word.substring(0,1));
+            }
+            if(sigla.length()>4){
+                break;
+            }
+        }
+        return sigla.toUpperCase();
+    }
+
     private void validarEdicao(Jogador pl1) {
         String nome = etx_nome_jogador.getText().toString().trim();
         if(!nome.isEmpty()) {
@@ -253,7 +339,12 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder) {
+        mostrarAlerta(builder, R.drawable.background_alerta);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();
     }
 
@@ -268,7 +359,10 @@ public class EquipeActivity extends AppCompatActivity {
 
     private void excluirJogador(Jogador jogador) {
         if(atualizar = equipe.delJogador(jogador)) {
+            CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_sucesso_excluir_jogador));
             listarJogadores();
+        } else {
+            CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_erro_excluir_jogador));
         }
     }
 }

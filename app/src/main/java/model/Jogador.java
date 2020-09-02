@@ -28,7 +28,7 @@ public class Jogador extends EntConcreta implements Comparable<Jogador> {
 
     @Override
     public int compareTo(Jogador pl) {
-        return Integer.compare(numero, pl.numero);
+        return Integer.compare(posicao, pl.posicao);
     }
 
     public String toString() {

@@ -111,18 +111,20 @@ public class Olimpia implements Serializable {
     }
 
     public Olimpia testeExemplos (Olimpia teste){
-        Torneio tTeste = new Torneio(10000, "Taça Pirpiri de Futsal");
-        Equipe eTeste = new Equipe(10100, "Maciel de Baixo Futsal", "MCF");
-        Equipe eTeste2 = new Equipe(10200, "Pirpiri do Meio Futsal", "PMF");
+        Torneio tTeste = new Torneio(10000, "XV Torneio do Pirpiri");
+        Equipe eTeste = new Equipe(10100, "Leicam do Maciel de Baixo", "LMB");
+        Equipe eTeste2 = new Equipe(10200, "Juventude do Pirpiri Futsal", "JPF");
         Equipe eTeste3 = new Equipe(10300, "Sítio Escrivão Futsal", "SEF");
-        Equipe eTeste4 = new Equipe(10400, "Lagoa Azul Futsal", "LAF");
+        Equipe eTeste4 = new Equipe(10400, "Leicam do Maciel de Cima", "LMC");
         Equipe eTeste5 = new Equipe(10500, "Passagem de Cima Futsal", "PCF");
-        Jogador jTeste = new Jogador(10101, "João Cana-brava", 3, 2);
-        eTeste.addJogador(jTeste);
-        Jogador jTeste2 = new Jogador(10202, "Nill do Maciel", 3, 10);
-        eTeste2.addJogador(jTeste2);
-        jTeste = new Jogador(10201, "Nome do goleiro", 4, 1);
-        eTeste2.addJogador(jTeste);
+
+        eTeste.addJogador(new Jogador(10201, "Almir Rogério", 2, 12));
+        eTeste2.addJogador(new Jogador(10101, "Nill do Maciel", 3, 7));
+        eTeste2.addJogador(new Jogador(10202, "Bruno", 2, 1));
+        eTeste3.addJogador(new Jogador(10301, "Valdir", 1, 9));
+        eTeste4.addJogador(new Jogador(10401, "Kekel", 3, 7));
+        eTeste5.addJogador(new Jogador(10501, "Gel", 1, 10));
+
         tTeste.addTime(eTeste);
         tTeste.addTime(eTeste2);
         tTeste.addTime(eTeste3);

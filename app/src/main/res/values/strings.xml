@@ -9,6 +9,7 @@
     <string name="btn_editar">Editar</string>
     <string name="btn_cancelar">Cancelar</string>
     <string name="btn_sortear">Sortear!</string>
+    <string name="btn_partida_encerrada">Partida Encerrada</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
     <string name="santuario_com_torneios">Torneios recentes: </string>
@@ -38,7 +39,7 @@
     <string name="equipe_ponto_partida_aberta">-</string>
     <string name="hint_sigla_equipe">CEE</string>
     <string name="lbl_sigla_equipe">SIGLA:</string>
-    <string name="lbl_nome_equipe">Nome da equipe</string>
+    <string name="lbl_nome_equipe">Nome: </string>
     <string name="hint_nome_equipe">Clube Esportivo Exemplo</string>
     <string name="hint_quant_jogadores">Quantidade de atletas</string>
     <string name="title_alerta_nova_equipe">Informações da equipe</string>
@@ -47,32 +48,35 @@
     <string name="title_alerta_confir_excluir_equipe">Excluindo Equipe</string>
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
     <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
+    <string name="msg_alerta_erro_excluir_equipe">Torneio fechado.\nA equipe não pode ser excluída!</string>
     <string name="equipe_com_jogador">Jogadores inscritos:</string>
     <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
-        \nAdicione novos usando o botão abaixo (+)</string>
+        \nAdicione novos usando o botão abaixo.</string>
 
     <!-- Mensagens envolvendo Jogador-->
     <string name="jogador_adicionado">Jogador adicionado com sucesso!</string>
     <string name="jogador_editado">Jogador editado com sucesso!</string>
     <string name="lbl_posicao">Posição</string>
     <string name="lbl_numero">Número</string>
-    <string name="lbl_nome_jogador">Nome do Jogador</string>
-    <string name="hint_nome_jogador">Thibaut Courtois</string>
-    <string name="title_alerta_novo_jogador">Informações do jogador</string>
-    <string name="title_alerta_confir_abrir_jogador">Editando jogador</string>
-    <string name="title_alerta_confir_excluir_jogador">Excluindo jogador</string>
-    <string name="msg_alerta_confir_excluir_jogador">Deseja excluir esse jogador?</string>
+    <string name="lbl_nome_jogador">Nome</string>
+    <string name="hint_nome_jogador">ex: Almir Rogério</string>
+    <string name="title_alerta_novo_jogador">Contratar jogador</string>
+    <string name="title_alerta_confir_abrir_jogador">Editar jogador</string>
+    <string name="title_alerta_confir_excluir_jogador">Dispensar jogador</string>
+    <string name="msg_alerta_confir_excluir_jogador">Deseja rescindir o contrato com esse jogador?</string>
+    <string name="msg_alerta_erro_excluir_jogador">Uma cláusula impediu a rescisão do contrato!</string>
+    <string name="msg_alerta_sucesso_excluir_jogador">Contrato rescindido!</string>
     <string name="title_ficha_tec_jogador">Ficha técnica na partida</string>
     <string name="pontos_ficha_tec_jogador">Pontos na partida:</string>
     <string name="gols_ficha_tec_jogador">Gols na partida:</string>
     <string name="faltas_ficha_tec_jogador">Faltas na partida:</string>
     <string name="cartoes_ficha_tec_jogador">Cartões na partida:</string>
     <string-array name="posicoes_jogador">
+        <item>GLK - Goleiro</item>
         <item>DEF - Defensor</item>
         <item>MID - Meio</item>
         <item>PIV - Pivot</item>
         <item>ATK - Atacante</item>
-        <item>GLK - Goleiro</item>
         <item>LIB - Líbero</item>
         <item>LEV - Levantador</item>
         <item>POT - Ponta</item>
@@ -114,7 +118,7 @@
     <string name="title_alerta_confir_abrir_desempate">Iniciar Desempate</string>
     <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
     <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
-    <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador na partida</string>
+    <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador</string>
     <string name="title_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
     <string name="lbl_vs_default">Vs.</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
@@ -124,23 +128,23 @@
     <string name="lbl_msg_finalizar_pelada">Deseja finalizar a pelada </string>
     <string name="lbl_msg_partida_empatada">A partida terminou empatada! </string>
     <string name="lbl_msg_partida_equipe_vazia_pelada">
-        O arbitro só incirá a pelada quando ambas as equipes estiverem prontas e uma das equipes não possue jogadores em seu plantel.\n
+        O arbitro só iniciará a pelada quando ambas as equipes estiverem prontas e uma das equipes não possue jogadores em seu plantel.\n
         Deseja adicionar nomes de jogadores para que sejam distribuídos aleatoriamente entre as equipes, como um sorteio?\n
         \nCaso contrário o sistema contratará jogadores padrões.
     </string>
     <string name="lbl_msg_partida_equipe_vazia_partida">
-        O arbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefini-la
+        O arbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefiní-la
         através da tela de Edição de Equipe.
     </string>
     <string name="lbl_msg_partida_sorteio_jogadores">
-        Preencha com o nomes dos jogadores que participarão da partida.
+        Preencha os nomes dos participantes da pelada.
     </string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>
-    <string name="del_jogador_sucesso">Contrato rescindido!</string>
     <string name="encerrar_partida">Finalizar Partida</string>
+    <string name="encerrar_pelada">Finalizar Pelada</string>
     <string name="msg_alerta_aguarde">Aguarde!</string>
 
     <!-- Mensagens de erros para o usuário -->
@@ -151,5 +155,5 @@
                                 \nPassagem de parâmentro entre activities!</string>
     <string name="erro_default_string">X</string>
     <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
-    <string name="erro_atualizar_mesmo_jogador_em_partida">Informações iguais!</string>
+    <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
 </resources>
