@@ -57,9 +57,9 @@ public class Olimpia implements Serializable {
             return torneios.remove(pos);
     }
 
-    public Torneio getTorneio(int index){
+    public Torneio getTorneio(int idTorneio){
         for (Torneio t : torneios) {
-            if (t.getId() == index){
+            if (t.getId() == idTorneio){
                 return t;
             }
         }

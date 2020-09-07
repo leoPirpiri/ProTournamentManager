@@ -53,6 +53,10 @@ public class Torneio extends EntConcreta {
         return isFechado();
     }
 
+    public boolean atoJogador(int idJogador){
+        return  isFechado() && tabela.getSafeDeleteFlag(idJogador);
+    }
+
     public void addTime(Equipe time) {
         if(!isFechado() && times.size()<MAX_EQUIPE){
             this.times.add(time);

@@ -25,12 +25,14 @@ import java.util.ArrayList;
 import control.Olimpia;
 import model.Equipe;
 import model.Jogador;
+import model.Torneio;
 
 public class EquipeActivity extends AppCompatActivity {
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
     private int equipeIndice;
     private Equipe equipe;
+    private Torneio torneio;
     private JogadoresAdapter jogadoresAdapter;
 
     private ListView ltv_jogadores_equipe;
@@ -101,9 +103,8 @@ public class EquipeActivity extends AppCompatActivity {
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
-        equipe = santuarioOlimpia
-                .getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice))
-                .getTime(equipeIndice);
+        torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
+        equipe = torneio.getTime(equipeIndice);
         if(equipe != null) {
             atualizarNomesEquipes();
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
@@ -229,6 +230,9 @@ public class EquipeActivity extends AppCompatActivity {
             btn_confirma_jogador.setText(R.string.btn_editar);
             etx_nome_jogador.setText(velhoJogador.getNome());
             spnr_posicao.setSelection(velhoJogador.getPosicao());
+            if(!torneio.atoJogador(velhoJogador.getId())){
+                view.findViewById(R.id.btn_del_jogador).setVisibility(View.VISIBLE);
+            }
         }
         spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
         spnr_numero.setSelection(0);
@@ -358,7 +362,8 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     private void excluirJogador(Jogador jogador) {
-        if(atualizar = equipe.delJogador(jogador)) {
+        if(torneio.atoJogador(jogador.getId()) && equipe.delJogador(jogador)) {
+            atualizar = true;
             CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_sucesso_excluir_jogador));
             listarJogadores();
         } else {

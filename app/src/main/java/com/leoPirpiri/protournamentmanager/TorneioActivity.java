@@ -115,6 +115,7 @@ public class TorneioActivity extends AppCompatActivity {
         super.onPause();
         if(atualizar){
             CarrierSemiActivity.persistirSantuario(TorneioActivity.this, santuarioOlimpia);
+            atualizar = false;
         }
         if(alertaDialog!=null && alertaDialog.isShowing()){
             alertaDialog.dismiss();

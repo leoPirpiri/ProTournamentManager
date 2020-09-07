@@ -143,11 +143,13 @@ public class PartidaActivity extends AppCompatActivity {
             return false;
         });
 
-        ltv_jogadores_mandantes.setOnItemClickListener((parent, view, position, id) -> montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position)));
+        ltv_jogadores_mandantes.setOnItemClickListener((parent, view, position, id) -> {
+            montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+        });
 
-        ltv_jogadores_visitantes.setOnItemClickListener((parent, view, position, id) -> montarAlertaAcaoPartida(false,
-                jav.getItem(position),
-                jav.getAcoesIndividuais(position)));
+        ltv_jogadores_visitantes.setOnItemClickListener((parent, view, position, id) -> {
+            montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+        });
 
         ltv_jogadores_mandantes.setOnItemLongClickListener((parent, view, position, id) -> {
             montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
@@ -163,18 +165,23 @@ public class PartidaActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(!relogio_parado) {
-            relogio.stop();
-            deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
-            partida.setTempo(deslocamento);
-            atualizar = true;
+        if(alertaDialog!=null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
         }
         if(atualizar){
             CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
             atualizar=false;
         }
-        if(alertaDialog!=null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!relogio_parado) {
+            relogio.stop();
+            deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
+            partida.setTempo(deslocamento);
+            CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
         }
     }
 
@@ -248,6 +255,7 @@ public class PartidaActivity extends AppCompatActivity {
             txv_partida_nome_visitante.setText(visitante.getNome());
         }
     }
+
     private void atualizarCamposMandante(ArrayList<List> acoesGerais) {
         HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
         txv_partida_score_ponto_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)));
@@ -678,8 +686,15 @@ public class PartidaActivity extends AppCompatActivity {
                 numeros = visitante.getNumeracaoLivrePlantel(j.getNumero());
             }
             btn_confirma_jogador.setText(R.string.btn_editar);
-            if(acoes_jogador.isEmpty()) {
-                btn_deletar_jogador.setVisibility(View.VISIBLE);
+            if(isSimulacao()){
+                if(acoes_jogador.isEmpty()) {
+                    btn_deletar_jogador.setVisibility(View.VISIBLE);
+                }
+            } else {
+                if(acoes_jogador.isEmpty() &&
+                    !santuarioOlimpia.getTorneio(Olimpia.extrairIdEntidadeSuperiorLv0(partidaIndice)).atoJogador(j.getId())){
+                    btn_deletar_jogador.setVisibility(View.VISIBLE);
+                }
             }
             //Preenchendo informações do jogador na partida.
             view.findViewById(R.id.quadro_info_acoes_jogador).setVisibility(View.VISIBLE);
@@ -859,6 +874,9 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder, int background) {
+        if (alertaDialog != null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
+        }
         alertaDialog = builder.create();
         alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();

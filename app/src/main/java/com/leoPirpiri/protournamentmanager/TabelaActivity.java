@@ -96,7 +96,6 @@ public class TabelaActivity extends AppCompatActivity {
         metodoRaiz();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TabelaActivity.this);
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
@@ -164,7 +163,6 @@ public class TabelaActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void listarPartidas() {
         int tamanhoTorneio = torneio.getTimes().size();
         boolean precessoresQuartas = tamanhoTorneio != 16;
@@ -195,7 +193,6 @@ public class TabelaActivity extends AppCompatActivity {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void desenharChaveTabela(LinearLayout v, NoPartida partida, boolean separarPrecessores){
         int id = partida.getId();
         v.setTransitionName(String.valueOf(id));

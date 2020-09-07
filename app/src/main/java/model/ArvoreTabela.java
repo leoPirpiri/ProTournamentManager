@@ -28,6 +28,20 @@ public class ArvoreTabela implements Serializable {
         return getNo(raiz, valor);
     }
 
+    public boolean getSafeDeleteFlag(int idJogador){
+        return buscarParticipacaoJogador(raiz, idJogador);
+    }
+
+    private boolean buscarParticipacaoJogador(NoPartida node, int chave){
+        if(node.participacaoJogadorNaPartida(chave)){
+            return true;
+        } else if(node.getMandante() == null || node.getVisitante() == null){
+            return false;
+        } else {
+            return buscarParticipacaoJogador(node.getMandante(), chave) || buscarParticipacaoJogador(node.getVisitante(), chave);
+        }
+    }
+
     private NoPartida getNo(NoPartida no, int valor) {
         if(no.getId() == valor) {
             return no;
@@ -67,17 +81,6 @@ public class ArvoreTabela implements Serializable {
         return node;
     }
 
-    private NoPartida modelarNos(NoPartida node){
-        if(!node.getMandante().isEncerrada()){
-            node = modelarNos(node.getMandante());
-        }
-        if(!node.getVisitante().isEncerrada()){
-            node = modelarNos(node.getVisitante());
-        }
-
-        return node;
-    }
-
     public void testarArvore(NoPartida node){
         if(node != null){
             System.out.println(node.toString());
@@ -91,6 +94,5 @@ public class ArvoreTabela implements Serializable {
         int f = 31;
         Collections.shuffle(times);
         raiz=preencherTabela(i, f, times, nomesPartidas);
-        //raiz=modelarNos(raiz);
     }
 }

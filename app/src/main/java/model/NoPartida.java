@@ -119,6 +119,15 @@ public class NoPartida extends EntConcreta {
         return new ArrayList(Arrays.asList(rm, rv, r));
     }
 
+    public boolean participacaoJogadorNaPartida(int idJogador){
+        for (Score s : placar) {
+            if(s.getIdJogador() == idJogador){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String toString() {
         return super.toString() +
                " Nó Equipe MandanteId: " + (mandante!=null ? mandante.getId() : "Nó folha") +
