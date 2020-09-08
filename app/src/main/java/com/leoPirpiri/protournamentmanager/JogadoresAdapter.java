@@ -132,8 +132,8 @@ public class JogadoresAdapter extends BaseAdapter {
     @org.jetbrains.annotations.NotNull
     private String getNomeCompacto(String nomeBruto){
         ArrayList<String> pulos = new ArrayList(Arrays.asList("da", "do", "de", "das", "dos"));
-        int limite = 10;
-        int margemErro = limite+4;
+        int limite = 9;
+        int margemErro = limite+3;
         String nome = "";
         for(String s : nomeBruto.split(" ")){
             if(!pulos.contains(s)){
