@@ -224,8 +224,14 @@ public class TabelaActivity extends AppCompatActivity {
 
         if(partida.isEncerrada() && partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
             HashMap<String, Integer> placar = partida.getDetalhesPartida();
-            mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
-            visitanteScore.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
+            mandanteScore.setText(Integer.toString(
+                    placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)+
+                    placar.getOrDefault("Vist_"+ Score.TIPO_AUTO_PONTO, 0)
+            ));
+            visitanteScore.setText(Integer.toString(
+                    placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)+
+                    placar.getOrDefault("Mand_"+ Score.TIPO_AUTO_PONTO, 0)
+            ));
         } else {
             mandanteScore.setText(R.string.equipe_ponto_partida_aberta);
             visitanteScore.setText(R.string.equipe_ponto_partida_aberta);

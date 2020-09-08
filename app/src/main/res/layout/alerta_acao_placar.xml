@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/btn_del_acao_gol"
+                    android:id="@+id/btn_del_acao_gol_pro"
                     android:layout_width="@dimen/altura_ic_acao"
                     android:layout_height="@dimen/altura_ic_acao"
                     android:layout_gravity="center"
@@ -94,7 +94,49 @@
                 android:layout_height="wrap_content"
                 android:gravity="center">
                 <Button
-                    android:id="@+id/btn_add_acao_gol"
+                    android:id="@+id/btn_add_acao_gol_pro"
+                    android:layout_width="@dimen/altura_ic_acao"
+                    android:layout_height="@dimen/altura_ic_acao"
+                    android:layout_gravity="center"
+                    />
+            </LinearLayout>
+        </TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:layout_marginVertical="@dimen/jogador_pad_ver"/>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/btn_del_acao_gol_contra"
+                    android:layout_width="@dimen/altura_ic_acao"
+                    android:layout_height="@dimen/altura_ic_acao"
+                    android:layout_gravity="center"
+                    android:enabled="false"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
+                <View
+                    android:layout_width="@dimen/divider_acao_width"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimaryDark"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/btn_add_acao_gol_contra"
                     android:layout_width="@dimen/altura_ic_acao"
                     android:layout_height="@dimen/altura_ic_acao"
                     android:layout_gravity="center"

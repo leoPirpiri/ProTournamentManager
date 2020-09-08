@@ -14,7 +14,7 @@
         android:text="1"
         android:textSize="25dp"
         android:layout_marginVertical="@dimen/jogador_pad_ver"
-        android:layout_marginHorizontal="@dimen/jogador_pad_hor"
+        android:layout_marginLeft="@dimen/jogador_pad_hor"
         android:padding="@dimen/placar_pad_ver"
         />
     <LinearLayout
@@ -23,18 +23,28 @@
         android:orientation="horizontal"
         android:gravity="center"
         >
+        <TextView
+            android:id="@+id/adp_jogador_gol_pro"
+            android:layout_width="@dimen/altura_ic_acao_min"
+            android:layout_height="@dimen/altura_ic_acao_min"
+            android:background="@drawable/acao_add_ponto_pro"
+            android:textColor="@color/ic_texto"
+            android:textSize="@dimen/partida_ic_gols_quant"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:visibility="gone"/>
         <ImageView
             android:id="@+id/adp_jogador_punicao"
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
             android:visibility="gone"/>
-
         <TextView
-            android:id="@+id/adp_jogador_points"
+            android:id="@+id/adp_jogador_gol_contra"
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
-            android:background="@drawable/acao_add_ponto"
+            android:background="@drawable/acao_add_ponto_contra"
             android:textColor="@color/ic_texto"
+            android:textSize="@dimen/partida_ic_gols_quant"
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>

@@ -66,7 +66,6 @@ public class JogadoresAdapter extends BaseAdapter {
         TextView itemNome = v.findViewById(R.id.adp_jogador_nome);
         TextView itemNumber = v.findViewById(R.id.adp_jogador_number);
         TextView itemPosicao = v.findViewById(R.id.adp_jogador_posicao);
-        TextView itemPontos = v.findViewById(R.id.adp_jogador_points);
         ImageView itemPunicao = v.findViewById(R.id.adp_jogador_punicao);
 
         if (acoesTime == null) {
@@ -74,19 +73,30 @@ public class JogadoresAdapter extends BaseAdapter {
             itemNome.setText(jogador.getNome());
 
         } else {
+            TextView itemPontos = v.findViewById(R.id.adp_jogador_gol_pro);
+            TextView itemPontosContra = v.findViewById(R.id.adp_jogador_gol_contra);
             itemPosicao.setVisibility(View.GONE);
             itemNome.setText(getNomeCompacto(jogador.getNome()));
             itemNumber.setTextSize(18);
             itemNome.setTextSize(18);
             HashMap<Integer, Integer> acoesIndividuais = getAcoesIndividuais(position);
             if (acoesIndividuais.containsKey(Score.TIPO_PONTO)){
-                int points = acoesIndividuais.get(Score.TIPO_PONTO);
-                if(points!=1){
-                    itemPontos.setText(Integer.toString(points));
+                int gols = acoesIndividuais.get(Score.TIPO_PONTO);
+                if(gols!=1){
+                    itemPontos.setText(Integer.toString(gols));
                 }
                 itemPontos.setVisibility(View.VISIBLE);
             } else {
                 itemPontos.setVisibility(View.GONE);
+            }
+            if (acoesIndividuais.containsKey(Score.TIPO_AUTO_PONTO)){
+                int autoGol = acoesIndividuais.get(Score.TIPO_AUTO_PONTO);
+                if(autoGol!=1){
+                    itemPontosContra.setText(Integer.toString(autoGol));
+                }
+                itemPontosContra.setVisibility(View.VISIBLE);
+            } else {
+                itemPontosContra.setVisibility(View.GONE);
             }
             int quantCartoes = acoesIndividuais.getOrDefault(Score.TIPO_AMARELO, 0)
                     + acoesIndividuais.getOrDefault(Score.TIPO_VERMELHO, 0)*2;

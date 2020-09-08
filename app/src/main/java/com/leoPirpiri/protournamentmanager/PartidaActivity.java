@@ -65,8 +65,10 @@ public class PartidaActivity extends AppCompatActivity {
     private JogadoresAdapter jam;
     private JogadoresAdapter jav;
 
-    private Drawable ic_gol;
+    private Drawable ic_gol_pro;
+    private Drawable ic_gol_contra;
     private Drawable ic_falta;
+    private Drawable ic_falta_desabled;
     private Drawable ic_cartao_vermelho;
     private Drawable ic_cartao_amarelo;
     private Drawable ic_del_default;
@@ -96,12 +98,14 @@ public class PartidaActivity extends AppCompatActivity {
 
         btn_finalizar_partida = findViewById(R.id.btn_encerrar_partida);
 
-        ic_gol = getDrawable(R.drawable.acao_add_ponto);
+        ic_gol_pro = getDrawable(R.drawable.acao_add_ponto_pro);
+        ic_gol_contra = getDrawable(R.drawable.acao_add_ponto_contra);
         ic_falta = getDrawable(R.drawable.acao_add_falta);
         ic_cartao_vermelho = getDrawable(R.drawable.acao_add_card_vermelho);
         ic_cartao_amarelo = getDrawable(R.drawable.acao_add_card_amarelo);
         ic_cartao_desabled = getDrawable(R.drawable.acao_add_card_desabled);
         ic_gol_desabled = getDrawable(R.drawable.acao_add_ponto_desabled);
+        ic_falta_desabled = getDrawable(R.drawable.acao_add_falta_desabled);
         ic_del_default = getDrawable(R.drawable.acao_del_default);
         ic_del_desabled = getDrawable(R.drawable.acao_del_default_desabled);
 
@@ -258,17 +262,25 @@ public class PartidaActivity extends AppCompatActivity {
 
     private void atualizarCamposMandante(ArrayList<List> acoesGerais) {
         HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
-        txv_partida_score_ponto_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)));
-        txv_partida_score_falta_mandante.setText(Integer.toString(placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
-
+        txv_partida_score_ponto_mandante.setText(Integer.toString(
+                placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)+
+                  placar.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0)
+            ));
+        txv_partida_score_falta_mandante.setText(Integer.toString(
+                placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
+            ));
         listarJogadoresMandantes((ArrayList<Score>) acoesGerais.get(0));
     }
 
     private void atualizarCamposVisitante(ArrayList<List> acoesGerais) {
         HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
-        txv_partida_score_ponto_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
-        txv_partida_score_falta_visitante.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)));
-
+        txv_partida_score_ponto_visitante.setText(Integer.toString(
+                placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)+
+                   placar.getOrDefault("Mand_"+Score.TIPO_AUTO_PONTO, 0)
+        ));
+        txv_partida_score_falta_visitante.setText(Integer.toString(
+                placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
+            ));
         listarJogadoresVisitantes((ArrayList<Score>) acoesGerais.get(1));
     }
 
@@ -498,11 +510,13 @@ public class PartidaActivity extends AppCompatActivity {
         TextView acao_jogador_nome = view.findViewById(R.id.acao_jogador_nome);
         LinearLayout acao_jogador_segundo_amarelo = view.findViewById(R.id.acao_jogador_segundo_amarelo);
 
-        Button btn_del_gol = view.findViewById(R.id.btn_del_acao_gol);
+        Button btn_del_gol_pro = view.findViewById(R.id.btn_del_acao_gol_pro);
+        Button btn_del_gol_contra = view.findViewById(R.id.btn_del_acao_gol_contra);
         Button btn_del_falta = view.findViewById(R.id.btn_del_acao_falta);
         Button btn_del_vermelho = view.findViewById(R.id.btn_del_acao_cartao_vermelho);
         Button btn_del_amarelo = view.findViewById(R.id.btn_del_acao_cartao_amarelo);
-        Button btn_add_gol = view.findViewById(R.id.btn_add_acao_gol);
+        Button btn_add_gol_pro = view.findViewById(R.id.btn_add_acao_gol_pro);
+        Button btn_add_gol_contra = view.findViewById(R.id.btn_add_acao_gol_contra);
         Button btn_add_falta = view.findViewById(R.id.btn_add_acao_falta);
         Button btn_add_vermelho = view.findViewById(R.id.btn_add_acao_cartao_vermelho);
         Button btn_add_amarelo = view.findViewById(R.id.btn_add_acao_cartao_amarelo);
@@ -510,28 +524,33 @@ public class PartidaActivity extends AppCompatActivity {
         acao_jogador_number.setText(Integer.toString(j.getNumero()));
         acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
         acao_jogador_nome.setText(j.getNome());
-
-        btn_del_falta.setBackground(ic_falta);
-        btn_del_falta.setForeground(ic_del_default);
-        btn_del_amarelo.setBackground(ic_cartao_amarelo);
-        btn_del_amarelo.setForeground(ic_del_default);
-        btn_del_vermelho.setBackground(ic_cartao_vermelho);
-        btn_del_vermelho.setForeground(ic_del_default);
+//
+//        btn_del_falta.setBackground(ic_falta_desabled);
+//        btn_del_falta.setForeground(ic_del_default);
+//        btn_del_amarelo.setBackground(ic_cartao_amarelo);
+//        btn_del_amarelo.setForeground(ic_del_default);
+//        btn_del_vermelho.setBackground(ic_cartao_vermelho);
+//        btn_del_vermelho.setForeground(ic_del_default);
         if( acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0) >= 2
            || acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
             //Jogador expulso: NÃO recebe ponto, falta ou novo cartão
-            btn_add_gol.setBackground(ic_gol_desabled);
-            btn_add_gol.setEnabled(false);
-            btn_add_falta.setBackground(ic_falta);
+            btn_add_gol_pro.setBackground(ic_gol_desabled);
+            btn_add_gol_pro.setEnabled(false);
+            btn_add_gol_contra.setBackground(ic_gol_desabled);
+            btn_add_gol_contra.setEnabled(false);
+            btn_add_falta.setBackground(ic_falta_desabled);
             btn_add_falta.setEnabled(false);
             btn_add_vermelho.setBackground(ic_cartao_desabled);
             btn_add_vermelho.setEnabled(false);
             btn_add_amarelo.setBackground(ic_cartao_desabled);
             btn_add_amarelo.setEnabled(false);
-            btn_del_gol.setBackground(ic_gol_desabled);
-            btn_del_gol.setForeground(ic_del_desabled);
-            btn_del_gol.setEnabled(false);
-            btn_del_falta.setBackground(ic_falta);
+            btn_del_gol_pro.setBackground(ic_gol_desabled);
+            btn_del_gol_pro.setForeground(ic_del_desabled);
+            btn_del_gol_pro.setEnabled(false);
+            btn_del_gol_contra.setBackground(ic_gol_desabled);
+            btn_del_gol_contra.setForeground(ic_del_desabled);
+            btn_del_gol_contra.setEnabled(false);
+            btn_del_falta.setBackground(ic_falta_desabled);
             btn_del_falta.setForeground(ic_del_desabled);
             btn_del_falta.setEnabled(false);
             if(acoes_jogador.containsKey(Score.TIPO_VERMELHO)) {
@@ -550,25 +569,41 @@ public class PartidaActivity extends AppCompatActivity {
                 btn_del_vermelho.setEnabled(false);
             }
         } else {
-            //Linha dos pontos
+            //Linha dos pontos a favor
             if(partida.isEncerrada()){
-                btn_del_gol.setBackground(ic_gol_desabled);
-                btn_del_gol.setForeground(ic_del_desabled);
-                btn_del_gol.setEnabled(false);
-                btn_add_gol.setBackground(ic_gol_desabled);
-                btn_add_gol.setEnabled(false);
+                btn_del_gol_pro.setBackground(ic_gol_desabled);
+                btn_del_gol_pro.setForeground(ic_del_desabled);
+                btn_del_gol_pro.setEnabled(false);
+                btn_add_gol_pro.setBackground(ic_gol_desabled);
+                btn_add_gol_pro.setEnabled(false);
+                btn_del_gol_contra.setBackground(ic_gol_desabled);
+                btn_del_gol_contra.setForeground(ic_del_desabled);
+                btn_del_gol_contra.setEnabled(false);
+                btn_add_gol_contra.setBackground(ic_gol_desabled);
+                btn_add_gol_contra.setEnabled(false);
             } else {
+                btn_add_gol_pro.setBackground(ic_gol_pro);
+                btn_add_gol_pro.setEnabled(true);
+                btn_add_gol_contra.setBackground(ic_gol_contra);
+                btn_add_gol_contra.setEnabled(true);
                 if(acoes_jogador.containsKey(Score.TIPO_PONTO)) {
-                    btn_del_gol.setBackground(ic_gol);
-                    btn_del_gol.setForeground(ic_del_default);
-                    btn_del_gol.setEnabled(true);
+                    btn_del_gol_pro.setBackground(ic_gol_pro);
+                    btn_del_gol_pro.setForeground(ic_del_default);
+                    btn_del_gol_pro.setEnabled(true);
                 } else {
-                    btn_del_gol.setBackground(ic_gol_desabled);
-                    btn_del_gol.setForeground(ic_del_desabled);
-                    btn_del_gol.setEnabled(false);
+                    btn_del_gol_pro.setBackground(ic_gol_desabled);
+                    btn_del_gol_pro.setForeground(ic_del_desabled);
+                    btn_del_gol_pro.setEnabled(false);
                 }
-                btn_add_gol.setBackground(ic_gol);
-                btn_add_gol.setEnabled(true);
+                if(acoes_jogador.containsKey(Score.TIPO_AUTO_PONTO)) {
+                    btn_del_gol_contra.setBackground(ic_gol_contra);
+                    btn_del_gol_contra.setForeground(ic_del_default);
+                    btn_del_gol_contra.setEnabled(true);
+                } else {
+                    btn_del_gol_contra.setBackground(ic_gol_desabled);
+                    btn_del_gol_contra.setForeground(ic_del_desabled);
+                    btn_del_gol_contra.setEnabled(false);
+                }
             }
             //Linha das faltas
             if(acoes_jogador.containsKey(Score.TIPO_FALTA_INDIVIDUAL)){
@@ -576,7 +611,7 @@ public class PartidaActivity extends AppCompatActivity {
                 btn_del_falta.setForeground(ic_del_default);
                 btn_del_falta.setEnabled(true);
             } else {
-                btn_del_falta.setBackground(ic_falta);
+                btn_del_falta.setBackground(ic_falta_desabled);
                 btn_del_falta.setForeground(ic_del_desabled);
                 btn_del_falta.setEnabled(false);
             }
@@ -589,6 +624,8 @@ public class PartidaActivity extends AppCompatActivity {
             btn_add_vermelho.setBackground(ic_cartao_vermelho);
             btn_add_vermelho.setEnabled(true);
             //Linha do cartão amarelo
+            btn_add_amarelo.setEnabled(true);
+            btn_add_amarelo.setBackground(ic_cartao_amarelo);
             if(acoes_jogador.containsKey(Score.TIPO_AMARELO)){
                 btn_del_amarelo.setBackground(ic_cartao_amarelo);
                 btn_del_amarelo.setForeground(ic_del_default);
@@ -599,14 +636,19 @@ public class PartidaActivity extends AppCompatActivity {
                 btn_del_amarelo.setForeground(ic_del_desabled);
                 btn_del_amarelo.setEnabled(false);
             }
-            btn_add_amarelo.setEnabled(true);
-            btn_add_amarelo.setBackground(ic_cartao_amarelo);
         }
 
-        btn_add_gol.setOnClickListener(arg0 -> {
+        btn_add_gol_pro.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
             play_efeito_sonoro();
             adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+            alertaDialog.dismiss();
+        });
+
+        btn_add_gol_contra.setOnClickListener(arg0 -> {
+            efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
+            play_efeito_sonoro();
+            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AUTO_PONTO));
             alertaDialog.dismiss();
         });
 
@@ -627,8 +669,13 @@ public class PartidaActivity extends AppCompatActivity {
             alertaDialog.dismiss();
         });
 
-        btn_del_gol.setOnClickListener(arg0 -> {
+        btn_del_gol_pro.setOnClickListener(arg0 -> {
             apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+            alertaDialog.dismiss();
+        });
+
+        btn_del_gol_contra.setOnClickListener(arg0 -> {
+            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AUTO_PONTO));
             alertaDialog.dismiss();
         });
 
@@ -698,7 +745,8 @@ public class PartidaActivity extends AppCompatActivity {
             }
             //Preenchendo informações do jogador na partida.
             view.findViewById(R.id.quadro_info_acoes_jogador).setVisibility(View.VISIBLE);
-            TextView txv_jogador_pontos = view.findViewById(R.id.txv_jogador_pontos);
+            TextView txv_jogador_pontos = view.findViewById(R.id.txv_jogador_gols_pro);
+            TextView txv_jogador_pontos_contra = view.findViewById(R.id.txv_jogador_gols_contra);
             TextView txv_jogador_faltas = view.findViewById(R.id.txv_jogador_faltas);
             TextView txv_jogador_divisor = view.findViewById(R.id.txv_jogador_divisor_cartoes);
             ImageView img_sem_cartao = view.findViewById(R.id.img_jogador_sem_cartao);
@@ -707,6 +755,7 @@ public class PartidaActivity extends AppCompatActivity {
             LinearLayout img_segundo_amarelo = view.findViewById(R.id.img_jogador_amarelo2);
 
             txv_jogador_pontos.setText(Integer.toString(acoes_jogador.getOrDefault(Score.TIPO_PONTO, 0)));
+            txv_jogador_pontos_contra.setText(Integer.toString(acoes_jogador.getOrDefault(Score.TIPO_AUTO_PONTO, 0)));
             txv_jogador_faltas.setText(Integer.toString(acoes_jogador.getOrDefault(Score.TIPO_FALTA_INDIVIDUAL, 0)));
             if(acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
                 img_cartao_vermelho.setVisibility(View.VISIBLE);
@@ -885,15 +934,22 @@ public class PartidaActivity extends AppCompatActivity {
     private void adicionarAcaoJogador(boolean isMandante, Score s) {
         partida.addScore(s);
         atualizar=true;
-        atualizarCamposTime(isMandante);
+        atualizarAposAcao(isMandante, s);
     }
 
     private void apagarAcaoJogador(boolean isMandante, Score s) {
         partida.delScore(s);
         atualizar=true;
-        atualizarCamposTime(isMandante);
+        atualizarAposAcao(isMandante, s);
     }
 
+    private void atualizarAposAcao(boolean isMandante, Score s){
+        if(s.getTipo()==s.TIPO_AUTO_PONTO){
+            atualizarCampos();
+        } else {
+            atualizarCamposTime(isMandante);
+        }
+    }
     private void preencherEquipe(Equipe equipe) {
         equipe.getJogadores().clear();
         for (int i=1; i<=11; i++) {

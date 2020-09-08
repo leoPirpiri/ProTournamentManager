@@ -64,11 +64,12 @@
     <string name="title_alerta_confir_abrir_jogador">Editar jogador</string>
     <string name="title_alerta_confir_excluir_jogador">Dispensar jogador</string>
     <string name="msg_alerta_confir_excluir_jogador">Deseja rescindir o contrato com esse jogador?</string>
-    <string name="msg_alerta_erro_excluir_jogador">Uma cláusula impediu a rescisão do contrato!</string>
+    <string name="msg_alerta_erro_excluir_jogador">Uma cláusula impediu a rescisão do contrato com o jogador!</string>
     <string name="msg_alerta_sucesso_excluir_jogador">Contrato rescindido!</string>
     <string name="title_ficha_tec_jogador">Ficha técnica na partida</string>
     <string name="pontos_ficha_tec_jogador">Pontos na partida:</string>
     <string name="gols_ficha_tec_jogador">Gols na partida:</string>
+    <string name="gols_contra_ficha_tec_jogador">Gols contra:</string>
     <string name="faltas_ficha_tec_jogador">Faltas na partida:</string>
     <string name="cartoes_ficha_tec_jogador">Cartões na partida:</string>
     <string-array name="posicoes_jogador">
@@ -109,7 +110,7 @@
     <string name="partida_score_pontos">Pontos:</string>
     <string name="partida_score_falta">Faltas:</string>
     <string name="partida_acao_ponto">Ponto</string>
-    <string name="partida_acao_gol">Gol</string>
+    <string name="partida_acao_gol">Gol (pró &amp; contra)</string>
     <string name="partida_acao_falta">Falta</string>
     <string name="partida_acao_cartao">Cartões</string>
     <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>

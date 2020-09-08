@@ -362,7 +362,7 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     private void excluirJogador(Jogador jogador) {
-        if(torneio.atoJogador(jogador.getId()) && equipe.delJogador(jogador)) {
+        if(!torneio.atoJogador(jogador.getId()) && equipe.delJogador(jogador)) {
             atualizar = true;
             CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_sucesso_excluir_jogador));
             listarJogadores();
