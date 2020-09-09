@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_nome_jogador"
                 android:textAlignment="textStart"
+                android:inputType="textCapWords"
                 android:textSize="20dp"
                 android:singleLine="true"
                 android:maxLength="13"

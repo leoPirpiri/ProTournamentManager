@@ -58,9 +58,13 @@ public class Torneio extends EntConcreta {
     }
 
     public void addTime(Equipe time) {
-        if(!isFechado() && times.size()<MAX_EQUIPE){
+        if(!isFechado() && times.size()<MAX_EQUIPE && !siglaUsada(time.getSigla())){
             this.times.add(time);
         }
+    }
+
+    public boolean siglaUsada(String s){
+        return times.stream().anyMatch(e -> e.getSigla().equals(s));
     }
 
     public Equipe delTime(int pos){

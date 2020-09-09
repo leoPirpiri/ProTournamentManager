@@ -44,7 +44,8 @@
                 android:layout_weight="2"
                 android:maxLength="35"
                 android:hint="@string/novo_torneio"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:inputType="textCapWords|text"/>
 
             <Button
                 android:id="@+id/btn_novo_tourneio"

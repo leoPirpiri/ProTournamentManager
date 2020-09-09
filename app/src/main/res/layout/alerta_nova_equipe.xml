@@ -17,7 +17,9 @@
         android:maxLength="35"
         android:hint="@string/hint_nome_equipe"
         android:singleLine="true"
-        android:padding="5dp"/>
+        android:padding="5dp"
+        android:inputType="textCapWords"
+        android:selectAllOnFocus="true"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,9 +36,16 @@
             android:hint="@string/hint_sigla_equipe"
             android:maxLength="5"
             android:padding="5dp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textAllCaps="true"/>
     </LinearLayout>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/equipe_pad_hor"
+        android:text="@string/msg_alerta_warning_sigla"
+        android:textColor="@color/expulsao"
+        />
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

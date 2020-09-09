@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +25,6 @@ import android.widget.Toast;
 import control.Olimpia;
 import model.Equipe;
 import model.Torneio;
-import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
@@ -237,9 +237,14 @@ public class TorneioActivity extends AppCompatActivity {
                         sigla_bot = nome.substring(0, 1).toUpperCase();
                     }
                     if (!sigla.equals(sigla_bot)) {
-                        etx_sigla_equipe.setText(sigla_bot);
+                        sigla = sigla_bot;
+                        etx_sigla_equipe.setText(sigla);
                     }
-                    ativarOKalertaEquipe();
+                    if(sigla.length()>1 && !torneio.siglaUsada(sigla)){
+                        ativarOKalertaEquipe();
+                    }else {
+                        desativarOKalertaEquipe();
+                    }
                 }
             }
 
@@ -255,8 +260,9 @@ public class TorneioActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String sigla = etx_sigla_equipe.getText().toString();
                 if (etx_nome_equipe.getText().toString().isEmpty() ||
-                        etx_sigla_equipe.getText().toString().isEmpty()) {
+                        sigla.length()<=1 || torneio.siglaUsada(sigla)) {
                     desativarOKalertaEquipe();
                 } else {
                     ativarOKalertaEquipe();
@@ -267,9 +273,25 @@ public class TorneioActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        etx_nome_equipe.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (hasFocus) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
+
+        builder.setOnDismissListener(dialog -> {
+            if(etx_nome_equipe.requestFocus()) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
         mostrarAlerta(builder);
+        etx_nome_equipe.requestFocus();
     }
 
     private void montarAlertaSorteio(){

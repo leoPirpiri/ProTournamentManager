@@ -24,20 +24,20 @@
         android:gravity="center"
         >
         <TextView
-            android:id="@+id/adp_jogador_gol_pro"
+            android:id="@+id/adp_jogador_gol_contra"
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
-            android:background="@drawable/acao_add_ponto_pro"
+            android:background="@drawable/acao_add_ponto_contra"
             android:textColor="@color/ic_texto"
             android:textSize="@dimen/partida_ic_gols_quant"
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>
         <TextView
-            android:id="@+id/adp_jogador_gol_contra"
+            android:id="@+id/adp_jogador_gol_pro"
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
-            android:background="@drawable/acao_add_ponto_contra"
+            android:background="@drawable/acao_add_ponto_pro"
             android:textColor="@color/ic_texto"
             android:textSize="@dimen/partida_ic_gols_quant"
             android:textStyle="bold"

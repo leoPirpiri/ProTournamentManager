@@ -15,7 +15,6 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import model.Equipe;
 import model.NoPartida;
 import model.Score;
 import model.Torneio;

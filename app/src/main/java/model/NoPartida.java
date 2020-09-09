@@ -93,7 +93,8 @@ public class NoPartida extends EntConcreta {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean delScore(Score score) {
-        Score s_to_del = placar.stream().filter(s -> s.getTipo() == score.getTipo() && s.getIdJogador() == score.getIdJogador()).findFirst().get();
+        Score s_to_del = placar.stream().filter(s -> s.getTipo() == score.getTipo()
+                && s.getIdJogador() == score.getIdJogador()).findFirst().get();
         return this.placar.remove(s_to_del);
     }
 

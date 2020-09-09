@@ -119,7 +119,7 @@ public class Olimpia implements Serializable {
         Equipe eTeste5 = new Equipe(10500, "Passagem de Cima Futsal", "PCF");
 
         eTeste.addJogador(new Jogador(10201, "Almir Rogério", 2, 12));
-        eTeste2.addJogador(new Jogador(10101, "Nill do Maciel", 3, 7));
+        eTeste.addJogador(new Jogador(10101, "Nill do Maciel", 3, 7));
         eTeste2.addJogador(new Jogador(10202, "Bruno", 2, 1));
         eTeste3.addJogador(new Jogador(10301, "Valdir", 1, 9));
         eTeste4.addJogador(new Jogador(10401, "Kekel", 3, 7));

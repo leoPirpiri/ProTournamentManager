@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;

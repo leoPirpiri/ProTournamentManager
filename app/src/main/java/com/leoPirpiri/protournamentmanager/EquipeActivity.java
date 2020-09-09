@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -61,7 +62,7 @@ public class EquipeActivity extends AppCompatActivity {
         btn_add_jogador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                montarAlertaNovoEditaJogador(null);
+                montarAlertaNovoEditarJogador(null);
             }
         });
 
@@ -73,7 +74,7 @@ public class EquipeActivity extends AppCompatActivity {
         }
 
         ltv_jogadores_equipe.setOnItemClickListener((parent, view, position, id) -> {
-            montarAlertaNovoEditaJogador(equipe.getJogadores().get(position));
+            montarAlertaNovoEditarJogador(equipe.getJogadores().get(position));
         });
 
         ltv_jogadores_equipe.setOnItemLongClickListener((parent, view, position, id) -> {
@@ -138,14 +139,21 @@ public class EquipeActivity extends AppCompatActivity {
         btn_confirma_equipe.setOnClickListener(arg0 -> {
             String nome = etx_nome_equipe.getText().toString().trim();
             String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
+            boolean mudou = false;
             if (!nome.isEmpty() && !sigla.isEmpty()) {
-                if (!equipe.getNome().equals(nome) || !equipe.getSigla().equals(sigla)) {
+                if(!equipe.getNome().equals(nome)) {
                     equipe.setNome(nome);
+                    mudou = true;
+                }
+                if(sigla.length()>1 && !equipe.getSigla().equals(sigla) && !torneio.siglaUsada(sigla)) {
                     equipe.setSigla(sigla);
+                    mudou = true;
+                }
+                if (mudou){
                     atualizar = true;
                     atualizarNomesEquipes();
                 } else {
-                    CarrierSemiActivity.exemplo(EquipeActivity.this, getString(R.string.erro_atualizar_mesma_informacoes_da_entidade));
+                    CarrierSemiActivity.exemplo(EquipeActivity.this, getString(R.string.erro_atualizar_informacoes_equipe));
                 }
                 alertaDialog.dismiss();
             }
@@ -182,9 +190,24 @@ public class EquipeActivity extends AppCompatActivity {
             }
         });
 
+        etx_nome_equipe.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (hasFocus) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
+
+        builder.setOnDismissListener(dialog -> {
+            if(etx_nome_equipe.requestFocus()) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
         mostrarAlerta(builder);
+        etx_nome_equipe.requestFocus();
     }
 
     private void montarAlertaDeletarJogador(Jogador j) {
@@ -213,7 +236,7 @@ public class EquipeActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaNovoEditaJogador(Jogador velhoJogador) {
+    private void montarAlertaNovoEditarJogador(Jogador velhoJogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -297,9 +320,24 @@ public class EquipeActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
+        etx_nome_jogador.setOnFocusChangeListener((view1, hasFocus) -> {
+            if (hasFocus) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+            }
+        });
+
+        builder.setOnDismissListener(dialog -> {
+            if(etx_nome_jogador.requestFocus()) {
+                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            }
+        });
+
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_novo_jogador);
         mostrarAlerta(builder);
+        etx_nome_jogador.requestFocus();
     }
 
     private String siglatation(String entrada) {
