@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -193,6 +194,7 @@ public class TorneioActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
+        etx_nome_equipe.requestFocus();
         etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
         btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_equipe);
 
@@ -274,24 +276,9 @@ public class TorneioActivity extends AppCompatActivity {
             }
         });
 
-        etx_nome_equipe.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(etx_nome_equipe.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
         mostrarAlerta(builder);
-        etx_nome_equipe.requestFocus();
     }
 
     private void montarAlertaSorteio(){
@@ -365,6 +352,7 @@ public class TorneioActivity extends AppCompatActivity {
     private void mostrarAlerta(AlertDialog.Builder builder, int background){
         alertaDialog = builder.create();
         alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }
 

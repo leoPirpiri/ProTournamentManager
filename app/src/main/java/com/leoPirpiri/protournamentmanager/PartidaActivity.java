@@ -3,7 +3,7 @@ package com.leoPirpiri.protournamentmanager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import control.Olimpia;
 import model.Equipe;
@@ -356,6 +357,7 @@ public class PartidaActivity extends AppCompatActivity {
         ListView lv_jogadores = view.findViewById(R.id.ltv_sorteio_jogadores);
         lv_jogadores.setAdapter(adapterJogadores);
         TextView nome_jogador = view.findViewById(R.id.txv_nome_sorteio);
+        nome_jogador.requestFocus();
         Button btn_sortear = view.findViewById(R.id.btn_sortear);
 
         view.findViewById(R.id.btn_add_nome_sorteio).setOnClickListener(arg0 -> {
@@ -405,22 +407,9 @@ public class PartidaActivity extends AppCompatActivity {
                         ));
                     }
                 }
+                atualizar=true;
                 alertaDialog.dismiss();
                 montarAlertaSorteioJogadores();
-            }
-        });
-
-        nome_jogador.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(nome_jogador.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
             }
         });
 
@@ -428,7 +417,6 @@ public class PartidaActivity extends AppCompatActivity {
         builder.setTitle(R.string.title_alerta_sorteio);
         builder.setCancelable(false);
         mostrarAlerta(builder);
-        nome_jogador.requestFocus();
     }
 
     private void montarAlertaSorteioJogadores() {
@@ -805,6 +793,7 @@ public class PartidaActivity extends AppCompatActivity {
                 }
             }
         }
+        etx_nome_jogador.requestFocus();
         spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
         spnr_numero.setSelection(0);
         btn_confirma_jogador.setEnabled(true);
@@ -854,23 +843,9 @@ public class PartidaActivity extends AppCompatActivity {
 
         view.findViewById(R.id.btn_cancelar_jogador).setOnClickListener(arg0 -> alertaDialog.dismiss());
 
-        etx_nome_jogador.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(etx_nome_jogador.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-
         builder.setView(view);
         mostrarAlerta(builder);
-        if(j==null)etx_nome_jogador.requestFocus();
+        if(j!=null)alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void montarAlertaEditarEquipe(boolean isMandante) {
@@ -891,6 +866,7 @@ public class PartidaActivity extends AppCompatActivity {
 
         etx_nome_equipe.setText(equipeAtualizando.getNome());
         etx_sigla_equipe.setText(equipeAtualizando.getSigla());
+        etx_nome_equipe.requestFocus();
 
         //Listeners possíveis do alerta
         btn_confirma_equipe.setOnClickListener(arg0 -> {
@@ -947,24 +923,9 @@ public class PartidaActivity extends AppCompatActivity {
             }
         });
 
-        etx_nome_equipe.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(etx_nome_equipe.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
         mostrarAlerta(builder);
-        etx_nome_equipe.requestFocus();
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder) {
@@ -976,6 +937,7 @@ public class PartidaActivity extends AppCompatActivity {
             alertaDialog.dismiss();
         }
         alertaDialog = builder.create();
+        alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
         alertaDialog.show();
     }
@@ -999,6 +961,7 @@ public class PartidaActivity extends AppCompatActivity {
             atualizarCamposTime(isMandante);
         }
     }
+
     private void preencherEquipe(Equipe equipe) {
         equipe.getJogadores().clear();
         for (int i=1; i<=11; i++) {

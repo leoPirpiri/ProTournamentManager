@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -134,6 +135,7 @@ public class EquipeActivity extends AppCompatActivity {
         btn_confirma_equipe.setText(R.string.btn_editar);
 
         etx_nome_equipe.setText(equipe.getNome());
+        etx_nome_equipe.requestFocus();
         etx_sigla_equipe.setText(equipe.getSigla());
         //Listeners possíveis do alerta
         btn_confirma_equipe.setOnClickListener(arg0 -> {
@@ -190,24 +192,9 @@ public class EquipeActivity extends AppCompatActivity {
             }
         });
 
-        etx_nome_equipe.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(etx_nome_equipe.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_nova_equipe);
         mostrarAlerta(builder);
-        etx_nome_equipe.requestFocus();
     }
 
     private void montarAlertaDeletarJogador(Jogador j) {
@@ -257,6 +244,7 @@ public class EquipeActivity extends AppCompatActivity {
                 view.findViewById(R.id.btn_del_jogador).setVisibility(View.VISIBLE);
             }
         }
+        etx_nome_jogador.requestFocus();
         spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
         spnr_numero.setSelection(0);
         //Listeners possíveis do alerta
@@ -320,24 +308,9 @@ public class EquipeActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        etx_nome_jogador.setOnFocusChangeListener((view1, hasFocus) -> {
-            if (hasFocus) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-            }
-        });
-
-        builder.setOnDismissListener(dialog -> {
-            if(etx_nome_jogador.requestFocus()) {
-                InputMethodManager inputMethodManager = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
-                inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-            }
-        });
-
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_novo_jogador);
         mostrarAlerta(builder);
-        etx_nome_jogador.requestFocus();
     }
 
     private String siglatation(String entrada) {
@@ -387,6 +360,7 @@ public class EquipeActivity extends AppCompatActivity {
     private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
         alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }
 
