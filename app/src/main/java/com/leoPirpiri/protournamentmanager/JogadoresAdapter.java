@@ -84,6 +84,8 @@ public class JogadoresAdapter extends BaseAdapter {
                 int gols = acoesIndividuais.get(Score.TIPO_PONTO);
                 if(gols!=1){
                     itemPontos.setText(Integer.toString(gols));
+                } else {
+                    itemPontos.setText("");
                 }
                 itemPontos.setVisibility(View.VISIBLE);
             } else {
@@ -93,6 +95,8 @@ public class JogadoresAdapter extends BaseAdapter {
                 int autoGol = acoesIndividuais.get(Score.TIPO_AUTO_PONTO);
                 if(autoGol!=1){
                     itemPontosContra.setText(Integer.toString(autoGol));
+                } else {
+                    itemPontosContra.setText("");
                 }
                 itemPontosContra.setVisibility(View.VISIBLE);
             } else {
