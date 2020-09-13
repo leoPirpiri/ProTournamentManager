@@ -10,6 +10,8 @@
     <string name="btn_cancelar">Cancelar</string>
     <string name="btn_sortear">Sortear!</string>
     <string name="btn_partida_encerrada">Partida Encerrada</string>
+    <string name="btn_desempate_mandante">Mandante</string>
+    <string name="btn_desempate_visitante">Visitante</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
     <string name="santuario_com_torneios">Torneios recentes: </string>
@@ -127,6 +129,7 @@
     <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
     <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador</string>
     <string name="title_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
+    <string name="title_alerta_partida_desempate">Pênaltis</string>
     <string name="lbl_vs_default">Vs.</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida: </string>
@@ -146,6 +149,10 @@
     <string name="lbl_msg_partida_sorteio_jogadores">
         Preencha os nomes dos participantes da pelada.
     </string>
+    <string name="msg_alerta_desempate_iniciante">Quem inicia as cobranças?</string>
+    <string name="msg_alerta_desempate_quantidade">Quantidade mínima de cobranças?</string>
+    <string name="msg_alerta_desempate_cobranças">Iniciam-se as cobranças!</string>
+    <string name="msg_alerta_desempate_campeao_por_sorteio">Campeão definido por sorteio!</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

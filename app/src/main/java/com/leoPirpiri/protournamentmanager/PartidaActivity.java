@@ -3,7 +3,6 @@ package com.leoPirpiri.protournamentmanager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -14,7 +13,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -30,7 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import control.Olimpia;
 import model.Equipe;
@@ -476,7 +475,7 @@ public class PartidaActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaPremiacao() {
+    private void montarAlertaPremiacao(Equipe campeao) {
 
     }
 
@@ -498,8 +497,11 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         btn_cancelar.setOnClickListener(arg0 -> {
-            //desfaz o alerta.
+            CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_desempate_campeao_por_sorteio));
+            Equipe campeao = new Random().nextInt(24)%2 == 0 ? mandante : visitante;
+            partida.setCampeaoId(campeao.getId());
             alertaDialog.dismiss();
+            montarAlertaPremiacao(campeao);
         });
 
         builder.setView(view);
@@ -508,7 +510,69 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void montarAlertaAbrirDesempate() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_penaltis, null);
 
+        TextView txv_sigla_mandante = view.findViewById(R.id.sigla_desempate_mandante);
+        TextView txv_sigla_visitante = view.findViewById(R.id.sigla_desempate_visitante);
+        TextView txv_msg = view.findViewById(R.id.msg_alerta_desempate);
+
+        LinearLayout lista_cobranca_mandante = view.findViewById(R.id.lista_desempate_cobrancas_mandante);
+        LinearLayout lista_cobranca_visitante = view.findViewById(R.id.lista_desempate_cobrancas_visitante);
+
+        TextView txv_placar_mandante = view.findViewById(R.id.placar_desempate_mandante);
+        TextView txv_placar_visitante = view.findViewById(R.id.placar_desempate_visitante);
+
+        Button btn_mandante_primeiro = view.findViewById(R.id.btn_desempate_mandante);
+        Button btn_visitante_primeiro = view.findViewById(R.id.btn_desempate_visitante);
+        Button btn_min_3 = view.findViewById(R.id.btn_desempate_3);
+        Button btn_min_5 = view.findViewById(R.id.btn_desempate_5);
+        Button btn_erro = view.findViewById(R.id.btn_desempate_erro);
+        Button btn_acerto = view.findViewById(R.id.btn_desempate_acerto);
+
+        txv_sigla_mandante.setText(mandante.getSigla());
+        txv_sigla_visitante.setText(visitante.getSigla());
+
+        AtomicInteger min_cobranca = new AtomicInteger();
+        
+        btn_mandante_primeiro.setOnClickListener(arg0 -> {
+            txv_msg.setText(R.string.msg_alerta_desempate_quantidade);
+            btn_mandante_primeiro.setVisibility(View.GONE);
+            btn_visitante_primeiro.setVisibility(View.GONE);
+            btn_min_3.setVisibility(View.VISIBLE);
+            btn_min_5.setVisibility(View.VISIBLE);
+        });
+
+        btn_visitante_primeiro.setOnClickListener(arg0 -> {
+            txv_msg.setText(R.string.msg_alerta_desempate_quantidade);
+            btn_mandante_primeiro.setVisibility(View.GONE);
+            btn_visitante_primeiro.setVisibility(View.GONE);
+            btn_min_3.setVisibility(View.VISIBLE);
+            btn_min_5.setVisibility(View.VISIBLE);
+        });
+
+        btn_min_3.setOnClickListener(arg0 -> {
+            min_cobranca.set(3);
+            txv_msg.setText(R.string.msg_alerta_desempate_cobranças);
+            btn_min_3.setVisibility(View.GONE);
+            btn_min_5.setVisibility(View.GONE);
+            btn_erro.setVisibility(View.VISIBLE);
+            btn_acerto.setVisibility(View.VISIBLE);
+        });
+
+        btn_min_5.setOnClickListener(arg0 -> {
+            min_cobranca.set(5);
+            txv_msg.setText(R.string.msg_alerta_desempate_cobranças);
+            btn_min_3.setVisibility(View.GONE);
+            btn_min_5.setVisibility(View.GONE);
+            btn_erro.setVisibility(View.VISIBLE);
+            btn_acerto.setVisibility(View.VISIBLE);
+        });
+
+        builder.setView(view);
+        builder.setTitle(R.string.title_alerta_partida_desempate);
+        builder.setCancelable(false);
+        mostrarAlerta(builder);
     }
 
     private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
@@ -701,7 +765,6 @@ public class PartidaActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_cancelar_acao).setOnClickListener(arg0 -> alertaDialog.dismiss());
 
         builder.setView(view);
-        //define o titulo
         builder.setTitle(R.string.title_alerta_partida_acao_jogador);
         mostrarAlerta(builder);
     }
@@ -990,7 +1053,7 @@ public class PartidaActivity extends AppCompatActivity {
         if (partida.setEncerrada()){
             btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
             desativarFinalizarPartida();
-            montarAlertaPremiacao();
+            montarAlertaPremiacao(torneio.getTime(partida.getCampeaoId()));
         } else {
             if(isSimulacao()){
                 montarAlertaPerguntarDesempate();

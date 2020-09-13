@@ -140,7 +140,7 @@ public class JogadoresAdapter extends BaseAdapter {
         int margemErro = limite+3;
         String nome = "";
         for(String s : nomeBruto.split(" ")){
-            if(!pulos.contains(s)){
+            if(!pulos.contains(s.toLowerCase())){
                 if(nome.length() + s.length() <= limite){
                     nome = nome.concat(s.concat(" "));
                 } else if (nome.length() + s.length() <= margemErro){

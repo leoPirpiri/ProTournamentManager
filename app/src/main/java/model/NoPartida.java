@@ -83,7 +83,6 @@ public class NoPartida extends EntConcreta {
         } else if(pontosVisitante>pontosMandante) {
             setCampeaoId(visitante.getCampeaoId());
         }
-
         return isEncerrada();
     }
 
