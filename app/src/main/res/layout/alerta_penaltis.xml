@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hint_sigla_equipe"
                 android:textSize="@dimen/partida_penaltis"
+                android:textColor="@color/text_default"
                 android:padding="5dp"/>
             <TextView
                 android:id="@+id/sigla_desempate_visitante"
@@ -29,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hint_sigla_equipe"
                 android:textSize="@dimen/partida_penaltis"
+                android:textColor="@color/text_default"
                 android:padding="5dp"/>
         </LinearLayout>
         <LinearLayout

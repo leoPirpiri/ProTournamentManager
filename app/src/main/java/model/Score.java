@@ -7,6 +7,7 @@ public class Score extends EntGeral {
     public static final int TIPO_FALTA_INDIVIDUAL = 3;
     public static final int TIPO_FALTA_TATICA_COLETIVA = 4;
     public static final int TIPO_AUTO_PONTO = 5; //Gol-contra no caso do futebol, handbol, futsal, etc. ou Ponto por erro caso voleibol
+    public static final int TIPO_PONTO_DESEMPATE = 6;
 
     private int idJogador;
     private int tipo;

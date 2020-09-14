@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,7 @@ public class PartidaActivity extends AppCompatActivity {
     private Olimpia santuarioOlimpia;
     private Torneio torneio;
     private NoPartida partida;
+    private Equipe cobrador;
     private Equipe mandante;
     private Equipe visitante;
     private Chronometer relogio;
@@ -534,8 +536,15 @@ public class PartidaActivity extends AppCompatActivity {
         txv_sigla_visitante.setText(visitante.getSigla());
 
         AtomicInteger min_cobranca = new AtomicInteger();
-        
+        int corCobrador = getColor(R.color.midle);
+
+        ArrayList<Score> score_parcial = new ArrayList<>();
+        ArrayList<String> score_parcial_mandante = new ArrayList(Arrays.asList("n", "n", "n", "n", "n"));
+        ArrayList<String> score_parcial_visitante = new ArrayList(Arrays.asList("n", "n", "n", "n", "n"));
+
         btn_mandante_primeiro.setOnClickListener(arg0 -> {
+            cobrador = mandante;
+            txv_sigla_mandante.setTextColor(corCobrador);
             txv_msg.setText(R.string.msg_alerta_desempate_quantidade);
             btn_mandante_primeiro.setVisibility(View.GONE);
             btn_visitante_primeiro.setVisibility(View.GONE);
@@ -544,6 +553,8 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         btn_visitante_primeiro.setOnClickListener(arg0 -> {
+            cobrador=visitante;
+            txv_sigla_visitante.setTextColor(corCobrador);
             txv_msg.setText(R.string.msg_alerta_desempate_quantidade);
             btn_mandante_primeiro.setVisibility(View.GONE);
             btn_visitante_primeiro.setVisibility(View.GONE);
@@ -553,6 +564,12 @@ public class PartidaActivity extends AppCompatActivity {
 
         btn_min_3.setOnClickListener(arg0 -> {
             min_cobranca.set(3);
+            score_parcial_mandante.remove(0);
+            score_parcial_mandante.remove(0);
+            score_parcial_visitante.remove(0);
+            score_parcial_visitante.remove(0);
+            mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
+            mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
             txv_msg.setText(R.string.msg_alerta_desempate_cobranças);
             btn_min_3.setVisibility(View.GONE);
             btn_min_5.setVisibility(View.GONE);
@@ -569,10 +586,101 @@ public class PartidaActivity extends AppCompatActivity {
             btn_acerto.setVisibility(View.VISIBLE);
         });
 
+        btn_acerto.setOnClickListener(arg0 -> {
+            score_parcial.add(new Score(partidaIndice, cobrador.getId(), Score.TIPO_PONTO_DESEMPATE));
+            aplicarPontoDesempate(score_parcial,
+                    score_parcial_mandante,
+                    score_parcial_visitante,
+                    lista_cobranca_mandante,
+                    lista_cobranca_visitante,
+                    txv_sigla_mandante,
+                    txv_sigla_visitante,
+                    "a", min_cobranca.get()
+                );
+            txv_placar_mandante.setText(Long.toString(score_parcial.stream().filter(s -> s.getIdJogador() == mandante.getId()).count()));
+            txv_placar_visitante.setText(Long.toString(score_parcial.stream().filter(s -> s.getIdJogador() == visitante.getId()).count()));
+        });
+
+        btn_erro.setOnClickListener(arg0 -> {
+            aplicarPontoDesempate(score_parcial,
+                    score_parcial_mandante,
+                    score_parcial_visitante,
+                    lista_cobranca_mandante,
+                    lista_cobranca_visitante,
+                    txv_sigla_mandante,
+                    txv_sigla_visitante,
+                    "e", min_cobranca.get()
+            );
+
+        });
+
         builder.setView(view);
         builder.setTitle(R.string.title_alerta_partida_desempate);
         builder.setCancelable(false);
         mostrarAlerta(builder);
+    }
+
+    private void aplicarPontoDesempate(ArrayList<Score> score_parcial,
+                                       ArrayList<String> score_parcial_mandante,
+                                       ArrayList<String> score_parcial_visitante,
+                                       LinearLayout lista_cobranca_mandante,
+                                       LinearLayout lista_cobranca_visitante,
+                                       TextView txv_sigla_mandante,
+                                       TextView txv_sigla_visitante,
+                                       String str, int min_cobranca){
+        int corCobrador = getColor(R.color.midle);
+        int corDefensor = getColor(R.color.text_default);
+        if(cobrador.getId() == mandante.getId()){
+            score_parcial_mandante.set(score_parcial_mandante.indexOf("n"), str);
+            txv_sigla_visitante.setTextColor(corCobrador);
+            txv_sigla_mandante.setTextColor(corDefensor);
+            mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
+
+            cobrador=visitante;
+        } else {
+            score_parcial_visitante.set(score_parcial_visitante.indexOf("n"), str);
+            txv_sigla_mandante.setTextColor(corCobrador);
+            txv_sigla_visitante.setTextColor(corDefensor);
+            cobrador=mandante;
+            mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
+        }
+        if(!score_parcial_mandante.contains("n") || !score_parcial_visitante.contains("n")){
+            if(score_parcial.stream().filter(s -> s.getIdJogador() == mandante.getId()).count() ==
+                    score_parcial.stream().filter(s -> s.getIdJogador() == visitante.getId()).count()){
+                score_parcial_mandante.add("n");
+                score_parcial_visitante.add("n");
+                if(score_parcial_mandante.size() > min_cobranca+1){
+                    score_parcial_mandante.remove(0);
+                    score_parcial_visitante.remove(0);
+                }
+                mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
+                mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
+            } else {
+                CarrierSemiActivity.exemplo(this, "Alguém ganhou a partida");
+            }
+        }
+    }
+
+    private void mudarPlacarDesempate(LinearLayout layout, ArrayList<String> placar){
+        for(int i=0; i<layout.getChildCount(); i++){
+            ImageView img = (ImageView) layout.getChildAt(i);
+            if(placar.size()>i){
+                img.setVisibility(View.VISIBLE);
+                switch (placar.get(i)){
+                    case "a":
+                        img.setImageResource(R.drawable.acao_add_ponto_pro);
+                        break;
+                    case "e":
+                        img.setImageResource(R.drawable.acao_add_ponto_contra);
+                        break;
+                    default:
+                        img.setImageResource(R.drawable.acao_add_ponto_desabled);
+                        break;
+                }
+            } else {
+                img.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
