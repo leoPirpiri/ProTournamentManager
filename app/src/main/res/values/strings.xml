@@ -39,8 +39,8 @@
     <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
     <string name="equipe_sigla_partida_aberta"> </string>
     <string name="equipe_ponto_partida_aberta">-</string>
-    <string name="equipe_exemplo_mandante">Time Amarelo</string>
-    <string name="equipe_exemplo_visitante">Equipe Azul</string>
+    <string name="equipe_exemplo_mandante">Equipe Azul</string>
+    <string name="equipe_exemplo_visitante">Time Amarelo</string>
     <string name="hint_sigla_equipe">CEE</string>
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome: </string>
@@ -130,6 +130,7 @@
     <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador</string>
     <string name="title_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
     <string name="title_alerta_partida_desempate">Pênaltis</string>
+    <string name="title_alerta_partida_campeao">Vitória!</string>
     <string name="lbl_vs_default">Vs.</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida: </string>
@@ -153,6 +154,7 @@
     <string name="msg_alerta_desempate_quantidade">Quantidade mínima de cobranças?</string>
     <string name="msg_alerta_desempate_cobranças">Iniciam-se as cobranças!</string>
     <string name="msg_alerta_desempate_campeao_por_sorteio">Campeão definido por sorteio!</string>
+    <string name="msg_alerta_saldar_campeao">Parabéns por vencer a partida!</string>
 
     <!-- Mensagens de sucesso para o usuário -->
     <string name="dados_salvando">Granvando dados...</string>

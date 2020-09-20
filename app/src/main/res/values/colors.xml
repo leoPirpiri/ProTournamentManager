@@ -20,7 +20,7 @@
     <color name="text_default">#000</color>
     <color name="branco">#FFF</color>
     <color name="btn_texto_ic">#FFF</color>
-    <color name="ic_texto">#000000</color>
+    <color name="ic_texto">#fff</color>
     <color name="cor_relogio">#0027C1</color>
     <color name="cor_transparente">#00FFFFFF</color>
 </resources>

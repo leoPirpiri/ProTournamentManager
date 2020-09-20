@@ -4,13 +4,16 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -361,6 +364,11 @@ public class PartidaActivity extends AppCompatActivity {
         nome_jogador.requestFocus();
         Button btn_sortear = view.findViewById(R.id.btn_sortear);
 
+        if(nomes_jogadores.size()>=2){
+            btn_sortear.setEnabled(true);
+            btn_sortear.setBackgroundResource(R.drawable.button_shape_enabled);
+        }
+
         view.findViewById(R.id.btn_add_nome_sorteio).setOnClickListener(arg0 -> {
             String nome = nome_jogador.getText().toString().trim();
             if(nomes_jogadores.size()<=50 && !nome.isEmpty()) {
@@ -477,8 +485,36 @@ public class PartidaActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaPremiacao(Equipe campeao) {
+    private void montarAlertaPremiacao() {
+        Equipe campeao = mandante.getId() == partida.getCampeaoId() ? mandante : visitante;
+        btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
+        desativarFinalizarPartida();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        GifImageView img = view.findViewById(R.id.img_alerta_default);
+
+
+        btn_confirmar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        img.setVisibility(View.VISIBLE);
+
+        SpannableString textoNegrito = new SpannableString(campeao.getNome() + "\n\n" +
+                getString(R.string.msg_alerta_saldar_campeao) + "\n");
+        textoNegrito.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, campeao.getNome().length(), 0);
+        msg.setText(textoNegrito);
+        img.setImageResource(R.drawable.fogos);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+        });
+
+        builder.setView(view);
+        builder.setTitle(R.string.title_alerta_partida_campeao);
+        mostrarAlerta(builder);
     }
 
     private void montarAlertaPerguntarDesempate() {
@@ -500,10 +536,9 @@ public class PartidaActivity extends AppCompatActivity {
 
         btn_cancelar.setOnClickListener(arg0 -> {
             CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_desempate_campeao_por_sorteio));
-            Equipe campeao = new Random().nextInt(24)%2 == 0 ? mandante : visitante;
-            partida.setCampeaoId(campeao.getId());
+            partida.setCampeaoId(new Random().nextInt(24)%2 == 0 ? mandante.getId() : visitante.getId());
             alertaDialog.dismiss();
-            montarAlertaPremiacao(campeao);
+            montarAlertaPremiacao();
         });
 
         builder.setView(view);
@@ -611,7 +646,6 @@ public class PartidaActivity extends AppCompatActivity {
                     txv_sigla_visitante,
                     "e", min_cobranca.get()
             );
-
         });
 
         builder.setView(view);
@@ -635,29 +669,61 @@ public class PartidaActivity extends AppCompatActivity {
             txv_sigla_visitante.setTextColor(corCobrador);
             txv_sigla_mandante.setTextColor(corDefensor);
             mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
-
             cobrador=visitante;
         } else {
             score_parcial_visitante.set(score_parcial_visitante.indexOf("n"), str);
             txv_sigla_mandante.setTextColor(corCobrador);
             txv_sigla_visitante.setTextColor(corDefensor);
-            cobrador=mandante;
             mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
+            cobrador=mandante;
         }
-        if(!score_parcial_mandante.contains("n") || !score_parcial_visitante.contains("n")){
-            if(score_parcial.stream().filter(s -> s.getIdJogador() == mandante.getId()).count() ==
-                    score_parcial.stream().filter(s -> s.getIdJogador() == visitante.getId()).count()){
-                score_parcial_mandante.add("n");
-                score_parcial_visitante.add("n");
-                if(score_parcial_mandante.size() > min_cobranca+1){
-                    score_parcial_mandante.remove(0);
-                    score_parcial_visitante.remove(0);
+        int im = score_parcial_mandante.indexOf("n");
+        int iv = score_parcial_visitante.indexOf("n");
+        long golsM = score_parcial.stream().filter(s -> s.getIdJogador() == mandante.getId()).count();
+        long golsV = score_parcial.stream().filter(s -> s.getIdJogador() == visitante.getId()).count();
+        if(im<0 || iv<0){
+            if(im == iv){
+                if (golsM==golsV){
+                    score_parcial_mandante.add("n");
+                    score_parcial_visitante.add("n");
+                    if(score_parcial_mandante.size() > min_cobranca+1){
+                        score_parcial_mandante.remove(0);
+                        score_parcial_visitante.remove(0);
+                    }
+                    mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
+                    mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
+                } else {
+                    if(golsM>golsV) {
+                        partida.setCampeaoId(mandante.getId());
+                    } else {
+                        partida.setCampeaoId(visitante.getId());
+                    }
                 }
-                mudarPlacarDesempate(lista_cobranca_mandante, score_parcial_mandante);
-                mudarPlacarDesempate(lista_cobranca_visitante, score_parcial_visitante);
+            } else if(im > iv){
+                if(golsV - golsM > 1){
+                    partida.setCampeaoId(visitante.getId());
+                } else if(golsV<golsM){
+                    partida.setCampeaoId(mandante.getId());
+                }
             } else {
-                CarrierSemiActivity.exemplo(this, "Alguém ganhou a partida");
+                if(golsM-golsV> 1){
+                    partida.setCampeaoId(mandante.getId());
+                } else if(golsM<golsV){
+                    partida.setCampeaoId(visitante.getId());
+                }
             }
+        } else if(im>min_cobranca/2 && iv>min_cobranca/2){
+            if(golsM - golsV > min_cobranca - iv){
+                partida.setCampeaoId(mandante.getId());
+            } else if (golsV - golsM > min_cobranca - im){
+                partida.setCampeaoId(visitante.getId());
+            }
+        }
+        if(partida.isEncerrada()){
+//            CarrierSemiActivity.exemplo(this, "Campeão: " + partida.getCampeaoId());
+//            partida.setCampeaoId(0);
+//            alertaDialog.dismiss();
+            montarAlertaPremiacao();
         }
     }
 
@@ -1159,9 +1225,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     private void finalizarPartida() {
         if (partida.setEncerrada()){
-            btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
-            desativarFinalizarPartida();
-            montarAlertaPremiacao(torneio.getTime(partida.getCampeaoId()));
+            montarAlertaPremiacao();
         } else {
             if(isSimulacao()){
                 montarAlertaPerguntarDesempate();
