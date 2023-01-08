@@ -176,4 +176,12 @@
     <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
     <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar esses parâmetro da equipe!</string>
+    <string name="dica_info_login">
+        Faça login para manter seus dados salvos.
+        Mas se preferir, você ainda pode gerenciar peladas com o botão abaixo.
+    </string>
+    <string name="btn_login">LOGIN</string>
+    <string name="dica_email">E-mail</string>
+    <string name="dica_senha">Senha</string>
+    <string name="dica_ou">ou</string>
 </resources>

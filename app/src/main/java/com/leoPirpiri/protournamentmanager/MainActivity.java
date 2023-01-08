@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+
 import control.Olimpia;
 import model.Torneio;
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView ltv_torneios_recentes;
     private TextView txv_torneios_recentes;
     private TorneiosAdapter torneiosAdapter;
+    private GoogleSignInClient googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
         btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
-        btn_simulador_partida = findViewById(R.id.btn_simulador);
+        btn_simulador_partida = findViewById(R.id.btn_simulador_tela_inicio);
         ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
         txv_torneios_recentes = findViewById(R.id.txv_torneios_recentes);
         //Inicio padrão.

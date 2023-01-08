@@ -22,36 +22,54 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Começar novo torneio:"
-        android:textSize="18dp"
-        android:layout_margin="10dp"
-    />
+        android:text="@string/dica_info_login"
+        android:textSize="16dp" />
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:shrinkColumns="*"
         android:stretchColumns="*"
-        android:padding="10dp">
+        android:padding="20dp">
         <TableRow
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal">
 
             <EditText
-                android:id="@+id/nome_novo_torneio"
-                android:layout_width="220dp"
+                android:id="@+id/ext_email"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:maxLength="35"
-                android:hint="@string/novo_torneio"
+                android:hint="@string/dica_email"
                 android:singleLine="true"
                 android:inputType="textCapWords|text"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/ext_senha"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:maxLength="35"
+                android:hint="@string/dica_senha"
+                android:singleLine="true"
+                android:inputType="textCapWords|text"/>
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal">
 
             <Button
-                android:id="@+id/btn_novo_tourneio"
+                android:id="@+id/btn_login_padrao"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/button_shape_desabled"
                 android:enabled="false"
@@ -59,32 +77,34 @@
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
-                android:text="NOVO"
+                android:text="@string/btn_login"
                 android:textColor="@color/btn_texto_ic"
                 android:textSize="20sp"
                 />
         </TableRow>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dica_ou"
+            android:textSize="18dp" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_login_google"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="10dp"
+        />
+
     </TableLayout>
 
-    <TextView
-        android:id="@+id/txv_torneios_recentes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/santuario_vazio"
-        android:textSize="18dp" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/list_torneios_recentes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/lista_pad_default">
-        </ListView>
+
         <Button
-            android:id="@+id/btn_simulador_tela_inicio"
+            android:id="@+id/btn_simulador_tela_login"
             android:text="@string/simular_partida"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
