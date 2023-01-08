@@ -350,7 +350,7 @@ public class PartidaActivity extends AppCompatActivity {
         }
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_equipe_vazia);
+        builder.setTitle(R.string.titulo_alerta_equipe_vazia);
         mostrarAlerta(builder);
     }
 
@@ -423,7 +423,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_sorteio);
+        builder.setTitle(R.string.titulo_alerta_sorteio);
         builder.setCancelable(false);
         mostrarAlerta(builder);
     }
@@ -481,7 +481,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(isSimulacao() ? R.string.title_alerta_confir_finalizar_pelada : R.string.title_alerta_confir_finalizar_partida);
+        builder.setTitle(isSimulacao() ? R.string.titulo_alerta_confir_finalizar_pelada : R.string.titulo_alerta_confir_finalizar_partida);
         mostrarAlerta(builder);
     }
 
@@ -513,7 +513,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_partida_campeao);
+        builder.setTitle(R.string.titulo_alerta_partida_campeao);
         mostrarAlerta(builder);
     }
 
@@ -542,7 +542,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_confir_finalizar_pelada);
+        builder.setTitle(R.string.titulo_alerta_confir_finalizar_pelada);
         mostrarAlerta(builder);
     }
 
@@ -649,7 +649,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_partida_desempate);
+        builder.setTitle(R.string.titulo_alerta_partida_desempate);
         builder.setCancelable(false);
         mostrarAlerta(builder);
     }
@@ -939,7 +939,7 @@ public class PartidaActivity extends AppCompatActivity {
         view.findViewById(R.id.btn_cancelar_acao).setOnClickListener(arg0 -> alertaDialog.dismiss());
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_partida_acao_jogador);
+        builder.setTitle(R.string.titulo_alerta_partida_acao_jogador);
         mostrarAlerta(builder);
     }
 
@@ -956,7 +956,7 @@ public class PartidaActivity extends AppCompatActivity {
         ArrayList<Integer> numeros;
 
         if(j==null){
-            builder.setTitle(R.string.title_alerta_novo_jogador);
+            builder.setTitle(R.string.titulo_alerta_novo_jogador);
             if(isMandante) {
                 numeros = mandante.getNumeracaoLivrePlantel(-1);
             } else {
@@ -965,7 +965,7 @@ public class PartidaActivity extends AppCompatActivity {
             btn_confirma_jogador.setText(R.string.btn_adicionar);
 
         } else {
-            builder.setTitle(R.string.title_alerta_partida_detalhes_jogador);
+            builder.setTitle(R.string.titulo_alerta_partida_detalhes_jogador);
             etx_nome_jogador.setText(j.getNome());
             spnr_posicao.setSelection(j.getPosicao());
             if(isMandante) {
@@ -1161,7 +1161,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_nova_equipe);
+        builder.setTitle(R.string.titulo_alerta_nova_equipe);
         mostrarAlerta(builder);
     }
 

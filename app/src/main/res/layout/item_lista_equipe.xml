@@ -25,7 +25,7 @@
             android:id="@+id/adp_equipe_quant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hint_quant_jogadores" />
+            android:text="@string/dica_quant_jogadores" />
     </LinearLayout>
 
 </LinearLayout>

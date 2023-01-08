@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gerenciador de Torneios"
+            android:text="@string/titulo_pricipal"
             android:textSize="20dp"
             android:layout_margin="40dp"
             android:textAlignment="center"
@@ -65,14 +65,15 @@
                 />
         </TableRow>
     </TableLayout>
+
     <TextView
         android:id="@+id/txv_torneios_recentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/torneio_sem_equipes"
-        android:textSize="18dp"
         android:layout_margin="10dp"
-    />
+        android:text="@string/santuario_vazio"
+        android:textSize="18dp" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

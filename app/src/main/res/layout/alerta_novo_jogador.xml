@@ -42,7 +42,7 @@
         android:id="@+id/etx_nome_novo_jogador"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/hint_nome_jogador"
+        android:hint="@string/dica_nome_jogador"
         android:maxLength="35"
         android:padding="@dimen/fab_margin"
         android:singleLine="true"
@@ -107,7 +107,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_ficha_tec_jogador"
+            android:text="@string/titulo_ficha_tec_jogador"
             android:layout_marginVertical="@dimen/jogador_pad_ver"
             android:textSize="@dimen/partida_fonte"
             android:textColor="@color/text_default"

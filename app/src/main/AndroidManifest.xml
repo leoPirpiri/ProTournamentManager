@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launch"
-        android:label="@string/app_name"
+        android:label="@string/nome_app"
         android:roundIcon="@mipmap/ic_launch_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,11 +19,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".TorneioActivity"
-            android:label="@string/title_activity_torneio"
+            android:label="@string/titulo_tela_torneio"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".EquipeActivity"
-            android:label="@string/title_activity_equipe"
+            android:label="@string/titulo_tela_equipe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"

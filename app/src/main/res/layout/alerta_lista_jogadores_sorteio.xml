@@ -36,7 +36,7 @@
             android:id="@+id/txv_nome_sorteio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_nome_jogador"
+                android:hint="@string/dica_nome_jogador"
                 android:textAlignment="textStart"
                 android:inputType="textCapWords"
                 android:textSize="20dp"

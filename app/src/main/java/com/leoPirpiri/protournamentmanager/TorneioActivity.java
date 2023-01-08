@@ -15,7 +15,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -147,7 +146,7 @@ public class TorneioActivity extends AppCompatActivity {
     private void montarAlertaAbrirEquipe(final int posEquipe){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         //define o titulo
-        builder.setTitle(R.string.title_alerta_confir_abrir_equipe);
+        builder.setTitle(R.string.titulo_alerta_confir_abrir_equipe);
         //define a mensagem
         builder.setMessage(R.string.msg_alerta_confir_abrir_equipe);
         //define um botão como positivo
@@ -186,7 +185,7 @@ public class TorneioActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_confir_excluir_equipe);
+        builder.setTitle(R.string.titulo_alerta_confir_excluir_equipe);
         mostrarAlerta(builder);
     }
 
@@ -277,7 +276,7 @@ public class TorneioActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_nova_equipe);
+        builder.setTitle(R.string.titulo_alerta_nova_equipe);
         mostrarAlerta(builder);
     }
 

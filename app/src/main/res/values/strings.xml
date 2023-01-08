@@ -1,7 +1,10 @@
 <resources>
-    <string name="app_name">Peladeiro Digital</string>
-    <string name="title_activity_torneio">Nome do Torneio</string>
-    <string name="title_activity_equipe">Nome da Equipe</string>
+    <!-- mensagens de telas principais e iniciais -->
+    <string name="nome_app">Peladeiro Digital</string>
+    <string name="titulo_tela_torneio">Nome do Torneio</string>
+    <string name="titulo_tela_equipe">Nome da Equipe</string>
+
+    <string name="titulo_pricipal">Gerenciador de Torneios</string>
 
     <!-- Mensagens de usu geral -->
     <string name="btn_confirmar">Ok!</string>
@@ -20,8 +23,8 @@
         \nAdicione novos a partir do botão novo</string>
 
     <!-- Mensagens envolvendo Torneios -->
-    <string name="title_alerta_confir_excluir_torneio">Excluindo Torneio</string>
-    <string name="title_alerta_sorteio">Escalando jogadores...</string>
+    <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
+    <string name="titulo_alerta_sorteio">Escalando jogadores...</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
@@ -41,15 +44,15 @@
     <string name="equipe_ponto_partida_aberta">-</string>
     <string name="equipe_exemplo_mandante">Equipe Azul</string>
     <string name="equipe_exemplo_visitante">Time Amarelo</string>
-    <string name="hint_sigla_equipe">CEE</string>
+    <string name="dica_sigla_equipe">CEE</string>
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome: </string>
-    <string name="hint_nome_equipe">Clube Esportivo Exemplo</string>
-    <string name="hint_quant_jogadores">Quantidade de atletas</string>
-    <string name="title_alerta_nova_equipe">Informações da equipe</string>
-    <string name="title_alerta_equipe_vazia">Equipe sem plantel</string>
-    <string name="title_alerta_confir_abrir_equipe">Abrindo Equipe</string>
-    <string name="title_alerta_confir_excluir_equipe">Excluindo Equipe</string>
+    <string name="dica_nome_equipe">Clube Esportivo Exemplo</string>
+    <string name="dica_quant_jogadores">Quantidade de atletas</string>
+    <string name="titulo_alerta_nova_equipe">Informações da equipe</string>
+    <string name="titulo_alerta_equipe_vazia">Equipe sem plantel</string>
+    <string name="titulo_alerta_confir_abrir_equipe">Abrindo Equipe</string>
+    <string name="titulo_alerta_confir_excluir_equipe">Excluindo Equipe</string>
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
     <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
     <string name="msg_alerta_erro_excluir_equipe">Torneio fechado.\nA equipe não pode ser excluída!</string>
@@ -67,14 +70,14 @@
     <string name="lbl_posicao">Posição</string>
     <string name="lbl_numero">Número</string>
     <string name="lbl_nome_jogador">Nome</string>
-    <string name="hint_nome_jogador">ex: Almir Rogério</string>
-    <string name="title_alerta_novo_jogador">Contratar jogador</string>
-    <string name="title_alerta_confir_abrir_jogador">Editar jogador</string>
-    <string name="title_alerta_confir_excluir_jogador">Dispensar jogador</string>
+    <string name="dica_nome_jogador">ex: Almir Rogério</string>
+    <string name="titulo_alerta_novo_jogador">Contratar jogador</string>
+    <string name="titulo_alerta_confir_abrir_jogador">Editar jogador</string>
+    <string name="titulo_alerta_confir_excluir_jogador">Dispensar jogador</string>
     <string name="msg_alerta_confir_excluir_jogador">Deseja rescindir o contrato com esse jogador?</string>
     <string name="msg_alerta_erro_excluir_jogador">Uma cláusula impediu a rescisão do contrato com o jogador!</string>
     <string name="msg_alerta_sucesso_excluir_jogador">Contrato rescindido!</string>
-    <string name="title_ficha_tec_jogador">Ficha técnica na partida</string>
+    <string name="titulo_ficha_tec_jogador">Ficha técnica na partida</string>
     <string name="pontos_ficha_tec_jogador">Pontos na partida:</string>
     <string name="gols_ficha_tec_jogador">Gols na partida:</string>
     <string name="gols_contra_ficha_tec_jogador">Gols contra:</string>
@@ -121,17 +124,17 @@
     <string name="partida_acao_gol">Gol (pró &amp; contra)</string>
     <string name="partida_acao_falta">Falta</string>
     <string name="partida_acao_cartao">Cartões</string>
-    <string name="title_alerta_confir_abrir_partida">Abrindo Partida</string>
-    <string name="title_alerta_confir_finalizar_partida">Encerrar Partida</string>
-    <string name="title_alerta_confir_finalizar_pelada">Encerrar Pelada</string>
-    <string name="title_alerta_confir_abrir_desempate">Iniciar Desempate</string>
-    <string name="title_alerta_partida_equipes_incompletas">Equipes incompletas</string>
-    <string name="title_alerta_partida_acao_jogador">Ação do Jogador</string>
-    <string name="title_alerta_partida_detalhes_jogador">Detalhes do jogador</string>
-    <string name="title_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
-    <string name="title_alerta_partida_desempate">Pênaltis</string>
-    <string name="title_alerta_partida_campeao">Vitória!</string>
-    <string name="lbl_vs_default">Vs.</string>
+    <string name="titulo_alerta_confir_abrir_partida">Abrindo Partida</string>
+    <string name="titulo_alerta_confir_finalizar_partida">Encerrar Partida</string>
+    <string name="titulo_alerta_confir_finalizar_pelada">Encerrar Pelada</string>
+    <string name="titulo_alerta_confir_abrir_desempate">Iniciar Desempate</string>
+    <string name="titulo_alerta_partida_equipes_incompletas">Equipes incompletas</string>
+    <string name="titulo_alerta_partida_acao_jogador">Ação do Jogador</string>
+    <string name="titulo_alerta_partida_detalhes_jogador">Detalhes do jogador</string>
+    <string name="titulo_alerta_partida_sorteio_jogadores">Lista de Convocados</string>
+    <string name="titulo_alerta_partida_desempate">Pênaltis</string>
+    <string name="titulo_alerta_partida_campeao">Vitória!</string>
+    <string name="lbl_vs_padrao">Vs.</string>
     <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
     <string name="lbl_msg_inicio_finalizada">Rever os dados da partida: </string>
     <string name="lbl_msg_inicio_desempate">Deseja iniciar o módulo de desempate? </string>
@@ -169,7 +172,7 @@
     <string name="dados_erro_inconsistencia">Erro grave. Dados com inconsistência!</string>
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmentro entre activities!</string>
-    <string name="erro_default_string">X</string>
+    <string name="erro_palavra_padrao">X</string>
     <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
     <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar esses parâmetro da equipe!</string>

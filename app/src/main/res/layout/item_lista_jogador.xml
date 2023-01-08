@@ -63,7 +63,7 @@
             android:id="@+id/adp_jogador_nome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/hint_nome_jogador"
+            android:text="@string/dica_nome_jogador"
             android:textColor="#000"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_marginVertical="@dimen/jogador_pad_ver"

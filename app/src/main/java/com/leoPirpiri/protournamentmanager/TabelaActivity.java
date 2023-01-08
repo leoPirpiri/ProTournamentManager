@@ -129,7 +129,7 @@ public class TabelaActivity extends AppCompatActivity {
         String nomeMandante = alerta + "\n\n" + mandante.getNome();
         String nomeVisitante = visitante.getNome();
 
-        SpannableString textoNegrito = new SpannableString(nomeMandante + "\n" + getString(R.string.lbl_vs_default) + "\n" + nomeVisitante);
+        SpannableString textoNegrito = new SpannableString(nomeMandante + "\n" + getString(R.string.lbl_vs_padrao) + "\n" + nomeVisitante);
         textoNegrito.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), nomeMandante.length(), textoNegrito.length() - nomeVisitante.length(), 0);
         msg.setText(textoNegrito);
 
@@ -148,7 +148,7 @@ public class TabelaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_confir_abrir_partida);
+        builder.setTitle(R.string.titulo_alerta_confir_abrir_partida);
         mostrarAlerta(builder);
     }
 

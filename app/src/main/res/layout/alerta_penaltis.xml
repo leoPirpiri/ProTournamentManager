@@ -20,7 +20,7 @@
                 android:id="@+id/sigla_desempate_mandante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hint_sigla_equipe"
+                android:text="@string/dica_sigla_equipe"
                 android:textSize="@dimen/partida_penaltis"
                 android:textColor="@color/text_default"
                 android:padding="5dp"/>
@@ -28,7 +28,7 @@
                 android:id="@+id/sigla_desempate_visitante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hint_sigla_equipe"
+                android:text="@string/dica_sigla_equipe"
                 android:textSize="@dimen/partida_penaltis"
                 android:textColor="@color/text_default"
                 android:padding="5dp"/>

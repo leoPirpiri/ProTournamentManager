@@ -6,7 +6,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -193,7 +192,7 @@ public class EquipeActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_nova_equipe);
+        builder.setTitle(R.string.titulo_alerta_nova_equipe);
         mostrarAlerta(builder);
     }
 
@@ -219,7 +218,7 @@ public class EquipeActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_confir_excluir_jogador);
+        builder.setTitle(R.string.titulo_alerta_confir_excluir_jogador);
         mostrarAlerta(builder);
     }
 
@@ -309,7 +308,7 @@ public class EquipeActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_novo_jogador);
+        builder.setTitle(R.string.titulo_alerta_novo_jogador);
         mostrarAlerta(builder);
     }
 

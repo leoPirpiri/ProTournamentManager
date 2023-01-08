@@ -50,7 +50,7 @@ public class EquipesAdapter extends BaseAdapter {
         TextView itemQjogadores = (TextView) v.findViewById(R.id.adp_equipe_quant);
 
         itemNome.setText(equipe.getNome()+" - "+equipe.getSigla());
-        String label = ctx.getResources().getString(R.string.hint_quant_jogadores);
+        String label = ctx.getResources().getString(R.string.dica_quant_jogadores);
         itemQjogadores.setText( label +": "+ Integer.toString(equipe.getTamanhoEquipe()));
         return v;
     }

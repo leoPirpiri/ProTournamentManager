@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.title_alerta_confir_excluir_torneio);
+        builder.setTitle(R.string.titulo_alerta_confir_excluir_torneio);
         mostrarAlerta(builder);
     }
 
