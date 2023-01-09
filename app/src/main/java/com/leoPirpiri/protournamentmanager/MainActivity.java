@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-
 import control.Olimpia;
 import model.Torneio;
 
@@ -30,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private ListView ltv_torneios_recentes;
     private TextView txv_torneios_recentes;
     private TorneiosAdapter torneiosAdapter;
-    private GoogleSignInClient googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
