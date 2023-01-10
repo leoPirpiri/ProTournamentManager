@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/titulo_pricipal"
+            android:text="@string/titulo_login"
             android:textSize="20dp"
             android:layout_margin="40dp"
             android:textAlignment="center"
@@ -23,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dica_info_login"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:padding="5dp"/>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,8 +72,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/button_shape_desabled"
-                android:enabled="false"
+                android:background="@drawable/button_shape_enabled"
+                android:enabled="true"
                 android:shadowColor="#3D3D3D"
                 android:shadowDx="0"
                 android:shadowDy="0"

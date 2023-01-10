@@ -6,7 +6,7 @@
 
     <string name="titulo_pricipal">Gerenciador de Torneios</string>
 
-    <!-- Mensagens de usu geral -->
+    <!-- Mensagens de uso geral -->
     <string name="btn_confirmar">Ok!</string>
     <string name="btn_adicionar">Adicionar</string>
     <string name="btn_editar">Editar</string>
@@ -176,12 +176,16 @@
     <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
     <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar esses parâmetro da equipe!</string>
+    <string name="erro_campo_texto_vazio">Este campo é obrigatório!</string>
+    <string name="erro_campo_email_invalido">Verifique o email informado!</string>
+
     <string name="dica_info_login">
-        Faça login para manter seus dados salvos.
-        Mas se preferir, você ainda pode gerenciar peladas com o botão abaixo.
+        Faça login para manter seus dados salvos.\n
+        Mas se preferir, você ainda pode simular peladas com o botão abaixo (modo offline).
     </string>
     <string name="btn_login">LOGIN</string>
     <string name="dica_email">E-mail</string>
     <string name="dica_senha">Senha</string>
     <string name="dica_ou">ou</string>
+    <string name="titulo_login">Acesso ao modo online</string>
 </resources>

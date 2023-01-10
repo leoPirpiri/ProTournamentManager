@@ -3,15 +3,14 @@ package com.leoPirpiri.protournamentmanager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -21,14 +20,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import model.Torneio;
-
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
     private EditText senha;
     private Button btn_login_padrao;
-    private Button btn_login_google;
+    //private Button btn_login_google;
     private Button btn_simulador_partida;
     private GoogleSignInClient googleSignIn;
     private FirebaseAuth db_auth;
@@ -41,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         email = findViewById(R.id.etx_email);
         senha = findViewById(R.id.etx_senha);
         btn_login_padrao = findViewById(R.id.btn_login_padrao);
-        btn_login_google = findViewById(R.id.btn_login_google);
+        //btn_login_google = findViewById(R.id.btn_login_google);
         btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
         db_auth = FirebaseAuth.getInstance();
 
@@ -50,30 +47,32 @@ public class LoginActivity extends AppCompatActivity {
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus==false) {
+                if (hasFocus==false && !senha.isFocused()) {
                     esconderTeclado(LoginActivity.this, email);
                 }
             }
         });
+        senha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus==false && !email.isFocused()) {
+                    esconderTeclado(LoginActivity.this, senha);
+                }
+            }
+        });
 
-        /*btn_novo_torneio.setOnClickListener(new View.OnClickListener() {
+        btn_login_padrao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                esconderTeclado(LoginActivity.this, nome_novo_torneio);
-                int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
-                if (idNovoTorneio != 0){
-                    idNovoTorneio = santuarioOlimpia.addTorneio(new Torneio( idNovoTorneio,
-                                                                    nome_novo_torneio.getText().toString())
-                                                                );
-                    if (idNovoTorneio != -1){
-                        CarrierSemiActivity.persistirSantuario(LoginActivity.this, santuarioOlimpia);
-                        abrirTorneio(idNovoTorneio);
-                    }
+                if (TextUtils.isEmpty(email.getText())){
+                    email.setError(getString(R.string.erro_campo_texto_vazio));
+                } else if (TextUtils.isEmpty(senha.getText())) {
+                    senha.setError(getString(R.string.erro_campo_texto_vazio));
+                } else {
+                    fazerLogin(email.getText().toString(), email.getText().toString());
                 }
-                desarmaBTNnovoTorneio();
-                nome_novo_torneio.setText("");
             }
-        });*/
+        });
 
         btn_simulador_partida.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,4 +131,6 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void fazerLogin(String login, String senha) {
+    }
 }
