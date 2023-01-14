@@ -188,4 +188,6 @@
     <string name="dica_senha">Senha</string>
     <string name="dica_ou">ou</string>
     <string name="titulo_login">Acesso ao modo online</string>
+    <string name="erro_login_auth">Falha em autenticar o usuário.</string>
+    <string name="erro_login_incorreto">Usuário ou senha inválidos</string>
 </resources>

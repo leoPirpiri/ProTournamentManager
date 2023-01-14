@@ -22,8 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText email;
-    private EditText senha;
+    private EditText etx_email;
+    private EditText etx_senha;
     private Button btn_login_padrao;
     //private Button btn_login_google;
     private Button btn_simulador_partida;
@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        email = findViewById(R.id.etx_email);
-        senha = findViewById(R.id.etx_senha);
+        etx_email = findViewById(R.id.etx_email);
+        etx_senha = findViewById(R.id.etx_senha);
         btn_login_padrao = findViewById(R.id.btn_login_padrao);
         //btn_login_google = findViewById(R.id.btn_login_google);
         btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
@@ -44,42 +44,30 @@ public class LoginActivity extends AppCompatActivity {
 
         //Listeners
 
-        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus==false && !senha.isFocused()) {
-                    esconderTeclado(LoginActivity.this, email);
-                }
+        etx_email.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && !etx_senha.isFocused()) {
+                esconderTeclado(LoginActivity.this, etx_email);
             }
         });
-        senha.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus==false && !email.isFocused()) {
-                    esconderTeclado(LoginActivity.this, senha);
-                }
+        etx_senha.setOnFocusChangeListener((v, hasFocus) ->  {
+            if (!hasFocus && !etx_email.isFocused()) {
+                esconderTeclado(LoginActivity.this, etx_senha);
             }
         });
 
-        btn_login_padrao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(email.getText())){
-                    email.setError(getString(R.string.erro_campo_texto_vazio));
-                } else if (TextUtils.isEmpty(senha.getText())) {
-                    senha.setError(getString(R.string.erro_campo_texto_vazio));
-                } else {
-                    fazerLogin(email.getText().toString(), email.getText().toString());
-                }
+        btn_login_padrao.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(etx_email.getText())){
+                etx_email.setError(getString(R.string.erro_campo_texto_vazio));
+            } else if (TextUtils.isEmpty(etx_senha.getText())) {
+                etx_senha.setError(getString(R.string.erro_campo_texto_vazio));
+            } else {
+                autenticarUsuario(etx_email.getText().toString(), etx_senha.getText().toString());
             }
         });
 
-        btn_simulador_partida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                limparCampos();
-                abrirSimulador();
-            }
+        btn_simulador_partida.setOnClickListener(v -> {
+            limparCampos();
+            abrirSimulador();
         });
     }
 
@@ -88,7 +76,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = db_auth.getCurrentUser();
-        //updateUI(currentUser);
+        if (currentUser!=null){
+            abrirPrincipal();
+        }
     }
 
     @Override
@@ -96,21 +86,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void login(String email, String senha){
+    private void autenticarUsuario(String email, String senha){
         db_auth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            //Log.d(TAG, "signInWithCustomToken:success");
-                            FirebaseUser user = db_auth.getCurrentUser();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        //Log.d(TAG, "signInWithCustomToken:success");
+                        FirebaseUser user = db_auth.getCurrentUser();
+                        abrirPrincipal();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
+                        etx_email.setError(getString(R.string.erro_login_incorreto));
+                        Toast.makeText(getApplicationContext(), getString(R.string.erro_login_auth),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -121,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void limparCampos(){
-        email.setText("");
-        senha.setText("");
+        etx_email.setText("");
+        etx_senha.setText("");
     }
 
     private void abrirSimulador(){
@@ -130,7 +119,12 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("partida", -1);
         startActivity(intent);
     }
-
-    private void fazerLogin(String login, String senha) {
+    private void abrirPrincipal(){
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
+
+//    private void fazerLogin(String login, String senha) {
+//        autenticarUsuario(login, senha);
+//    }
 }
