@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import control.Olimpia;
 import model.Torneio;
 
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
     private EditText nome_novo_torneio;
+    private Button btn_logout_padrao;
     private Button btn_novo_torneio;
     private Button btn_simulador_partida;
     private ListView ltv_torneios_recentes;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
+        btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
         btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
         btn_simulador_partida = findViewById(R.id.btn_simulador_tela_inicio);
         ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
@@ -72,6 +76,15 @@ public class MainActivity extends AppCompatActivity {
                 if (hasFocus==false) {
                     esconderTeclado(MainActivity.this, nome_novo_torneio);
                 }
+            }
+        });
+
+        btn_logout_padrao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
         });
 

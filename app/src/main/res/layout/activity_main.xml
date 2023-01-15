@@ -18,14 +18,24 @@
             android:layout_margin="40dp"
             android:textAlignment="center"
             />
-    </LinearLayout>
-    <TextView
+        <Button
+        android:id="@+id/btn_logout_padrao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Começar novo torneio:"
-        android:textSize="18dp"
-        android:layout_margin="10dp"
-    />
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:background="@drawable/button_shape_enabled"
+        android:enabled="true"
+        android:shadowColor="#3D3D3D"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/btn_logout"
+        android:textColor="@color/btn_texto_ic"
+        android:textSize="20sp"
+            android:layout_marginRight="5dp"
+        />
+    </LinearLayout>
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,6 +47,18 @@
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Começar novo torneio:"
+            android:textSize="18dp"
+            android:layout_margin="10dp"
+            />
+        </TableRow>
+        <TableRow
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal">
             <EditText
                 android:id="@+id/nome_novo_torneio"
                 android:layout_width="220dp"
