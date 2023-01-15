@@ -1,5 +1,6 @@
 package com.leoPirpiri.protournamentmanager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,24 +11,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etx_email;
     private EditText etx_senha;
-    private Button btn_login_padrao;
-    //private Button btn_login_google;
-    private Button btn_simulador_partida;
-    private GoogleSignInClient googleSignIn;
+    private GoogleSignInClient googleSignInClient;
     private FirebaseAuth db_auth;
 
     @Override
@@ -37,10 +41,16 @@ public class LoginActivity extends AppCompatActivity {
 
         etx_email = findViewById(R.id.etx_email);
         etx_senha = findViewById(R.id.etx_senha);
-        btn_login_padrao = findViewById(R.id.btn_login_padrao);
-        //btn_login_google = findViewById(R.id.btn_login_google);
-        btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
+        Button btn_login_padrao = findViewById(R.id.btn_login_padrao);
+        SignInButton btn_login_google = findViewById(R.id.btn_login_google);
+        Button btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
         db_auth = FirebaseAuth.getInstance();
+        GoogleSignInOptions googleSignInOpt = new GoogleSignInOptions.
+                Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                requestIdToken("103955613869-e1e211id86fsj14u7b8buf373u1chgbr.apps.googleusercontent.com").
+                requestEmail().
+                build();
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOpt);
 
         //Listeners
 
@@ -61,9 +71,11 @@ public class LoginActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(etx_senha.getText())) {
                 etx_senha.setError(getString(R.string.erro_campo_texto_vazio));
             } else {
-                autenticarUsuario(etx_email.getText().toString(), etx_senha.getText().toString());
+                autenticarUsuarioPadrao(etx_email.getText().toString(), etx_senha.getText().toString());
             }
         });
+
+        btn_login_google.setOnClickListener(v -> signInGoogle());
 
         btn_simulador_partida.setOnClickListener(v -> {
             limparCampos();
@@ -86,22 +98,52 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void autenticarUsuario(String email, String senha){
+    ActivityResultLauncher<Intent> abrirJanelaContasGoogle = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK){
+                    Intent intent = result.getData();
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
+                    try {
+                        GoogleSignInAccount conta = task.getResult(ApiException.class);
+                        autenticarUsuarioGoogle(conta.getIdToken());
+                    } catch (ApiException ex){
+                        Toast.makeText(getApplicationContext(), getString(R.string.erro_login_google_auth),
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+    );
+
+    private void autenticarUsuarioPadrao(String email, String senha){
         db_auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        //Log.d(TAG, "signInWithCustomToken:success");
                         FirebaseUser user = db_auth.getCurrentUser();
                         abrirPrincipal();
                     } else {
-                        // If sign in fails, display a message to the user.
-                        //Log.w(TAG, "signInWithCustomToken:failure", task.getException());
                         etx_email.setError(getString(R.string.erro_login_incorreto));
-                        Toast.makeText(getApplicationContext(), getString(R.string.erro_login_auth),
-                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.erro_login_padrao_auth),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void autenticarUsuarioGoogle(String token) {
+        AuthCredential credencial = GoogleAuthProvider.getCredential(token, null);
+        db_auth.signInWithCredential(credencial).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                abrirPrincipal();
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.erro_login_google_auth),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void signInGoogle() {
+        Intent intent = googleSignInClient.getSignInIntent();
+        abrirJanelaContasGoogle.launch(intent);
     }
 
     private void esconderTeclado(Context context, View editText) {
@@ -119,12 +161,10 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("partida", -1);
         startActivity(intent);
     }
+
     private void abrirPrincipal(){
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
 
-//    private void fazerLogin(String login, String senha) {
-//        autenticarUsuario(login, senha);
-//    }
 }

@@ -7,7 +7,7 @@
     <string name="titulo_pricipal">Gerenciador de Torneios</string>
 
     <!-- Mensagens de uso geral -->
-    <string name="btn_confirmar">Ok!</string>
+    <string name="btn_confirmar">OK!</string>
     <string name="btn_adicionar">Adicionar</string>
     <string name="btn_editar">Editar</string>
     <string name="btn_cancelar">Cancelar</string>
@@ -24,7 +24,7 @@
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
-    <string name="titulo_alerta_sorteio">Escalando jogadores...</string>
+    <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Torneio não possue equipes
@@ -160,7 +160,7 @@
     <string name="msg_alerta_saldar_campeao">Parabéns por vencer a partida!</string>
 
     <!-- Mensagens de sucesso para o usuário -->
-    <string name="dados_salvando">Granvando dados...</string>
+    <string name="dados_salvando">Granvando dados…</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>
     <string name="encerrar_partida">Finalizar Partida</string>
     <string name="encerrar_pelada">Finalizar Pelada</string>
@@ -188,7 +188,8 @@
     <string name="dica_senha">Senha</string>
     <string name="dica_ou">ou</string>
     <string name="titulo_login">Acesso ao modo online</string>
-    <string name="erro_login_auth">Falha em autenticar o usuário.</string>
+    <string name="erro_login_padrao_auth">Falha em autenticar o usuário.</string>
+    <string name="erro_login_google_auth">Falha em autenticar com usuário google do dispositivo.</string>
     <string name="erro_login_incorreto">Usuário ou senha inválidos</string>
     <string name="btn_logout">SAIR</string>
 </resources>
