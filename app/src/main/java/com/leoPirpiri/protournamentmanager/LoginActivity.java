@@ -119,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
         db_auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = db_auth.getCurrentUser();
                         abrirPrincipal();
                     } else {
                         etx_email.setError(getString(R.string.erro_login_incorreto));

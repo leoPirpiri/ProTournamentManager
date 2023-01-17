@@ -192,4 +192,14 @@
     <string name="erro_login_google_auth">Falha em autenticar com usuário google do dispositivo.</string>
     <string name="erro_login_incorreto">Usuário ou senha inválidos</string>
     <string name="btn_logout">SAIR</string>
+    <string name="titulo_cadastro">Casdastro para o modo online</string>
+    <string name="dica_apelidio">Usuário</string>
+    <string name="dica_sede_padrao">Cidade sede dos torneios</string>
+    <string name="btn_cadastrar">CADASTRAR</string>
+    <string name="dica_info_cadastro">
+        Para ter acesso ao modo online, cadatre-se preenchendo os campos abaixo.\n
+        O nome do usuário deve ser único.\n
+        Para conta google apenas o nome do usuário é necessário.\n
+        Mantenha a localização do dispositivo ligada.
+    </string>
 </resources>
