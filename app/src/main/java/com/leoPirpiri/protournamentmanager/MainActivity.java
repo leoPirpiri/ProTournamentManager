@@ -25,9 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
     private EditText nome_novo_torneio;
-    private Button btn_logout_padrao;
     private Button btn_novo_torneio;
-    private Button btn_simulador_partida;
     private ListView ltv_torneios_recentes;
     private TextView txv_torneios_recentes;
     private TorneiosAdapter torneiosAdapter;
@@ -38,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
-        btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
+        Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
         btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
-        btn_simulador_partida = findViewById(R.id.btn_simulador_tela_inicio);
+        Button btn_simulador_partida = findViewById(R.id.btn_simulador_tela_inicio);
         ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
         txv_torneios_recentes = findViewById(R.id.txv_torneios_recentes);
         //Inicio padrão.

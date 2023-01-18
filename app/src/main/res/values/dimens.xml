@@ -46,6 +46,4 @@
     <dimen name="partida_nomes_jogador">20dp</dimen>
     <dimen name="partida_ic_gols_quant">12dp</dimen>
     <dimen name="partida_penaltis">16sp</dimen>
-
-
 </resources>

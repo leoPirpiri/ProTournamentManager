@@ -23,6 +23,9 @@ android {
         targetCompatibility = 1.8
     }
     namespace 'com.leoPirpiri.protournamentmanager'
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {

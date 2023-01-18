@@ -39,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etx_email = findViewById(R.id.etx_email);
-        etx_senha = findViewById(R.id.etx_senha);
+        etx_email = findViewById(R.id.etx_email_login);
+        etx_senha = findViewById(R.id.etx_senha_login);
         Button btn_login_padrao = findViewById(R.id.btn_login_padrao);
         SignInButton btn_login_google = findViewById(R.id.btn_login_google);
         Button btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
