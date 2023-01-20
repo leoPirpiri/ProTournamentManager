@@ -1,11 +1,14 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class CadastroActivity extends AppCompatActivity {
     private EditText etx_usuario, etx_email, etx_senha, etx_sede;
     private Button btn_cadastrar;
+    private AlertDialog alertaDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class CadastroActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(etx_senha.getText())) {
                 etx_senha.setError(getString(R.string.erro_campo_texto_vazio));
             } else {
-                cadastrarUsuario(etx_usuario.getText().toString(),
+                criarUsuarioEmailSenha(etx_usuario.getText().toString(),
                                           etx_email.getText().toString(),
                                           etx_senha.getText().toString(),
                                           etx_sede.getText().toString());
@@ -43,13 +47,47 @@ public class CadastroActivity extends AppCompatActivity {
 
     }
 
-    private void cadastrarUsuario(String usuario, String email, String senha, String sede) {
+    private void criarUsuarioEmailSenha(String usuario, String email, String senha, String sede) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
-
+                    if (task.isSuccessful()) {
+                        cadastrarUsuario(usuario);
+                    }
                 })
                 .addOnFailureListener(this, exception -> {
-
+                    montarAlertaFalhaCriarUsuario();
         });
+    }
+
+    private void cadastrarUsuario(String usuario) {
+
+    }
+    private void montarAlertaFalhaCriarUsuario(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_excluir_torneio);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+        });
+
+        builder.setView(view);
+        builder.setTitle(R.string.titulo_alerta_erro_cadastro);
+        mostrarAlerta(builder);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder) {
+        mostrarAlerta(builder, R.drawable.background_alerta);
+    }
+
+    private void mostrarAlerta(AlertDialog.Builder builder, int background) {
+        alertaDialog = builder.create();
+        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.show();
     }
 }

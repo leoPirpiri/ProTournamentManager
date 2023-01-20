@@ -173,11 +173,14 @@
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmentro entre activities!</string>
     <string name="erro_palavra_padrao">X</string>
-    <string name="erro_atualizar_jogador_em_partida">Informações inválidos do jogador!</string>
+    <string name="erro_atualizar_jogador_em_partida">Informações inválidas do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
     <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar esses parâmetro da equipe!</string>
     <string name="erro_campo_texto_vazio">Este campo é obrigatório!</string>
     <string name="erro_campo_email_invalido">Verifique o email informado!</string>
+    <string name="titulo_alerta_erro_cadastro">Erro ao cadastrar usuário</string>
+    <string name="erro_cadastrar_usuario_grave">Erro grave de comunicação com o banco de dados.</string>
+    <string name="erro_cadastrar_usuario_duplicado">Esse usário já existe.</string>
 
     <string name="dica_info_login">
         Faça login para manter seus dados salvos.\n
