@@ -43,7 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         etx_senha = findViewById(R.id.etx_senha_login);
         Button btn_login_padrao = findViewById(R.id.btn_login_padrao);
         SignInButton btn_login_google = findViewById(R.id.btn_login_google);
+        Button btn_cadastrar_novo = findViewById(R.id.btn_cadastrar_novo_usuario);
         Button btn_simulador_partida = findViewById(R.id.btn_simulador_tela_login);
+
         db_auth = FirebaseAuth.getInstance();
         GoogleSignInOptions googleSignInOpt = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
@@ -76,6 +78,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         btn_login_google.setOnClickListener(v -> signInGoogle());
+
+        btn_cadastrar_novo.setOnClickListener(v -> abrirCastroNovoUsuario());
 
         btn_simulador_partida.setOnClickListener(v -> {
             limparCampos();
@@ -163,6 +167,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void abrirPrincipal(){
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
+    }
+    private void abrirCastroNovoUsuario(){
+        startActivity(new Intent(getApplicationContext(), CadastroActivity.class));
         finish();
     }
 

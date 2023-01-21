@@ -99,6 +99,32 @@
             android:layout_weight="1"
             android:padding="10dp"
         />
+        <TableRow
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/dica_cadastro"
+                android:textSize="18dp" />
+            <Button
+                android:id="@+id/btn_cadastrar_novo_usuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_shape_enabled"
+                android:enabled="true"
+                android:shadowColor="#3D3D3D"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:text="@string/btn_novo_usuario"
+                android:textColor="@color/btn_texto_ic"
+                android:textSize="15sp"
+                />
+    </TableRow>
 
     </TableLayout>
 

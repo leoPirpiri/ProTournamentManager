@@ -205,4 +205,6 @@
         Para conta google apenas o nome do usuário é necessário.\n
         Mantenha a localização do dispositivo ligada.
     </string>
+    <string name="dica_cadastro">Ainda não possui usário?</string>
+    <string name="btn_novo_usuario">Clique aqui.</string>
 </resources>
