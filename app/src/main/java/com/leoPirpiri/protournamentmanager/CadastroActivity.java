@@ -53,11 +53,7 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void criarUsuarioEmailSenha(String usuario, String email, String senha, String sede) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        cadastrarUsuario(usuario);
-                    }
-                })
+                .addOnSuccessListener(this, task -> cadastrarUsuario(usuario))
                 .addOnFailureListener(this, exception -> montarAlertaFalhaCriarUsuario());
     }
 
@@ -68,8 +64,9 @@ public class CadastroActivity extends AppCompatActivity {
                 .document(uId)
                 .set(user)
                 .addOnSuccessListener(this, task -> {
-                    Toast.makeText(getApplicationContext(), "cadastrou. eba",
-                            Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),
+                              getString(R.string.msg_sucesso_cadastrar_usuario)+usuario,
+                                   Toast.LENGTH_LONG).show();
                     limparCampos();
                     abrirPrincipal();
                 })
@@ -83,7 +80,7 @@ public class CadastroActivity extends AppCompatActivity {
         TextView msg = view.findViewById(R.id.msg_alerta_default);
         btn_confirmar.setVisibility(View.VISIBLE);
         msg.setVisibility(View.VISIBLE);
-        msg.setText(R.string.msg_alerta_confir_excluir_torneio);
+        msg.setText(R.string.erro_cadastrar_usuario_grave);
 
         btn_confirmar.setOnClickListener(arg0 -> alertaDialog.dismiss());
 
