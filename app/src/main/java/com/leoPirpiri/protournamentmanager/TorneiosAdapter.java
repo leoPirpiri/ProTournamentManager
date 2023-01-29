@@ -13,11 +13,12 @@ import java.util.ArrayList;
 
 import model.Torneio;
 
-public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHolder> implements View.OnClickListener {
+public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final Context context;
     private final LayoutInflater inflater;
     private ArrayList<Torneio> torneios;
-    private View.OnClickListener listener;
+    private View.OnClickListener quicklistener;
+    private View.OnLongClickListener longlistener;
 
     public TorneiosAdapter(Context context, ArrayList<Torneio> torneios){
         this.context = context;
@@ -30,11 +31,15 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.item_lista_torneio, parent, false);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
     public void setOnClickListener(View.OnClickListener listener){
-        this.listener = listener;
+        this.quicklistener = listener;
+    }
+    public void setOnLongClickListener(View.OnLongClickListener listener){
+        this.longlistener = listener;
     }
 
     @Override
@@ -52,12 +57,20 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
 
     @Override
     public void onClick(View v) {
-        if(listener!=null){
-            listener.onClick(v);
+        if(quicklistener != null){
+            quicklistener.onClick(v);
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public boolean onLongClick(View v) {
+        if(longlistener != null){
+            longlistener.onLongClick(v);
+        }
+        return true;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nomeTorneio, situacaoTorneio;
 
         public ViewHolder(@NonNull View itemView) {
