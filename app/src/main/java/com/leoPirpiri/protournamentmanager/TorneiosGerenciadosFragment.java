@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
             recyclerViewTorneiosGerenciados = v.findViewById(R.id.recyclerview_torneios_gerenciados);
             txv_torneios_recentes = v.findViewById(R.id.txv_torneios_gerenciados_recentes);
             metodoRaiz();
+
         return v;
     }
 
@@ -76,5 +78,12 @@ public class TorneiosGerenciadosFragment extends Fragment {
         recyclerViewTorneiosGerenciados.setLayoutManager(new LinearLayoutManager(context));
         adapterTorneio = new TorneiosAdapter(context, listaTorneios);
         recyclerViewTorneiosGerenciados.setAdapter(adapterTorneio);
+        construirListenersAdapterTorneio();
+    }
+
+    private void construirListenersAdapterTorneio() {
+        adapterTorneio.setOnClickListener(v -> {
+            //Ação do botão aqui;
+        });
     }
 }
