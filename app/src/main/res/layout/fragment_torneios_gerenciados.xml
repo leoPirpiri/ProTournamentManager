@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Começar novo torneio:"
+                android:text="@string/titulo_frag_comecar_novo_torneio"
                 android:textSize="18dp"
                 android:layout_margin="10dp"
                 />
@@ -44,7 +44,7 @@
                 android:id="@+id/btn_novo_tourneio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:background="@drawable/button_shape_desabled"
                 android:enabled="false"
@@ -52,7 +52,7 @@
                 android:shadowDx="0"
                 android:shadowDy="0"
                 android:shadowRadius="5"
-                android:text="NOVO"
+                android:text="@string/lbl_btn_novo"
                 android:textColor="@color/btn_texto_ic"
                 android:textSize="20sp"
                 />
@@ -60,7 +60,7 @@
     </TableLayout>
 
     <TextView
-        android:id="@+id/txv_torneios_recentes"
+        android:id="@+id/txv_torneios_gerenciados_recentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -70,11 +70,11 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--<androidx.recyclerview.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_torneios_gerenciados"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/lista_pad_default" />-->
+            android:paddingBottom="@dimen/lista_pad_default" />
         <Button
             android:id="@+id/btn_simulador_tela_inicio"
             android:text="@string/simular_partida"

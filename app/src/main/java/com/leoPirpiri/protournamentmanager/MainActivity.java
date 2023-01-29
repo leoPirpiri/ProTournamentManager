@@ -24,20 +24,17 @@ public class MainActivity extends AppCompatActivity {
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
 
 //Listeners
-        btn_logout_padrao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                finish();
-            }
+        btn_logout_padrao.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
         });
     }
 
     private void setTabLayout() {
         PaginasTorneioAdapter adapter = new PaginasTorneioAdapter(
                 this,
-                Arrays.asList(new TorneiosGerenciadosFragment(), new TorneiosSeguidosFragment()),
+                Arrays.asList(new TorneiosGerenciadosFragment(this), new TorneiosSeguidosFragment(this)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_nomes))
         );
 
@@ -45,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getItemCount());
 
-        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_torneios), viewPager, (tab, posicao) -> {
-            tab.setText(adapter.getTitulo(posicao));
-        });
+        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_torneios), viewPager, (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
         mediator.attach();
     }
 
