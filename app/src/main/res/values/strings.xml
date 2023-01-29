@@ -37,6 +37,11 @@
     <string name="estado_aberto">Aberto.</string>
     <string name="estado_encerrado">Encerrado.</string>
     <string name="lbl_estado_torneio">Estado do torneio: </string>
+    <string-array name="torneio_status">
+        <item>Aberto</item>
+        <item>Fechado</item>
+        <item>Finalizado</item>
+    </string-array>
 
     <!-- Mensagens envolvendo Equipes -->
     <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
@@ -208,4 +213,11 @@
     </string>
     <string name="dica_cadastro">Ainda não possui usário?</string>
     <string name="btn_novo_usuario">Clique aqui.</string>
+
+    <string-array name="tab_bar_nomes">
+        <item>Meus torneios</item>
+        <item>Seguindo</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

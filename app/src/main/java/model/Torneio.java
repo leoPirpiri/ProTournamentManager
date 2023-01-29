@@ -6,6 +6,9 @@ import java.util.Arrays;
 public class Torneio extends EntConcreta {
     public final int MAX_EQUIPE = 16;
     public final int MIN_EQUIPE = 4;
+    public static final int STATUS_ABERTO = 0;
+    public static final int STATUS_FECHADO = 1;
+    public static final int STATUS_FINALIZADO = 2;
 
     private ArrayList<Equipe> times;
     private ArvoreTabela tabela;
@@ -20,6 +23,10 @@ public class Torneio extends EntConcreta {
 
     public boolean isFechado() {
         return tabela.getRaiz() != null;
+    }
+
+    public int getStatus() {
+        return (isFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
     }
 
     public Equipe getCampeao() {

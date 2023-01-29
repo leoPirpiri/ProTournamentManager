@@ -1,82 +1,29 @@
 package com.leoPirpiri.protournamentmanager;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 
-import control.Olimpia;
-import model.Torneio;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    private AlertDialog alertaDialog;
-    private Olimpia santuarioOlimpia;
-    private EditText nome_novo_torneio;
-    private Button btn_novo_torneio;
-    private ListView ltv_torneios_recentes;
-    private TextView txv_torneios_recentes;
-    private TorneiosAdapter torneiosAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_tabhost);
+        setTabLayout();
 
-        nome_novo_torneio = findViewById(R.id.nome_novo_torneio);
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
-        btn_novo_torneio = findViewById(R.id.btn_novo_tourneio);
-        Button btn_simulador_partida = findViewById(R.id.btn_simulador_tela_inicio);
-        ltv_torneios_recentes = findViewById(R.id.list_torneios_recentes);
-        txv_torneios_recentes = findViewById(R.id.txv_torneios_recentes);
-        //Inicio padrão.
-        metodoRaiz();
 
-        //Listeners
-        nome_novo_torneio.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(nome_novo_torneio.getText().toString().equals("")){
-                    desarmaBTNnovoTorneio();
-                }else{
-                    btn_novo_torneio.setEnabled(true);
-                    btn_novo_torneio.setBackground(getDrawable(R.drawable.button_shape_enabled));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        nome_novo_torneio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus==false) {
-                    esconderTeclado(MainActivity.this, nome_novo_torneio);
-                }
-            }
-        });
-
+//Listeners
         btn_logout_padrao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,147 +32,23 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
 
-        btn_novo_torneio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                esconderTeclado(MainActivity.this, nome_novo_torneio);
-                int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
-                if (idNovoTorneio != 0){
-                    idNovoTorneio = santuarioOlimpia.addTorneio(new Torneio( idNovoTorneio,
-                                                                    nome_novo_torneio.getText().toString())
-                                                                );
-                    if (idNovoTorneio != -1){
-                        CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
-                        abrirTorneio(idNovoTorneio);
-                    }
-                }
-                desarmaBTNnovoTorneio();
-                nome_novo_torneio.setText("");
-            }
+    private void setTabLayout() {
+        PaginasTorneioAdapter adapter = new PaginasTorneioAdapter(
+                this,
+                Arrays.asList(new TorneiosGerenciadosFragment(), new TorneiosSeguidosFragment()),
+                Arrays.asList(getResources().getStringArray(R.array.tab_bar_nomes))
+        );
+
+        ViewPager2 viewPager = findViewById(R.id.tab_conteudo_torneios);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getItemCount());
+
+        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_torneios), viewPager, (tab, posicao) -> {
+            tab.setText(adapter.getTitulo(posicao));
         });
-
-        btn_simulador_partida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nome_novo_torneio.setText("");
-                desarmaBTNnovoTorneio();
-                abrirSimulador();
-            }
-        });
-
-        ltv_torneios_recentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                abrirTorneio(santuarioOlimpia.getTorneios().get(position).getId());
-            }
-        });
-
-        ltv_torneios_recentes.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaExcluirTorneio(position);
-                return true;
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        metodoRaiz();
-    }
-
-    private void metodoRaiz(){
-        //Carrega ou inicia o santuário onde ocorre os jogos.
-        santuarioOlimpia = CarrierSemiActivity.carregarSantuario(MainActivity.this);
-        torneiosAdapter = new TorneiosAdapter(MainActivity.this, santuarioOlimpia.getTorneios());
-        ltv_torneios_recentes.setAdapter(torneiosAdapter);
-        desarmaBTNnovoTorneio();
-        //Lista os torneios salvos anteriormente.
-        listarTorneios();
-    }
-
-    private void montarAlertaExcluirTorneio(final int posTorneio){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
-
-        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
-        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
-        TextView msg = view.findViewById(R.id.msg_alerta_default);
-        btn_confirmar.setVisibility(View.VISIBLE);
-        btn_cancelar.setVisibility(View.VISIBLE);
-        msg.setVisibility(View.VISIBLE);
-        msg.setText(R.string.msg_alerta_confir_excluir_torneio);
-
-        btn_confirmar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-            excluirTorneio(posTorneio);
-        });
-
-        btn_cancelar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-        });
-
-        builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_confir_excluir_torneio);
-        mostrarAlerta(builder);
-    }
-
-    private void mostrarAlerta(AlertDialog.Builder builder) {
-        mostrarAlerta(builder, R.drawable.background_alerta);
-    }
-
-    private void mostrarAlerta(AlertDialog.Builder builder, int background) {
-        alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
-        alertaDialog.show();
-    }
-
-    private void desarmaBTNnovoTorneio() {
-        if(santuarioOlimpia.TORNEIO_MAX==santuarioOlimpia.getOcupacao()) {
-            nome_novo_torneio.setHint(R.string.santuario_cheio);
-        } else {
-            nome_novo_torneio.setHint(R.string.novo_torneio);
-        }
-        btn_novo_torneio.setEnabled(false);
-        btn_novo_torneio.setBackground(getDrawable(R.drawable.button_shape_desabled));
-    }
-
-    private void esconderTeclado(Context context, View editText) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
-
-    private void listarTorneios(){
-        if(santuarioOlimpia.getTorneios().isEmpty()){
-            txv_torneios_recentes.setText(R.string.santuario_vazio);
-        } else {
-            txv_torneios_recentes.setText(R.string.santuario_com_torneios);
-            torneiosAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void abrirTorneio(int torneio){
-        Intent intent = new Intent(getApplicationContext(), TorneioActivity.class);
-        Bundle dados = new Bundle();
-        //Passa alguns dados para a próxima activity
-        dados.putInt("torneio", torneio);
-        intent.putExtras(dados);
-        startActivity(intent);
-    }
-
-    private void excluirTorneio(int position) {
-        if(santuarioOlimpia.delTorneio(position) != null){
-            CarrierSemiActivity.persistirSantuario(MainActivity.this, santuarioOlimpia);
-            listarTorneios();
-        }
-    }
-
-    private void abrirSimulador(){
-        Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", -1);
-        startActivity(intent);
+        mediator.attach();
     }
 
 }

@@ -1,41 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_soft"
     tools:context=".MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/titulo_pricipal"
-            android:textSize="20dp"
-            android:layout_margin="40dp"
-            android:textAlignment="center"
-            />
-        <Button
-        android:id="@+id/btn_logout_padrao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@drawable/button_shape_enabled"
-        android:enabled="true"
-        android:shadowColor="#3D3D3D"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
-        android:text="@string/btn_logout"
-        android:textColor="@color/btn_texto_ic"
-        android:textSize="20sp"
-            android:layout_marginRight="5dp"
-        />
-    </LinearLayout>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,13 +18,13 @@
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Começar novo torneio:"
-            android:textSize="18dp"
-            android:layout_margin="10dp"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Começar novo torneio:"
+                android:textSize="18dp"
+                android:layout_margin="10dp"
+                />
         </TableRow>
         <TableRow
             android:layout_height="wrap_content"
@@ -99,12 +70,11 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
-            android:id="@+id/list_torneios_recentes"
+        <!--<androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_torneios_gerenciados"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/lista_pad_default">
-        </ListView>
+            android:paddingBottom="@dimen/lista_pad_default" />-->
         <Button
             android:id="@+id/btn_simulador_tela_inicio"
             android:text="@string/simular_partida"
@@ -119,8 +89,7 @@
             android:shadowDy="0"
             android:shadowRadius="5"
             android:textColor="@color/btn_texto_ic"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>
