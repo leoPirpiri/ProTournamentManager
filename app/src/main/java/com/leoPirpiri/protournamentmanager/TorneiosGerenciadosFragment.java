@@ -50,20 +50,17 @@ public class TorneiosGerenciadosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            View v = inflater.inflate(R.layout.fragment_torneios_gerenciados, container, false);
-            recyclerViewTorneiosGerenciados = v.findViewById(R.id.recyclerview_torneios_gerenciados);
-            txv_torneios_recentes = v.findViewById(R.id.txv_torneios_gerenciados_recentes);
-            etx_nome_novo_torneio = v.findViewById(R.id.nome_novo_torneio);
-            btn_novo_torneio = v.findViewById(R.id.btn_novo_tourneio);
-            Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
-            metodoRaiz();
+        View v = inflater.inflate(R.layout.fragment_torneios_gerenciados, container, false);
+        recyclerViewTorneiosGerenciados = v.findViewById(R.id.recyclerview_torneios_gerenciados);
+        txv_torneios_recentes = v.findViewById(R.id.txv_torneios_gerenciados_recentes);
+        etx_nome_novo_torneio = v.findViewById(R.id.nome_novo_torneio);
+        btn_novo_torneio = v.findViewById(R.id.btn_novo_tourneio);
+        Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
+        metodoRaiz();
         //Listeners
         etx_nome_novo_torneio.addTextChangedListener(new TextWatcher() {
-
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -77,7 +74,6 @@ public class TorneiosGerenciadosFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 

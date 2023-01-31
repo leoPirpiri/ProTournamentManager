@@ -16,7 +16,7 @@ import model.Torneio;
 public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     private final Context context;
     private final LayoutInflater inflater;
-    private ArrayList<Torneio> torneios;
+    private final ArrayList<Torneio> torneios;
     private View.OnClickListener quicklistener;
     private View.OnLongClickListener longlistener;
 
@@ -80,37 +80,3 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
         }
     }
 }
-
-    /*@Override
-    public int getCount() {
-        return torneios.size();
-    }
-
-    @Override
-    public Torneio getItem(int position) {
-        return torneios.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v;
-        if(convertView == null) {
-            LayoutInflater inflater = ((Activity) ctx).getLayoutInflater();
-            v = inflater.inflate(R.layout.item_lista_torneio, null);
-        } else {
-            v = convertView;
-        }
-        Torneio torneio = getItem(position);
-        TextView itemNome = (TextView) v.findViewById(R.id.nome_torneio);
-        TextView itemEstado = (TextView) v.findViewById(R.id.situacao_torneio);
-
-        itemNome.setText(torneio.getNome());
-        itemEstado.setText(torneio.isFechado() ? R.string.estado_fechado : (
-                torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
-        return v;
-    }*/
