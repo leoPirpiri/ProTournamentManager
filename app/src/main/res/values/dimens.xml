@@ -47,4 +47,6 @@
     <dimen name="partida_ic_gols_quant">12dp</dimen>
     <dimen name="partida_penaltis">16sp</dimen>
     <dimen name="titulo_principal_margin">30dp</dimen>
+    <dimen name="padding_msg_informacoes">15dp</dimen>
+    <dimen name="informacoes_fonte">18dp</dimen>
 </resources>

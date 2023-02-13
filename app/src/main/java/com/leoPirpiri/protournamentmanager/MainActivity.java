@@ -5,7 +5,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -34,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private void setTabLayout() {
         PaginasTorneioAdapter adapter = new PaginasTorneioAdapter(
                 this,
-                Arrays.asList(new TorneiosGerenciadosFragment(this), new TorneiosSeguidosFragment(this)),
-                Arrays.asList(getResources().getStringArray(R.array.tab_bar_nomes))
+                Arrays.asList(new TorneiosGerenciadosFragment(this),
+                              new TorneiosSeguidosFragment(this),
+                              new InformacoesFragment(R.string.informacoes_torneio)),
+                Arrays.asList(getResources().getStringArray(R.array.tab_bar_torneios_nomes))
         );
 
         ViewPager2 viewPager = findViewById(R.id.tab_conteudo_torneios);

@@ -1,5 +1,10 @@
 package control;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.leoPirpiri.protournamentmanager.R;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -75,7 +80,7 @@ public class Olimpia implements Serializable {
     }
 
     public int getNovoTorneioId(){
-        ArrayList index = new ArrayList();
+        ArrayList<Integer> index = new ArrayList<>();
         for (Torneio t:torneios) {
             index.add(t.getIdNivel0());
         }
@@ -132,5 +137,10 @@ public class Olimpia implements Serializable {
         tTeste.addTime(eTeste5);
         teste.addTorneio(tTeste);
         return teste;
+    }
+    public static void printteste(Context ctx, String msg){
+        Toast.makeText(ctx, msg,
+            Toast.LENGTH_SHORT).show();
+        System.out.println(msg);
     }
 }

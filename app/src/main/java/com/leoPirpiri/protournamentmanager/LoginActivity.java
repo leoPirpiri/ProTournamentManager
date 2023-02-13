@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import control.Olimpia;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etx_email;
@@ -49,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         db_auth = FirebaseAuth.getInstance();
         GoogleSignInOptions googleSignInOpt = new GoogleSignInOptions.
                 Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
-                requestIdToken("103955613869-e1e211id86fsj14u7b8buf373u1chgbr.apps.googleusercontent.com").
+                requestIdToken("103955613869-ptc0ask0u5qbbcqh0cmaf92l45f26cag.apps.googleusercontent.com").
                 requestEmail().
                 build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOpt);
@@ -105,7 +107,9 @@ public class LoginActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> abrirJanelaContasGoogle = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
+                Olimpia.printteste(this, String.valueOf(result.getResultCode()));
                 if (result.getResultCode() == Activity.RESULT_OK){
+                    Olimpia.printteste(this, "Result ok login google");
                     Intent intent = result.getData();
                     Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(intent);
                     try {
@@ -136,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         AuthCredential credencial = GoogleAuthProvider.getCredential(token, null);
         db_auth.signInWithCredential(credencial).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
+                Olimpia.printteste(this, "loging certo, abrir tela principal");
                 abrirPrincipal();
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.erro_login_google_auth),

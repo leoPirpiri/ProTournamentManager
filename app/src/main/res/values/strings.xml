@@ -214,13 +214,18 @@
     <string name="dica_cadastro">Ainda não possui usário?</string>
     <string name="btn_novo_usuario">Clique aqui.</string>
 
-    <string-array name="tab_bar_nomes">
+    <string-array name="tab_bar_torneios_nomes">
         <item>Meus torneios</item>
         <item>Seguindo</item>
+        <item>Dicas</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titulo_frag_comecar_novo_torneio">Começar novo torneio:</string>
     <string name="lbl_btn_novo">NOVO</string>
     <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado</string>
+    <string name="informacoes_torneio">
+        * Existe um limite de torneios que podem ser gerenciados ou seguidos.\n\n
+        * Você pode ser assinalado como mesário para um número indefinido de torneios.
+    </string>
 </resources>
