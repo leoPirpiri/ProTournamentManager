@@ -214,9 +214,14 @@
     <string name="dica_cadastro">Ainda não possui usário?</string>
     <string name="btn_novo_usuario">Clique aqui.</string>
 
-    <string-array name="tab_bar_torneios_nomes">
+    <string-array name="tab_bar_tela_principal_nomes">
         <item>Meus torneios</item>
         <item>Seguindo</item>
+        <item>Dicas</item>
+    </string-array>
+    <string-array name="tab_bar_tela_torneio_nomes">
+        <item>Equipes</item>
+        <item>Estatísticas</item>
         <item>Dicas</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
@@ -224,8 +229,13 @@
     <string name="titulo_frag_comecar_novo_torneio">Começar novo torneio:</string>
     <string name="lbl_btn_novo">NOVO</string>
     <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado</string>
-    <string name="informacoes_torneio">
+    <string name="informacoes_tela_principal">
         * Existe um limite de torneios que podem ser gerenciados ou seguidos.\n\n
         * Você pode ser assinalado como mesário para um número indefinido de torneios.
+    </string>
+    <string name="informacoes_tela_torneio">
+        * O torneio precisa de um número mínimo de equipes para se fechado.\n\n
+        * Uma vez fechado, não será permitido a adição de novas equipes.\n\n
+        * Estatísticas.+
     </string>
 </resources>

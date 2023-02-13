@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_tabhost);
+        setContentView(R.layout.activity_principal);
         setTabLayout();
 
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
@@ -31,19 +31,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setTabLayout() {
-        PaginasTorneioAdapter adapter = new PaginasTorneioAdapter(
+        NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
                 this,
                 Arrays.asList(new TorneiosGerenciadosFragment(this),
                               new TorneiosSeguidosFragment(this),
-                              new InformacoesFragment(R.string.informacoes_torneio)),
-                Arrays.asList(getResources().getStringArray(R.array.tab_bar_torneios_nomes))
+                              new InformacoesFragment(R.string.informacoes_tela_principal)),
+                Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_principal_nomes))
         );
 
-        ViewPager2 viewPager = findViewById(R.id.tab_conteudo_torneios);
+        ViewPager2 viewPager = findViewById(R.id.tab_conteudo_inicial);
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getItemCount());
 
-        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_torneios), viewPager, (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
+        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_inicial), viewPager, (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
         mediator.attach();
     }
 

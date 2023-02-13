@@ -50,7 +50,7 @@
             android:id="@+id/btn_gerar_tabela"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="center"
             android:background="@drawable/button_shape_desabled"
             android:enabled="false"
             android:shadowColor="#3D3D3D"
@@ -61,7 +61,17 @@
             android:textColor="@color/btn_texto_ic"
             android:textSize="20sp"
             android:layout_marginHorizontal="@dimen/equipe_pad_hor"/>
-        <TextView
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_bar_torneio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/tab_conteudo_torneio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+       <!-- <TextView
             android:id="@+id/txv_equipes_salvas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,12 +79,11 @@
             android:textSize="18dp"
             android:layout_margin="10dp"
             />
+
         <ListView
             android:id="@+id/list_equipes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </ListView>
-    </LinearLayout>
+            android:layout_height="match_parent"></ListView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -87,6 +96,7 @@
         android:enabled="false"
         app:backgroundTint="@color/background_closed"
         app:maxImageSize="60dp"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add" />-->
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

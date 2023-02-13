@@ -33,16 +33,15 @@
         android:text="@string/btn_logout"
         android:textColor="@color/btn_texto_ic"
         android:textSize="20sp"
-            android:layout_marginRight="5dp"
-        />
+        android:layout_marginEnd="5dp" />
     </LinearLayout>
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_bar_torneios"
+        android:id="@+id/tab_bar_inicial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/tab_conteudo_torneios"
+        android:id="@+id/tab_conteudo_inicial"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

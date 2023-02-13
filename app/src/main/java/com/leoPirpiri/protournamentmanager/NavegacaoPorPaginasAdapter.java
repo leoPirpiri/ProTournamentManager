@@ -7,12 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.List;
 
-public class PaginasTorneioAdapter extends FragmentStateAdapter {
+public class NavegacaoPorPaginasAdapter extends FragmentStateAdapter {
 
     private final List<Fragment> fragmentosList;
     private final List<String> titulosList;
 
-    public PaginasTorneioAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragmentosList, List<String> titulosList) {
+    public NavegacaoPorPaginasAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragmentosList, List<String> titulosList) {
         super(fragmentActivity);
         this.fragmentosList = fragmentosList;
         this.titulosList = titulosList;
