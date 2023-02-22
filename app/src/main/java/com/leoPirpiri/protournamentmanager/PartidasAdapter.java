@@ -91,13 +91,13 @@ public class PartidasAdapter extends BaseAdapter {
         }
 
         if(partida.getMandante() != null && partida.getMandante().getCampeaoId()>0) {
-            mandanteSigla.setText(major.getTime(partida.getMandante().getCampeaoId()).getSigla());
+            mandanteSigla.setText(major.getEquipe(partida.getMandante().getCampeaoId()).getSigla());
         } else {
             mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
 
         if(partida.getVisitante() != null && partida.getVisitante().getCampeaoId()>0) {
-            visitanteSigla.setText(major.getTime(partida.getVisitante().getCampeaoId()).getSigla());
+            visitanteSigla.setText(major.getEquipe(partida.getVisitante().getCampeaoId()).getSigla());
         } else {
             visitanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }

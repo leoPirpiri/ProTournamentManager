@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -144,8 +143,8 @@ public class TorneioActivity extends AppCompatActivity {
     private void setTabLayout() {
         NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
                 this,
-                Arrays.asList(new EquipesDeTorneioFragment(this, torneio.getTimes()),
-                        new EstatisticasDeTorneioFragment(this),
+                Arrays.asList(new EquipesDeTorneioFragment(this, torneio.getEquipes()),
+                        new EstatisticasDeTorneioFragment(this, torneio),
                         new InformacoesFragment(R.string.informacoes_tela_torneio)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_torneio_nomes))
         );

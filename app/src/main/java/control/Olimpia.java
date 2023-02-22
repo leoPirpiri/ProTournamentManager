@@ -3,8 +3,6 @@ package control;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.leoPirpiri.protournamentmanager.R;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,8 +13,6 @@ import java.util.ArrayList;
 
 import model.Equipe;
 import model.Jogador;
-import model.NoPartida;
-import model.Score;
 import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
@@ -130,11 +126,11 @@ public class Olimpia implements Serializable {
         eTeste4.addJogador(new Jogador(10401, "Kekel", 3, 7));
         eTeste5.addJogador(new Jogador(10501, "Gel", 1, 10));
 
-        tTeste.addTime(eTeste);
-        tTeste.addTime(eTeste2);
-        tTeste.addTime(eTeste3);
-        tTeste.addTime(eTeste4);
-        tTeste.addTime(eTeste5);
+        tTeste.addEquipe(eTeste);
+        tTeste.addEquipe(eTeste2);
+        tTeste.addEquipe(eTeste3);
+        tTeste.addEquipe(eTeste4);
+        tTeste.addEquipe(eTeste5);
         teste.addTorneio(tTeste);
         return teste;
     }

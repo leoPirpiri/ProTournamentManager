@@ -113,8 +113,8 @@ public class TabelaActivity extends AppCompatActivity {
     private void montarAlertaAbrirPartida(NoPartida partida){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        Equipe mandante = torneio.getTime(partida.getMandante().getCampeaoId());
-        Equipe visitante = torneio.getTime(partida.getVisitante().getCampeaoId());
+        Equipe mandante = torneio.getEquipe(partida.getMandante().getCampeaoId());
+        Equipe visitante = torneio.getEquipe(partida.getVisitante().getCampeaoId());
 
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
         Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
@@ -163,7 +163,7 @@ public class TabelaActivity extends AppCompatActivity {
     }
 
     private void listarPartidas() {
-        int tamanhoTorneio = torneio.getTimes().size();
+        int tamanhoTorneio = torneio.getEquipes().size();
         boolean precessoresQuartas = tamanhoTorneio != 16;
         boolean precessoresSemi = true;
         if(tamanhoTorneio>9) {
@@ -236,12 +236,12 @@ public class TabelaActivity extends AppCompatActivity {
             visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
         }
         if(partida.getMandante() != null && partida.getMandante().getCampeaoId() >0){
-            mandanteSigla.setText(torneio.getTime(partida.getMandante().getCampeaoId()).getSigla());
+            mandanteSigla.setText(torneio.getEquipe(partida.getMandante().getCampeaoId()).getSigla());
         } else {
             mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
         if(partida.getVisitante() != null && partida.getVisitante().getCampeaoId() >0){
-            visitanteSigla.setText(torneio.getTime(partida.getVisitante().getCampeaoId()).getSigla());
+            visitanteSigla.setText(torneio.getEquipe(partida.getVisitante().getCampeaoId()).getSigla());
         }else {
             visitanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }

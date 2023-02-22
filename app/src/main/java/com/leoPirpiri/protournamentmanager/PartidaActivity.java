@@ -214,10 +214,10 @@ public class PartidaActivity extends AppCompatActivity {
             btn_finalizar_partida.setText(R.string.encerrar_pelada);
             if (torneio == null){
                 torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio));
-                torneio.addTime(new Equipe(torneio.getNovaEquipeId(),
+                torneio.addEquipe(new Equipe(torneio.getNovaEquipeId(),
                         getResources().getString(R.string.equipe_exemplo_mandante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_mandante))));
-                torneio.addTime(new Equipe(torneio.getNovaEquipeId(),
+                torneio.addEquipe(new Equipe(torneio.getNovaEquipeId(),
                         getResources().getString(R.string.equipe_exemplo_visitante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
@@ -235,8 +235,8 @@ public class PartidaActivity extends AppCompatActivity {
             torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
             partida = torneio.getTabela().getPartida(partidaIndice-torneio.getId());
         }
-        mandante = torneio.getTime(partida.getMandante().getCampeaoId());
-        visitante = torneio.getTime(partida.getVisitante().getCampeaoId());
+        mandante = torneio.getEquipe(partida.getMandante().getCampeaoId());
+        visitante = torneio.getEquipe(partida.getVisitante().getCampeaoId());
         deslocamento = partida.getTempo();
         relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
         if(partida.isEncerrada()){

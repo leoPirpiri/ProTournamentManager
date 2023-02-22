@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,28 +23,37 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import control.Olimpia;
+import model.Equipe;
 import model.Torneio;
 
 
 public class EstatisticasDeTorneioFragment extends Fragment {
 
     private Context context;
+    private Torneio torneio;
 
-    public EstatisticasDeTorneioFragment() {
-        // Required empty public constructor
-    }
+    public EstatisticasDeTorneioFragment() {/*Required empty public constructor*/}
 
-    public EstatisticasDeTorneioFragment(Context context) {
+    public EstatisticasDeTorneioFragment(Context context, Torneio torneio) {
         this.context = context;
+        this.torneio = torneio;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_estatisticas_torneio, container, false);
-
-        //Listeners
-
+        //Preenche estatísticas de campeão
+        Equipe campeao = torneio.getCampeao();
+        if (campeao != null){
+            LinearLayout ll_campeao = v.findViewById(R.id.layout_estatica_campeao);
+            TextView txv_campeao = v.findViewById(R.id.txv_estatistica_campeao);
+            ll_campeao.setVisibility(View.VISIBLE);
+            txv_campeao.setText(campeao.getNome() + " - " + campeao.getSigla());
+        }
+        //Preenche estatísticas de artilharia
+        //Preenche estatísticas de falta
+        //Preenche estatísticas de cartões
         return v;
     }
 

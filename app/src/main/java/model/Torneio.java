@@ -10,13 +10,13 @@ public class Torneio extends EntConcreta {
     public static final int STATUS_FECHADO = 1;
     public static final int STATUS_FINALIZADO = 2;
 
-    private ArrayList<Equipe> times;
+    private ArrayList<Equipe> equipes;
     private ArvoreTabela tabela;
     private Equipe campeao;
 
     public Torneio(int id, String nome) {
         super(id, nome);
-        this.times = new ArrayList<>();
+        this.equipes = new ArrayList<>();
         this.tabela = new ArvoreTabela();
         this.campeao = null;
     }
@@ -33,7 +33,7 @@ public class Torneio extends EntConcreta {
         if(tabela.getRaiz() != null){
             int raiz = tabela.getCampeaoId();
             if (raiz!=0){
-                campeao = getTime(raiz);
+                campeao = getEquipe(raiz);
             }
         }
         return this.campeao;
@@ -47,15 +47,15 @@ public class Torneio extends EntConcreta {
         this.tabela.setRaiz(raiz);
     }
 
-    public ArrayList<Equipe> getTimes() {
-        return times;
+    public ArrayList<Equipe> getEquipes() {
+        return equipes;
     }
 
     public boolean fecharTorneio(String[] partida_nomes) {
-        if(times.size()<MIN_EQUIPE) {
+        if(equipes.size()<MIN_EQUIPE) {
             return false;
         }
-        tabela.gerarTabela(new ArrayList<>(times), new ArrayList<>(Arrays.asList(partida_nomes)));
+        tabela.gerarTabela(new ArrayList<>(equipes), new ArrayList<>(Arrays.asList(partida_nomes)));
         //tabela.testarArvore(tabela.getRaiz());
         return isFechado();
     }
@@ -64,24 +64,24 @@ public class Torneio extends EntConcreta {
         return  isFechado() && tabela.getSafeDeleteFlag(idJogador);
     }
 
-    public void addTime(Equipe time) {
-        if(!isFechado() && times.size()<MAX_EQUIPE && !siglaUsada(time.getSigla())){
-            this.times.add(time);
+    public void addEquipe(Equipe equipe) {
+        if(!isFechado() && equipes.size()<MAX_EQUIPE && !siglaUsada(equipe.getSigla())){
+            this.equipes.add(equipe);
         }
     }
 
     public boolean siglaUsada(String s){
-        return times.stream().anyMatch(e -> e.getSigla().equals(s));
+        return equipes.stream().anyMatch(e -> e.getSigla().equals(s));
     }
 
-    public Equipe delTime(int pos){
+    public Equipe delEquipe(int pos){
         if(!isFechado()) {
-            return times.remove(pos);
+            return equipes.remove(pos);
         }else return null;
     }
 
-    public Equipe getTime(int index){
-        for (Equipe e : times) {
+    public Equipe getEquipe(int index){
+        for (Equipe e : equipes) {
             if (e.getId() == index){
                 return e;
             }
@@ -91,7 +91,7 @@ public class Torneio extends EntConcreta {
 
     public int getNovaEquipeId(){
         ArrayList index = new ArrayList();
-        for (Equipe e: times) {
+        for (Equipe e: equipes) {
             index.add(e.getIdNivel1());
         }
         int i = index.size()+1;
@@ -107,7 +107,7 @@ public class Torneio extends EntConcreta {
 
     public String toString(){
         return super.toString() +
-               " Quantidade de times: " + times.size() +
+               " Quantidade de times: " + equipes.size() +
                " Estado: "+ (isFechado() ? (campeao == null ? "Fechado e Não finalizado" :
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }

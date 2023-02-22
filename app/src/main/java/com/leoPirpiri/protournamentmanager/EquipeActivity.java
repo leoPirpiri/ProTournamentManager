@@ -105,7 +105,7 @@ public class EquipeActivity extends AppCompatActivity {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
         torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
-        equipe = torneio.getTime(equipeIndice);
+        equipe = torneio.getEquipe(equipeIndice);
         if(equipe != null) {
             atualizarNomesEquipes();
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
