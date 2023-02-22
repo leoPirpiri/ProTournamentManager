@@ -8,11 +8,114 @@
     tools:context=".InformacoesFragment"
     android:layout_gravity="center"
     android:padding="@dimen/padding_msg_informacoes">
-            <TextView
-                android:id="@+id/msg_informacoes"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Estatistias do torneio"
-                android:textSize="@dimen/informacoes_fonte" />
+        <LinearLayout
+            android:id="@+id/layout_estatica_campeao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_estatisticas">
+                <ImageView
+                    android:layout_width="@dimen/largura_trofeu"
+                    android:layout_height="@dimen/altura_trofeu"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/trofeu"></ImageView>
+                <TextView
+                    android:id="@+id/txv_estatistica_campeao"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Nome do campeão aqui."
+                    android:textStyle="bold"
+                    android:textSize="@dimen/informacoes_fonte"
+                    android:paddingStart="@dimen/padding_estatisticas"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_estatisticas">
+                <ImageView
+                    android:layout_width="@dimen/largura_trofeu"
+                    android:layout_height="@dimen/altura_trofeu"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/acao_add_ponto_pro"></ImageView>
+                <TextView
+                    android:id="@+id/txv_estatistica_artilheiros"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Atrilheiria:\n6 Gols - Exemplo (Maciel de Cima)\n5 Gols - Fulado (Maciel de Baixo)\n3 Gols - Ciclano (Juventude do Pirpiri)"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/informacoes_fonte"
+                    android:paddingStart="@dimen/padding_estatisticas" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_estatisticas">
+                <ImageView
+                    android:layout_width="@dimen/largura_trofeu"
+                    android:layout_height="@dimen/altura_trofeu"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/acao_add_falta"></ImageView>
+                <TextView
+                    android:id="@+id/txv_estatistica_faltas"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Conduta Fairplay:\n1 falta - Maciel de Cima\n4 faltas - Maciel de Baixo\n10 faltas - Juventude do Pirpiri"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/informacoes_fonte"
+                    android:paddingStart="@dimen/padding_estatisticas" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_estatisticas">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="@dimen/largura_trofeu"
+                            android:layout_height="@dimen/altura_trofeu"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/acao_add_card_vermelho"></ImageView>
+                        <ImageView
+                            android:layout_width="@dimen/largura_trofeu"
+                            android:layout_height="@dimen/altura_trofeu"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/acao_add_card_amarelo"></ImageView>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/txv_estatistica_cartoes"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Jogo Limpo:\n1 cartão - Maciel de Cima\n4 cartões - Maciel de Baixo\n10 cartões - Juventude do Pirpiri"
+                    android:textStyle="normal"
+                    android:textSize="@dimen/informacoes_fonte"
+                    android:paddingStart="@dimen/padding_estatisticas" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+            />
 </LinearLayout>

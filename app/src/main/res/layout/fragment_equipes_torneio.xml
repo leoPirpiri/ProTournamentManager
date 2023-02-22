@@ -1,18 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_soft"
     tools:context=".InformacoesFragment"
-    android:layout_gravity="center"
-    android:padding="@dimen/padding_msg_informacoes">
-            <TextView
-                android:id="@+id/msg_informacoes"
-                android:gravity="center_vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="equipes do torenio"
-                android:textSize="@dimen/informacoes_fonte" />
+    android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/txv_msg_equipes_salvas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/torneio_sem_equipes"
+            android:textSize="@dimen/informacoes_fonte"
+            android:layout_margin="10dp" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_lista_equipes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/lista_pad_default" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/btn_nova_equipe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:tint="@color/midle"
+                    android:enabled="false"
+                    app:backgroundTint="@color/background_closed"
+                    app:maxImageSize="60dp"
+                    app:srcCompat="@android:drawable/ic_input_add" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

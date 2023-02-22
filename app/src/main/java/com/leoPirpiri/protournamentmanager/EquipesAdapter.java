@@ -1,27 +1,92 @@
 package com.leoPirpiri.protournamentmanager;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import model.Equipe;
 
-public class EquipesAdapter extends BaseAdapter {
-    private ArrayList<Equipe> equipes;
-    private Context ctx;
+public class EquipesAdapter extends RecyclerView.Adapter<EquipesAdapter.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+    private final Context context;
+    private final LayoutInflater inflater;
+    private final ArrayList<Equipe> equipes;
+    private View.OnClickListener quicklistener;
+    private View.OnLongClickListener longlistener;
 
-    public EquipesAdapter(Context ctx, ArrayList<Equipe> equipes) {
+    public EquipesAdapter(Context context, ArrayList<Equipe> equipes) {
+        this.context = context;
         this.equipes = equipes;
-        this.ctx = ctx;
+        this.inflater = LayoutInflater.from(context);
+    }
+
+
+    @NonNull
+    @Override
+    public EquipesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = inflater.inflate(R.layout.item_lista_equipe, parent, false);
+        view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
+        return new EquipesAdapter.ViewHolder(view);
+    }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.quicklistener = listener;
+    }
+    public void setOnLongClickListener(View.OnLongClickListener listener){
+        this.longlistener = listener;
     }
 
     @Override
+    public void onBindViewHolder(@NonNull EquipesAdapter.ViewHolder holder, int position) {
+        String nome = equipes.get(position).getNome() + " - " +
+                      equipes.get(position).getSigla();
+        String quantidade = context.getResources().getString(R.string.lbl_quant_jogadores) + ": " +
+                            equipes.get(position).getTamanhoEquipe();
+        holder.nomeEquipe.setText(nome);
+        holder.quantidadeDeJogadores.setText(quantidade);
+    }
+
+    @Override
+    public int getItemCount() {
+        return equipes.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(quicklistener != null){
+            quicklistener.onClick(v);
+        }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if(longlistener != null){
+            longlistener.onLongClick(v);
+        }
+        return true;
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView nomeEquipe, quantidadeDeJogadores;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            nomeEquipe = itemView.findViewById(R.id.adp_equipe_nome);
+            quantidadeDeJogadores = itemView.findViewById(R.id.adp_equipe_quant);
+        }
+    }
+
+    /*@Override
     public int getCount() {
         return equipes.size();
     }
@@ -53,5 +118,5 @@ public class EquipesAdapter extends BaseAdapter {
         String label = ctx.getResources().getString(R.string.dica_quant_jogadores);
         itemQjogadores.setText( label +": "+ Integer.toString(equipe.getTamanhoEquipe()));
         return v;
-    }
+    }*/
 }

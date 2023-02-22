@@ -27,8 +27,7 @@
     <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
-    <string name="torneio_sem_equipes">Torneio não possue equipes
-        \nAdicione novas equipes usando o botão abaixo (+)</string>
+    <string name="torneio_sem_equipes">Adicione equipes com o botão abaixo (+)</string>
     <string name="lbl_btn_tabela_desabled">Número insuficiente de times</string>
     <string name="lbl_btn_tabela_fechar">Fechar torneio/gerar tabela</string>
     <string name="lbl_btn_tabela_visualizar">Visualizar Tabela</string>
@@ -53,7 +52,7 @@
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome: </string>
     <string name="dica_nome_equipe">Clube Esportivo Exemplo</string>
-    <string name="dica_quant_jogadores">Quantidade de atletas</string>
+    <string name="lbl_quant_jogadores">Quantidade de atletas</string>
     <string name="titulo_alerta_nova_equipe">Informações da equipe</string>
     <string name="titulo_alerta_equipe_vazia">Equipe sem plantel</string>
     <string name="titulo_alerta_confir_abrir_equipe">Abrindo Equipe</string>
@@ -224,6 +223,11 @@
         <item>Estatísticas</item>
         <item>Dicas</item>
     </string-array>
+    <string-array name="tab_bar_tela_equipe_nomes">
+        <item>Plantel</item>
+        <item>Estatísticas</item>
+        <item>Dicas</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titulo_frag_comecar_novo_torneio">Começar novo torneio:</string>
@@ -231,11 +235,22 @@
     <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado</string>
     <string name="informacoes_tela_principal">
         * Existe um limite de torneios que podem ser gerenciados ou seguidos.\n\n
-        * Você pode ser assinalado como mesário para um número indefinido de torneios.
+        * Você pode ser assinalado como mesário para um número indefinido de torneios.\n\n
+        * Para excluir um torneio, precione e segure em seu nome.\n\n
+        * Para selecionar um torneio apenas precione em seu nome.
     </string>
     <string name="informacoes_tela_torneio">
-        * O torneio precisa de um número mínimo de equipes para se fechado.\n\n
-        * Uma vez fechado, não será permitido a adição de novas equipes.\n\n
-        * Estatísticas.+
+        * Um torneio precisa de um número mínimo de equipes para ser fechado.\n\n
+        * Uma vez fechado, não será permitido a adição de novas equipes, mas ainda se pode editá-las.\n\n
+        * Equipes podem ter o mesmo nome, mas nunca as mesmas siglas\n\n
+        * Para excluir uma equipe, precione e segure em seu nome.\n\n
+        * Para selecionar uma equipe apenas precione em seu nome.\n\n
+        * As estatísticas trazem o nome do campeão do torneio, artilharia e equipes que menos fizeram faltas e menos cartões amarelhos e vermelhos durante o torneio.
+    </string>
+    <string name="informacoes_tela_equipe">
+        * Para atribuir pontos, cartões e faltas, uma equipe precisa ter seu plantel.\n\n
+        * Para excluir um jogador, precione e segure em seu nome.\n\n
+        * Para selecionar um jogador apenas precione em seu nome.\n\n
+        * As estatísticas trazem valores da equipe atual dentro de um único torneio.
     </string>
 </resources>

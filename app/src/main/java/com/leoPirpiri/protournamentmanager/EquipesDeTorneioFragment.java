@@ -22,19 +22,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import control.Olimpia;
+import model.Equipe;
 import model.Torneio;
 
 public class EquipesDeTorneioFragment extends Fragment {
 
     private Context context;
+    private ArrayList<Equipe> listaEquipes;
     private AlertDialog alertaDialog;
+    private RecyclerView recyclerViewEquipesDoTorneio;
+    private EquipesAdapter adapterEquipe;
+    private TextView txv_info_lista_equipes;
 
     public EquipesDeTorneioFragment() {
         // Required empty public constructor
     }
 
-    public EquipesDeTorneioFragment(Context context) {
+    public EquipesDeTorneioFragment(Context context, ArrayList<Equipe> equipes) {
         this.context = context;
+        this.listaEquipes = equipes;
     }
 
     @Override
@@ -42,9 +48,36 @@ public class EquipesDeTorneioFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_equipes_torneio, container, false);
 
+        recyclerViewEquipesDoTorneio = v.findViewById(R.id.recyclerview_lista_equipes);
+        txv_info_lista_equipes = v.findViewById(R.id.txv_msg_equipes_salvas);
+        listarTimes();
         //Listeners
 
         return v;
+    }
+    private void listarTimes() {
+        if (!listaEquipes.isEmpty()) {
+            //ativarAddBtnNovaEquipe();
+            txv_info_lista_equipes.setVisibility(View.GONE);
+            povoarRecycleView();
+        }
+    }
+
+    private void povoarRecycleView(){
+        recyclerViewEquipesDoTorneio.setLayoutManager(new LinearLayoutManager(context));
+        adapterEquipe = new EquipesAdapter(context, listaEquipes);
+        recyclerViewEquipesDoTorneio.setAdapter(adapterEquipe);
+        construirListenersAdapterEquipe();
+    }
+
+    private void construirListenersAdapterEquipe() {
+        adapterEquipe.setOnClickListener(v -> abrirEquipe(listaEquipes.get(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)).getId()));
+
+        adapterEquipe.setOnLongClickListener(v -> {
+            Olimpia.printteste(context, "Clicou no Longo");
+            //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
+            return true;
+        });
     }
 
     @Override
@@ -65,6 +98,21 @@ public class EquipesDeTorneioFragment extends Fragment {
         alertaDialog = builder.create();
         alertaDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(background));
         alertaDialog.show();
+    }
+
+    private void abrirEquipe(int idEquipe) {
+        Intent intent = new Intent(context, EquipeActivity.class);
+        Bundle dados = new Bundle();
+        //Passa alguns dados para a próxima activity
+        dados.putInt("equipe", idEquipe);
+        intent.putExtras(dados);
+        startActivity(intent);
+    }
+    private void excluirEquipe(int position) {
+//        if(torneio.delTime(position) != null){
+//            atualizar = true;
+//            listarTimes();
+//        }
     }
 
 }

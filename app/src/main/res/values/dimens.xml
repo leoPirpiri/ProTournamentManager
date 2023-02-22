@@ -16,6 +16,7 @@
     <dimen name="tamanho_linha">5dp</dimen>
     <dimen name="altura_linha">2dp</dimen>
     <dimen name="altura_trofeu">50dp</dimen>
+    <dimen name="largura_trofeu">50dp</dimen>
     <dimen name="altura_ic_acao">45dp</dimen>
     <dimen name="altura_ic_acao_min">16dp</dimen>
     <dimen name="altura_ic_penalti">30dp</dimen>
@@ -48,5 +49,6 @@
     <dimen name="partida_penaltis">16sp</dimen>
     <dimen name="titulo_principal_margin">30dp</dimen>
     <dimen name="padding_msg_informacoes">15dp</dimen>
+    <dimen name="padding_estatisticas">10dp</dimen>
     <dimen name="informacoes_fonte">18dp</dimen>
 </resources>

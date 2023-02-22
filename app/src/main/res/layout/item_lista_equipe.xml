@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="left">
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:id="@+id/adp_equipe_quant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dica_quant_jogadores" />
+            android:text="@string/lbl_quant_jogadores" />
     </LinearLayout>
 
 </LinearLayout>

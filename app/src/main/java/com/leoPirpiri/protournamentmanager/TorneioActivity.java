@@ -51,7 +51,6 @@ public class TorneioActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTabLayout();
 
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
         btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
@@ -65,6 +64,8 @@ public class TorneioActivity extends AppCompatActivity {
         } else {
             finish();
         }
+
+        setTabLayout();
 
         btn_gerar_tabela.setOnClickListener(v -> {
             if(torneio.isFechado()){
@@ -143,7 +144,7 @@ public class TorneioActivity extends AppCompatActivity {
     private void setTabLayout() {
         NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
                 this,
-                Arrays.asList(new EquipesDeTorneioFragment(this),
+                Arrays.asList(new EquipesDeTorneioFragment(this, torneio.getTimes()),
                         new EstatisticasDeTorneioFragment(this),
                         new InformacoesFragment(R.string.informacoes_tela_torneio)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_torneio_nomes))
@@ -153,7 +154,10 @@ public class TorneioActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(adapter.getItemCount());
 
-        TabLayoutMediator mediator = new TabLayoutMediator(findViewById(R.id.tab_bar_torneio), viewPager, (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
+        TabLayoutMediator mediator = new TabLayoutMediator(
+                                            findViewById(R.id.tab_bar_torneio),
+                                            viewPager,
+                                            (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
         mediator.attach();
     }
     /*private void montarAlertaAbrirEquipe(final int posEquipe){
@@ -390,7 +394,6 @@ public class TorneioActivity extends AppCompatActivity {
 //        }
 //    }
 
-
     private void abrirTabela() {
         Intent intent = new Intent(getApplicationContext(), TabelaActivity.class);
         Bundle dados = new Bundle();
@@ -399,19 +402,4 @@ public class TorneioActivity extends AppCompatActivity {
         intent.putExtras(dados);
         startActivity(intent);
     }
-//
-//    private void abrirEquipe(int idEquipe) {
-//        Intent intent = new Intent(getApplicationContext(), EquipeActivity.class);
-//        Bundle dados = new Bundle();
-//        //Passa alguns dados para a próxima activity
-//        dados.putInt("equipe", idEquipe);
-//        intent.putExtras(dados);
-//        startActivity(intent);
-//    }
-//    private void excluirEquipe(int position) {
-//        if(torneio.delTime(position) != null){
-//            atualizar = true;
-//            listarTimes();
-//        }
-//    }
 }
