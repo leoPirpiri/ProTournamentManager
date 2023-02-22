@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
     >
     <TextView
@@ -29,7 +29,7 @@
             android:layout_height="@dimen/altura_ic_acao_min"
             android:background="@drawable/acao_add_ponto_contra"
             android:textColor="@color/ic_texto"
-            android:textSize="@dimen/partida_ic_gols_quant"
+            android:textSize="@dimen/partida_ic_gols_quant_min"
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>
@@ -39,7 +39,7 @@
             android:layout_height="@dimen/altura_ic_acao_min"
             android:background="@drawable/acao_add_ponto_pro"
             android:textColor="@color/ic_texto"
-            android:textSize="@dimen/partida_ic_gols_quant"
+            android:textSize="@dimen/partida_ic_gols_quant_min"
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>

@@ -68,11 +68,17 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark"
-        />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_bar_equipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/tab_conteudo_equipe"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+        <!--
         <TextView
             android:id="@+id/txv_jogadores_salvos"
             android:layout_width="wrap_content"
@@ -86,19 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ListView>
-    </LinearLayout>
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_novo_jogador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/colorPrimaryDark"
-        android:tintMode="multiply"
-        app:backgroundTint="@color/core"
-        app:maxImageSize="50dp"
-        app:srcCompat="@android:drawable/ic_menu_myplaces" />
+    -->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

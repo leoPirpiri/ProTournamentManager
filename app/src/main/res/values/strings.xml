@@ -65,8 +65,7 @@
         muito curta e diferente das siglas de outras equipes.
     </string>
     <string name="equipe_com_jogador">Jogadores inscritos:</string>
-    <string name="equipe_sem_jogador">Equipe sem jogadores inscritos
-        \nAdicione novos usando o botão abaixo.</string>
+    <string name="equipe_sem_jogador">Adicione novos usando o botão abaixo.</string>
 
     <!-- Mensagens envolvendo Jogador-->
     <string name="jogador_adicionado">Jogador adicionado com sucesso!</string>
@@ -248,9 +247,13 @@
         * As estatísticas trazem o nome do campeão do torneio, artilharia e equipes que menos fizeram faltas e menos cartões amarelhos e vermelhos durante o torneio.
     </string>
     <string name="informacoes_tela_equipe">
-        * Para atribuir pontos, cartões e faltas, uma equipe precisa ter seu plantel.\n\n
+        * Dentro de uma partida, para atribuir pontos, cartões e faltas, uma equipe precisa ter seu plantel.\n\n
         * Para excluir um jogador, precione e segure em seu nome.\n\n
         * Para selecionar um jogador apenas precione em seu nome.\n\n
         * As estatísticas trazem valores da equipe atual dentro de um único torneio.
+    </string>
+    <string name="informacoes_tela_partida">
+        * Para atribuir pontos, cartões e faltas apenas preciono no nome do jogador.\n\n
+        * Para ver mais detalhes de um jogador, precione e segure em seu nome.\n\n
     </string>
 </resources>

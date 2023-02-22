@@ -6,15 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_soft"
-    tools:context=".TorneioActivity"
+    tools:context=".EquipeActivity"
     android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/txv_msg_equipes_salvas"
+            android:id="@+id/txv_msg_jogadores_salvos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/torneio_sem_equipes"
+            android:text="@string/equipe_sem_jogador"
             android:textSize="@dimen/informacoes_fonte"
             android:layout_margin="10dp" />
 
@@ -23,21 +23,21 @@
             android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerview_lista_equipes"
+                    android:id="@+id/recyclerview_lista_jogadores"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingBottom="@dimen/lista_pad_default" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/btn_nova_equipe"
+                    android:id="@+id/btn_novo_jogador"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_margin="@dimen/fab_margin"
-                    android:tint="@color/midle"
-                    android:enabled="false"
-                    app:backgroundTint="@color/background_closed"
-                    app:maxImageSize="60dp"
-                    app:srcCompat="@android:drawable/ic_input_add" />
+                    android:tint="@color/colorPrimaryDark"
+                    android:tintMode="multiply"
+                    app:backgroundTint="@color/core"
+                    app:maxImageSize="50dp"
+                    app:srcCompat="@android:drawable/ic_menu_myplaces" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

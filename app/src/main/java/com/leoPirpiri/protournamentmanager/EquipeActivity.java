@@ -18,10 +18,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import control.Olimpia;
 import model.Equipe;
@@ -34,15 +37,15 @@ public class EquipeActivity extends AppCompatActivity {
     private int equipeIndice;
     private Equipe equipe;
     private Torneio torneio;
-    private JogadoresAdapter jogadoresAdapter;
+    //private JogadoresAdapter jogadoresAdapter;
 
-    private ListView ltv_jogadores_equipe;
+    //private ListView ltv_jogadores_equipe;
     private TextView txv_sigla_equipe;
-    private TextView txv_jogadores_inscritos;
-    private EditText etx_nome_jogador;
-    private Button btn_confirma_jogador;
-    private Spinner spnr_numero;
-    private Spinner spnr_posicao;
+    //private TextView txv_jogadores_inscritos;
+    //private EditText etx_nome_jogador;
+    //private Button btn_confirma_jogador;
+    //private Spinner spnr_numero;
+    //private Spinner spnr_posicao;
 
     private boolean atualizar;
 
@@ -51,20 +54,20 @@ public class EquipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_equipe);
 
-        txv_jogadores_inscritos = findViewById(R.id.txv_jogadores_salvos);
+        //txv_jogadores_inscritos = findViewById(R.id.txv_jogadores_salvos);
         txv_sigla_equipe = findViewById(R.id.txv_sigla_equipe);
-        ltv_jogadores_equipe = findViewById(R.id.list_jogadores);
+        //ltv_jogadores_equipe = findViewById(R.id.list_jogadores);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton btn_add_jogador = findViewById(R.id.btn_novo_jogador);
-        btn_add_jogador.setOnClickListener(new View.OnClickListener() {
+        //FloatingActionButton btn_add_jogador = findViewById(R.id.btn_novo_jogador);
+        /*btn_add_jogador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 montarAlertaNovoEditarJogador(null);
             }
-        });
+        });*/
 
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
@@ -73,14 +76,16 @@ public class EquipeActivity extends AppCompatActivity {
             metodoRaiz();
         }
 
-        ltv_jogadores_equipe.setOnItemClickListener((parent, view, position, id) -> {
+        setTabLayout();
+
+        /*ltv_jogadores_equipe.setOnItemClickListener((parent, view, position, id) -> {
             montarAlertaNovoEditarJogador(equipe.getJogadores().get(position));
         });
 
         ltv_jogadores_equipe.setOnItemLongClickListener((parent, view, position, id) -> {
             montarAlertaDeletarJogador(jogadoresAdapter.getItem(position));
             return true;
-        });
+        });*/
 
         findViewById(R.id.btn_edt_equipe).setOnClickListener(v -> {
             montarAlertaEditarEquipe();
@@ -106,7 +111,7 @@ public class EquipeActivity extends AppCompatActivity {
         atualizar=false;
         torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
         equipe = torneio.getEquipe(equipeIndice);
-        if(equipe != null) {
+        /*if(equipe != null) {
             atualizarNomesEquipes();
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
             ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
@@ -114,7 +119,27 @@ public class EquipeActivity extends AppCompatActivity {
         } else {
             Toast.makeText(EquipeActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
             finish();
-        }
+        }*/
+    }
+
+    private void setTabLayout() {
+        NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
+                this,
+                Arrays.asList(new JogadoresDeEquipeFragment(this, equipe.getJogadores()),
+                        new EstatisticasDeEquipeFragment(this),
+                        new InformacoesFragment(R.string.informacoes_tela_equipe)),
+                Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_equipe_nomes))
+        );
+
+        ViewPager2 viewPager = findViewById(R.id.tab_conteudo_equipe);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(adapter.getItemCount());
+
+        TabLayoutMediator mediator = new TabLayoutMediator(
+                findViewById(R.id.tab_bar_equipe),
+                viewPager,
+                (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
+        mediator.attach();
     }
 
     private void atualizarNomesEquipes(){
@@ -195,7 +220,7 @@ public class EquipeActivity extends AppCompatActivity {
         builder.setTitle(R.string.titulo_alerta_nova_equipe);
         mostrarAlerta(builder);
     }
-
+/*
     private void montarAlertaDeletarJogador(Jogador j) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
@@ -220,9 +245,9 @@ public class EquipeActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_confir_excluir_jogador);
         mostrarAlerta(builder);
-    }
+    }*/
 
-    private void montarAlertaNovoEditarJogador(Jogador velhoJogador) {
+    /*private void montarAlertaNovoEditarJogador(Jogador velhoJogador) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -310,7 +335,7 @@ public class EquipeActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_novo_jogador);
         mostrarAlerta(builder);
-    }
+    }*/
 
     private String siglatation(String entrada) {
         String sigla = "";
@@ -324,7 +349,7 @@ public class EquipeActivity extends AppCompatActivity {
         }
         return sigla.toUpperCase();
     }
-
+/*
     private void validarEdicao(Jogador pl1) {
         String nome = etx_nome_jogador.getText().toString().trim();
         if(!nome.isEmpty()) {
@@ -350,7 +375,7 @@ public class EquipeActivity extends AppCompatActivity {
     private void desativarOKalertaJogador() {
         btn_confirma_jogador.setEnabled(false);
         btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_desabled));
-    }
+    }*/
 
     private void mostrarAlerta(AlertDialog.Builder builder) {
         mostrarAlerta(builder, R.drawable.background_alerta);
@@ -362,6 +387,7 @@ public class EquipeActivity extends AppCompatActivity {
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }
+/*
 
     private void listarJogadores() {
         if (equipe.getJogadores().isEmpty()) {
@@ -381,4 +407,5 @@ public class EquipeActivity extends AppCompatActivity {
             CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_erro_excluir_jogador));
         }
     }
+*/
 }

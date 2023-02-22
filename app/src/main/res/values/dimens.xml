@@ -19,6 +19,7 @@
     <dimen name="largura_trofeu">50dp</dimen>
     <dimen name="altura_ic_acao">45dp</dimen>
     <dimen name="altura_ic_acao_min">16dp</dimen>
+    <dimen name="altura_ic_acao_exp">30dp</dimen>
     <dimen name="altura_ic_penalti">30dp</dimen>
     <dimen name="ic_penalti_mar_ver">3dp</dimen>
     <dimen name="ic_penalti_mar_hor">6dp</dimen>
@@ -45,7 +46,8 @@
     <dimen name="placar_fonte">10dp</dimen>
     <dimen name="partida_nomes_equipes">16dp</dimen>
     <dimen name="partida_nomes_jogador">20dp</dimen>
-    <dimen name="partida_ic_gols_quant">12dp</dimen>
+    <dimen name="partida_ic_gols_quant_min">12dp</dimen>
+    <dimen name="partida_ic_gols_quant_exp">22dp</dimen>
     <dimen name="partida_penaltis">16sp</dimen>
     <dimen name="titulo_principal_margin">30dp</dimen>
     <dimen name="padding_msg_informacoes">15dp</dimen>

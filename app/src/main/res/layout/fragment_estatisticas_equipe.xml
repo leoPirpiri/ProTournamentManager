@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_soft"
-    tools:context=".TorneioActivity"
+    tools:context=".EquipeActivity"
     android:layout_gravity="center"
     android:padding="@dimen/padding_msg_informacoes">
         <LinearLayout
@@ -49,7 +49,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Atrilheiria:\n6 Gols - Exemplo (Maciel de Cima)\n5 Gols - Fulado (Maciel de Baixo)\n3 Gols - Ciclano (Juventude do Pirpiri)"
+                    android:text="Estatiscas da equipe"
                     android:textStyle="normal"
                     android:textSize="@dimen/informacoes_fonte"
                     android:paddingStart="@dimen/padding_estatisticas" />
@@ -74,7 +74,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Conduta Fairplay:\n1 falta - Maciel de Cima\n4 faltas - Maciel de Baixo\n10 faltas - Juventude do Pirpiri"
+                    android:text="Estatiscas da equipe"
                     android:textStyle="normal"
                     android:textSize="@dimen/informacoes_fonte"
                     android:paddingStart="@dimen/padding_estatisticas" />
@@ -109,7 +109,7 @@
                     android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jogo Limpo:\n1 cartão - Maciel de Cima\n4 cartões - Maciel de Baixo\n10 cartões - Juventude do Pirpiri"
+                    android:text="Estatiscas da equipe"
                     android:textStyle="normal"
                     android:textSize="@dimen/informacoes_fonte"
                     android:paddingStart="@dimen/padding_estatisticas" />

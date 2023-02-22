@@ -57,7 +57,7 @@ public class JogadoresAdapter extends BaseAdapter {
         View v;
         if(convertView == null) {
             LayoutInflater inflater = ((Activity) ctx).getLayoutInflater();
-            v = inflater.inflate(R.layout.item_lista_jogador, null);
+            v = inflater.inflate(R.layout.item_lista_jogador_mini, null);
         } else {
             v = convertView;
         }
