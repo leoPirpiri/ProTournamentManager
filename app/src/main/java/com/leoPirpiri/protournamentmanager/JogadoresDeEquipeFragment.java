@@ -1,12 +1,10 @@
 package com.leoPirpiri.protournamentmanager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import control.Olimpia;
-import model.Equipe;
 import model.Jogador;
 
 public class JogadoresDeEquipeFragment extends Fragment {
@@ -27,9 +23,9 @@ public class JogadoresDeEquipeFragment extends Fragment {
     private Context context;
     private ArrayList<Jogador> listaJogadores;
     private AlertDialog alertaDialog;
-    private RecyclerView recyclerViewEquipesDoTorneio;
-    private EquipesAdapter adapterEquipe;
-    private TextView txv_info_lista_equipes;
+    private RecyclerView recyclerViewJogadoresDeEquipe;
+    private JogadoresAdapter adapterJogadores;
+    private TextView txv_info_lista_jogadores;
 
     public JogadoresDeEquipeFragment() {
         // Required empty public constructor
@@ -45,37 +41,37 @@ public class JogadoresDeEquipeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_jogadores_equipe, container, false);
 //
-//        recyclerViewEquipesDoTorneio = v.findViewById(R.id.recyclerview_lista_equipes);
-//        txv_info_lista_equipes = v.findViewById(R.id.txv_msg_equipes_salvas);
-//        listarTimes();
+        recyclerViewJogadoresDeEquipe = v.findViewById(R.id.recyclerview_lista_jogadores);
+        txv_info_lista_jogadores = v.findViewById(R.id.txv_msg_jogadores_salvos);
+        listarJogadores();
         //Listeners
 
         return v;
     }
-   /* private void listarTimes() {
-        if (!listaEquipes.isEmpty()) {
+    private void listarJogadores() {
+        if (!listaJogadores.isEmpty()) {
             //ativarAddBtnNovaEquipe();
-            txv_info_lista_equipes.setVisibility(View.GONE);
+            txv_info_lista_jogadores.setVisibility(View.GONE);
             povoarRecycleView();
         }
     }
 
     private void povoarRecycleView(){
-        recyclerViewEquipesDoTorneio.setLayoutManager(new LinearLayoutManager(context));
-        adapterEquipe = new EquipesAdapter(context, listaEquipes);
-        recyclerViewEquipesDoTorneio.setAdapter(adapterEquipe);
-        construirListenersAdapterEquipe();
+        recyclerViewJogadoresDeEquipe.setLayoutManager(new LinearLayoutManager(context));
+        adapterJogadores = new JogadoresAdapter(context, listaJogadores);
+        recyclerViewJogadoresDeEquipe.setAdapter(adapterJogadores);
+        construirListenersAdapterJogadores();
     }
 
-    private void construirListenersAdapterEquipe() {
-        adapterEquipe.setOnClickListener(v -> abrirEquipe(listaEquipes.get(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)).getId()));
+    private void construirListenersAdapterJogadores() {
+        /*adapterJogadores.setOnClickListener(v -> abrirEquipe(listaEquipes.get(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)).getId()));
 
-        adapterEquipe.setOnLongClickListener(v -> {
+        adapterJogadores.setOnLongClickListener(v -> {
             Olimpia.printteste(context, "Clicou no Longo");
             //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
             return true;
-        });
-    }*/
+        });*/
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

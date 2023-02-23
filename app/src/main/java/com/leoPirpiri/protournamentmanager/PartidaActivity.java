@@ -157,20 +157,20 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         ltv_jogadores_mandantes.setOnItemClickListener((parent, view, position, id) -> {
-            montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+            //montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
         });
 
         ltv_jogadores_visitantes.setOnItemClickListener((parent, view, position, id) -> {
-            montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+            //montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
         });
 
         ltv_jogadores_mandantes.setOnItemLongClickListener((parent, view, position, id) -> {
-            montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+            //montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
             return true;
         });
 
         ltv_jogadores_visitantes.setOnItemLongClickListener((parent, view, position, id) -> {
-            montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+            //montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
             return true;
         });
     }
@@ -304,13 +304,13 @@ public class PartidaActivity extends AppCompatActivity {
 
     private void listarJogadoresMandantes(ArrayList<Score> acoesMandantes) {
         jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
-        ltv_jogadores_mandantes.setAdapter(jam);
+        //ltv_jogadores_mandantes.setAdapter(jam);
         jam.notifyDataSetChanged();
     }
 
     private void listarJogadoresVisitantes(ArrayList<Score> acoesVisitantes) {
         jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
-        ltv_jogadores_visitantes.setAdapter(jav);
+        //ltv_jogadores_visitantes.setAdapter(jav);
         jav.notifyDataSetChanged();
     }
 

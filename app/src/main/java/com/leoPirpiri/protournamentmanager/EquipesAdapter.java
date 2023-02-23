@@ -28,7 +28,6 @@ public class EquipesAdapter extends RecyclerView.Adapter<EquipesAdapter.ViewHold
         this.inflater = LayoutInflater.from(context);
     }
 
-
     @NonNull
     @Override
     public EquipesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,7 +73,6 @@ public class EquipesAdapter extends RecyclerView.Adapter<EquipesAdapter.ViewHold
         }
         return true;
     }
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nomeEquipe, quantidadeDeJogadores;

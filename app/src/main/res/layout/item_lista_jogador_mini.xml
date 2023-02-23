@@ -43,10 +43,11 @@
             android:textStyle="bold"
             android:gravity="center"
             android:visibility="gone"/>
-        <ImageView
+        <TextView
             android:id="@+id/adp_jogador_punicao"
             android:layout_width="@dimen/altura_ic_acao_min"
             android:layout_height="@dimen/altura_ic_acao_min"
+            android:background="@drawable/acao_add_card_amarelo"
             android:visibility="gone"/>
         <TextView
             android:id="@+id/adp_jogador_posicao"
