@@ -45,12 +45,12 @@ public class EstatisticasDeTorneioFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_estatisticas_torneio, container, false);
         //Preenche estatísticas de campeão
         Equipe campeao = torneio.getCampeao();
-        if (campeao != null){
-            LinearLayout ll_campeao = v.findViewById(R.id.layout_estatica_campeao);
-            TextView txv_campeao = v.findViewById(R.id.txv_estatistica_campeao);
-            ll_campeao.setVisibility(View.VISIBLE);
-            txv_campeao.setText(campeao.getNome() + " - " + campeao.getSigla());
-        }
+//        if (campeao != null){
+//            LinearLayout ll_campeao = v.findViewById(R.id.layout_estatica_campeao);
+//            TextView txv_campeao = v.findViewById(R.id.txv_estatistica_campeao);
+//            ll_campeao.setVisibility(View.VISIBLE);
+//            txv_campeao.setText(campeao.getNome() + " - " + campeao.getSigla());
+//        }
         //Preenche estatísticas de artilharia
         //Preenche estatísticas de falta
         //Preenche estatísticas de cartões
