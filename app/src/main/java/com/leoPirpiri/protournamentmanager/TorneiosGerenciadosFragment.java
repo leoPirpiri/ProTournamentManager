@@ -26,11 +26,10 @@ import model.Torneio;
 
 public class TorneiosGerenciadosFragment extends Fragment {
 
-    private Context context;
     private MainActivity superActivity;
     private TorneiosAdapter adapterTorneio;
     private RecyclerView recyclerViewTorneiosGerenciados;
-    private TextView txv_torneios_recentes;
+    private TextView txv_torneios_gerenciados_recentes;
     private ArrayList<Torneio> listaTorneiosGerenciados;
     private TextView etx_nome_novo_torneio;
     private Button btn_novo_torneio;
@@ -46,7 +45,6 @@ public class TorneiosGerenciadosFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        this.context = context;
         this.superActivity = (MainActivity) context;
     }
 
@@ -55,10 +53,11 @@ public class TorneiosGerenciadosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_torneios_gerenciados, container, false);
         recyclerViewTorneiosGerenciados = v.findViewById(R.id.recyclerview_torneios_gerenciados);
-        txv_torneios_recentes = v.findViewById(R.id.txv_torneios_gerenciados_recentes);
+        txv_torneios_gerenciados_recentes = v.findViewById(R.id.txv_torneios_gerenciados_recentes);
         etx_nome_novo_torneio = v.findViewById(R.id.nome_novo_torneio);
         btn_novo_torneio = v.findViewById(R.id.btn_novo_tourneio);
         Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
+
         desabilitarBtnNovoTorneio();
         listarTorneios();
         povoarRecycleView();
@@ -67,7 +66,6 @@ public class TorneiosGerenciadosFragment extends Fragment {
         etx_nome_novo_torneio.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(etx_nome_novo_torneio.getText().toString().equals("")){
@@ -77,10 +75,8 @@ public class TorneiosGerenciadosFragment extends Fragment {
                     btn_novo_torneio.setBackground(ContextCompat.getDrawable(superActivity, R.drawable.button_shape_enabled));
                 }
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
 
         etx_nome_novo_torneio.setOnFocusChangeListener((v1, hasFocus) -> {
@@ -92,14 +88,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
         btn_novo_torneio.setOnClickListener(v12 -> {
             if (superActivity != null){
                 superActivity.esconderTeclado(etx_nome_novo_torneio);
-                Torneio novoTorneio = superActivity.criarNovoTorneio(etx_nome_novo_torneio.getText().toString());
-                if (novoTorneio!=null){
-                    desabilitarBtnNovoTorneio();
-                    etx_nome_novo_torneio.setText("");
-                    superActivity.abrirTorneio(novoTorneio.getId());
-                } else {
-                    etx_nome_novo_torneio.setError(getString(R.string.erro_numero_max_torneios));
-                }
+                criarTorneioGerenciado(etx_nome_novo_torneio.getText().toString());
             }
         });
 
@@ -119,15 +108,15 @@ public class TorneiosGerenciadosFragment extends Fragment {
 
     private void listarTorneios(){
         if(listaTorneiosGerenciados.isEmpty()){
-            txv_torneios_recentes.setText(R.string.santuario_gerenciados_vazio);
+            txv_torneios_gerenciados_recentes.setText(R.string.santuario_gerenciados_vazio);
         } else {
-            txv_torneios_recentes.setText(R.string.santuario_gerenciados_recentes);
+            txv_torneios_gerenciados_recentes.setText(R.string.santuario_torneios_recentes);
         }
     }
 
     private void povoarRecycleView(){
-        recyclerViewTorneiosGerenciados.setLayoutManager(new LinearLayoutManager(context));
-        adapterTorneio = new TorneiosAdapter(context, listaTorneiosGerenciados);
+        recyclerViewTorneiosGerenciados.setLayoutManager(new LinearLayoutManager(superActivity));
+        adapterTorneio = new TorneiosAdapter(superActivity, listaTorneiosGerenciados);
         recyclerViewTorneiosGerenciados.setAdapter(adapterTorneio);
         construirListenersAdapterTorneio();
     }
@@ -144,7 +133,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     }
 
     private void montarAlertaExcluirTorneio(final int posTorneio){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
 
         Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
@@ -179,6 +168,17 @@ public class TorneiosGerenciadosFragment extends Fragment {
         );
     }
 
+    private void criarTorneioGerenciado(String nomeNovoTorneio){
+        Torneio novoTorneio = superActivity.criarNovoTorneio(nomeNovoTorneio);
+        if (novoTorneio!=null){
+            desabilitarBtnNovoTorneio();
+            etx_nome_novo_torneio.setText("");
+            superActivity.abrirTorneio(novoTorneio.getId());
+        } else {
+            etx_nome_novo_torneio.setError(getString(R.string.erro_numero_max_torneios));
+        }
+    }
+
     private void abrirTorneioGerenciado(int torneioId){
         superActivity.abrirTorneio(torneioId);
     }
@@ -191,7 +191,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     }
 
     private void abrirSimulador(){
-        Intent intent = new Intent(context, PartidaActivity.class);
+        Intent intent = new Intent(superActivity, PartidaActivity.class);
         intent.putExtra("partida", -1);
         startActivity(intent);
     }

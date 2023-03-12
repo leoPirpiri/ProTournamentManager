@@ -17,7 +17,7 @@
     <string name="btn_desempate_visitante">Visitante</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
-    <string name="santuario_gerenciados_recentes">Torneios recentes: </string>
+    <string name="santuario_torneios_recentes">Torneios recentes: </string>
     <string name="santuario_gerenciados_cheio">Limite alcançado</string>
     <string name="santuario_gerenciados_vazio">Sem torneios recentes
         \nAdicione novos a partir do botão novo</string>
@@ -25,8 +25,10 @@
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
+    <string name="titulo_alerta_confir_unfollow_torneio">Não acompanhar Torneio</string>
     <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
+    <string name="msg_alerta_confir_unfollow_torneio">Deixar de seguir esse Torneio?</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Adicione equipes com o botão abaixo (+)</string>
     <string name="lbl_btn_tabela_desabled">Número insuficiente de times</string>

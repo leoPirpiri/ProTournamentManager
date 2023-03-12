@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
                 this,
                 Arrays.asList(new TorneiosGerenciadosFragment(santuarioOlimpia.getTorneios()),
-                              new TorneiosSeguidosFragment(this),
+                              new TorneiosSeguidosFragment(santuarioOlimpia.getTorneios()),
                               new InformacoesFragment(R.string.informacoes_tela_principal)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_principal_nomes))
         );

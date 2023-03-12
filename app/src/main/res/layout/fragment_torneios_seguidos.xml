@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/fab_margin">
         <EditText
-            android:id="@+id/nome_novo_torneio"
+            android:id="@+id/nome_buscar_seguir_torneio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
