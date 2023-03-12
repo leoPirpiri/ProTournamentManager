@@ -53,7 +53,7 @@ public class TorneiosSeguidosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_torneios_seguidos, container, false);
-        Button btn_teste = v.findViewById(R.id.btn_teste);
+        /*Button btn_teste = v.findViewById(R.id.btn_teste);
         txv_teste = v.findViewById(R.id.txv_teste);
         nowUser = FirebaseAuth.getInstance().getCurrentUser();
         if (nowUser.getEmail().equals("teste@gmail.com")){
@@ -65,7 +65,7 @@ public class TorneiosSeguidosFragment extends Fragment {
         btn_teste.setOnClickListener(v1 -> {
             enviarValor();
         });
-
+*/
         return v;
     }
 

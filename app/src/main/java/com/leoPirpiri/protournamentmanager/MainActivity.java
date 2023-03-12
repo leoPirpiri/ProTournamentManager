@@ -2,8 +2,8 @@ package com.leoPirpiri.protournamentmanager;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import java.util.Arrays;
 import control.Olimpia;
 import model.Torneio;
 
-public class MainActivity extends AppCompatActivity implements TorneiosGerenciadosFragment.FragmentCallback {
+public class MainActivity extends AppCompatActivity {
 
     private Olimpia santuarioOlimpia;
     private AlertDialog alertaDialog;
@@ -63,8 +63,7 @@ public class MainActivity extends AppCompatActivity implements TorneiosGerenciad
         mediator.attach();
     }
 
-    @Override
-    public Torneio criarNovoTorneioParaActivity(String nomeNovoTorneio) {
+    public Torneio criarNovoTorneio(String nomeNovoTorneio) {
         int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
         if (idNovoTorneio != 0){
             Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio);
@@ -76,22 +75,13 @@ public class MainActivity extends AppCompatActivity implements TorneiosGerenciad
         return null;
     }
 
-    @Override
-    public boolean excluirTorneioParaActivity(int posicaoTorneio) {
-        if(santuarioOlimpia.delTorneio(posicaoTorneio) != null){
-            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
-            return true;
-        }
-        return false;
-    }
-
     public void mostrarAlerta(AlertDialog.Builder builder) {
         mostrarAlerta(builder, R.drawable.background_alerta);
     }
 
     public void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getResources().getDrawable(background));
+        alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.show();
     }
     public void esconderAlerta(){
@@ -103,7 +93,20 @@ public class MainActivity extends AppCompatActivity implements TorneiosGerenciad
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    public void abrirTorneio(int idTorneio){
-        santuarioOlimpia.delTorneio(idTorneio);
+    public void abrirTorneio(int torneioId){
+        Intent intent = new Intent(this, TorneioActivity.class);
+        Bundle dados = new Bundle();
+        //Passa alguns dados para a próxima activity
+        dados.putInt("torneio", torneioId);
+        intent.putExtras(dados);
+        startActivity(intent);
+    }
+
+    public boolean excluirTorneio(int posicaoTorneio) {
+        if(santuarioOlimpia.delTorneio(posicaoTorneio) != null){
+            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            return true;
+        }
+        return false;
     }
 }

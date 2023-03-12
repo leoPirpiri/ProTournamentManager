@@ -6,24 +6,52 @@
     android:orientation="vertical"
     android:background="@drawable/background_soft"
     tools:context=".MainActivity">
-
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/fab_margin">
+        <EditText
+            android:id="@+id/nome_novo_torneio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:maxLength="35"
+            android:hint="@string/seguir_torneio"
+            android:singleLine="true"
+            android:inputType="textCapWords|text"
+            android:gravity="start"/>
+        <Button
+            android:id="@+id/btn_seguir_tourneio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape_desabled"
+            android:enabled="false"
+            android:shadowColor="#3D3D3D"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="@string/lbl_btn_seguir"
+            android:textColor="@color/btn_texto_ic"
+            android:textSize="20sp"/>
+    </LinearLayout>
     <TextView
+        android:id="@+id/txv_torneios_seguidos_recentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Os torneios seguidos aqui" />
-    <TextView
-        android:id="@+id/txv_teste"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="20dp"
-        android:text="1" />
-    <Button
-        android:id="@+id/btn_teste"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Aumentar"/>
-    
+        android:layout_margin="10dp"
+        android:text="@string/santuario_seguidos_vazio"
+        android:textSize="18dp" />
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_torneios_seguidos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/lista_pad_default" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

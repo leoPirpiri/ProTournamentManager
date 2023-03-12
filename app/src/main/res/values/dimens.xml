@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen> <!--Margens dos botões flutuantes-->
     <dimen name="equipe_largura">70dp</dimen>
     <dimen name="partida_largura">90dp</dimen>
     <dimen name="partida_pad_hor">10dp</dimen>

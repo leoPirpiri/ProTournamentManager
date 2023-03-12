@@ -17,10 +17,11 @@
     <string name="btn_desempate_visitante">Visitante</string>
 
     <!-- Mensagens envolvendo Santuário Olímpia -->
-    <string name="santuario_com_torneios">Torneios recentes: </string>
-    <string name="santuario_cheio">Limite alcançado</string>
-    <string name="santuario_vazio">Sem torneios recentes
+    <string name="santuario_gerenciados_recentes">Torneios recentes: </string>
+    <string name="santuario_gerenciados_cheio">Limite alcançado</string>
+    <string name="santuario_gerenciados_vazio">Sem torneios recentes
         \nAdicione novos a partir do botão novo</string>
+    <string name="santuario_seguidos_vazio">Os torneios seguidos aparecerão aqui.</string>
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
@@ -256,4 +257,6 @@
         * Para atribuir pontos, cartões e faltas apenas preciono no nome do jogador.\n\n
         * Para ver mais detalhes de um jogador, precione e segure em seu nome.\n\n
     </string>
+    <string name="lbl_btn_seguir">SEGUIR</string>
+    <string name="seguir_torneio">Buscar torneio</string>
 </resources>
