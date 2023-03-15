@@ -45,7 +45,7 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String nome = torneios.get(position).getNome();
-        String situacao = context.getResources().getStringArray(R.array.torneio_status)[torneios.get(position).getStatus()];
+        String situacao = context.getResources().getStringArray(R.array.torneio_status)[torneios.get(position).pegarStatus()];
         holder.nomeTorneio.setText(nome);
         holder.situacaoTorneio.setText(situacao);
     }

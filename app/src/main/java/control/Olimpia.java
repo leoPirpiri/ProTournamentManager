@@ -1,7 +1,11 @@
 package control;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -16,25 +20,29 @@ import model.Jogador;
 import model.Torneio;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
-    public final static String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
-    public final static int TORNEIO_MAX = 8;
+    public static final String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
+    public static final int TORNEIO_MAX = 8;
+    public static final String TAG = "Nuvem";
 
     private ArrayList<Torneio> torneios;
     private Torneio simulacao;
+    private final FirebaseFirestore firestore;
+
 
     public Olimpia(){
         torneios = new ArrayList<>();
         simulacao = null;
+        firestore = FirebaseFirestore.getInstance();
     }
 
-    public static void salvarSantuario (Olimpia santuario, FileOutputStream fileOutputStream) throws IOException{
+    public void salvarSantuarioLocal(Olimpia santuario, FileOutputStream fileOutputStream) throws IOException{
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(santuario);
         objectOutputStream.flush();
         objectOutputStream.close();
     }
 
-    public static Olimpia carregarSantuario(FileInputStream fileInputStream) throws IOException {
+    public Olimpia carregarSantuarioLocal(FileInputStream fileInputStream) throws IOException {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             Olimpia santuario = (Olimpia) objectInputStream.readObject();
@@ -43,6 +51,32 @@ public class Olimpia implements Serializable {
         } catch (ClassNotFoundException ex) {
             throw new IOException("Exceção de classe não esperada.");
         }
+    }
+
+    public void salvarSantuarioRemoto(){
+        firestore.collection("torneios").add(torneios.get(0))
+                .addOnCompleteListener(task -> {
+                    if(!task.isSuccessful()){
+                        Log.d(TAG, task.getResult().getId());
+                    }
+                });
+    }
+
+    public void carregarSantuarioRemoto(){
+        firestore.collection("torneios").
+                whereEqualTo("organizador", "tester").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        for (QueryDocumentSnapshot document: task.getResult()) {
+                            Torneio aux = document.toObject(Torneio.class);
+                            Log.d(TAG, aux.toString());
+
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
     public int addTorneio(Torneio torneio){
@@ -78,7 +112,7 @@ public class Olimpia implements Serializable {
     public int getNovoTorneioId(){
         ArrayList<Integer> index = new ArrayList<>();
         for (Torneio t:torneios) {
-            index.add(t.getIdNivel0());
+            index.add(t.pegarIdNivel0());
         }
         int i = index.size()+1;
         do {
@@ -112,19 +146,19 @@ public class Olimpia implements Serializable {
     }
 
     public Olimpia testeExemplos (Olimpia teste){
-        Torneio tTeste = new Torneio(10000, "XV Torneio do Pirpiri");
-        Equipe eTeste = new Equipe(10100, "Leicam do Maciel de Baixo", "LMB");
-        Equipe eTeste2 = new Equipe(10200, "Juventude do Pirpiri Futsal", "JPF");
-        Equipe eTeste3 = new Equipe(10300, "Sítio Escrivão Futsal", "SEF");
-        Equipe eTeste4 = new Equipe(10400, "Leicam do Maciel de Cima", "LMC");
-        Equipe eTeste5 = new Equipe(10500, "Passagem de Cima Futsal", "PCF");
+        Torneio tTeste = new Torneio(20000, "XV Torneio do Pirpiri", "tester");
+        Equipe eTeste = new Equipe(20100, "Leicam do Maciel de Baixo", "LMB");
+        Equipe eTeste2 = new Equipe(20200, "Juventude do Pirpiri Futsal", "JPF");
+        Equipe eTeste3 = new Equipe(20300, "Sítio Escrivão Futsal", "SEF");
+        Equipe eTeste4 = new Equipe(20400, "Leicam do Maciel de Cima", "LMC");
+        Equipe eTeste5 = new Equipe(20500, "Passagem de Cima Futsal", "PCF");
 
-        eTeste.addJogador(new Jogador(10201, "Almir Rogério", 2, 12));
-        eTeste.addJogador(new Jogador(10101, "Nill do Maciel", 3, 7));
-        eTeste2.addJogador(new Jogador(10202, "Bruno", 2, 1));
-        eTeste3.addJogador(new Jogador(10301, "Valdir", 1, 9));
-        eTeste4.addJogador(new Jogador(10401, "Kekel", 3, 7));
-        eTeste5.addJogador(new Jogador(10501, "Gel", 1, 10));
+        eTeste.addJogador(new Jogador(20201, "Almir Rogério", 2, 12));
+        eTeste.addJogador(new Jogador(20101, "Nill do Maciel", 3, 7));
+        eTeste2.addJogador(new Jogador(20202, "Bruno", 2, 1));
+        eTeste3.addJogador(new Jogador(20301, "Valdir", 1, 9));
+        eTeste4.addJogador(new Jogador(20401, "Kekel", 3, 7));
+        eTeste5.addJogador(new Jogador(20501, "Gel", 1, 10));
 
         tTeste.addEquipe(eTeste);
         tTeste.addEquipe(eTeste2);

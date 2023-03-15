@@ -1,5 +1,7 @@
 package model;
 
+import androidx.annotation.NonNull;
+
 public class Score extends EntGeral {
     public static final int TIPO_PONTO = 0;
     public static final int TIPO_AMARELO = 1;
@@ -11,6 +13,8 @@ public class Score extends EntGeral {
 
     private int idJogador;
     private int tipo;
+
+    public Score(){}
 
     public Score(int id, int idJogador, int tipo) {
         super(id);
@@ -26,6 +30,7 @@ public class Score extends EntGeral {
         return tipo;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return super.toString() +

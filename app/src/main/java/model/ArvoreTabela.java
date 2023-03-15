@@ -20,10 +20,6 @@ public class ArvoreTabela implements Serializable {
         this.raiz = raiz;
     }
 
-    public int getCampeaoId() {
-        return raiz.getCampeaoId();
-    }
-
     public NoPartida getPartida(int valor){
         return getNo(raiz, valor);
     }
@@ -83,7 +79,7 @@ public class ArvoreTabela implements Serializable {
 
     public void testarArvore(NoPartida node){
         if(node != null){
-            System.out.println(node.toString());
+            System.out.println(node);
             testarArvore(node.getMandante());
             testarArvore(node.getVisitante());
         }

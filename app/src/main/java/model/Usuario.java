@@ -1,8 +1,10 @@
 package model;
 
 public class Usuario {
-    private final String id;
-    private final String apelido;
+    private String id;
+    private String apelido;
+
+    public Usuario(){}
 
     public Usuario(String id, String apelido) {
         this.id = id;

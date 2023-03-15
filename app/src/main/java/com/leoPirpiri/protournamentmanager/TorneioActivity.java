@@ -6,6 +6,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -67,7 +68,7 @@ public class TorneioActivity extends AppCompatActivity {
         setTabLayout();
 
         btn_gerar_tabela.setOnClickListener(v -> {
-            if(torneio.isFechado()){
+            if(torneio.estaFechado()){
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
                 atualizar = true;
@@ -130,7 +131,7 @@ public class TorneioActivity extends AppCompatActivity {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
         torneio = santuarioOlimpia.getTorneio(torneioIndice);
         if(torneio != null){
-            txv_estado_torneio.setText(torneio.isFechado() ? R.string.estado_fechado : (
+            txv_estado_torneio.setText(torneio.estaFechado() ? R.string.estado_fechado : (
                     torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
             //equipesAdapter = new EquipesAdapter(TorneioActivity.this, torneio.getTimes());
             //ltv_equipes_torneio.setAdapter(equipesAdapter);
@@ -336,22 +337,22 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void ativarOKalertaEquipe() {
         btn_confirma_equipe.setEnabled(true);
-        btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        btn_confirma_equipe.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
     }
 
     private void desativarOKalertaEquipe() {
         btn_confirma_equipe.setEnabled(false);
-        btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_desabled));
+        btn_confirma_equipe.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_desabled));
     }
 
     private void ativarAddBtnNovaEquipe() {
         btn_add_equipe.setEnabled(true);
-        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.core)));
+        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.core)));
     }
 
     private void desativarAddBtnNovaEquipe() {
         btn_add_equipe.setEnabled(false);
-        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.background_closed)));
+        btn_add_equipe.setBackgroundTintList(ColorStateList.valueOf(ContextCompat.getColor(this, R.color.background_closed)));
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder){
@@ -360,7 +361,7 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void mostrarAlerta(AlertDialog.Builder builder, int background){
         alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }

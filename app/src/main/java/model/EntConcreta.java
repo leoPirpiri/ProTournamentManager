@@ -1,8 +1,11 @@
 package model;
 
+import androidx.annotation.NonNull;
+
 public class EntConcreta extends EntGeral {
     private String nome;
 
+    public EntConcreta(){}
     public EntConcreta(int id, String nome) {
         super(id);
         this.nome = nome;
@@ -16,6 +19,7 @@ public class EntConcreta extends EntGeral {
         this.nome = nome;
     }
 
+    @NonNull
     public String toString(){
         return super.toString() + " Nome: "+ nome;
     }

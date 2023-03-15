@@ -213,11 +213,11 @@ public class PartidaActivity extends AppCompatActivity {
             torneio = santuarioOlimpia.getSimulacao();
             btn_finalizar_partida.setText(R.string.encerrar_pelada);
             if (torneio == null){
-                torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio));
-                torneio.addEquipe(new Equipe(torneio.getNovaEquipeId(),
+                torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio), "");
+                torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
                         getResources().getString(R.string.equipe_exemplo_mandante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_mandante))));
-                torneio.addEquipe(new Equipe(torneio.getNovaEquipeId(),
+                torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
                         getResources().getString(R.string.equipe_exemplo_visitante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
@@ -403,13 +403,13 @@ public class PartidaActivity extends AppCompatActivity {
                 for (int i = 0; i < nomes_jogadores.size(); i++) {
                     String nome = nomes_jogadores.get(i).split(" - ")[1];
                     if (i % 2 == 0) {
-                        mandante.addJogador(new Jogador(mandante.getNovoJogadorId(),
+                        mandante.addJogador(new Jogador(mandante.bucarIdParaNovoJogador(),
                                 nome,
                                 4,
                                 j++
                         ));
                     } else {
-                        visitante.addJogador(new Jogador(visitante.getNovoJogadorId(),
+                        visitante.addJogador(new Jogador(visitante.bucarIdParaNovoJogador(),
                                 nome,
                                 4,
                                 k++
@@ -958,9 +958,9 @@ public class PartidaActivity extends AppCompatActivity {
         if(j==null){
             builder.setTitle(R.string.titulo_alerta_novo_jogador);
             if(isMandante) {
-                numeros = mandante.getNumeracaoLivrePlantel(-1);
+                numeros = mandante.buscarNumerosLivresNoPlantel(-1);
             } else {
-                numeros = visitante.getNumeracaoLivrePlantel(-1);
+                numeros = visitante.buscarNumerosLivresNoPlantel(-1);
             }
             btn_confirma_jogador.setText(R.string.btn_adicionar);
 
@@ -969,9 +969,9 @@ public class PartidaActivity extends AppCompatActivity {
             etx_nome_jogador.setText(j.getNome());
             spnr_posicao.setSelection(j.getPosicao());
             if(isMandante) {
-                numeros = mandante.getNumeracaoLivrePlantel(j.getNumero());
+                numeros = mandante.buscarNumerosLivresNoPlantel(j.getNumero());
             } else {
-                numeros = visitante.getNumeracaoLivrePlantel(j.getNumero());
+                numeros = visitante.buscarNumerosLivresNoPlantel(j.getNumero());
             }
             btn_confirma_jogador.setText(R.string.btn_editar);
             if(isSimulacao()){
@@ -1052,8 +1052,8 @@ public class PartidaActivity extends AppCompatActivity {
                         Toast.makeText(PartidaActivity.this, R.string.erro_atualizar_mesma_informacoes_da_entidade, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    if(isMandante) mandante.addJogador(new Jogador(mandante.getNovoJogadorId(), nome, posicao, numero));
-                    else visitante.addJogador(new Jogador(visitante.getNovoJogadorId(), nome, posicao, numero));
+                    if(isMandante) mandante.addJogador(new Jogador(mandante.bucarIdParaNovoJogador(), nome, posicao, numero));
+                    else visitante.addJogador(new Jogador(visitante.bucarIdParaNovoJogador(), nome, posicao, numero));
                     atualizar = true;
                     atualizarCamposTime(isMandante);
                 }
@@ -1115,7 +1115,7 @@ public class PartidaActivity extends AppCompatActivity {
                     equipeAtualizando.setNome(nome);
                     mudou = true;
                 }
-                if(sigla.length()>1 && !equipeAtualizando.getSigla().equals(sigla) && !torneio.siglaUsada(sigla)) {
+                if(sigla.length()>1 && !equipeAtualizando.getSigla().equals(sigla) && torneio.siglaUsada(sigla)) {
                     equipeAtualizando.setSigla(sigla);
                     mudou = true;
                 }
@@ -1202,7 +1202,7 @@ public class PartidaActivity extends AppCompatActivity {
     private void preencherEquipe(Equipe equipe) {
         equipe.getJogadores().clear();
         for (int i=1; i<=11; i++) {
-            equipe.addJogador(new Jogador(equipe.getNovoJogadorId(),
+            equipe.addJogador(new Jogador(equipe.bucarIdParaNovoJogador(),
                     "Jogador"+i,
                     4,
                     i

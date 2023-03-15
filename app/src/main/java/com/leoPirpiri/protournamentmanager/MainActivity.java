@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private void metodoRaiz(){
         //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(this);
+        //santuarioOlimpia.carregarSantuarioRemoto();
+        santuarioOlimpia.salvarSantuarioRemoto();
     }
 
     private void setTabLayout() {
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     public Torneio criarNovoTorneio(String nomeNovoTorneio) {
         int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
         if (idNovoTorneio != 0){
-            Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio);
+            Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, "tester");
             if (santuarioOlimpia.addTorneio(novoTorneio) != -1){
                 CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
                 return novoTorneio;

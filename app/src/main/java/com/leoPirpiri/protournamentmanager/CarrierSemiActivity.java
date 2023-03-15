@@ -12,8 +12,8 @@ public final class CarrierSemiActivity {
 
     public static void persistirSantuario(Context ctx, Olimpia santuarioOlimpia){
         try {
-            santuarioOlimpia.salvarSantuario(santuarioOlimpia,
-                    ctx.openFileOutput(santuarioOlimpia.NOME_ARQUIVO_SERIALIZADO, ctx.MODE_PRIVATE));
+            santuarioOlimpia.salvarSantuarioLocal(santuarioOlimpia,
+                    ctx.openFileOutput(Olimpia.NOME_ARQUIVO_SERIALIZADO, Context.MODE_PRIVATE));
             Toast.makeText(ctx, R.string.dados_salvando, Toast.LENGTH_LONG).show();
             Toast.makeText(ctx, R.string.dados_salvo, Toast.LENGTH_SHORT).show();
         } catch (IOException ex) {
@@ -26,7 +26,7 @@ public final class CarrierSemiActivity {
         Olimpia santuarioOlimpia = new Olimpia();
         if (new File(ctx.getFileStreamPath(Olimpia.NOME_ARQUIVO_SERIALIZADO).toString()).exists()) {
             try {
-                santuarioOlimpia = Olimpia.carregarSantuario(ctx.openFileInput(Olimpia.NOME_ARQUIVO_SERIALIZADO));
+                santuarioOlimpia = santuarioOlimpia.carregarSantuarioLocal(ctx.openFileInput(Olimpia.NOME_ARQUIVO_SERIALIZADO));
             } catch (IOException ex) {
                 Toast.makeText(ctx, R.string.dados_erro_leitura_santuario, Toast.LENGTH_LONG).show();
             }

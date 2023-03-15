@@ -1,37 +1,47 @@
 package model;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Torneio extends EntConcreta {
-    public final int MAX_EQUIPE = 16;
-    public final int MIN_EQUIPE = 4;
+    public static final int MAX_EQUIPE = 16;
+    public static final int MIN_EQUIPE = 4;
     public static final int STATUS_ABERTO = 0;
     public static final int STATUS_FECHADO = 1;
     public static final int STATUS_FINALIZADO = 2;
 
+    private String organizador;
     private ArrayList<Equipe> equipes;
     private ArvoreTabela tabela;
     private Equipe campeao;
 
-    public Torneio(int id, String nome) {
+    public Torneio(){}
+
+    public Torneio(int id, String nome, String organizador) {
         super(id, nome);
+        this.organizador = organizador;
         this.equipes = new ArrayList<>();
         this.tabela = new ArvoreTabela();
         this.campeao = null;
     }
 
-    public boolean isFechado() {
+    public String getOrganizador() {
+        return organizador;
+    }
+
+    public boolean estaFechado() {
         return tabela.getRaiz() != null;
     }
 
-    public int getStatus() {
-        return (isFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
+    public int pegarStatus() {
+        return (estaFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
     }
 
     public Equipe getCampeao() {
-        if(tabela.getRaiz() != null){
-            int raiz = tabela.getCampeaoId();
+        if(this.campeao == null && tabela.getRaiz() != null){
+            int raiz = tabela.getRaiz().getCampeaoId();
             if (raiz!=0){
                 campeao = getEquipe(raiz);
             }
@@ -57,25 +67,25 @@ public class Torneio extends EntConcreta {
         }
         tabela.gerarTabela(new ArrayList<>(equipes), new ArrayList<>(Arrays.asList(partida_nomes)));
         //tabela.testarArvore(tabela.getRaiz());
-        return isFechado();
+        return estaFechado();
     }
 
     public boolean atoJogador(int idJogador){
-        return  isFechado() && tabela.getSafeDeleteFlag(idJogador);
+        return  estaFechado() && tabela.getSafeDeleteFlag(idJogador);
     }
 
     public void addEquipe(Equipe equipe) {
-        if(!isFechado() && equipes.size()<MAX_EQUIPE && !siglaUsada(equipe.getSigla())){
+        if(!estaFechado() && equipes.size()<MAX_EQUIPE && siglaUsada(equipe.getSigla())){
             this.equipes.add(equipe);
         }
     }
 
     public boolean siglaUsada(String s){
-        return equipes.stream().anyMatch(e -> e.getSigla().equals(s));
+        return equipes.stream().noneMatch(e -> e.getSigla().equals(s));
     }
 
     public Equipe delEquipe(int pos){
-        if(!isFechado()) {
+        if(!estaFechado()) {
             return equipes.remove(pos);
         }else return null;
     }
@@ -89,11 +99,9 @@ public class Torneio extends EntConcreta {
         return null;
     }
 
-    public int getNovaEquipeId(){
-        ArrayList index = new ArrayList();
-        for (Equipe e: equipes) {
-            index.add(e.getIdNivel1());
-        }
+    public int pegarIdParaNovaEquipe(){
+        ArrayList<Integer> index = new ArrayList<>();
+        for (Equipe e: equipes) index.add(e.pegarIdNivel1());
         int i = index.size()+1;
         do {
             if(!index.contains(i)){
@@ -105,10 +113,11 @@ public class Torneio extends EntConcreta {
         return 0;
     }
 
+    @NonNull
     public String toString(){
         return super.toString() +
                " Quantidade de times: " + equipes.size() +
-               " Estado: "+ (isFechado() ? (campeao == null ? "Fechado e Não finalizado" :
+               " Estado: "+ (estaFechado() ? (campeao == null ? "Fechado e Não finalizado" :
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }
 

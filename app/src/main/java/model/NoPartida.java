@@ -2,6 +2,7 @@ package model;
 
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class NoPartida extends EntConcreta {
     private NoPartida visitante; //Nó direito do ramo. Equipe visitante
     private ArrayList<Score> placar;
     private long tempo;
+
+    public NoPartida(){}
 
     public NoPartida(int id, String nome) {
         super(id, nome);
@@ -70,7 +73,6 @@ public class NoPartida extends EntConcreta {
         this.tempo = tempo;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean setEncerrada() {
         HashMap<String, Integer> pontosGerais = getDetalhesPartida();
         int pontosMandante  = pontosGerais.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) +
@@ -90,19 +92,16 @@ public class NoPartida extends EntConcreta {
         this.placar.add(score);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean delScore(Score score) {
-        Score s_to_del = placar.stream().filter(s -> s.getTipo() == score.getTipo()
+        Score scoreDeletado = placar.stream().filter(s -> s.getTipo() == score.getTipo()
                 && s.getIdJogador() == score.getIdJogador()).findFirst().get();
-        return this.placar.remove(s_to_del);
+        return this.placar.remove(scoreDeletado);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public HashMap<String, Integer> getDetalhesPartida() {
-        return new HashMap((Map) getScoreGeral().get(2));
+        return new HashMap<String, Integer>((Map) getScoreGeral().get(2));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<List> getScoreGeral() {
         ArrayList<Score> rm = new ArrayList<>();
         ArrayList<Score> rv = new ArrayList<>();
@@ -128,6 +127,7 @@ public class NoPartida extends EntConcreta {
         return false;
     }
 
+    @NonNull
     public String toString() {
         return super.toString() +
                " Nó Equipe MandanteId: " + (mandante!=null ? mandante.getId() : "Nó folha") +
