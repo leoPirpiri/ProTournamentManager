@@ -12,19 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 
-import control.Olimpia;
+import model.Olimpia;
 import model.Torneio;
 
 
 public class TorneiosGerenciadosFragment extends Fragment {
+    private final String TAG = "TORNEIOS_GERENCIADOS";
 
     private MainActivity superActivity;
     private TorneiosAdapter adapterTorneio;
@@ -99,6 +104,12 @@ public class TorneiosGerenciadosFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        buscarTorneiosRemotos();
     }
 
     @Override
@@ -194,5 +205,25 @@ public class TorneiosGerenciadosFragment extends Fragment {
         Intent intent = new Intent(superActivity, PartidaActivity.class);
         intent.putExtra("partida", -1);
         startActivity(intent);
+    }
+    private void buscarTorneiosRemotos() {
+        if(listaTorneiosGerenciados.isEmpty()) {
+            FirebaseFirestore.getInstance().collection("torneios").
+                whereEqualTo("organizadorId", superActivity.getUsuarioLogado()).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Torneio aux = document.toObject(Torneio.class);
+                            listaTorneiosGerenciados.add(aux);
+                            Log.d(TAG, aux.toString());
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                        adapterTorneio.notifyDataSetChanged();
+                        listarTorneios();
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
+        }
     }
 }

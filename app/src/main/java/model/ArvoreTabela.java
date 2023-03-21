@@ -20,11 +20,11 @@ public class ArvoreTabela implements Serializable {
         this.raiz = raiz;
     }
 
-    public NoPartida getPartida(int valor){
-        return getNo(raiz, valor);
+    public NoPartida buscarPartida(int valor){
+        return caminharNo(raiz, valor);
     }
 
-    public boolean getSafeDeleteFlag(int idJogador){
+    public boolean verificarExclusaoSegura(int idJogador){
         return buscarParticipacaoJogador(raiz, idJogador);
     }
 
@@ -38,14 +38,14 @@ public class ArvoreTabela implements Serializable {
         }
     }
 
-    private NoPartida getNo(NoPartida no, int valor) {
+    private NoPartida caminharNo(NoPartida no, int valor) {
         if(no.getId() == valor) {
             return no;
         }
         if(no.getId() > valor) {
-            return getNo(no.getMandante(), valor);
+            return caminharNo(no.getMandante(), valor);
         } else {
-            return getNo(no.getVisitante(), valor);
+            return caminharNo(no.getVisitante(), valor);
         }
     }
 

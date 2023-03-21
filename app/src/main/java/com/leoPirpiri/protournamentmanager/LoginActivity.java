@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import control.Olimpia;
+import model.Olimpia;
 
 public class LoginActivity extends AppCompatActivity {
 

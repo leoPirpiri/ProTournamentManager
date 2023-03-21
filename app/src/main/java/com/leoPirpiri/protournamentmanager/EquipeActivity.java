@@ -6,29 +6,22 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import control.Olimpia;
+import control.CarrierSemiActivity;
+import model.Olimpia;
 import model.Equipe;
-import model.Jogador;
 import model.Torneio;
 
 public class EquipeActivity extends AppCompatActivity {
@@ -87,9 +80,7 @@ public class EquipeActivity extends AppCompatActivity {
             return true;
         });*/
 
-        findViewById(R.id.btn_edt_equipe).setOnClickListener(v -> {
-            montarAlertaEditarEquipe();
-        });
+        findViewById(R.id.btn_edt_equipe).setOnClickListener(v -> montarAlertaEditarEquipe());
     }
 
     @Override
@@ -109,7 +100,7 @@ public class EquipeActivity extends AppCompatActivity {
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
-        torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
+        torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
         equipe = torneio.getEquipe(equipeIndice);
         /*if(equipe != null) {
             atualizarNomesEquipes();
@@ -171,7 +162,7 @@ public class EquipeActivity extends AppCompatActivity {
                     equipe.setNome(nome);
                     mudou = true;
                 }
-                if(sigla.length()>1 && !equipe.getSigla().equals(sigla) && !torneio.siglaUsada(sigla)) {
+                if(sigla.length()>1 && !equipe.getSigla().equals(sigla) && torneio.siglaUsada(sigla)) {
                     equipe.setSigla(sigla);
                     mudou = true;
                 }

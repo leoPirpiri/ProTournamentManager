@@ -23,7 +23,8 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-import control.Olimpia;
+import control.CarrierSemiActivity;
+import model.Olimpia;
 import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -77,7 +78,7 @@ public class TorneioActivity extends AppCompatActivity {
                 finish();
             }
         });
-//
+
 //        btn_add_equipe = findViewById(R.id.btn_nova_equipe);
 //        txv_equipes_salvas = findViewById(R.id.txv_equipes_salvas);
 //        ltv_equipes_torneio = findViewById(R.id.list_equipes);
@@ -129,7 +130,7 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
-        torneio = santuarioOlimpia.getTorneio(torneioIndice);
+        torneio = santuarioOlimpia.getTorneioGerenciado(torneioIndice);
         if(torneio != null){
             txv_estado_torneio.setText(torneio.estaFechado() ? R.string.estado_fechado : (
                     torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));

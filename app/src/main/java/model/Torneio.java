@@ -12,23 +12,46 @@ public class Torneio extends EntConcreta {
     public static final int STATUS_FECHADO = 1;
     public static final int STATUS_FINALIZADO = 2;
 
-    private String organizador;
+    private String organizadorId;
     private ArrayList<Equipe> equipes;
     private ArvoreTabela tabela;
     private Equipe campeao;
+    private String sede = "Guarabira";
+    private long dataAtualizacao = System.currentTimeMillis();
+    private String uuid;
 
-    public Torneio(){}
-
-    public Torneio(int id, String nome, String organizador) {
-        super(id, nome);
-        this.organizador = organizador;
+    public Torneio(){
         this.equipes = new ArrayList<>();
-        this.tabela = new ArvoreTabela();
         this.campeao = null;
+        this.tabela = new ArvoreTabela();
     }
 
-    public String getOrganizador() {
-        return organizador;
+    public Torneio(int id, String nome, String organizadorId) {
+        super(id, nome);
+        this.organizadorId = organizadorId;
+    }
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public long getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(long dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
+    }
+
+    public String getOrganizadorId() {
+        return organizadorId;
+    }
+
+    public String getSede() {
+        return sede;
     }
 
     public boolean estaFechado() {
@@ -71,7 +94,7 @@ public class Torneio extends EntConcreta {
     }
 
     public boolean atoJogador(int idJogador){
-        return  estaFechado() && tabela.getSafeDeleteFlag(idJogador);
+        return  estaFechado() && tabela.verificarExclusaoSegura(idJogador);
     }
 
     public void addEquipe(Equipe equipe) {
@@ -117,6 +140,7 @@ public class Torneio extends EntConcreta {
     public String toString(){
         return super.toString() +
                " Quantidade de times: " + equipes.size() +
+               " Organizador: " + getOrganizadorId()  +
                " Estado: "+ (estaFechado() ? (campeao == null ? "Fechado e Não finalizado" :
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }
@@ -125,7 +149,7 @@ public class Torneio extends EntConcreta {
         ArrayList<NoPartida> oitavas = new ArrayList<>();
         NoPartida p;
         for(int i = c; i<=c+12; i+=4){
-            p = tabela.getPartida(i);
+            p = tabela.buscarPartida(i);
             if(p!=null){
                 oitavas.add(p);
             }

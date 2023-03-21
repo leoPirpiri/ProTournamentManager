@@ -13,20 +13,30 @@ import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Arrays;
 
-import control.Olimpia;
+import control.CarrierSemiActivity;
+import model.Olimpia;
 import model.Torneio;
+import model.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
     private Olimpia santuarioOlimpia;
     private AlertDialog alertaDialog;
+    /*private Usuario usuario = new Usuario();
+        usuario.setId(nowUser.getUid());
+    buscarUsuario();*/
+    private FirebaseUser nowUser;
+    private static final String TAG = "MAIN";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        nowUser = FirebaseAuth.getInstance().getCurrentUser();
+
         setContentView(R.layout.activity_principal);
 
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
@@ -36,23 +46,27 @@ public class MainActivity extends AppCompatActivity {
 //Listeners
         btn_logout_padrao.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
+            abrirTelalogin();
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void metodoRaiz(){
         //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(this);
-        //santuarioOlimpia.carregarSantuarioRemoto();
-        santuarioOlimpia.salvarSantuarioRemoto();
+        //CarrierSemiActivity.salvarSantuarioRemoto();
+        //CarrierSemiActivity.carregarSantuarioRemoto();
     }
 
     private void setTabLayout() {
         NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
                 this,
-                Arrays.asList(new TorneiosGerenciadosFragment(santuarioOlimpia.getTorneios()),
-                              new TorneiosSeguidosFragment(santuarioOlimpia.getTorneios()),
+                Arrays.asList(new TorneiosGerenciadosFragment(santuarioOlimpia.getTorneiosGerenciados()),
+                              new TorneiosSeguidosFragment(santuarioOlimpia.getTorneiosSeguidos()),
                               new InformacoesFragment(R.string.informacoes_tela_principal)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_principal_nomes))
         );
@@ -69,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
         if (idNovoTorneio != 0){
             Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, "tester");
-            if (santuarioOlimpia.addTorneio(novoTorneio) != -1){
+            if (santuarioOlimpia.addTorneioGerenciado(novoTorneio) != -1){
                 CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
                 return novoTorneio;
             }
@@ -105,10 +119,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean excluirTorneio(int posicaoTorneio) {
-        if(santuarioOlimpia.delTorneio(posicaoTorneio) != null){
+        if(santuarioOlimpia.delTorneioGerenciado(posicaoTorneio) != null){
             CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
             return true;
         }
         return false;
+    }
+
+    public void abrirTelalogin(){
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
+    }
+/*
+    private void buscarUsuario(){
+        if (nowUser!=null){
+            FirebaseFirestore.getInstance().collection("usuarios")
+                    .document(nowUser.getUid())
+                    .get().addOnSuccessListener(document -> {
+                        if (document.exists()) {
+                            usuario = document.toObject(Usuario.class);
+                            System.out.println("\nuser Control: \n"+ usuario.toString());
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    });
+        }
+    }*/
+
+    public String getUsuarioLogado(){
+        return nowUser.getUid();
     }
 }

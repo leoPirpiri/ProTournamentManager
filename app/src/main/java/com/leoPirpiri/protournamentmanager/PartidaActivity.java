@@ -35,7 +35,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import control.Olimpia;
+import control.CarrierSemiActivity;
+import model.Olimpia;
 import model.Equipe;
 import model.Jogador;
 import model.NoPartida;
@@ -148,7 +149,7 @@ public class PartidaActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_cron_pause).setOnLongClickListener(v -> {
             if(isSimulacao() && relogio_parado){
-                santuarioOlimpia.setSimulacao(null);
+                santuarioOlimpia.setSimulacaoDePelada(null);
                 desativarFinalizarPartida();
                 CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
                 metodoRaiz();
@@ -210,7 +211,7 @@ public class PartidaActivity extends AppCompatActivity {
         //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(PartidaActivity.this);
         if (isSimulacao()) {
-            torneio = santuarioOlimpia.getSimulacao();
+            torneio = santuarioOlimpia.getSimulacaoDePelada();
             btn_finalizar_partida.setText(R.string.encerrar_pelada);
             if (torneio == null){
                 torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio), "");
@@ -225,15 +226,15 @@ public class PartidaActivity extends AppCompatActivity {
                 partida.setMandante(new NoPartida(01, nome_padrao, 990100));
                 partida.setVisitante(new NoPartida(03, nome_padrao, 990200));
                 torneio.setTabela(partida);
-                santuarioOlimpia.setSimulacao(torneio);
+                santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
                 partida = torneio.getTabela().getRaiz();
             }
         } else {
-            torneio = santuarioOlimpia.getTorneio(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
-            partida = torneio.getTabela().getPartida(partidaIndice-torneio.getId());
+            torneio = santuarioOlimpia.getTorneioGerenciado(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
+            partida = torneio.getTabela().buscarPartida(partidaIndice-torneio.getId());
         }
         mandante = torneio.getEquipe(partida.getMandante().getCampeaoId());
         visitante = torneio.getEquipe(partida.getVisitante().getCampeaoId());

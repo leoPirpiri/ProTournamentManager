@@ -1,17 +1,12 @@
 package model;
 
-import android.os.Build;
-
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import control.Olimpia;
 
 public class NoPartida extends EntConcreta {
     private int campeaoId;

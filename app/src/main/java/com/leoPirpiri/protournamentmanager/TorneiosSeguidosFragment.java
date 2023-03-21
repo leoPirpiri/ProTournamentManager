@@ -12,18 +12,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.ArrayList;
 
-import control.Olimpia;
+import model.Olimpia;
 import model.Torneio;
 
 public class TorneiosSeguidosFragment extends Fragment {
+    private final String TAG = "TORNEIOS_SEGUIDOS";
 
     private MainActivity superActivity;
     private TorneiosAdapter adapterTorneio;
@@ -59,6 +64,7 @@ public class TorneiosSeguidosFragment extends Fragment {
         desabilitarBtnNovoTorneio();
         listarTorneios();
         povoarRecycleView();
+        //buscarTorneiosRemotos();
 
         //Listeners
         etx_nome_buscar_seguir_torneio.addTextChangedListener(new TextWatcher() {
@@ -92,6 +98,23 @@ public class TorneiosSeguidosFragment extends Fragment {
 
         return v;
     }
+/*
+    private void buscarTorneiosRemotos() {
+        FirebaseFirestore.getInstance().collection("torneios").
+            whereEqualTo("organizadorId", superActivity.getUsuarioLogado().getId()).get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot document: task.getResult()) {
+                        Torneio aux = document.toObject(Torneio.class);
+                        listaTorneiosSeguidos.add(aux);
+                        Log.d(TAG, aux.toString());
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            });
+    }*/
 
     private void desabilitarBtnNovoTorneio() {
         btn_seguir_torneio.setEnabled(false);
@@ -99,6 +122,7 @@ public class TorneiosSeguidosFragment extends Fragment {
                 ContextCompat.getDrawable(superActivity, R.drawable.button_shape_desabled)
         );
     }
+
     private void listarTorneios(){
         if(listaTorneiosSeguidos.isEmpty()){
             txv_torneios_seguidos_recentes.setText(R.string.santuario_seguidos_vazio);
