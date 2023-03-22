@@ -20,7 +20,6 @@ import java.util.Arrays;
 import control.CarrierSemiActivity;
 import model.Olimpia;
 import model.Torneio;
-import model.Usuario;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
         metodoRaiz();
         setTabLayout();
 //Listeners
-        btn_logout_padrao.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            abrirTelalogin();
-        });
+        btn_logout_padrao.setOnClickListener(v -> efetuarLogout());
     }
 
     @Override
@@ -126,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public void abrirTelalogin(){
+    public void efetuarLogout(){
+        FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }

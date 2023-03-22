@@ -9,12 +9,13 @@ public class Usuario {
     private String apelido;
     private ArrayList<String> torneiosSeguidos;
 
-    public Usuario(){}
+    public Usuario(){
+        this.torneiosSeguidos = new ArrayList<>();
+    }
 
     public Usuario(String id, String apelido) {
         this.id = id;
         this.apelido = apelido;
-        this.torneiosSeguidos = new ArrayList<>();
     }
 
     public String getId() {
@@ -37,6 +38,10 @@ public class Usuario {
         this.torneiosSeguidos.add(uidTornieo);
     }
 
+    public void setId(String uid) {
+        this.id = uid;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -45,9 +50,5 @@ public class Usuario {
                 ", apelido='" + apelido + '\'' +
                 ", torneiosSeguidos=" + torneiosSeguidos.size() +
                 '}';
-    }
-
-    public void setId(String uid) {
-        this.id = uid;
     }
 }

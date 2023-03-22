@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 
 import model.Olimpia;
 import model.Torneio;
+import model.Usuario;
 
 public class TorneiosSeguidosFragment extends Fragment {
     private final String TAG = "TORNEIOS_SEGUIDOS";
@@ -37,6 +40,7 @@ public class TorneiosSeguidosFragment extends Fragment {
     private ArrayList<Torneio> listaTorneiosSeguidos;
     private TextView etx_nome_buscar_seguir_torneio;
     private Button btn_seguir_torneio;
+    private Usuario usuario = new Usuario();
 
     //private FirebaseUser nowUser;
 
@@ -64,7 +68,7 @@ public class TorneiosSeguidosFragment extends Fragment {
         desabilitarBtnNovoTorneio();
         listarTorneios();
         povoarRecycleView();
-        //buscarTorneiosRemotos();
+        buscarUsuarioLogado();
 
         //Listeners
         etx_nome_buscar_seguir_torneio.addTextChangedListener(new TextWatcher() {
@@ -98,10 +102,35 @@ public class TorneiosSeguidosFragment extends Fragment {
 
         return v;
     }
-/*
+
+    private void buscarUsuarioLogado() {
+        if(listaTorneiosSeguidos.isEmpty()) {
+            FirebaseFirestore.getInstance().collection("usuarios")
+                    .document(superActivity.getUsuarioLogado())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if(document.exists()){
+                                usuario = document.toObject(Usuario.class);
+                                Log.d(TAG, usuario.toString());
+                                if(listaTorneiosSeguidos.isEmpty()){
+                                    buscarTorneiosRemotos();
+                                }
+                            } else {
+                                superActivity.efetuarLogout();
+                                Log.d(TAG, task.getResult().getData().toString());
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    });
+        }
+    }
+
     private void buscarTorneiosRemotos() {
-        FirebaseFirestore.getInstance().collection("torneios").
-            whereEqualTo("organizadorId", superActivity.getUsuarioLogado().getId()).get()
+        FirebaseFirestore.getInstance().collection("torneios")
+            .whereIn(FieldPath.documentId(), usuario.getTorneiosSeguidos()).get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     for (QueryDocumentSnapshot document: task.getResult()) {
@@ -110,11 +139,14 @@ public class TorneiosSeguidosFragment extends Fragment {
                         Log.d(TAG, aux.toString());
                         Log.d(TAG, document.getId() + " => " + document.getData());
                     }
+                    adapterTorneio.notifyDataSetChanged();
+                    listarTorneios();
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
-            });
-    }*/
+            })
+            .addOnFailureListener( exception -> Log.d(TAG, exception.getMessage()));
+    }
 
     private void desabilitarBtnNovoTorneio() {
         btn_seguir_torneio.setEnabled(false);

@@ -1,5 +1,6 @@
 package com.leoPirpiri.protournamentmanager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -206,6 +207,8 @@ public class TorneiosGerenciadosFragment extends Fragment {
         intent.putExtra("partida", -1);
         startActivity(intent);
     }
+
+    @SuppressLint("NotifyDataSetChanged")
     private void buscarTorneiosRemotos() {
         if(listaTorneiosGerenciados.isEmpty()) {
             FirebaseFirestore.getInstance().collection("torneios").
