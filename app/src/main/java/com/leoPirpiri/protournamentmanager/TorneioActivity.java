@@ -30,7 +30,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
     private int torneioIndice;
-    private boolean atualizar = false;
+    private boolean persistirDados = false;
 
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
@@ -72,7 +72,7 @@ public class TorneioActivity extends AppCompatActivity {
             if(torneio.estaFechado()){
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
-                atualizar = true;
+                persistirDados = true;
                 montarAlertaSorteio();
             } else {
                 finish();
@@ -113,9 +113,9 @@ public class TorneioActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(atualizar){
-            CarrierSemiActivity.persistirSantuario(TorneioActivity.this, santuarioOlimpia);
-            atualizar = false;
+        if(persistirDados){
+            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            persistirDados = false;
         }
         if(alertaDialog!=null && alertaDialog.isShowing()){
             alertaDialog.dismiss();

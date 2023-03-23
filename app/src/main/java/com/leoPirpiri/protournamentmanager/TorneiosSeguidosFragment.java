@@ -1,5 +1,6 @@
 package com.leoPirpiri.protournamentmanager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -128,19 +130,24 @@ public class TorneiosSeguidosFragment extends Fragment {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void buscarTorneiosRemotos() {
         FirebaseFirestore.getInstance().collection("torneios")
             .whereIn(FieldPath.documentId(), usuario.getTorneiosSeguidos()).get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot document: task.getResult()) {
-                        Torneio aux = document.toObject(Torneio.class);
-                        listaTorneiosSeguidos.add(aux);
-                        Log.d(TAG, aux.toString());
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    QuerySnapshot documents = task.getResult();
+                    if(!documents.isEmpty()){
+                        for (QueryDocumentSnapshot document : documents) {
+                            Torneio aux = document.toObject(Torneio.class);
+                            listaTorneiosSeguidos.add(aux);
+                            Log.d(TAG, aux.toString());
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                        superActivity.persistirDados();
+                        adapterTorneio.notifyDataSetChanged();
+                        listarTorneios();
                     }
-                    adapterTorneio.notifyDataSetChanged();
-                    listarTorneios();
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }

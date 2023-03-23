@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -215,14 +216,18 @@ public class TorneiosGerenciadosFragment extends Fragment {
                 whereEqualTo("organizadorId", superActivity.getUsuarioLogado()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Torneio aux = document.toObject(Torneio.class);
-                            listaTorneiosGerenciados.add(aux);
-                            Log.d(TAG, aux.toString());
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        QuerySnapshot documents = task.getResult();
+                        if(!documents.isEmpty()){
+                            for (QueryDocumentSnapshot document : documents) {
+                                Torneio aux = document.toObject(Torneio.class);
+                                listaTorneiosGerenciados.add(aux);
+                                Log.d(TAG, aux.toString());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                            superActivity.persistirDados();
+                            adapterTorneio.notifyDataSetChanged();
+                            listarTorneios();
                         }
-                        adapterTorneio.notifyDataSetChanged();
-                        listarTorneios();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }

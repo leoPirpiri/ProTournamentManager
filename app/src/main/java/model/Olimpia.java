@@ -15,11 +15,20 @@ public class Olimpia implements Serializable {
     private ArrayList<Torneio> torneiosGerenciados;
     private ArrayList<Torneio> torneiosSeguidos;
     private Torneio simulacaoDePelada;
+    private boolean atualizado = true;
 
     public Olimpia(){
         torneiosGerenciados = new ArrayList<>();
         torneiosSeguidos = new ArrayList<>();
         simulacaoDePelada = null;
+    }
+
+    public boolean estaAtualizado(){
+        return atualizado;
+    }
+
+    public void atualizar(boolean atualizar){
+        this.atualizado = !atualizar;
     }
 
     public int addTorneioGerenciado(Torneio torneio){

@@ -40,20 +40,32 @@ public class MainActivity extends AppCompatActivity {
 
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
 
-        metodoRaiz();
-        setTabLayout();
 //Listeners
         btn_logout_padrao.setOnClickListener(v -> efetuarLogout());
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(!santuarioOlimpia.estaAtualizado()){
+            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            santuarioOlimpia.atualizar(false);
+        }
+        if(alertaDialog!=null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
+        }
+    }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume(){
+        super.onResume();
+        metodoRaiz();
+        setTabLayout();
     }
 
     private void metodoRaiz(){
         //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(this);
+        santuarioOlimpia.atualizar(false);
         //CarrierSemiActivity.salvarSantuarioRemoto();
         //CarrierSemiActivity.carregarSantuarioRemoto();
     }
@@ -80,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         if (idNovoTorneio != 0){
             Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, nowUser.getUid());
             if (santuarioOlimpia.addTorneioGerenciado(novoTorneio) != -1){
-                CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+                persistirDados();
                 return novoTorneio;
             }
         }
@@ -116,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean excluirTorneio(int posicaoTorneio) {
         if(santuarioOlimpia.delTorneioGerenciado(posicaoTorneio) != null){
-            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            persistirDados();
             return true;
         }
         return false;
@@ -146,5 +158,9 @@ public class MainActivity extends AppCompatActivity {
 
     public String getUsuarioLogado(){
         return nowUser.getUid();
+    }
+
+    public void persistirDados(){
+        santuarioOlimpia.atualizar(true);
     }
 }
