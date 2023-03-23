@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     public Torneio criarNovoTorneio(String nomeNovoTorneio) {
         int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
         if (idNovoTorneio != 0){
-            Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, "tester");
+            Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, nowUser.getUid());
             if (santuarioOlimpia.addTorneioGerenciado(novoTorneio) != -1){
                 CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
                 return novoTorneio;
