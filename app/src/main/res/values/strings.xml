@@ -22,6 +22,8 @@
     <string name="santuario_gerenciados_vazio">Sem torneios recentes
         \nAdicione novos a partir do botão novo</string>
     <string name="santuario_seguidos_vazio">Os torneios seguidos aparecerão aqui.</string>
+    <string name="santuario_buscados_vazio">Sem torneios com esse nome.</string>
+    <string name="santuario_buscados_encontrados">Torneios encontrados: </string>
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
@@ -216,8 +218,9 @@
     <string name="btn_novo_usuario">Clique aqui.</string>
 
     <string-array name="tab_bar_tela_principal_nomes">
-        <item>Meus torneios</item>
+        <item>Gerindo</item>
         <item>Seguindo</item>
+        <item>Buscar</item>
         <item>Dicas</item>
     </string-array>
     <string-array name="tab_bar_tela_torneio_nomes">
@@ -230,11 +233,11 @@
         <item>Estatísticas</item>
         <item>Dicas</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="titulo_frag_comecar_novo_torneio">Começar novo torneio:</string>
-    <string name="lbl_btn_novo">NOVO</string>
-    <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado</string>
+    <string name="hint_frag_torneios_etx_novo">Nome do torneio</string>
+    <string name="hint_frag_torneios_etx_buscar">Nome do torneio</string>
+    <string name="lbl_btn_novo">CRIAR</string>
+    <string name="lbl_btn_buscar">BUSCAR</string>
+    <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado.</string>
     <string name="informacoes_tela_principal">
         * Existe um limite de torneios que podem ser gerenciados ou seguidos.\n\n
         * Você pode ser assinalado como mesário para um número indefinido de torneios.\n\n
@@ -259,6 +262,4 @@
         * Para atribuir pontos, cartões e faltas apenas preciono no nome do jogador.\n\n
         * Para ver mais detalhes de um jogador, precione e segure em seu nome.\n\n
     </string>
-    <string name="lbl_btn_seguir">SEGUIR</string>
-    <string name="seguir_torneio">Buscar torneio</string>
 </resources>

@@ -4,15 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -31,23 +30,23 @@ import model.Olimpia;
 import model.Torneio;
 
 
-public class TorneiosGerenciadosFragment extends Fragment {
+public class TorneiosBuscadosFragment extends Fragment {
     private final String TAG = "TORNEIOS_GERENCIADOS";
 
     private MainActivity superActivity;
     private TorneiosAdapter adapterTorneio;
-    private RecyclerView recyclerViewTorneiosGerenciados;
-    private TextView txv_msg_torneios_gerenciados_recentes;
-    private ArrayList<Torneio> listaTorneiosGerenciados;
-    private EditText etx_nome_novo_torneio;
-    private Button btn_novo_torneio;
+    private RecyclerView recyclerViewTorneiosBuscados;
+    private TextView txv_msg_torneios_buscados_recentes;
+    private ArrayList<Torneio> listaTorneiosBuscados;
+    private EditText etx_buscar_torneio;
+    private String ultimaBusca = "";
 
-    public TorneiosGerenciadosFragment() {
+    public TorneiosBuscadosFragment() {
         // Required empty public constructor
     }
 
-    public TorneiosGerenciadosFragment(ArrayList<Torneio> listaTorneiosGerenciados) {
-        this.listaTorneiosGerenciados = listaTorneiosGerenciados;
+    public TorneiosBuscadosFragment(ArrayList<Torneio> listaTorneiosBuscados) {
+        this.listaTorneiosBuscados = listaTorneiosBuscados;
     }
 
     @Override
@@ -61,49 +60,32 @@ public class TorneiosGerenciadosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_torneios_diversos, container, false);
 
-        etx_nome_novo_torneio = v.findViewById(R.id.etx_torneios_recentes);
-        btn_novo_torneio = v.findViewById(R.id.btn_torneios_recentes);
-        txv_msg_torneios_gerenciados_recentes = v.findViewById(R.id.txv_msg_lista_torneios_recentes);
-        recyclerViewTorneiosGerenciados = v.findViewById(R.id.recyclerview_torneios_recentes);
+        etx_buscar_torneio = v.findViewById(R.id.etx_torneios_recentes);
+        Button btn_buscar_torneio = v.findViewById(R.id.btn_torneios_recentes);
+        txv_msg_torneios_buscados_recentes = v.findViewById(R.id.txv_msg_lista_torneios_recentes);
+        recyclerViewTorneiosBuscados = v.findViewById(R.id.recyclerview_torneios_recentes);
         Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
 
         //Características iniciais dos elementos da tela do fragmento
-        etx_nome_novo_torneio.setHint(R.string.hint_frag_torneios_etx_novo);
-        desabilitarBtnNovoTorneio();
-        listarTorneios();
-        povoarRecycleView();
+        etx_buscar_torneio.setHint(R.string.hint_frag_torneios_etx_buscar);
+        btn_buscar_torneio.setText(R.string.lbl_btn_buscar);
+        btn_simulador_partida.setVisibility(View.GONE);
+
 
         //Listeners
-        etx_nome_novo_torneio.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etx_nome_novo_torneio.getText().toString().equals("")){
-                    desabilitarBtnNovoTorneio();
-                }else{
-                    btn_novo_torneio.setEnabled(true);
-                    btn_novo_torneio.setBackground(ContextCompat.getDrawable(superActivity, R.drawable.button_shape_enabled));
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        etx_nome_novo_torneio.setOnFocusChangeListener((v1, hasFocus) -> {
+        etx_buscar_torneio.setOnFocusChangeListener((v1, hasFocus) -> {
             if (!hasFocus) {
-                superActivity.esconderTeclado(etx_nome_novo_torneio);
+                superActivity.esconderTeclado(etx_buscar_torneio);
             }
         });
 
-        btn_novo_torneio.setOnClickListener(v12 -> {
-            if (superActivity != null){
-                superActivity.esconderTeclado(etx_nome_novo_torneio);
-                criarTorneioGerenciado(etx_nome_novo_torneio.getText().toString());
+        btn_buscar_torneio.setOnClickListener(v12 -> {
+            if (superActivity != null && !etx_buscar_torneio.getText().toString().equals("")){
+                superActivity.esconderTeclado(etx_buscar_torneio);
+                Olimpia.printteste(superActivity, "Buscando torneio");
+                //buscarTorneio(etx_buscar_torneio.getText().toString());
             }
         });
-
-        btn_simulador_partida.setOnClickListener(v13 -> abrirSimulador());
 
         return v;
     }
@@ -111,7 +93,6 @@ public class TorneiosGerenciadosFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        buscarTorneiosRemotos();
     }
 
     @Override
@@ -120,29 +101,58 @@ public class TorneiosGerenciadosFragment extends Fragment {
     }
 
     private void listarTorneios(){
-        if(listaTorneiosGerenciados.isEmpty()){
-            txv_msg_torneios_gerenciados_recentes.setText(R.string.santuario_gerenciados_vazio);
+        if(listaTorneiosBuscados.isEmpty()){
+            txv_msg_torneios_buscados_recentes.setText(R.string.santuario_buscados_vazio);
         } else {
-            txv_msg_torneios_gerenciados_recentes.setText(R.string.santuario_torneios_recentes);
+            txv_msg_torneios_buscados_recentes.setText(R.string.santuario_buscados_encontrados);
         }
+        povoarRecycleView();
     }
 
     private void povoarRecycleView(){
-        recyclerViewTorneiosGerenciados.setLayoutManager(new LinearLayoutManager(superActivity));
-        adapterTorneio = new TorneiosAdapter(superActivity, listaTorneiosGerenciados);
-        recyclerViewTorneiosGerenciados.setAdapter(adapterTorneio);
+        recyclerViewTorneiosBuscados.setLayoutManager(new LinearLayoutManager(superActivity));
+        adapterTorneio = new TorneiosAdapter(superActivity, listaTorneiosBuscados);
+        recyclerViewTorneiosBuscados.setAdapter(adapterTorneio);
         construirListenersAdapterTorneio();
     }
 
     private void construirListenersAdapterTorneio() {
-        adapterTorneio.setOnClickListener(v -> abrirTorneioGerenciado(
-                listaTorneiosGerenciados.get(
-                        recyclerViewTorneiosGerenciados.getChildAdapterPosition(v)).getId()));
+        adapterTorneio.setOnClickListener(v -> {
+            //montarAlertaSeguirTorneio(recyclerViewTorneiosBuscados.getChildAdapterPosition(v));
+        });
 
         adapterTorneio.setOnLongClickListener(v -> {
-            montarAlertaExcluirTorneio(recyclerViewTorneiosGerenciados.getChildAdapterPosition(v));
+            //montarAlertaExcluirTorneio(recyclerViewTorneiosBuscados.getChildAdapterPosition(v));
             return true;
         });
+    }
+
+/*
+
+    private void buscarTorneiosParaSeguir() {
+        firestoreDB.collection("torneios")
+            .whereNotEqualTo("organizadorId", usuario.getId())
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    QuerySnapshot documents = task.getResult();
+                    if(!documents.isEmpty()){
+                        for (QueryDocumentSnapshot document : documents) {
+                            Torneio torneio = document.toObject(Torneio.class);
+                            if (torneio.getNome().contains(ultimaBusca)
+                                && !listaAdapterNomesTorneiosParaSeguir.contains(torneio.getNome())
+                                && !usuario.getTorneiosSeguidos().contains(document.getId())){
+                                listaTorneiosParaSequir.add(torneio);
+                                listaAdapterNomesTorneiosParaSeguir.add(torneio.getNome());
+                            }
+                            Log.d(TAG, torneio.toString());
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            });
     }
 
     private void montarAlertaExcluirTorneio(final int posTorneio){
@@ -168,31 +178,18 @@ public class TorneiosGerenciadosFragment extends Fragment {
         builder.setTitle(R.string.titulo_alerta_confir_excluir_torneio);
         superActivity.mostrarAlerta(builder);
     }
-
-    private void desabilitarBtnNovoTorneio() {
-        if(Olimpia.TORNEIO_MAX==listaTorneiosGerenciados.size()) {
-            etx_nome_novo_torneio.setHint(R.string.santuario_gerenciados_cheio);
-        } else {
-            etx_nome_novo_torneio.setHint(R.string.hint_frag_torneios_etx_novo);
-        }
-        btn_novo_torneio.setEnabled(false);
-        btn_novo_torneio.setBackground(
-            ContextCompat.getDrawable(superActivity, R.drawable.button_shape_desabled)
-        );
-    }
-
     private void criarTorneioGerenciado(String nomeNovoTorneio){
         Torneio novoTorneio = superActivity.criarNovoTorneio(nomeNovoTorneio);
         if (novoTorneio!=null){
             desabilitarBtnNovoTorneio();
-            etx_nome_novo_torneio.setText("");
+            etx_buscar_torneio.setText("");
             superActivity.abrirTorneio(novoTorneio.getId());
         } else {
-            etx_nome_novo_torneio.setError(getString(R.string.erro_numero_max_torneios));
+            etx_buscar_torneio.setError(getString(R.string.erro_numero_max_torneios));
         }
     }
 
-    private void abrirTorneioGerenciado(int torneioId){
+    private void abrirTorneioBuscado(int torneioId){
         superActivity.abrirTorneio(torneioId);
     }
 
@@ -211,7 +208,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void buscarTorneiosRemotos() {
-        if(listaTorneiosGerenciados.isEmpty()) {
+        if(listaTorneiosBuscados.isEmpty()) {
             FirebaseFirestore.getInstance().collection("torneios").
                 whereEqualTo("organizadorId", superActivity.getUsuarioLogado()).get()
                 .addOnCompleteListener(task -> {
@@ -220,7 +217,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
                         if(!documents.isEmpty()){
                             for (QueryDocumentSnapshot document : documents) {
                                 Torneio aux = document.toObject(Torneio.class);
-                                listaTorneiosGerenciados.add(aux);
+                                listaTorneiosBuscados.add(aux);
                                 Log.d(TAG, aux.toString());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
@@ -233,5 +230,5 @@ public class TorneiosGerenciadosFragment extends Fragment {
                     }
                 });
         }
-    }
+    }*/
 }

@@ -2,11 +2,11 @@ package com.leoPirpiri.protournamentmanager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,13 +39,13 @@ public class TorneiosSeguidosFragment extends Fragment {
     private final String TAG = "TORNEIOS_SEGUIDOS";
 
     private MainActivity superActivity;
-    private TorneiosAdapter adapterTorneio;
+    private TextView txv_msg_torneios_seguidos_recentes;
     private RecyclerView recyclerViewTorneiosSeguidos;
-    private TextView txv_torneios_seguidos_recentes;
+    private TorneiosAdapter adapterTorneioSeguidos;
     private ArrayList<Torneio> listaTorneiosSeguidos;
-    private TextView etx_nome_buscar_seguir_torneio;
-    private Button btn_seguir_torneio;
+
     private Usuario usuario = new Usuario();
+    private FirebaseFirestore firestoreDB;
 
     //private FirebaseUser nowUser;
 
@@ -61,91 +64,72 @@ public class TorneiosSeguidosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_torneios_seguidos, container, false);
-        recyclerViewTorneiosSeguidos = v.findViewById(R.id.recyclerview_torneios_seguidos);
-        txv_torneios_seguidos_recentes = v.findViewById(R.id.txv_torneios_seguidos_recentes);
-        etx_nome_buscar_seguir_torneio = v.findViewById(R.id.nome_buscar_seguir_torneio);
-        btn_seguir_torneio = v.findViewById(R.id.btn_seguir_tourneio);
-        
-        desabilitarBtnNovoTorneio();
+        View v = inflater.inflate(R.layout.fragment_torneios_diversos, container, false);
+
+        TableRow tablerow_acao = v.findViewById(R.id.tablerow_acao_torneios_recentes);
+        txv_msg_torneios_seguidos_recentes = v.findViewById(R.id.txv_msg_lista_torneios_recentes);
+        recyclerViewTorneiosSeguidos = v.findViewById(R.id.recyclerview_torneios_recentes);
+        Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
+
+        //Características iniciais dos elementos da tela do fragmento
+        tablerow_acao.setVisibility(View.GONE);
+        btn_simulador_partida.setVisibility(View.GONE);
+
+        firestoreDB = FirebaseFirestore.getInstance();
+
         listarTorneios();
-        povoarRecycleView();
-        buscarUsuarioLogado();
-
-        //Listeners
-        etx_nome_buscar_seguir_torneio.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(etx_nome_buscar_seguir_torneio.getText().toString().equals("")){
-                    desabilitarBtnNovoTorneio();
-                }else{
-                    btn_seguir_torneio.setEnabled(true);
-                    btn_seguir_torneio.setBackground(ContextCompat.getDrawable(superActivity, R.drawable.button_shape_enabled));
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-
-        etx_nome_buscar_seguir_torneio.setOnFocusChangeListener((v1, hasFocus) -> {
-            if (!hasFocus) {
-                superActivity.esconderTeclado(etx_nome_buscar_seguir_torneio);
-            }
-        });
-
-        btn_seguir_torneio.setOnClickListener(v12 -> {
-            if (superActivity != null){
-                superActivity.esconderTeclado(etx_nome_buscar_seguir_torneio);
-                seguirNovoTorneio(etx_nome_buscar_seguir_torneio.getText().toString());
-            }
-        });
 
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        povoarRecycleView();
+        buscarUsuarioLogado();
+    }
+
     private void buscarUsuarioLogado() {
-        if(listaTorneiosSeguidos.isEmpty()) {
-            FirebaseFirestore.getInstance().collection("usuarios")
-                    .document(superActivity.getUsuarioLogado())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if(document.exists()){
-                                usuario = document.toObject(Usuario.class);
-                                Log.d(TAG, usuario.toString());
-                                if(listaTorneiosSeguidos.isEmpty()){
-                                    buscarTorneiosRemotos();
-                                }
-                            } else {
-                                superActivity.efetuarLogout();
-                                Log.d(TAG, task.getResult().getData().toString());
+        if(usuario.getId() == null) {
+            firestoreDB.collection("usuarios")
+                .document(superActivity.getUsuarioLogado())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if(document.exists()){
+                            usuario = document.toObject(Usuario.class);
+                            Log.d(TAG, usuario.toString());
+                            if(listaTorneiosSeguidos.isEmpty()){
+                                buscarTorneiosRemotos();
                             }
                         } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                            superActivity.efetuarLogout();
+                            Log.d(TAG, task.getResult().getData().toString());
                         }
-                    });
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private void buscarTorneiosRemotos() {
-        FirebaseFirestore.getInstance().collection("torneios")
+        firestoreDB.collection("torneios")
             .whereIn(FieldPath.documentId(), usuario.getTorneiosSeguidos()).get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     QuerySnapshot documents = task.getResult();
                     if(!documents.isEmpty()){
                         for (QueryDocumentSnapshot document : documents) {
-                            Torneio aux = document.toObject(Torneio.class);
-                            listaTorneiosSeguidos.add(aux);
-                            Log.d(TAG, aux.toString());
+                            Torneio torneio = document.toObject(Torneio.class);
+                            listaTorneiosSeguidos.add(torneio);
+                            Log.d(TAG, torneio.toString());
                             Log.d(TAG, document.getId() + " => " + document.getData());
                         }
                         superActivity.persistirDados();
-                        adapterTorneio.notifyDataSetChanged();
+                        adapterTorneioSeguidos.notifyDataSetChanged();
                         listarTorneios();
                     }
                 } else {
@@ -155,34 +139,27 @@ public class TorneiosSeguidosFragment extends Fragment {
             .addOnFailureListener( exception -> Log.d(TAG, exception.getMessage()));
     }
 
-    private void desabilitarBtnNovoTorneio() {
-        btn_seguir_torneio.setEnabled(false);
-        btn_seguir_torneio.setBackground(
-                ContextCompat.getDrawable(superActivity, R.drawable.button_shape_desabled)
-        );
-    }
-
     private void listarTorneios(){
         if(listaTorneiosSeguidos.isEmpty()){
-            txv_torneios_seguidos_recentes.setText(R.string.santuario_seguidos_vazio);
+            txv_msg_torneios_seguidos_recentes.setText(R.string.santuario_seguidos_vazio);
         } else {
-            txv_torneios_seguidos_recentes.setText(R.string.santuario_torneios_recentes);
+            txv_msg_torneios_seguidos_recentes.setText(R.string.santuario_torneios_recentes);
         }
     }
 
     private void povoarRecycleView(){
         recyclerViewTorneiosSeguidos.setLayoutManager(new LinearLayoutManager(superActivity));
-        adapterTorneio = new TorneiosAdapter(superActivity, listaTorneiosSeguidos);
-        recyclerViewTorneiosSeguidos.setAdapter(adapterTorneio);
+        adapterTorneioSeguidos = new TorneiosAdapter(superActivity, listaTorneiosSeguidos);
+        recyclerViewTorneiosSeguidos.setAdapter(adapterTorneioSeguidos);
         construirListenersAdapterTorneio();
     }
 
     private void construirListenersAdapterTorneio() {
-        adapterTorneio.setOnClickListener(v -> abrirTorneioSeguido(
+        adapterTorneioSeguidos.setOnClickListener(v -> abrirTorneioSeguido(
                 listaTorneiosSeguidos.get(
                         recyclerViewTorneiosSeguidos.getChildAdapterPosition(v)).getId()));
 
-        adapterTorneio.setOnLongClickListener(v -> {
+        adapterTorneioSeguidos.setOnLongClickListener(v -> {
             montarAlertaExcluirTorneio(recyclerViewTorneiosSeguidos.getChildAdapterPosition(v));
             return true;
         });
@@ -211,9 +188,6 @@ public class TorneiosSeguidosFragment extends Fragment {
         builder.setTitle(R.string.titulo_alerta_confir_unfollow_torneio);
         superActivity.mostrarAlerta(builder);
     }
-    private void seguirNovoTorneio(String nomeNovo){
-        Olimpia.printteste(superActivity, "Novo Torneio Seguido: "+ nomeNovo);
-    }
 
     private void abrirTorneioSeguido(int torneioId){
         superActivity.abrirTorneio(torneioId);
@@ -221,11 +195,10 @@ public class TorneiosSeguidosFragment extends Fragment {
 
     private void excluirTorneioSeguido(int position) {
         if (superActivity.excluirTorneio(position)){
-            adapterTorneio.notifyItemRemoved(position);
+            adapterTorneioSeguidos.notifyItemRemoved(position);
             listarTorneios();
         }
     }
-
 }
 /*
         Button btn_teste = v.findViewById(R.id.btn_teste);
@@ -242,7 +215,7 @@ public class TorneiosSeguidosFragment extends Fragment {
         });
 
     private void acionarSnapshot(){
-        FirebaseFirestore.getInstance().collection("/teste")
+        firestoreDB.collection("/teste")
                 .document("tester")
                 .addSnapshotListener((value, e) -> {
                     if (value.exists()){
@@ -253,12 +226,12 @@ public class TorneiosSeguidosFragment extends Fragment {
 
     private void enviarValor() {
         Map<String, Object> mapa = new HashMap<>();
-        mapa.put("valor", ++aux);
-        FirebaseFirestore.getInstance().collection("/teste")
+        mapa.put("valor", ++torneio);
+        firestoreDB.collection("/teste")
                 .document("tester")
                 .set(mapa)
                 .addOnSuccessListener(onSuccessListener -> {
-                    txv_teste.setText(String.valueOf(aux));
+                    txv_teste.setText(String.valueOf(torneio));
                 })
                 .addOnFailureListener(e -> {
                     txv_teste.setText("Deu Errado");

@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import control.CarrierSemiActivity;
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 this,
                 Arrays.asList(new TorneiosGerenciadosFragment(santuarioOlimpia.getTorneiosGerenciados()),
                               new TorneiosSeguidosFragment(santuarioOlimpia.getTorneiosSeguidos()),
+                              new TorneiosBuscadosFragment(new ArrayList<>()),
                               new InformacoesFragment(R.string.informacoes_tela_principal)),
                 Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_principal_nomes))
         );

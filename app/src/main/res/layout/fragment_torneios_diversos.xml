@@ -14,39 +14,26 @@
         android:stretchColumns="*"
         android:padding="10dp">
         <TableRow
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:layout_gravity="center_horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/titulo_frag_comecar_novo_torneio"
-                android:textSize="18dp"
-                android:layout_margin="10dp"
-                />
-        </TableRow>
-        <TableRow
+            android:id="@+id/tablerow_acao_torneios_recentes"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_gravity="center_horizontal">
             <EditText
-                android:id="@+id/nome_novo_torneio"
+                android:id="@+id/etx_torneios_recentes"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:maxLength="35"
-                android:hint="@string/novo_torneio"
                 android:singleLine="true"
                 android:inputType="textCapWords|text"/>
 
             <Button
-                android:id="@+id/btn_novo_tourneio"
+                android:id="@+id/btn_torneios_recentes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_weight="1"
-                android:background="@drawable/button_shape_desabled"
+                android:background="@drawable/button_shape_enabled"
                 android:enabled="false"
                 android:shadowColor="#3D3D3D"
                 android:shadowDx="0"
@@ -54,24 +41,22 @@
                 android:shadowRadius="5"
                 android:text="@string/lbl_btn_novo"
                 android:textColor="@color/btn_texto_ic"
-                android:textSize="20sp"
-                />
+                android:textSize="20sp" />
         </TableRow>
     </TableLayout>
 
     <TextView
-        android:id="@+id/txv_torneios_gerenciados_recentes"
+        android:id="@+id/txv_msg_lista_torneios_recentes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="@string/santuario_gerenciados_vazio"
         android:textSize="18dp" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_torneios_gerenciados"
+            android:id="@+id/recyclerview_torneios_recentes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="@dimen/lista_pad_default" />
