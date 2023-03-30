@@ -1,6 +1,7 @@
 package model;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.utils.CustomSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,11 +9,12 @@ import java.util.Arrays;
 public class Torneio extends EntConcreta {
     public static final int MAX_EQUIPE = 16;
     public static final int MIN_EQUIPE = 4;
+    public static final int MAX_GERENCIADORES = 4;
     public static final int STATUS_ABERTO = 0;
     public static final int STATUS_FECHADO = 1;
     public static final int STATUS_FINALIZADO = 2;
 
-    private String organizadorId;
+    private ArrayList<String> gerenciadores;
     private ArrayList<Equipe> equipes;
     private ArvoreTabela tabela;
     private Equipe campeao;
@@ -28,7 +30,7 @@ public class Torneio extends EntConcreta {
 
     public Torneio(int id, String nome, String organizadorId) {
         super(id, nome);
-        this.organizadorId = organizadorId;
+        this.gerenciadores.add(organizadorId);
     }
     public String getUuid() {
         return uuid;
@@ -46,8 +48,24 @@ public class Torneio extends EntConcreta {
         this.dataAtualizacao = dataAtualizacao;
     }
 
-    public String getOrganizadorId() {
-        return organizadorId;
+    public String buscarDonoDoTorneio(){
+        return gerenciadores.get(0);
+    }
+
+    public boolean ehMesario(String usuarioId){
+        return !buscarDonoDoTorneio().equals(usuarioId) && gerenciadores.contains(usuarioId);
+    }
+
+    public void adicionarMesario(String usuarioId){
+        gerenciadores.add(usuarioId);
+    }
+
+    public boolean removerMesario(int posicao){
+        if(posicao > 0){
+            gerenciadores.remove(posicao);
+            return true;
+        }
+        return false;
     }
 
     public String getSede() {
@@ -140,7 +158,7 @@ public class Torneio extends EntConcreta {
     public String toString(){
         return super.toString() +
                " Quantidade de times: " + equipes.size() +
-               " Organizador: " + getOrganizadorId()  +
+               " Organizador: " + buscarDonoDoTorneio()  +
                " Estado: "+ (estaFechado() ? (campeao == null ? "Fechado e Não finalizado" :
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }

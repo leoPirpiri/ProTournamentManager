@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Torneio criarNovoTorneio(String nomeNovoTorneio) {
-        int idNovoTorneio = santuarioOlimpia.getNovoTorneioId();
-        if (idNovoTorneio != 0){
-            Torneio novoTorneio = new Torneio(idNovoTorneio, nomeNovoTorneio, nowUser.getUid());
+        int idNovoTorneioLocal = santuarioOlimpia.getNovoTorneioId();
+        if (idNovoTorneioLocal != 0){
+            Torneio novoTorneio = new Torneio(idNovoTorneioLocal, nomeNovoTorneio, nowUser.getUid());
             if (santuarioOlimpia.addTorneioGerenciado(novoTorneio) != -1){
                 persistirDados();
                 return novoTorneio;
