@@ -76,9 +76,9 @@ public final class CarrierSemiActivity {
         }
     }
 
-    public static void salvarSantuarioRemoto(){
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection("torneios").add(Olimpia.testeExemplos())
+    public static void salvarSantuarioRemoto(Torneio torneio, FirebaseFirestore database){
+        database.collection("torneios")
+                .add(torneio)
                 .addOnCompleteListener(task -> {
                     if(!task.isSuccessful()){
                         Log.d("SEMIACTIVITY", task.getResult().getId());

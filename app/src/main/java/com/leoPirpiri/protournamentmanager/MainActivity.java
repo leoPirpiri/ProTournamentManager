@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
     buscarUsuario();*/
     private FirebaseUser nowUser;
     private static final String TAG = "MAIN";
+    private FirebaseFirestore  firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nowUser = FirebaseAuth.getInstance().getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
 
         setContentView(R.layout.activity_principal);
 
@@ -53,6 +56,18 @@ public class MainActivity extends AppCompatActivity {
         }
         if(alertaDialog!=null && alertaDialog.isShowing()){
             alertaDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (nowUser!=null){
+            for (Torneio torneio: santuarioOlimpia.getTorneiosGerenciados()) {
+                if(torneio.getDataAtualizacaoRemota()!=torneio.getDataAtualizacaoLocal()) {
+                    CarrierSemiActivity.salvarSantuarioRemoto(torneio, firestore);
+                }
+            }
         }
     }
 

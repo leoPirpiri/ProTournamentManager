@@ -131,9 +131,9 @@ public class TorneioActivity extends AppCompatActivity {
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
         torneio = santuarioOlimpia.getTorneioGerenciado(torneioIndice);
+        System.out.println("A porra do torneio" + torneio);;
         if(torneio != null){
-            txv_estado_torneio.setText(torneio.estaFechado() ? R.string.estado_fechado : (
-                    torneio.getCampeao() == null ? R.string.estado_aberto : R.string.estado_encerrado));
+            txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
             //equipesAdapter = new EquipesAdapter(TorneioActivity.this, torneio.getTimes());
             //ltv_equipes_torneio.setAdapter(equipesAdapter);
             //listarTimes();

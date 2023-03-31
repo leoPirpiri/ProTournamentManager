@@ -1,7 +1,6 @@
 package model;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.motion.utils.CustomSupport;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,24 +13,30 @@ public class Torneio extends EntConcreta {
     public static final int STATUS_FECHADO = 1;
     public static final int STATUS_FINALIZADO = 2;
 
-    private ArrayList<String> gerenciadores;
-    private ArrayList<Equipe> equipes;
-    private ArvoreTabela tabela;
-    private Equipe campeao;
-    private String sede = "Guarabira";
-    private long dataAtualizacao = System.currentTimeMillis();
     private String uuid;
+    private String sede = "Guarabira";
+    private long dataAtualizacaoRemota;
+    private long dataAtualizacaoLocal;
+    private Equipe campeao;
+    private ArvoreTabela tabela;
+    private ArrayList<Equipe> equipes;
+    private ArrayList<String> gerenciadores = new ArrayList<>();
 
     public Torneio(){
         this.equipes = new ArrayList<>();
         this.campeao = null;
         this.tabela = new ArvoreTabela();
+        this.dataAtualizacaoRemota = System.currentTimeMillis();
+        this.dataAtualizacaoLocal = dataAtualizacaoRemota;
     }
 
     public Torneio(int id, String nome, String organizadorId) {
         super(id, nome);
         this.gerenciadores.add(organizadorId);
+        this.uuid = organizadorId+String.valueOf(id);
+        this();
     }
+
     public String getUuid() {
         return uuid;
     }
@@ -40,12 +45,20 @@ public class Torneio extends EntConcreta {
         this.uuid = uuid;
     }
 
-    public long getDataAtualizacao() {
-        return dataAtualizacao;
+    public long getDataAtualizacaoRemota() {
+        return dataAtualizacaoRemota;
     }
 
-    public void setDataAtualizacao(long dataAtualizacao) {
-        this.dataAtualizacao = dataAtualizacao;
+    public long getDataAtualizacaoLocal() {
+        return dataAtualizacaoLocal;
+    }
+
+    public void setDataAtualizacaoRemota(long dataAtualizacao) {
+        this.dataAtualizacaoRemota = dataAtualizacao;
+    }
+
+    public void setDataAtualizacaoLocal(long dataAtualizacaoLocal) {
+        this.dataAtualizacaoLocal = dataAtualizacaoLocal;
     }
 
     public String buscarDonoDoTorneio(){
@@ -73,7 +86,7 @@ public class Torneio extends EntConcreta {
     }
 
     public boolean estaFechado() {
-        return tabela.getRaiz() != null;
+        return tabela != null && tabela.getRaiz() != null;
     }
 
     public int pegarStatus() {
@@ -81,7 +94,7 @@ public class Torneio extends EntConcreta {
     }
 
     public Equipe getCampeao() {
-        if(this.campeao == null && tabela.getRaiz() != null){
+        if(this.campeao == null && estaFechado()){
             int raiz = tabela.getRaiz().getCampeaoId();
             if (raiz!=0){
                 campeao = getEquipe(raiz);
