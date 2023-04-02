@@ -213,7 +213,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     private void buscarTorneiosRemotos() {
         if(listaTorneiosGerenciados.isEmpty()) {
             FirebaseFirestore.getInstance().collection("torneios").
-                whereEqualTo("organizadorId", superActivity.getUsuarioLogado()).get()
+                whereArrayContains("gerenciadores", superActivity.getUsuarioLogado()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot documents = task.getResult();

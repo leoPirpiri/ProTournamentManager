@@ -4,9 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.leoPirpiri.protournamentmanager.R;
 
 import java.io.File;
@@ -19,10 +17,9 @@ import java.util.ArrayList;
 
 import model.Olimpia;
 import model.Torneio;
-import model.Usuario;
 
 public final class CarrierSemiActivity {
-    //private final String TAG = "Nuvem";
+    private static final String TAG = "SEMIACTIVITY";
 
     public static void persistirSantuario(Context ctx, Olimpia santuarioOlimpia){
         try {
@@ -78,12 +75,10 @@ public final class CarrierSemiActivity {
 
     public static void salvarSantuarioRemoto(Torneio torneio, FirebaseFirestore database){
         database.collection("torneios")
-                .add(torneio)
-                .addOnCompleteListener(task -> {
-                    if(!task.isSuccessful()){
-                        Log.d("SEMIACTIVITY", task.getResult().getId());
-                    }
-                });
+                .document(torneio.buscarUuid())
+                .set(torneio)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
     }
 
     public static void carregarSantuarioRemoto(){

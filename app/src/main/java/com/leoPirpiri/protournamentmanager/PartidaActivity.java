@@ -225,7 +225,7 @@ public class PartidaActivity extends AppCompatActivity {
                 partida = new NoPartida(02, nome_padrao);
                 partida.setMandante(new NoPartida(01, nome_padrao, 990100));
                 partida.setVisitante(new NoPartida(03, nome_padrao, 990200));
-                torneio.setTabela(partida);
+                torneio.setRaizTabela(partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
             } else {
