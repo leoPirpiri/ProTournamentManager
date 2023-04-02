@@ -132,7 +132,7 @@ public class Torneio extends EntConcreta {
     }
 
     public boolean addEquipe(Equipe equipe) {
-        if(!estarFechado() && !estarCheio() && siglaUsada(equipe.getSigla())){
+        if(!estarFechado() && !estarCheio() && siglaDisponivel(equipe.getSigla())){
             return this.equipes.add(equipe);
         }
         return false;
@@ -142,7 +142,7 @@ public class Torneio extends EntConcreta {
         return equipes.size()==MAX_EQUIPE;
     }
 
-    public boolean siglaUsada(String s){
+    public boolean siglaDisponivel(String s){
         return equipes.stream().noneMatch(e -> e.getSigla().equals(s));
     }
 

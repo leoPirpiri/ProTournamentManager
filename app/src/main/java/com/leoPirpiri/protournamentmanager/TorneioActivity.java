@@ -29,7 +29,6 @@ import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
     private int torneioIndice;
-    private boolean persistirDados = false;
 
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
@@ -60,7 +59,7 @@ public class TorneioActivity extends AppCompatActivity {
             if(torneio.estarFechado()){
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
-                persistirDados = true;
+                persistirDados();
                 montarAlertaSorteio();
             } else {
                 finish();
@@ -96,9 +95,9 @@ public class TorneioActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(persistirDados){
+        if(!santuarioOlimpia.estaAtualizado()){
             CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
-            persistirDados = false;
+            santuarioOlimpia.atualizar(false);
         }
         if(alertaDialog!=null && alertaDialog.isShowing()){
             alertaDialog.dismiss();
@@ -115,7 +114,8 @@ public class TorneioActivity extends AppCompatActivity {
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
         torneio = santuarioOlimpia.getTorneioGerenciado(torneioIndice);
-        System.out.println("A porra do torneio" + torneio);
+        santuarioOlimpia.atualizar(false);
+
         if(torneio != null){
             setTitle(torneio.getNome());
             txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
@@ -287,10 +287,9 @@ public class TorneioActivity extends AppCompatActivity {
         } else if (torneio.estarFechado()){
             String msg = getString(R.string.erro_adicionar_equipe) +"\n"+ getString(R.string.torneio_fechado);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        } else if (torneio.siglaUsada(sigla)){
-            Toast.makeText(this, R.string.msg_alerta_warning_sigla, Toast.LENGTH_SHORT).show();
-        }
-        else if (!torneio.addEquipe(new Equipe(idNovaEquipe, nome, sigla))) {
+        } else if (!torneio.siglaDisponivel(sigla)){
+            Toast.makeText(this, R.string.msg_alerta_erro_sigla_usada, Toast.LENGTH_SHORT).show();
+        } else if (!torneio.addEquipe(new Equipe(idNovaEquipe, nome, sigla))) {
             Toast.makeText(this, R.string.erro_adicionar_equipe, Toast.LENGTH_SHORT).show();
         } else {
             atualizouTorneio();
@@ -301,9 +300,14 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void atualizouTorneio(){
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        persistirDados();
     }
 
     public int estadoDoTorneio(){
         return torneio.pegarStatus();
+    }
+
+    public void persistirDados(){
+        santuarioOlimpia.atualizar(true);
     }
 }

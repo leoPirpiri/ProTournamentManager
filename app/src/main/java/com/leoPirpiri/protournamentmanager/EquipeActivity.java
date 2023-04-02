@@ -162,7 +162,7 @@ public class EquipeActivity extends AppCompatActivity {
                     equipe.setNome(nome);
                     mudou = true;
                 }
-                if(sigla.length()>1 && !equipe.getSigla().equals(sigla) && torneio.siglaUsada(sigla)) {
+                if(sigla.length()>1 && !equipe.getSigla().equals(sigla) && torneio.siglaDisponivel(sigla)) {
                     equipe.setSigla(sigla);
                     mudou = true;
                 }

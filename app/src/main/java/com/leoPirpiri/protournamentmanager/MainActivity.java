@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //Listeners
         btn_logout_padrao.setOnClickListener(v -> efetuarLogout());
     }
+
     @Override
     protected void onPause() {
         super.onPause();

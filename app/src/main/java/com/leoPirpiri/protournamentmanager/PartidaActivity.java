@@ -1116,7 +1116,7 @@ public class PartidaActivity extends AppCompatActivity {
                     equipeAtualizando.setNome(nome);
                     mudou = true;
                 }
-                if(sigla.length()>1 && !equipeAtualizando.getSigla().equals(sigla) && torneio.siglaUsada(sigla)) {
+                if(sigla.length()>1 && !equipeAtualizando.getSigla().equals(sigla) && torneio.siglaDisponivel(sigla)) {
                     equipeAtualizando.setSigla(sigla);
                     mudou = true;
                 }
