@@ -23,15 +23,15 @@ public class Torneio extends EntConcreta {
     private ArrayList<String> gerenciadores = new ArrayList<>();
 
     public Torneio(){
+    }
+
+    public Torneio(int id, String nome, String organizadorId) {
+        super(id, nome);
         this.equipes = new ArrayList<>();
         this.campeao = null;
         this.tabela = new ArvoreTabela();
         this.dataAtualizacaoRemota = System.currentTimeMillis();
         this.dataAtualizacaoLocal = dataAtualizacaoRemota;
-    }
-
-    public Torneio(int id, String nome, String organizadorId) {
-        super(id, nome);
         this.gerenciadores.add(organizadorId);
         this.uuid = organizadorId+id;
     }
