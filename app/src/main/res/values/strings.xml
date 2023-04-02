@@ -31,6 +31,8 @@
     <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="msg_alerta_confir_unfollow_torneio">Deixar de seguir esse Torneio?</string>
+    <string name="torneio_cheio">Torneio cheio.</string>
+    <string name="torneio_fechado">Torneio fechado.</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
     <string name="torneio_sem_equipes">Adicione equipes com o botão abaixo (+)</string>
     <string name="lbl_btn_tabela_desabled">Número insuficiente de times</string>
@@ -48,7 +50,8 @@
     </string-array>
 
     <!-- Mensagens envolvendo Equipes -->
-    <string name="equipe_adicionada">Equipe adicionada com sucesso!</string>
+    <string name="sucesso_adicionar_equipe">Equipe adicionada com sucesso!</string>
+    <string name="erro_adicionar_equipe">Não foi possível adicinar equipe!</string>
     <string name="equipe_sigla_partida_aberta"> </string>
     <string name="equipe_ponto_partida_aberta">-</string>
     <string name="equipe_exemplo_mandante">Equipe Azul</string>
@@ -59,12 +62,16 @@
     <string name="dica_nome_equipe">Clube Esportivo Exemplo</string>
     <string name="lbl_quant_jogadores">Quantidade de atletas</string>
     <string name="titulo_alerta_nova_equipe">Informações da equipe</string>
+    <string name="titulo_alerta_impedir_adicao_nova_equipe">Adição não disponível</string>
     <string name="titulo_alerta_equipe_vazia">Equipe sem plantel</string>
     <string name="titulo_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="titulo_alerta_confir_excluir_equipe">Excluindo Equipe</string>
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
+    <string name="msg_alerta_impedir_adicao_nova_equipe">Não é possível adicionar novas equipe.
+    \nTorenio fechado ou limite de equipes alcançado.</string>
     <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
-    <string name="msg_alerta_erro_excluir_equipe">Torneio fechado.\nA equipe não pode ser excluída!</string>
+    <string name="msg_alerta_erro_excluir_equipe">A equipe não pode ser excluída!</string>
+    <string name="msg_alerta_erro_sigla_usada">A sigla usada pertence a outra equipe.</string>
     <string name="msg_alerta_warning_sigla">
         A sigla é gerada automaticamente, mas você pode inseri-la manualmente, desde que não seja
         muito curta e diferente das siglas de outras equipes.
@@ -180,6 +187,7 @@
     <string name="dados_erro_inconsistencia">Erro grave. Dados com inconsistência!</string>
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmentro entre activities!</string>
+    <string name="erro_grave_padrao">Erro grave de sistema.\nEncerrando...</string>
     <string name="erro_palavra_padrao">X</string>
     <string name="erro_atualizar_jogador_em_partida">Informações inválidas do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>

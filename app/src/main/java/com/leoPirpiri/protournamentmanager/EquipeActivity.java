@@ -144,7 +144,7 @@ public class EquipeActivity extends AppCompatActivity {
 
         EditText etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
         EditText etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
-        Button btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_equipe);
+        Button btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_nova_equipe);
         btn_confirma_equipe.setEnabled(true);
         btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
         btn_confirma_equipe.setText(R.string.btn_editar);

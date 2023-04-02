@@ -133,6 +133,5 @@ public class Olimpia implements Serializable {
     public static void printteste(Context ctx, String msg){
         Toast.makeText(ctx, msg,
             Toast.LENGTH_SHORT).show();
-        System.out.println(msg);
     }
 }

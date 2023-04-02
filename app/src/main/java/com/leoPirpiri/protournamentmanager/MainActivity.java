@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
         alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.show();
     }
+
     public void esconderAlerta(){
         alertaDialog.dismiss();
     }

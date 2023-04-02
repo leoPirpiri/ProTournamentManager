@@ -33,8 +33,7 @@ public class Torneio extends EntConcreta {
     public Torneio(int id, String nome, String organizadorId) {
         super(id, nome);
         this.gerenciadores.add(organizadorId);
-        this.uuid = organizadorId+String.valueOf(id);
-        this();
+        this.uuid = organizadorId+id;
     }
 
     public String getUuid() {
@@ -69,8 +68,12 @@ public class Torneio extends EntConcreta {
         return !buscarDonoDoTorneio().equals(usuarioId) && gerenciadores.contains(usuarioId);
     }
 
-    public void adicionarMesario(String usuarioId){
-        gerenciadores.add(usuarioId);
+    public boolean adicionarMesario(String usuarioId){
+        if (gerenciadores.size()<MAX_GERENCIADORES){
+            gerenciadores.add(usuarioId);
+            return true;
+        }
+        return false;
     }
 
     public boolean removerMesario(int posicao){
@@ -85,16 +88,16 @@ public class Torneio extends EntConcreta {
         return sede;
     }
 
-    public boolean estaFechado() {
+    public boolean estarFechado() {
         return tabela != null && tabela.getRaiz() != null;
     }
 
     public int pegarStatus() {
-        return (estaFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
+        return (estarFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
     }
 
     public Equipe getCampeao() {
-        if(this.campeao == null && estaFechado()){
+        if(this.campeao == null && estarFechado()){
             int raiz = tabela.getRaiz().getCampeaoId();
             if (raiz!=0){
                 campeao = getEquipe(raiz);
@@ -121,17 +124,22 @@ public class Torneio extends EntConcreta {
         }
         tabela.gerarTabela(new ArrayList<>(equipes), new ArrayList<>(Arrays.asList(partida_nomes)));
         //tabela.testarArvore(tabela.getRaiz());
-        return estaFechado();
+        return estarFechado();
     }
 
     public boolean atoJogador(int idJogador){
-        return  estaFechado() && tabela.verificarExclusaoSegura(idJogador);
+        return  estarFechado() && tabela.verificarExclusaoSegura(idJogador);
     }
 
-    public void addEquipe(Equipe equipe) {
-        if(!estaFechado() && equipes.size()<MAX_EQUIPE && siglaUsada(equipe.getSigla())){
-            this.equipes.add(equipe);
+    public boolean addEquipe(Equipe equipe) {
+        if(!estarFechado() && !estarCheio() && siglaUsada(equipe.getSigla())){
+            return this.equipes.add(equipe);
         }
+        return false;
+    }
+
+    public boolean estarCheio(){
+        return equipes.size()==MAX_EQUIPE;
     }
 
     public boolean siglaUsada(String s){
@@ -139,7 +147,7 @@ public class Torneio extends EntConcreta {
     }
 
     public Equipe delEquipe(int pos){
-        if(!estaFechado()) {
+        if(!estarFechado()) {
             return equipes.remove(pos);
         }else return null;
     }
@@ -172,7 +180,7 @@ public class Torneio extends EntConcreta {
         return super.toString() +
                " Quantidade de times: " + equipes.size() +
                " Organizador: " + buscarDonoDoTorneio()  +
-               " Estado: "+ (estaFechado() ? (campeao == null ? "Fechado e Não finalizado" :
+               " Estado: "+ (estarFechado() ? (campeao == null ? "Fechado e Não finalizado" :
                                     "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
     }
 

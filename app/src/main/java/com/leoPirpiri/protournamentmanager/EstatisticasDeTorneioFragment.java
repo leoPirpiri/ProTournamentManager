@@ -16,14 +16,19 @@ import model.Torneio;
 
 public class EstatisticasDeTorneioFragment extends Fragment {
 
-    private Context context;
+    private TorneioActivity superActivity;
     private Torneio torneio;
 
     public EstatisticasDeTorneioFragment() {/*Required empty public constructor*/}
 
-    public EstatisticasDeTorneioFragment(Context context, Torneio torneio) {
-        this.context = context;
+    public EstatisticasDeTorneioFragment(Torneio torneio) {
         this.torneio = torneio;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.superActivity = (TorneioActivity) context;
     }
 
     @Override
