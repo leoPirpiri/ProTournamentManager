@@ -41,10 +41,9 @@ public class MainActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
 
         setContentView(R.layout.activity_principal);
-
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
 
-//Listeners
+        //Listeners
         btn_logout_padrao.setOnClickListener(v -> efetuarLogout());
     }
 
@@ -80,11 +79,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void metodoRaiz(){
-        //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(this);
         santuarioOlimpia.atualizar(false);
-        //CarrierSemiActivity.salvarSantuarioRemoto();
-        //CarrierSemiActivity.carregarSantuarioRemoto();
     }
 
     private void setTabLayout() {
@@ -106,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public Torneio criarNovoTorneio(String nomeNovoTorneio) {
-        int idNovoTorneioLocal = santuarioOlimpia.getNovoTorneioId();
+        int idNovoTorneioLocal = santuarioOlimpia.getNovoTorneioId(nowUser.getUid());
         if (idNovoTorneioLocal != 0){
             Torneio novoTorneio = new Torneio(idNovoTorneioLocal, nomeNovoTorneio, nowUser.getUid());
             if (santuarioOlimpia.addTorneioGerenciado(novoTorneio) != -1){
@@ -136,11 +132,11 @@ public class MainActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    public void abrirTorneio(int torneioId){
+    public void abrirTorneio(String torneioUuid){
         Intent intent = new Intent(this, TorneioActivity.class);
         Bundle dados = new Bundle();
         //Passa alguns dados para a próxima activity
-        dados.putInt("torneio", torneioId);
+        dados.putString("torneio", torneioUuid);
         intent.putExtras(dados);
         startActivity(intent);
     }
@@ -158,22 +154,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
-/*
-    private void buscarUsuario(){
-        if (nowUser!=null){
-            FirebaseFirestore.getInstance().collection("usuarios")
-                    .document(nowUser.getUid())
-                    .get().addOnSuccessListener(document -> {
-                        if (document.exists()) {
-                            usuario = document.toObject(Usuario.class);
-                            System.out.println("\nuser Control: \n"+ usuario.toString());
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    });
-        }
-    }*/
 
     public String getUsuarioLogado(){
         return nowUser.getUid();

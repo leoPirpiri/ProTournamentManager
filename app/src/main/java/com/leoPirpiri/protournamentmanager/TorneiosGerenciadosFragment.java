@@ -137,7 +137,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     private void construirListenersAdapterTorneio() {
         adapterTorneio.setOnClickListener(v -> abrirTorneioGerenciado(
                 listaTorneiosGerenciados.get(
-                        recyclerViewTorneiosGerenciados.getChildAdapterPosition(v)).getId()));
+                        recyclerViewTorneiosGerenciados.getChildAdapterPosition(v)).buscarUuid()));
 
         adapterTorneio.setOnLongClickListener(v -> {
             montarAlertaExcluirTorneio(recyclerViewTorneiosGerenciados.getChildAdapterPosition(v));
@@ -186,13 +186,13 @@ public class TorneiosGerenciadosFragment extends Fragment {
         if (novoTorneio!=null){
             desabilitarBtnNovoTorneio();
             etx_nome_novo_torneio.setText("");
-            superActivity.abrirTorneio(novoTorneio.getId());
+            superActivity.abrirTorneio(novoTorneio.buscarUuid());
         } else {
             etx_nome_novo_torneio.setError(getString(R.string.erro_numero_max_torneios));
         }
     }
 
-    private void abrirTorneioGerenciado(int torneioId){
+    private void abrirTorneioGerenciado(String torneioId){
         superActivity.abrirTorneio(torneioId);
     }
 

@@ -3,6 +3,7 @@ package com.leoPirpiri.protournamentmanager;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -29,7 +30,7 @@ import model.Score;
 import model.Torneio;
 
 public class TabelaActivity extends AppCompatActivity {
-    private int torneioIndice;
+    private String torneioIndice;
     private Olimpia santuarioOlimpia;
     private MediaPlayer efeitos_sonoros;
     private Torneio torneio;
@@ -46,7 +47,6 @@ public class TabelaActivity extends AppCompatActivity {
     private PartidasAdapter partidasAdapterD;
     private AlertDialog alertaDialog;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,23 +64,17 @@ public class TabelaActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if (dados!=null) {
-            torneioIndice = dados.getInt("torneio");
+            torneioIndice = dados.getString("torneio");
             efeitos_sonoros = MediaPlayer.create(TabelaActivity.this, R.raw.tema_tabela);
             play_efeito_sonoro();
         }
 
-        ltv_oitavas_esquerda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAbrirPartida(partidasAdapterE.getItem(position));
-            }
+        ltv_oitavas_esquerda.setOnItemClickListener((parent, view, position, id) -> {
+            montarAlertaAbrirPartida(partidasAdapterE.getItem(position));
         });
 
-        ltv_oitavas_direita.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                montarAlertaAbrirPartida(partidasAdapterD.getItem(position));
-            }
+        ltv_oitavas_direita.setOnItemClickListener((parent, view, position, id) -> {
+            montarAlertaAbrirPartida(partidasAdapterD.getItem(position));
         });
     }
 
@@ -134,19 +128,12 @@ public class TabelaActivity extends AppCompatActivity {
         textoNegrito.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), nomeMandante.length(), textoNegrito.length() - nomeVisitante.length(), 0);
         msg.setText(textoNegrito);
 
-        btn_confirmar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                alertaDialog.dismiss();
-                abrirPartida(partida.getId());
-            }
+        btn_confirmar.setOnClickListener(arg0 -> {
+            alertaDialog.dismiss();
+            abrirPartida(partida.getId());
         });
 
-        btn_cancelar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                //desfaz o alerta.
-                alertaDialog.dismiss();
-            }
-        });
+        btn_cancelar.setOnClickListener(arg0 -> alertaDialog.dismiss());
 
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_confir_abrir_partida);
@@ -159,7 +146,7 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.show();
     }
 
@@ -258,7 +245,7 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void abrirPartida(int idPartida){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", torneioIndice+idPartida);
+        intent.putExtra("partida", torneio.buscarUuid()+(torneio.getId()+idPartida));
         startActivity(intent);
     }
 

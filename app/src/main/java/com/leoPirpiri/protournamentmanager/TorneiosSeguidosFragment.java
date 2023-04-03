@@ -157,7 +157,7 @@ public class TorneiosSeguidosFragment extends Fragment {
     private void construirListenersAdapterTorneio() {
         adapterTorneioSeguidos.setOnClickListener(v -> abrirTorneioSeguido(
                 listaTorneiosSeguidos.get(
-                        recyclerViewTorneiosSeguidos.getChildAdapterPosition(v)).getId()));
+                        recyclerViewTorneiosSeguidos.getChildAdapterPosition(v)).buscarUuid()));
 
         adapterTorneioSeguidos.setOnLongClickListener(v -> {
             montarAlertaExcluirTorneio(recyclerViewTorneiosSeguidos.getChildAdapterPosition(v));
@@ -189,7 +189,7 @@ public class TorneiosSeguidosFragment extends Fragment {
         superActivity.mostrarAlerta(builder);
     }
 
-    private void abrirTorneioSeguido(int torneioId){
+    private void abrirTorneioSeguido(String torneioId){
         superActivity.abrirTorneio(torneioId);
     }
 

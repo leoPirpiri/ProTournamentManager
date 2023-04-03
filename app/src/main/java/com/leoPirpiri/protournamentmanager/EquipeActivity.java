@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -27,7 +28,7 @@ import model.Torneio;
 public class EquipeActivity extends AppCompatActivity {
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
-    private int equipeIndice;
+    private String equipeIndice;
     private Equipe equipe;
     private Torneio torneio;
     //private JogadoresAdapter jogadoresAdapter;
@@ -65,11 +66,8 @@ public class EquipeActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if (dados!=null) {
-            equipeIndice = dados.getInt("equipe");
-            metodoRaiz();
+            equipeIndice = dados.getString("equipe");
         }
-
-        setTabLayout();
 
         /*ltv_jogadores_equipe.setOnItemClickListener((parent, view, position, id) -> {
             montarAlertaNovoEditarJogador(equipe.getJogadores().get(position));
@@ -95,13 +93,14 @@ public class EquipeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         metodoRaiz();
+        setTabLayout();
     }
 
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         atualizar=false;
-        torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairIdEntidadeSuperiorLv0(equipeIndice));
-        equipe = torneio.getEquipe(equipeIndice);
+        torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(equipeIndice));
+        equipe = torneio.getEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
         /*if(equipe != null) {
             atualizarNomesEquipes();
             jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
@@ -146,7 +145,7 @@ public class EquipeActivity extends AppCompatActivity {
         EditText etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
         Button btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_nova_equipe);
         btn_confirma_equipe.setEnabled(true);
-        btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        btn_confirma_equipe.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
         btn_confirma_equipe.setText(R.string.btn_editar);
 
         etx_nome_equipe.setText(equipe.getNome());
@@ -374,7 +373,7 @@ public class EquipeActivity extends AppCompatActivity {
 
     private void mostrarAlerta(AlertDialog.Builder builder, int background) {
         alertaDialog = builder.create();
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }

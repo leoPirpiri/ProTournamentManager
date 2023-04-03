@@ -66,14 +66,11 @@ public class EquipesDeTorneioFragment extends Fragment {
         FloatingActionButton btn_add_equipe = v.findViewById(R.id.btn_nova_equipe);
         listarTimes();
         //Listeners
-        btn_add_equipe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(superActivity.estadoDoTorneio() != Torneio.STATUS_ABERTO || listaEquipes.size() == Torneio.MAX_EQUIPE){
-                    montarAlertaEquipeAdicaoNaoPermitida();
-                } else {
-                    montarAlertaNovaEquipe();
-                }
+        btn_add_equipe.setOnClickListener(view -> {
+            if(superActivity.estadoDoTorneio() != Torneio.STATUS_ABERTO || listaEquipes.size() == Torneio.MAX_EQUIPE){
+                montarAlertaEquipeAdicaoNaoPermitida();
+            } else {
+                montarAlertaNovaEquipe();
             }
         });
         return v;
@@ -95,7 +92,13 @@ public class EquipesDeTorneioFragment extends Fragment {
     }
 
     private void construirListenersAdapterEquipe() {
-        adapterEquipe.setOnClickListener(v -> abrirEquipe(listaEquipes.get(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)).getId()));
+        adapterEquipe.setOnClickListener(v -> {
+            superActivity.abrirEquipe(
+                listaEquipes.get(
+                    recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)
+                ).getId()
+            );
+        });
 
         adapterEquipe.setOnLongClickListener(v -> {
             Olimpia.printteste(superActivity, "Clicou no Longo");
@@ -118,27 +121,21 @@ public class EquipesDeTorneioFragment extends Fragment {
         etx_nome_equipe.requestFocus();
 
         //Listeners possíveis do alerta
-        view.findViewById(R.id.btn_confirmar_nova_equipe).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                String nome = etx_nome_equipe.getText().toString().trim();
-                String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
-                if (nome.isEmpty()){
-                    etx_nome_equipe.setError(getString(R.string.erro_campo_texto_vazio));
-                } else if (sigla.isEmpty()) {
-                    etx_sigla_equipe.setError(getString(R.string.erro_campo_texto_vazio));
-                } else if (superActivity.adicionarEquipe(nome, sigla)){
-                    Toast.makeText(superActivity, R.string.sucesso_adicionar_equipe, Toast.LENGTH_SHORT).show();
-                    superActivity.esconderAlerta();
-                    listarTimes();
-                }
+        view.findViewById(R.id.btn_confirmar_nova_equipe).setOnClickListener(arg0 -> {
+            String nome = etx_nome_equipe.getText().toString().trim();
+            String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
+            if (nome.isEmpty()){
+                etx_nome_equipe.setError(getString(R.string.erro_campo_texto_vazio));
+            } else if (sigla.isEmpty()) {
+                etx_sigla_equipe.setError(getString(R.string.erro_campo_texto_vazio));
+            } else if (superActivity.adicionarEquipe(nome, sigla)){
+                Toast.makeText(superActivity, R.string.sucesso_adicionar_equipe, Toast.LENGTH_SHORT).show();
+                superActivity.esconderAlerta();
+                listarTimes();
             }
         });
 
-        view.findViewById(R.id.btn_cancelar_equipe).setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                superActivity.esconderAlerta();
-            }
-        });
+        view.findViewById(R.id.btn_cancelar_equipe).setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
         etx_nome_equipe.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus && !etx_sigla_equipe.isFocused()) {
@@ -246,15 +243,6 @@ public class EquipesDeTorneioFragment extends Fragment {
             }
         }
         return sigla.toUpperCase();
-    }
-
-    private void abrirEquipe(int idEquipe) {
-        Intent intent = new Intent(superActivity, EquipeActivity.class);
-        Bundle dados = new Bundle();
-        //Passa alguns dados para a próxima activity
-        dados.putInt("equipe", idEquipe);
-        intent.putExtras(dados);
-        startActivity(intent);
     }
 
     private void excluirEquipe(int position) {

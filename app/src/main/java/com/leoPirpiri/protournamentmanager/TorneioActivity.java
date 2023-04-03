@@ -28,7 +28,7 @@ import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
-    private int torneioIndice;
+    private String torneioIndice;
 
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
@@ -49,7 +49,7 @@ public class TorneioActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
         if (dados!=null) {
-            torneioIndice = dados.getInt("torneio");
+            torneioIndice = dados.getString("torneio");
         } else {
             finish();
         }
@@ -258,13 +258,23 @@ public class TorneioActivity extends AppCompatActivity {
 //        }
 //    }
 
-    private void abrirTabela() {
-        Intent intent = new Intent(getApplicationContext(), TabelaActivity.class);
+    public void abrirEquipe(int idEquipe){
         Bundle dados = new Bundle();
-        //Passa alguns dados para a próxima activity
-        dados.putInt("torneio", torneioIndice);
+        dados.putString("equipe", torneio.buscarDonoDoTorneio() + idEquipe);
+        abrirTela(dados, EquipeActivity.class);
+    }
+
+    private void abrirTabela() {
+        Bundle dados = new Bundle();
+        dados.putString("torneio", torneio.buscarUuid());
+        abrirTela(dados, TabelaActivity.class);
+    }
+
+    private void abrirTela(Bundle dados, Class<?> classe){
+        Intent intent = new Intent(getApplicationContext(), classe);
         intent.putExtras(dados);
         startActivity(intent);
+
     }
 
     public void esconderTeclado(View editText) {

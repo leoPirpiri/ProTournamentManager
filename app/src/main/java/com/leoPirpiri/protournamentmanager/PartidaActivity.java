@@ -48,7 +48,7 @@ public class PartidaActivity extends AppCompatActivity {
     private boolean relogio_parado;
     private boolean atualizar = false;
     private long deslocamento;
-    private int partidaIndice;
+    private int idPartida;
     private ArrayList<String> nomes_jogadores = new ArrayList<>();
 
     private Olimpia santuarioOlimpia;
@@ -85,6 +85,7 @@ public class PartidaActivity extends AppCompatActivity {
     private Drawable ic_del_desabled;
     private Drawable ic_gol_desabled;
     private Drawable ic_cartao_desabled;
+    private String partidaIndice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,9 @@ public class PartidaActivity extends AppCompatActivity {
         ic_del_desabled = getDrawable(R.drawable.acao_del_default_desabled);
 
         Intent intent = getIntent();
-        partidaIndice = intent.getIntExtra("partida", -1);
+        partidaIndice = intent.getStringExtra("partida");
+
+        idPartida = partidaIndice == null ? -1 : Olimpia.extrairIdInteiroDeIndices(partidaIndice);
         if(isSimulacao()){
             txv_partida_nome_mandante.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.ic_menu_myplaces, 0);
             txv_partida_nome_visitante.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.ic_menu_myplaces, 0);
@@ -200,7 +203,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private boolean isSimulacao() {
-        return partidaIndice==-1;
+        return idPartida == -1;
     }
 
     private boolean isEquipeVazia() {
@@ -233,8 +236,8 @@ public class PartidaActivity extends AppCompatActivity {
                 partida = torneio.getTabela().getRaiz();
             }
         } else {
-            torneio = santuarioOlimpia.getTorneioGerenciado(santuarioOlimpia.extrairIdEntidadeSuperiorLv0(partidaIndice));
-            partida = torneio.getTabela().buscarPartida(partidaIndice-torneio.getId());
+            torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
+            partida = torneio.getTabela().buscarPartida(idPartida - torneio.getId());
         }
         mandante = torneio.getEquipe(partida.getMandante().getCampeaoId());
         visitante = torneio.getEquipe(partida.getVisitante().getCampeaoId());
@@ -623,7 +626,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         btn_acerto.setOnClickListener(arg0 -> {
-            score_parcial.add(new Score(partidaIndice, cobrador.getId(), Score.TIPO_PONTO_DESEMPATE));
+            score_parcial.add(new Score(idPartida, cobrador.getId(), Score.TIPO_PONTO_DESEMPATE));
             aplicarPontoDesempate(score_parcial,
                     score_parcial_mandante,
                     score_parcial_visitante,
@@ -884,56 +887,56 @@ public class PartidaActivity extends AppCompatActivity {
         btn_add_gol_pro.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+            adicionarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_PONTO));
             alertaDialog.dismiss();
         });
 
         btn_add_gol_contra.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AUTO_PONTO));
+            adicionarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_AUTO_PONTO));
             alertaDialog.dismiss();
         });
 
         btn_add_falta.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_falta);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+            adicionarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
             alertaDialog.dismiss();
         });
 
         btn_add_vermelho.setOnClickListener(arg0 -> {
-            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_VERMELHO));
+            adicionarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_VERMELHO));
             alertaDialog.dismiss();
         });
 
         btn_add_amarelo.setOnClickListener(arg0 -> {
-            adicionarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AMARELO));
+            adicionarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_AMARELO));
             alertaDialog.dismiss();
         });
 
         btn_del_gol_pro.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_PONTO));
+            apagarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_PONTO));
             alertaDialog.dismiss();
         });
 
         btn_del_gol_contra.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AUTO_PONTO));
+            apagarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_AUTO_PONTO));
             alertaDialog.dismiss();
         });
 
         btn_del_falta.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+            apagarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
             alertaDialog.dismiss();
         });
 
         btn_del_vermelho.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_VERMELHO));
+            apagarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_VERMELHO));
             alertaDialog.dismiss();
         });
 
         btn_del_amarelo.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partidaIndice, j.getId(), Score.TIPO_AMARELO));
+            apagarAcaoJogador(isMandante, new Score(idPartida, j.getId(), Score.TIPO_AMARELO));
             alertaDialog.dismiss();
         });
 

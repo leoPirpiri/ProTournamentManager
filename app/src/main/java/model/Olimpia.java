@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Olimpia implements Serializable {
     public static final String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
     public static final int TORNEIO_MAX = 8;
+    public static final int IDLENGTH = 5;
     public static final String TAG = "Nuvem";
 
     private ArrayList<Torneio> torneiosGerenciados;
@@ -32,7 +33,7 @@ public class Olimpia implements Serializable {
     }
 
     public int addTorneioGerenciado(Torneio torneio){
-        if(getOcupacao() < TORNEIO_MAX){
+        if(getOcupacao(torneio.buscarUuid()) < TORNEIO_MAX){
             torneiosGerenciados.add(torneio);
             return torneio.getId();
         } else {
@@ -42,9 +43,9 @@ public class Olimpia implements Serializable {
 
     public Torneio delTorneioGerenciado(int pos){ return torneiosGerenciados.remove(pos); }
 
-    public Torneio getTorneioGerenciado(int idTorneio){
+    public Torneio getTorneioGerenciado(String idTorneio){
         for (Torneio t : torneiosGerenciados) {
-            if (t.getId() == idTorneio){
+            if (t.buscarUuid().equals(idTorneio)){
                 return t;
             }
         }
@@ -59,14 +60,16 @@ public class Olimpia implements Serializable {
         return torneiosSeguidos;
     }
 
-    public int getOcupacao(){
-        return this.torneiosGerenciados.size();
+    private int getOcupacao(String userID){
+        return (int) this.torneiosGerenciados.stream().filter(t -> t.buscarDonoDoTorneio().equals(userID)).count();
     }
 
-    public int getNovoTorneioId(){
+    public int getNovoTorneioId(String userId){
         ArrayList<Integer> index = new ArrayList<>();
         for (Torneio t: torneiosGerenciados) {
-            index.add(t.pegarIdNivel0());
+            if(t.buscarDonoDoTorneio().equals(userId)){
+                index.add(t.pegarIdNivel0());
+            }
         }
         int i = index.size()+1;
         do {
@@ -93,6 +96,14 @@ public class Olimpia implements Serializable {
 
     public void setTorneiosSeguidos(ArrayList<Torneio> torneiosSeguidos) {
         this.torneiosSeguidos = torneiosSeguidos;
+    }
+    public static String extrairUuidTorneioDeIndices(String id){
+        return id.substring(0, id.length()-IDLENGTH) +
+                extrairIdEntidadeSuperiorLv0(Integer.parseInt(id.substring(id.length()-IDLENGTH)));
+    }
+
+    public static int extrairIdInteiroDeIndices(String id){
+        return Integer.parseInt(id.substring(id.length()-IDLENGTH));
     }
 
     //retorna o id completo de uma entidade de nível 0
