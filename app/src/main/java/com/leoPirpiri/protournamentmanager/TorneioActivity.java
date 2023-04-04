@@ -34,6 +34,7 @@ public class TorneioActivity extends AppCompatActivity {
     private Olimpia santuarioOlimpia;
     private Torneio torneio;
     private TextView txv_estado_torneio;
+    private Button btn_gerar_tabela;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class TorneioActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
-        Button btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
+        btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
 
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
@@ -53,7 +54,6 @@ public class TorneioActivity extends AppCompatActivity {
         } else {
             finish();
         }
-
 
         btn_gerar_tabela.setOnClickListener(v -> {
             if(torneio.estarFechado()){
@@ -65,31 +65,6 @@ public class TorneioActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-//        btn_add_equipe = findViewById(R.id.btn_nova_equipe);
-//        txv_equipes_salvas = findViewById(R.id.txv_equipes_salvas);
-//        ltv_equipes_torneio = findViewById(R.id.list_equipes);
-//
-//
-//        ltv_equipes_torneio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                abrirEquipe(torneio.getTimes().get(position).getId());
-//                //montarAlertaAbrirEquipe(torneio.getTimes().get(position).getId());
-//            }
-//        });
-//
-//        ltv_equipes_torneio.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(torneio.isFechado()){
-//                    CarrierSemiActivity.exemplo(TorneioActivity.this, getString(R.string.msg_alerta_erro_excluir_equipe));
-//                } else {
-//                    montarAlertaExcluirEquipe(position);
-//                }
-//                return true;
-//            }
-//        });
     }
 
     @Override
@@ -119,9 +94,7 @@ public class TorneioActivity extends AppCompatActivity {
         if(torneio != null){
             setTitle(torneio.getNome());
             txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
-            //equipesAdapter = new EquipesAdapter(TorneioActivity.this, torneio.getTimes());
-            //ltv_equipes_torneio.setAdapter(equipesAdapter);
-            //listarTimes();
+            atualizarBotaoTabela();
         } else {
             Toast.makeText(TorneioActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
             finish();
@@ -230,34 +203,6 @@ public class TorneioActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-//    private void listarTimes(){
-//        if (torneio.getTimes().isEmpty()) {
-//            ativarAddBtnNovaEquipe();
-//            txv_equipes_salvas.setText(R.string.torneio_sem_equipes);
-//        } else {
-//            if(torneio.getTimes().size()<torneio.MAX_EQUIPE && !torneio.isFechado()){
-//                ativarAddBtnNovaEquipe();
-//            } else {
-//                desativarAddBtnNovaEquipe();
-//            }
-//            if(torneio.getTimes().size() < torneio.MIN_EQUIPE) {
-//                btn_gerar_tabela.setEnabled(false);
-//                btn_gerar_tabela.setBackground(getDrawable(R.drawable.button_shape_desabled));
-//                btn_gerar_tabela.setText(R.string.lbl_btn_tabela_desabled);
-//            } else {
-//                if(torneio.isFechado()) {
-//                    btn_gerar_tabela.setText(R.string.lbl_btn_tabela_visualizar);
-//                } else {
-//                    btn_gerar_tabela.setText(R.string.lbl_btn_tabela_fechar);
-//                }
-//                btn_gerar_tabela.setEnabled(true);
-//                btn_gerar_tabela.setBackground(getDrawable(R.drawable.button_shape_enabled));
-//            }
-//            txv_equipes_salvas.setText(R.string.torneio_com_equipes);
-//            equipesAdapter.notifyDataSetChanged();
-//        }
-//    }
-
     public void abrirEquipe(int idEquipe){
         Bundle dados = new Bundle();
         dados.putString("equipe", torneio.buscarDonoDoTorneio() + idEquipe);
@@ -274,7 +219,6 @@ public class TorneioActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), classe);
         intent.putExtras(dados);
         startActivity(intent);
-
     }
 
     public void esconderTeclado(View editText) {
@@ -308,7 +252,29 @@ public class TorneioActivity extends AppCompatActivity {
         return false;
     }
 
+    public boolean excluirEquipe() {
+        atualizarBotaoTabela();
+        return false;
+    }
+
+    private void atualizarBotaoTabela(){
+        if(torneio.getEquipes().size() < Torneio.MIN_EQUIPE) {
+            btn_gerar_tabela.setEnabled(false);
+            btn_gerar_tabela.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_desabled));
+            btn_gerar_tabela.setText(R.string.lbl_btn_tabela_desabled);
+        } else {
+            if(torneio.estarFechado()) {
+                btn_gerar_tabela.setText(R.string.lbl_btn_tabela_visualizar);
+            } else {
+                btn_gerar_tabela.setText(R.string.lbl_btn_tabela_fechar);
+            }
+            btn_gerar_tabela.setEnabled(true);
+            btn_gerar_tabela.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
+        }
+    }
+
     private void atualizouTorneio(){
+        atualizarBotaoTabela();
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         persistirDados();
     }

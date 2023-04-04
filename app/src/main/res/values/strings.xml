@@ -51,7 +51,7 @@
 
     <!-- Mensagens envolvendo Equipes -->
     <string name="sucesso_adicionar_equipe">Equipe adicionada com sucesso!</string>
-    <string name="erro_adicionar_equipe">Não foi possível adicinar equipe!</string>
+    <string name="erro_adicionar_equipe">Não foi possível adicionar equipe!</string>
     <string name="equipe_sigla_partida_aberta"> </string>
     <string name="equipe_ponto_partida_aberta">-</string>
     <string name="equipe_exemplo_mandante">Equipe Azul</string>
@@ -67,14 +67,14 @@
     <string name="titulo_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="titulo_alerta_confir_excluir_equipe">Excluindo Equipe</string>
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
-    <string name="msg_alerta_impedir_adicao_nova_equipe">Não é possível adicionar novas equipe.
-    \nTorenio fechado ou limite de equipes alcançado.</string>
+    <string name="msg_alerta_impedir_adicao_nova_equipe">Não é possível adicionar novas equipes.
+    \nTorneio fechado ou limite de equipes alcançado.</string>
     <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
     <string name="msg_alerta_erro_excluir_equipe">A equipe não pode ser excluída!</string>
     <string name="msg_alerta_erro_sigla_usada">A sigla usada pertence a outra equipe.</string>
     <string name="msg_alerta_warning_sigla">
-        A sigla é gerada automaticamente, mas você pode inseri-la manualmente, desde que não seja
-        muito curta e diferente das siglas de outras equipes.
+        A sigla é gerada automaticamente, mas você pode inserí-la manualmente, desde que não seja
+        curta ou igual a sigla das outras equipes.
     </string>
     <string name="equipe_com_jogador">Jogadores inscritos:</string>
     <string name="equipe_sem_jogador">Adicione novos usando o botão abaixo.</string>
@@ -85,7 +85,7 @@
     <string name="lbl_posicao">Posição</string>
     <string name="lbl_numero">Número</string>
     <string name="lbl_nome_jogador">Nome</string>
-    <string name="dica_nome_jogador">ex: Almir Rogério</string>
+    <string name="dica_nome_jogador">Ex: Almir Rogério</string>
     <string name="titulo_alerta_novo_jogador">Contratar jogador</string>
     <string name="titulo_alerta_confir_abrir_jogador">Editar jogador</string>
     <string name="titulo_alerta_confir_excluir_jogador">Dispensar jogador</string>
@@ -102,7 +102,7 @@
         <item>GLK - Goleiro</item>
         <item>DEF - Defensor</item>
         <item>MID - Meio</item>
-        <item>PIV - Pivot</item>
+        <item>PIV - Pivô</item>
         <item>ATK - Atacante</item>
         <item>LIB - Líbero</item>
         <item>LEV - Levantador</item>
@@ -157,12 +157,12 @@
     <string name="lbl_msg_finalizar_pelada">Deseja finalizar a pelada </string>
     <string name="lbl_msg_partida_empatada">A partida terminou empatada! </string>
     <string name="lbl_msg_partida_equipe_vazia_pelada">
-        O arbitro só iniciará a pelada quando ambas as equipes estiverem prontas e uma das equipes não possue jogadores em seu plantel.\n
+        O árbitro só iniciará a pelada quando ambas as equipes estiverem prontas e uma das equipes não possui jogadores em seu plantel.\n
         Deseja adicionar nomes de jogadores para que sejam distribuídos aleatoriamente entre as equipes, como um sorteio?\n
         \nCaso contrário o sistema contratará jogadores padrões.
     </string>
     <string name="lbl_msg_partida_equipe_vazia_partida">
-        O arbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefiní-la
+        O árbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefini-la
         através da tela de Edição de Equipe.
     </string>
     <string name="lbl_msg_partida_sorteio_jogadores">
@@ -175,7 +175,7 @@
     <string name="msg_alerta_saldar_campeao">Parabéns por vencer a partida!</string>
 
     <!-- Mensagens de sucesso para o usuário -->
-    <string name="dados_salvando">Granvando dados…</string>
+    <string name="dados_salvando">Gravando dados…</string>
     <string name="dados_salvo">Dados gravados com sucesso!</string>
     <string name="encerrar_partida">Finalizar Partida</string>
     <string name="encerrar_pelada">Finalizar Pelada</string>
@@ -186,17 +186,17 @@
     <string name="dados_erro_gravar_santuario">Erro ao tentar gravar as informações!</string>
     <string name="dados_erro_inconsistencia">Erro grave. Dados com inconsistência!</string>
     <string name="dados_erro_transitar_em_activity">Erro fatal!
-                                \nPassagem de parâmentro entre activities!</string>
-    <string name="erro_grave_padrao">Erro grave de sistema.\nEncerrando...</string>
+                                \nPassagem de parâmetro entre telas!</string>
+    <string name="erro_grave_padrao">Erro grave de sistema.\nEncerrando…</string>
     <string name="erro_palavra_padrao">X</string>
     <string name="erro_atualizar_jogador_em_partida">Informações inválidas do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
-    <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar esses parâmetro da equipe!</string>
+    <string name="erro_atualizar_informacoes_equipe">Não foi possível atualizar os dados da equipe!</string>
     <string name="erro_campo_texto_vazio">Este campo é obrigatório!</string>
-    <string name="erro_campo_email_invalido">Verifique o email informado!</string>
+    <string name="erro_campo_email_invalido">Verifique o e-mail informado!</string>
     <string name="titulo_alerta_erro_cadastro">Erro ao cadastrar usuário</string>
     <string name="erro_cadastrar_usuario_grave">Erro grave de comunicação com o banco de dados.</string>
-    <string name="erro_cadastrar_usuario_duplicado">Esse usário já existe.</string>
+    <string name="erro_cadastrar_usuario_duplicado">Esse usuário já existe.</string>
     <string name="msg_sucesso_cadastrar_usuario">Cadastro realizado com sucesso.\nBem-vindo, </string>
 
     <string name="dica_info_login">
@@ -209,20 +209,20 @@
     <string name="dica_ou">ou</string>
     <string name="titulo_login">Acesso ao modo online</string>
     <string name="erro_login_padrao_auth">Falha em autenticar o usuário.</string>
-    <string name="erro_login_google_auth">Falha em autenticar com usuário google do dispositivo.</string>
+    <string name="erro_login_google_auth">Falha em autenticar com usuário Google do dispositivo.</string>
     <string name="erro_login_incorreto">Usuário ou senha inválidos</string>
     <string name="btn_logout">SAIR</string>
-    <string name="titulo_cadastro">Casdastro para o modo online</string>
+    <string name="titulo_cadastro">Cadastro para o modo online</string>
     <string name="dica_apelidio">Usuário</string>
     <string name="dica_sede_padrao">Cidade sede dos torneios</string>
     <string name="btn_cadastrar">CADASTRAR</string>
     <string name="dica_info_cadastro">
-        Para ter acesso ao modo online, cadatre-se preenchendo os campos abaixo.\n
+        Para ter acesso ao modo online, cadastre-se preenchendo os campos abaixo.\n
         O nome do usuário deve ser único.\n
-        Para conta google apenas o nome do usuário é necessário.\n
+        Para conta Google apenas o nome do usuário é necessário.\n
         Mantenha a localização do dispositivo ligada.
     </string>
-    <string name="dica_cadastro">Ainda não possui usário?</string>
+    <string name="dica_cadastro">Ainda não possui usuário?</string>
     <string name="btn_novo_usuario">Clique aqui.</string>
 
     <string-array name="tab_bar_tela_principal_nomes">
@@ -249,25 +249,25 @@
     <string name="informacoes_tela_principal">
         * Existe um limite de torneios que podem ser gerenciados ou seguidos.\n\n
         * Você pode ser assinalado como mesário para um número indefinido de torneios.\n\n
-        * Para excluir um torneio, precione e segure em seu nome.\n\n
-        * Para selecionar um torneio apenas precione em seu nome.
+        * Para excluir um torneio, pressione e segure em seu nome.\n\n
+        * Para selecionar um torneio apenas pressione em seu nome.
     </string>
     <string name="informacoes_tela_torneio">
         * Um torneio precisa de um número mínimo de equipes para ser fechado.\n\n
-        * Uma vez fechado, não será permitido a adição de novas equipes, mas ainda se pode editá-las.\n\n
-        * Equipes podem ter o mesmo nome, mas nunca as mesmas siglas\n\n
-        * Para excluir uma equipe, precione e segure em seu nome.\n\n
-        * Para selecionar uma equipe apenas precione em seu nome.\n\n
-        * As estatísticas trazem o nome do campeão do torneio, artilharia e equipes que menos fizeram faltas e menos cartões amarelhos e vermelhos durante o torneio.
+        * Uma vez fechado, não será permitido a adição de novas equipes, mas ainda pode editá-las.\n\n
+        * Equipes podem ter o mesmo nome, mas nunca as mesmas siglas.\n\n
+        * Para excluir uma equipe, pressione e segure em seu nome.\n\n
+        * Para selecionar uma equipe apenas pressione em seu nome.\n\n
+        * As estatísticas trazem o nome do campeão do torneio, artilharia e equipes que menos fizeram faltas e menos cartões amarelos e vermelhos durante o torneio.
     </string>
     <string name="informacoes_tela_equipe">
         * Dentro de uma partida, para atribuir pontos, cartões e faltas, uma equipe precisa ter seu plantel.\n\n
-        * Para excluir um jogador, precione e segure em seu nome.\n\n
-        * Para selecionar um jogador apenas precione em seu nome.\n\n
+        * Para excluir um jogador, pressione e segure em seu nome.\n\n
+        * Para selecionar um jogador apenas pressione em seu nome.\n\n
         * As estatísticas trazem valores da equipe atual dentro de um único torneio.
     </string>
     <string name="informacoes_tela_partida">
-        * Para atribuir pontos, cartões e faltas apenas preciono no nome do jogador.\n\n
-        * Para ver mais detalhes de um jogador, precione e segure em seu nome.\n\n
+        * Para atribuir pontos, cartões e faltas apenas pressione no nome do jogador.\n\n
+        * Para ver mais detalhes de um jogador, pressione e segure em seu nome.\n\n
     </string>
 </resources>

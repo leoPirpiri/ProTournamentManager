@@ -102,6 +102,11 @@ public class EquipesDeTorneioFragment extends Fragment {
 
         adapterEquipe.setOnLongClickListener(v -> {
             Olimpia.printteste(superActivity, "Clicou no Longo");
+//                if(torneio.isFechado()){
+//                    CarrierSemiActivity.exemplo(TorneioActivity.this, getString(R.string.msg_alerta_erro_excluir_equipe));
+//                } else {
+//                    montarAlertaExcluirEquipe(position);
+//                }
             //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
             return true;
         });
