@@ -86,6 +86,20 @@ public class Equipe extends EntConcreta {
     }
 
     @NonNull
+    public static String formatarSigla(String entrada) {
+        String sigla = "";
+        for (String word : entrada.split(" ")) {
+            if (word.length()>2){
+                sigla = sigla.concat(word.substring(0,1));
+            }
+            if(sigla.length()>4){
+                break;
+            }
+        }
+        return sigla.toUpperCase();
+    }
+
+    @NonNull
     public String toString() {
         return super.toString() +
                " Sigla: "+ sigla +

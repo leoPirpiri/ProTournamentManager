@@ -96,7 +96,7 @@ public class TorneioActivity extends AppCompatActivity {
             txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
             atualizarBotaoTabela();
         } else {
-            Toast.makeText(TorneioActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
             finish();
         }
     }

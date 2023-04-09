@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,8 +41,6 @@ public class EquipeActivity extends AppCompatActivity {
     //private Button btn_confirma_jogador;
     //private Spinner spnr_numero;
     //private Spinner spnr_posicao;
-
-    private boolean atualizar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +83,12 @@ public class EquipeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(atualizar) {
-            CarrierSemiActivity.persistirSantuario(EquipeActivity.this, santuarioOlimpia);
+        if(!santuarioOlimpia.estaAtualizado()){
+            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            santuarioOlimpia.atualizar(false);
+        }
+        if(alertaDialog!=null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
         }
     }
 
@@ -96,20 +99,25 @@ public class EquipeActivity extends AppCompatActivity {
         setTabLayout();
     }
 
+    private void erroPassagemParametros(){
+        Toast.makeText(this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
-        atualizar=false;
+        santuarioOlimpia.atualizar(false);
         torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(equipeIndice));
-        equipe = torneio.getEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
-        /*if(equipe != null) {
-            atualizarNomesEquipes();
-            jogadoresAdapter = new JogadoresAdapter(EquipeActivity.this, equipe.getJogadores());
-            ltv_jogadores_equipe.setAdapter(jogadoresAdapter);
-            listarJogadores();
-        } else {
-            Toast.makeText(EquipeActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
-            finish();
-        }*/
+        if(torneio != null) {
+            equipe = torneio.getEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
+            if(equipe != null) {
+                atualizarNomesEquipes();
+            } else {
+                erroPassagemParametros();
+            }
+        }  else {
+            erroPassagemParametros();
+        }
     }
 
     private void setTabLayout() {
@@ -151,7 +159,7 @@ public class EquipeActivity extends AppCompatActivity {
         etx_nome_equipe.setText(equipe.getNome());
         etx_nome_equipe.requestFocus();
         etx_sigla_equipe.setText(equipe.getSigla());
-        //Listeners possíveis do alerta
+
         btn_confirma_equipe.setOnClickListener(arg0 -> {
             String nome = etx_nome_equipe.getText().toString().trim();
             String sigla = etx_sigla_equipe.getText().toString().trim().toUpperCase();
@@ -166,12 +174,11 @@ public class EquipeActivity extends AppCompatActivity {
                     mudou = true;
                 }
                 if (mudou){
-                    atualizar = true;
-                    atualizarNomesEquipes();
+                    atualizouTorneio();
                 } else {
                     CarrierSemiActivity.exemplo(EquipeActivity.this, getString(R.string.erro_atualizar_informacoes_equipe));
                 }
-                alertaDialog.dismiss();
+                esconderAlerta();
             }
         });
 
@@ -189,12 +196,7 @@ public class EquipeActivity extends AppCompatActivity {
                 if (nome.isEmpty()) {
                     etx_sigla_equipe.setText("");
                 } else {
-                    String sigla_bot;
-                    if (nome.contains(" ")) {
-                        sigla_bot = siglatation(nome);
-                    } else {
-                        sigla_bot = nome.substring(0, 1).toUpperCase();
-                    }
+                    String sigla_bot = nome.contains(" ") ? Equipe.formatarSigla(nome) : nome.substring(0, 1).toUpperCase();
                     if (!sigla.trim().equals(sigla_bot)) {
                         etx_sigla_equipe.setText(sigla_bot);
                     }
@@ -325,21 +327,9 @@ public class EquipeActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_novo_jogador);
         mostrarAlerta(builder);
-    }*/
-
-    private String siglatation(String entrada) {
-        String sigla = "";
-        for (String word : entrada.split(" ")) {
-            if (word.length()>2){
-                sigla = sigla.concat(word.substring(0,1));
-            }
-            if(sigla.length()>4){
-                break;
-            }
-        }
-        return sigla.toUpperCase();
     }
-/*
+
+
     private void validarEdicao(Jogador pl1) {
         String nome = etx_nome_jogador.getText().toString().trim();
         if(!nome.isEmpty()) {
@@ -377,6 +367,18 @@ public class EquipeActivity extends AppCompatActivity {
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.show();
     }
+
+    public void esconderAlerta(){
+        alertaDialog.dismiss();
+    }
+
+    private void atualizouTorneio(){
+        atualizarNomesEquipes();
+        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        persistirDados();
+    }
+
+    public void persistirDados(){ santuarioOlimpia.atualizar(true); }
 /*
 
     private void listarJogadores() {

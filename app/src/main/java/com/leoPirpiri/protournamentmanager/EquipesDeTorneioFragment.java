@@ -164,12 +164,7 @@ public class EquipesDeTorneioFragment extends Fragment {
                     etx_sigla_equipe.setText("");
                     desativarBtnOKalertaNovaEquipe();
                 } else {
-                    String sigla_bot;
-                    if (nome.contains(" ")) {
-                        sigla_bot = formatarSigla(nome);
-                    } else {
-                        sigla_bot = nome.substring(0, 1).toUpperCase();
-                    }
+                    String sigla_bot = nome.contains(" ") ? Equipe.formatarSigla(nome) : nome.substring(0, 1).toUpperCase();
                     if (!sigla.equals(sigla_bot)) {
                         sigla = sigla_bot;
                         etx_sigla_equipe.setText(sigla);
@@ -276,17 +271,5 @@ public class EquipesDeTorneioFragment extends Fragment {
         btn_confirma_equipe.setBackground(ContextCompat.getDrawable(superActivity, R.drawable.button_shape_desabled));
     }
 
-    private String formatarSigla(String entrada) {
-        String sigla = "";
-        for (String word : entrada.split(" ")) {
-            if (word.length()>2){
-                sigla = sigla.concat(word.substring(0,1));
-            }
-            if(sigla.length()>4){
-                break;
-            }
-        }
-        return sigla.toUpperCase();
-    }
 
 }
