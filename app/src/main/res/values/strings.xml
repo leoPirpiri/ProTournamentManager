@@ -52,6 +52,7 @@
     <!-- Mensagens envolvendo Equipes -->
     <string name="sucesso_adicionar_equipe">Equipe adicionada com sucesso!</string>
     <string name="erro_adicionar_equipe">Não foi possível adicionar equipe!</string>
+    <string name="erro_excluir_equipe">Não foi possível excluir esta equipe!</string>
     <string name="equipe_sigla_partida_aberta"> </string>
     <string name="equipe_ponto_partida_aberta">-</string>
     <string name="equipe_exemplo_mandante">Equipe Azul</string>
@@ -63,6 +64,7 @@
     <string name="lbl_quant_jogadores">Quantidade de atletas</string>
     <string name="titulo_alerta_nova_equipe">Informações da equipe</string>
     <string name="titulo_alerta_impedir_adicao_nova_equipe">Adição não disponível</string>
+    <string name="titulo_alerta_impedir_exclusao_de_equipe">Exclusão não disponível</string>
     <string name="titulo_alerta_equipe_vazia">Equipe sem plantel</string>
     <string name="titulo_alerta_confir_abrir_equipe">Abrindo Equipe</string>
     <string name="titulo_alerta_confir_excluir_equipe">Excluindo Equipe</string>

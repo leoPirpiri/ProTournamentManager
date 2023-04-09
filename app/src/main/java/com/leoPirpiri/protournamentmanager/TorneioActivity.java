@@ -208,10 +208,16 @@ public class TorneioActivity extends AppCompatActivity {
 
     public boolean excluirEquipe(int posicao) {
         if(!torneio.estarFechado() && torneio.delEquipe(posicao)!=null){
-            atualizarBotaoTabela();
+            atualizouTorneio();
             return true;
         }
         return false;
+    }
+
+    private void atualizouTorneio(){
+        atualizarBotaoTabela();
+        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        persistirDados();
     }
 
     private void atualizarBotaoTabela(){
@@ -230,17 +236,7 @@ public class TorneioActivity extends AppCompatActivity {
         }
     }
 
-    private void atualizouTorneio(){
-        atualizarBotaoTabela();
-        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
-        persistirDados();
-    }
+    public boolean torneioFechado(){ return torneio.estarFechado(); }
 
-    public int estadoDoTorneio(){
-        return torneio.pegarStatus();
-    }
-
-    public void persistirDados(){
-        santuarioOlimpia.atualizar(true);
-    }
+    public void persistirDados(){ santuarioOlimpia.atualizar(true); }
 }

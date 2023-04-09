@@ -64,7 +64,7 @@ public class EquipesDeTorneioFragment extends Fragment {
         listarTimes();
         //Listeners
         btn_add_equipe.setOnClickListener(view -> {
-            if(superActivity.estadoDoTorneio() != Torneio.STATUS_ABERTO || listaEquipes.size() == Torneio.MAX_EQUIPE){
+            if(superActivity.torneioFechado() || listaEquipes.size() == Torneio.MAX_EQUIPE){
                 montarAlertaEquipeAdicaoNaoPermitida();
             } else {
                 montarAlertaNovaEquipe();
@@ -95,10 +95,13 @@ public class EquipesDeTorneioFragment extends Fragment {
         ));
 
         adapterEquipe.setOnLongClickListener(v -> {
-            if (tentativas_exclusao%4 == 0) {
-                montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
+            if (superActivity.torneioFechado()){
+                if(tentativas_exclusao%4==0) {
+                    montarAlertaEquipeExclusaoNaoPermitida();
+                }
+                tentativas_exclusao+=1;
             } else {
-                tentativas_exclusao += 1;
+                montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
             }
             return true;
         });
@@ -218,11 +221,10 @@ public class EquipesDeTorneioFragment extends Fragment {
         btn_confirmar.setOnClickListener(arg0 -> {
             if(superActivity.excluirEquipe(posEquipe)){
                 listarTimes();
-                superActivity.esconderAlerta();
             } else {
-                tentativas_exclusao += 1;
-                montarAlertaEquipeExclusaoNaoPermitida();
+                Toast.makeText(superActivity, R.string.erro_excluir_equipe, Toast.LENGTH_SHORT).show();
             }
+            superActivity.esconderAlerta();
         });
 
         btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
@@ -249,7 +251,6 @@ public class EquipesDeTorneioFragment extends Fragment {
     }
 
     private void montarAlertaEquipeExclusaoNaoPermitida(){
-        superActivity.esconderAlerta();
         AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
         Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
@@ -261,7 +262,7 @@ public class EquipesDeTorneioFragment extends Fragment {
         btn_confirmar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
         builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_impedir_adicao_nova_equipe);
+        builder.setTitle(R.string.titulo_alerta_impedir_exclusao_de_equipe);
         superActivity.mostrarAlerta(builder);
     }
 
