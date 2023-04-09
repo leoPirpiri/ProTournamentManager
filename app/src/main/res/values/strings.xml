@@ -69,6 +69,8 @@
     <string name="msg_alerta_confir_abrir_equipe">Deseja editar essa equipe?</string>
     <string name="msg_alerta_impedir_adicao_nova_equipe">Não é possível adicionar novas equipes.
     \nTorneio fechado ou limite de equipes alcançado.</string>
+    <string name="msg_alerta_impedir_exclusao_de_equipe">Não é possível excluir esta equipe.
+    \nTorneio fechado ou finalizado.</string>
     <string name="msg_alerta_confir_excluir_equipe">Deseja excluir essa equipe?</string>
     <string name="msg_alerta_erro_excluir_equipe">A equipe não pode ser excluída!</string>
     <string name="msg_alerta_erro_sigla_usada">A sigla usada pertence a outra equipe.</string>

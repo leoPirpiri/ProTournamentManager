@@ -1,14 +1,12 @@
 package com.leoPirpiri.protournamentmanager;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import model.Olimpia;
 import model.Equipe;
 import model.Torneio;
 
@@ -37,10 +34,10 @@ public class EquipesDeTorneioFragment extends Fragment {
     private RecyclerView recyclerViewEquipesDoTorneio;
     private EquipesAdapter adapterEquipe;
     private TextView txv_info_lista_equipes;
-    //views alertDialog adicionar nova equipe.
     private EditText etx_sigla_equipe;
     private EditText etx_nome_equipe;
     private Button btn_confirma_equipe;
+    private int tentativas_exclusao = 0;
 
     public EquipesDeTorneioFragment() {
         // Required empty public constructor
@@ -78,7 +75,6 @@ public class EquipesDeTorneioFragment extends Fragment {
 
     private void listarTimes() {
         if (!listaEquipes.isEmpty()) {
-            //ativarAddBtnNovaEquipe();
             txv_info_lista_equipes.setVisibility(View.GONE);
             povoarRecycleView();
         }
@@ -92,22 +88,18 @@ public class EquipesDeTorneioFragment extends Fragment {
     }
 
     private void construirListenersAdapterEquipe() {
-        adapterEquipe.setOnClickListener(v -> {
-            superActivity.abrirEquipe(
-                listaEquipes.get(
-                    recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)
-                ).getId()
-            );
-        });
+        adapterEquipe.setOnClickListener(v -> superActivity.abrirEquipe(
+            listaEquipes.get(
+                recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)
+            ).getId()
+        ));
 
         adapterEquipe.setOnLongClickListener(v -> {
-            Olimpia.printteste(superActivity, "Clicou no Longo");
-//                if(torneio.isFechado()){
-//                    CarrierSemiActivity.exemplo(TorneioActivity.this, getString(R.string.msg_alerta_erro_excluir_equipe));
-//                } else {
-//                    montarAlertaExcluirEquipe(position);
-//                }
-            //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
+            if (tentativas_exclusao%4 == 0) {
+                montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
+            } else {
+                tentativas_exclusao += 1;
+            }
             return true;
         });
     }
@@ -211,6 +203,35 @@ public class EquipesDeTorneioFragment extends Fragment {
         superActivity.mostrarAlerta(builder);
     }
 
+    private void montarAlertaExcluirEquipe(final int posEquipe){
+        AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_excluir_equipe);
+
+        btn_confirmar.setOnClickListener(arg0 -> {
+            if(superActivity.excluirEquipe(posEquipe)){
+                listarTimes();
+                superActivity.esconderAlerta();
+            } else {
+                tentativas_exclusao += 1;
+                montarAlertaEquipeExclusaoNaoPermitida();
+            }
+        });
+
+        btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
+
+        builder.setView(view);
+        builder.setTitle(R.string.titulo_alerta_confir_excluir_equipe);
+        superActivity.mostrarAlerta(builder);
+    }
+
     private void montarAlertaEquipeAdicaoNaoPermitida(){
         AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
@@ -219,6 +240,23 @@ public class EquipesDeTorneioFragment extends Fragment {
         btn_confirmar.setVisibility(View.VISIBLE);
         msg.setVisibility(View.VISIBLE);
         msg.setText(R.string.msg_alerta_impedir_adicao_nova_equipe);
+
+        btn_confirmar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
+
+        builder.setView(view);
+        builder.setTitle(R.string.titulo_alerta_impedir_adicao_nova_equipe);
+        superActivity.mostrarAlerta(builder);
+    }
+
+    private void montarAlertaEquipeExclusaoNaoPermitida(){
+        superActivity.esconderAlerta();
+        AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_impedir_exclusao_de_equipe);
 
         btn_confirmar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
@@ -248,13 +286,6 @@ public class EquipesDeTorneioFragment extends Fragment {
             }
         }
         return sigla.toUpperCase();
-    }
-
-    private void excluirEquipe(int position) {
-//        if(torneio.delTime(position) != null){
-//            atualizar = true;
-//            listarTimes();
-//        }
     }
 
 }

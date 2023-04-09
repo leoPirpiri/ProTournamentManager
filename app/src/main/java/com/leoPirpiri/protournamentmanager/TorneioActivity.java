@@ -120,53 +120,7 @@ public class TorneioActivity extends AppCompatActivity {
                                             (tab, posicao) -> tab.setText(adapter.getTitulo(posicao)));
         mediator.attach();
     }
-    /*private void montarAlertaAbrirEquipe(final int posEquipe){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        //define o titulo
-        builder.setTitle(R.string.titulo_alerta_confir_abrir_equipe);
-        //define a mensagem
-        builder.setMessage(R.string.msg_alerta_confir_abrir_equipe);
-        //define um botão como positivo
-        builder.setPositiveButton(R.string.btn_confirmar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-                abrirEquipe(posEquipe);
-            }
-        });
-        //define um botão como negativo.
-        builder.setNegativeButton(R.string.btn_cancelar, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface arg0, int arg1) {
-            }
-        });
-        mostrarAlerta(builder);
-    }
 
-    private void montarAlertaExcluirEquipe(final int posEquipe){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
-
-        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
-        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
-        TextView msg = view.findViewById(R.id.msg_alerta_default);
-        btn_confirmar.setVisibility(View.VISIBLE);
-        btn_cancelar.setVisibility(View.VISIBLE);
-        msg.setVisibility(View.VISIBLE);
-        msg.setText(R.string.msg_alerta_confir_excluir_equipe);
-
-        btn_confirmar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-            excluirEquipe(posEquipe);
-        });
-
-        btn_cancelar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-        });
-
-        builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_confir_excluir_equipe);
-        mostrarAlerta(builder);
-    }
-
-*/
     private void montarAlertaSorteio(){
         final Handler handler = new Handler();
         final Runnable runnable = () -> {
@@ -252,8 +206,11 @@ public class TorneioActivity extends AppCompatActivity {
         return false;
     }
 
-    public boolean excluirEquipe() {
-        atualizarBotaoTabela();
+    public boolean excluirEquipe(int posicao) {
+        if(!torneio.estarFechado() && torneio.delEquipe(posicao)!=null){
+            atualizarBotaoTabela();
+            return true;
+        }
         return false;
     }
 
