@@ -984,7 +984,7 @@ public class PartidaActivity extends AppCompatActivity {
                 }
             } else {
                 if(acoes_jogador.isEmpty() &&
-                    !torneio.atoJogador(j.getId())){
+                    !torneio.ParticipacaoAcoesTorneio(j.getId())){
                     btn_deletar_jogador.setVisibility(View.VISIBLE);
                 }
             }

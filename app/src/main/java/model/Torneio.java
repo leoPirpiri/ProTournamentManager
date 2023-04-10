@@ -146,7 +146,7 @@ public class Torneio extends EntConcreta {
         return estarFechado();
     }
 
-    public boolean atoJogador(int idJogador) {
+    public boolean ParticipacaoAcoesTorneio(int idJogador) {
         return estarFechado() && tabela.verificarExclusaoSegura(idJogador);
     }
 

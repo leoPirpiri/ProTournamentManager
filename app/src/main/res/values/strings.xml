@@ -86,6 +86,7 @@
     <!-- Mensagens envolvendo Jogador-->
     <string name="jogador_adicionado">Jogador adicionado com sucesso!</string>
     <string name="jogador_editado">Jogador editado com sucesso!</string>
+    <string name="jogador_erro_adicionar">Erro ao adicionar jogador!</string>
     <string name="lbl_posicao">Posição</string>
     <string name="lbl_numero">Número</string>
     <string name="lbl_nome_jogador">Nome</string>

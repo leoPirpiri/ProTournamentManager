@@ -12,24 +12,24 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center">
+            android:layout_gravity="start|center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/lbl_nome_jogador"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
+            android:gravity="end">
 
             <Button
                 android:id="@+id/btn_del_jogador"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:textColor="@color/branco"
                 android:background="@drawable/button_shape_danger"
                 android:foreground="@android:drawable/ic_menu_delete"
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/lbl_posicao" />
 
         <Spinner
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/lbl_numero" />
 
         <Spinner
@@ -135,7 +135,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/jogador_pad_hor"
-            android:text="1"
             android:textColor="@color/text_default"
             android:textStyle="bold"/>
         </LinearLayout>
@@ -157,7 +156,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/jogador_pad_hor"
-            android:text="1"
             android:textColor="@color/text_default"
             android:textStyle="bold"/>
         </LinearLayout>
@@ -179,7 +177,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/jogador_pad_hor"
-            android:text="1"
             android:textColor="@color/text_default"
             android:textStyle="bold"/>
         </LinearLayout>
@@ -200,7 +197,8 @@
             <LinearLayout
                 android:id="@+id/img_jogador_amarelo2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:gravity="center">
                 <ImageView
                     android:layout_width="@dimen/altura_ic_acao_min"
                     android:layout_height="@dimen/altura_ic_acao_min"
@@ -267,8 +265,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/button_shape_desabled"
-                android:enabled="false"
+                android:background="@drawable/button_shape_enabled"
+                android:enabled="true"
                 android:shadowColor="#3D3D3D"
                 android:shadowDx="0"
                 android:shadowDy="0"

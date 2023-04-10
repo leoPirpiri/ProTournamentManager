@@ -25,8 +25,6 @@
     <dimen name="ic_penalti_mar_hor">6dp</dimen>
     <dimen name="img_alerta_default">200dp</dimen>
     <dimen name="lista_nomes_sorteio">250dp</dimen>
-    <dimen name="partida_fonte">18dp</dimen>
-    <dimen name="cronometro_fonte">50dp</dimen>
     <dimen name="linha_pad_default">17dp</dimen>
     <dimen name="linha_pad_quartas">32dp</dimen>
     <dimen name="linha_pad_semi">12dp</dimen>
@@ -43,14 +41,16 @@
     <dimen name="btn_shape_borda">2dp</dimen>
 
     <!-- Fontes -->
-    <dimen name="placar_fonte">10dp</dimen>
-    <dimen name="partida_nomes_equipes">16dp</dimen>
-    <dimen name="partida_nomes_jogador">20dp</dimen>
-    <dimen name="partida_ic_gols_quant_min">12dp</dimen>
-    <dimen name="partida_ic_gols_quant_exp">22dp</dimen>
+    <dimen name="cronometro_fonte">50sp</dimen>
+    <dimen name="placar_fonte">10sp</dimen>
+    <dimen name="partida_nomes_equipes">16sp</dimen>
+    <dimen name="partida_nomes_jogador">20sp</dimen>
+    <dimen name="partida_ic_gols_quant_min">12sp</dimen>
+    <dimen name="partida_ic_gols_quant_exp">22sp</dimen>
     <dimen name="partida_penaltis">16sp</dimen>
-    <dimen name="titulo_principal_margin">30dp</dimen>
-    <dimen name="padding_msg_informacoes">15dp</dimen>
-    <dimen name="padding_estatisticas">10dp</dimen>
-    <dimen name="informacoes_fonte">18dp</dimen>
+    <dimen name="partida_fonte">18sp</dimen>
+    <dimen name="titulo_principal_margin">30sp</dimen>
+    <dimen name="padding_msg_informacoes">15sp</dimen>
+    <dimen name="padding_estatisticas">10sp</dimen>
+    <dimen name="informacoes_fonte">18sp</dimen>
 </resources>

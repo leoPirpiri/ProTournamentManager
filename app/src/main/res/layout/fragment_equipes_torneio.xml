@@ -35,7 +35,6 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="@dimen/fab_margin"
                     android:tint="@color/midle"
-                    android:enabled="true"
                     app:backgroundTint="@color/core"
                     app:maxImageSize="60dp"
                     app:srcCompat="@android:drawable/ic_input_add" />
