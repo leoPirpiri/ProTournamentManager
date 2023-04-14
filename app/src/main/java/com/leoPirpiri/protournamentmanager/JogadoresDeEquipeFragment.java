@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import control.CarrierSemiActivity;
 import model.Jogador;
 
 public class JogadoresDeEquipeFragment extends Fragment {
@@ -83,11 +84,10 @@ public class JogadoresDeEquipeFragment extends Fragment {
             montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);
         });
 
-        /*adapterJogadores.setOnLongClickListener(v -> {
-            Olimpia.printteste(context, "Clicou no Longo");
-            //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
+        adapterJogadores.setOnLongClickListener(v -> {
+            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
             return true;
-        });*/
+        });
     }
 
     @Override
@@ -100,21 +100,24 @@ public class JogadoresDeEquipeFragment extends Fragment {
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
         Button  btn_confirma_jogador = view.findViewById(R.id.btn_confirmar_jogador);
+        Button  btn_excluir_jogador = view.findViewById(R.id.btn_del_jogador);
         Spinner spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
         Spinner spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
         spnr_posicao.setAdapter(new ArrayAdapter<>(superActivity, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
         ArrayList<Integer> numerosDisponiveis;
 
         if (velhoJogador == null) {
+            builder.setTitle(R.string.titulo_alerta_novo_jogador);
             numerosDisponiveis = superActivity.numerosDisponiveisNaEquipe(-1);
             spnr_posicao.setSelection(0);
         } else {
+            builder.setTitle(R.string.titulo_alerta_editar_jogador);
             numerosDisponiveis = superActivity.numerosDisponiveisNaEquipe(velhoJogador.getNumero());
             btn_confirma_jogador.setText(R.string.btn_editar);
             etx_nome_jogador.setText(velhoJogador.getNome());
             spnr_posicao.setSelection(velhoJogador.getPosicao());
             if(!superActivity.validarParticipacaoAcoesTorneio(velhoJogador.getId())){
-                view.findViewById(R.id.btn_del_jogador).setVisibility(View.VISIBLE);
+                btn_excluir_jogador.setVisibility(View.VISIBLE);
             }
         }
         etx_nome_jogador.requestFocus();
@@ -127,6 +130,8 @@ public class JogadoresDeEquipeFragment extends Fragment {
                 superActivity.esconderTeclado(etx_nome_jogador);
             }
         });
+
+        btn_excluir_jogador.setOnClickListener(v -> excluirJogadorDeAlerta(position));
 
         btn_confirma_jogador.setOnClickListener(arg0 -> {
             String nome = etx_nome_jogador.getText().toString().trim();
@@ -162,13 +167,11 @@ public class JogadoresDeEquipeFragment extends Fragment {
         view.findViewById(R.id.btn_cancelar_jogador).setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
         builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_novo_jogador);
         superActivity.mostrarAlerta(builder);
     }
 
-    /*
-    private void montarAlertaDeletarJogador(Jogador j) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    private void montarAlertaExcluirJogador(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
 
         Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
@@ -179,18 +182,24 @@ public class JogadoresDeEquipeFragment extends Fragment {
         msg.setVisibility(View.VISIBLE);
         msg.setText(R.string.msg_alerta_confir_excluir_jogador);
 
-        btn_confirmar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-            excluirJogador(j);
-        });
+        btn_confirmar.setOnClickListener(arg0 -> excluirJogadorDeAlerta(position));
 
-        btn_cancelar.setOnClickListener(arg0 -> {
-            alertaDialog.dismiss();
-        });
+        btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_confir_excluir_jogador);
-        mostrarAlerta(builder);
+        superActivity.mostrarAlerta(builder);
     }
-*/
+
+    private void excluirJogadorDeAlerta(int position){
+        if (superActivity.excluirJogador(position)) {
+            Toast.makeText(superActivity, getString(R.string.msg_alerta_sucesso_excluir_jogador), Toast.LENGTH_SHORT).show();
+            superActivity.persistirDados();
+            adapterJogadores.notifyItemRemoved(position);
+            listarJogadores();
+        } else {
+            Toast.makeText(superActivity, getString(R.string.msg_alerta_erro_excluir_jogador), Toast.LENGTH_SHORT).show();
+        }
+        superActivity.esconderAlerta();
+    }
 }

@@ -1069,12 +1069,12 @@ public class PartidaActivity extends AppCompatActivity {
 
         btn_deletar_jogador.setOnClickListener(arg0 -> {
             if(isMandante){
-                if(atualizar = mandante.delJogador(j)){
+                if(atualizar = false){ //ajustar lógica visitante.delJogador(j)
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
                 }
             } else {
-                if (atualizar = visitante.delJogador(j)) {
+                if (atualizar = false) { //ajustar lógica visitante.delJogador(j)
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
                 }

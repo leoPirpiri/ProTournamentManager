@@ -92,6 +92,7 @@
     <string name="lbl_nome_jogador">Nome</string>
     <string name="dica_nome_jogador">Ex: Almir Rogério</string>
     <string name="titulo_alerta_novo_jogador">Contratar jogador</string>
+    <string name="titulo_alerta_editar_jogador">Ficha técnica do jogador</string>
     <string name="titulo_alerta_confir_abrir_jogador">Editar jogador</string>
     <string name="titulo_alerta_confir_excluir_jogador">Dispensar jogador</string>
     <string name="msg_alerta_confir_excluir_jogador">Deseja rescindir o contrato com esse jogador?</string>

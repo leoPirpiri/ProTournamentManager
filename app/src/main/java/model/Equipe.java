@@ -47,8 +47,8 @@ public class Equipe extends EntConcreta {
         }
     }
 
-    public boolean delJogador(Jogador j){
-        return this.jogadores.remove(j);
+    public Jogador delJogador(int pos){
+        return this.jogadores.remove(pos);
     }
 
     public int bucarIdParaNovoJogador(){

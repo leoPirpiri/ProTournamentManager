@@ -203,6 +203,11 @@ public class EquipeActivity extends AppCompatActivity {
         return equipe.addJogador(new Jogador(equipe.bucarIdParaNovoJogador(), nome, posicao, numero)) != -1;
     }
 
+    public boolean excluirJogador(int position) {
+        Jogador jogador = equipe.getJogadores().get(position);
+        return (!torneio.ParticipacaoAcoesTorneio(jogador.getId()) && equipe.delJogador(position)!=null);
+    }
+
     public void mostrarAlerta(AlertDialog.Builder builder) {
         mostrarAlerta(builder, R.drawable.background_alerta);
     }
@@ -232,25 +237,4 @@ public class EquipeActivity extends AppCompatActivity {
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         santuarioOlimpia.atualizar(true);
     }
-/*
-
-    private void listarJogadores() {
-        if (equipe.getJogadores().isEmpty()) {
-            txv_jogadores_inscritos.setText(R.string.equipe_sem_jogador);
-        } else {
-            txv_jogadores_inscritos.setText(R.string.equipe_com_jogador);
-            jogadoresAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void excluirJogador(Jogador jogador) {
-        if(!torneio.atoJogador(jogador.getId()) && equipe.delJogador(jogador)) {
-            atualizar = true;
-            CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_sucesso_excluir_jogador));
-            listarJogadores();
-        } else {
-            CarrierSemiActivity.exemplo(this, getString(R.string.msg_alerta_erro_excluir_jogador));
-        }
-    }
-*/
 }
