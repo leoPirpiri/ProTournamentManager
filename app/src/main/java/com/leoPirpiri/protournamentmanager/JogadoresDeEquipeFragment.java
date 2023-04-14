@@ -59,7 +59,7 @@ public class JogadoresDeEquipeFragment extends Fragment {
         listarJogadores();
         povoarRecycleView();
         //Listeners
-        btn_novo_jogador.setOnClickListener(view -> montarAlertaNovoEditarJogador(null, listaJogadores.size()));
+        btn_novo_jogador.setOnClickListener(view -> montarAlertaNovoOuEditarJogador(null, listaJogadores.size()));
         return v;
     }
     private void listarJogadores() {
@@ -78,9 +78,12 @@ public class JogadoresDeEquipeFragment extends Fragment {
     }
 
     private void construirListenersAdapterJogadores() {
-        /*adapterJogadores.setOnClickListener(v -> abrirEquipe(listaEquipes.get(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v)).getId()));
+        adapterJogadores.setOnClickListener(v -> {
+            int position = recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v);
+            montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);
+        });
 
-        adapterJogadores.setOnLongClickListener(v -> {
+        /*adapterJogadores.setOnLongClickListener(v -> {
             Olimpia.printteste(context, "Clicou no Longo");
             //montarAlertaExcluirEquipe(recyclerViewEquipesDoTorneio.getChildAdapterPosition(v));
             return true;
@@ -92,7 +95,7 @@ public class JogadoresDeEquipeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void montarAlertaNovoEditarJogador(Jogador velhoJogador, int position) {
+    private void montarAlertaNovoOuEditarJogador(Jogador velhoJogador, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -150,8 +153,7 @@ public class JogadoresDeEquipeFragment extends Fragment {
                     velhoJogador.setPosicao(posicao);
                     superActivity.persistirDados();
                     adapterJogadores.notifyItemChanged(position);
-                } else {
-                    Toast.makeText(superActivity, R.string.jogador_erro_adicionar, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(superActivity, R.string.jogador_editado, Toast.LENGTH_SHORT).show();
                 }
                 superActivity.esconderAlerta();
             }
