@@ -9,8 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import model.Equipe;
@@ -49,7 +47,7 @@ public class EquipesAdapter extends RecyclerView.Adapter<EquipesAdapter.ViewHold
         String nome = equipes.get(position).getNome() + " - " +
                       equipes.get(position).getSigla();
         String quantidade = context.getResources().getString(R.string.lbl_quant_jogadores) + ": " +
-                            equipes.get(position).getTamanhoEquipe();
+                            equipes.get(position).buscarTamanhoEquipe();
         holder.nomeEquipe.setText(nome);
         holder.quantidadeDeJogadores.setText(quantidade);
     }

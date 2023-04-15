@@ -34,12 +34,12 @@ public class Equipe extends EntConcreta {
         this.jogadores = jogadores;
     }
 
-    public int getTamanhoEquipe() {
+    public int buscarTamanhoEquipe() {
         return jogadores.size();
     }
 
     public int addJogador(Jogador jogador){
-        if(getTamanhoEquipe()<JOGADORES_MAX) {
+        if(buscarTamanhoEquipe()<JOGADORES_MAX) {
             jogadores.add(jogador);
             return jogador.getId();
         } else {

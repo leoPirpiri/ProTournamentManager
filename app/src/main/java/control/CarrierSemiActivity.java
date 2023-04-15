@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import model.Olimpia;
 import model.Torneio;
@@ -73,12 +74,18 @@ public final class CarrierSemiActivity {
         }
     }
 
-    public static void salvarSantuarioRemoto(Torneio torneio, FirebaseFirestore database){
+    public static boolean salvarSantuarioRemoto(Torneio torneio, FirebaseFirestore database){
+        AtomicBoolean atualizar = new AtomicBoolean(false);
         database.collection("torneios")
                 .document(torneio.buscarUuid())
                 .set(torneio)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnSuccessListener(aVoid -> {
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                    torneio.setDataAtualizacaoRemota(torneio.getDataAtualizacaoLocal());
+                    atualizar.set(true);
+                })
                 .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+        return atualizar.get();
     }
 
     public static void carregarSantuarioRemoto(){

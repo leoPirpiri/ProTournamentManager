@@ -65,8 +65,13 @@ public class MainActivity extends AppCompatActivity {
         if (nowUser!=null){
             for (Torneio torneio: santuarioOlimpia.getTorneiosGerenciados()) {
                 if(torneio.getDataAtualizacaoRemota()!=torneio.getDataAtualizacaoLocal()) {
-                    CarrierSemiActivity.salvarSantuarioRemoto(torneio, firestore);
+                    if(CarrierSemiActivity.salvarSantuarioRemoto(torneio, firestore)){
+                        santuarioOlimpia.atualizar(true);
+                    }
                 }
+            }
+            if(!santuarioOlimpia.estaAtualizado()){
+                CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
             }
         }
     }
