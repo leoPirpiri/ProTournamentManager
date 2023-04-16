@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import control.CarrierSemiActivity;
 import model.Olimpia;
 
 public class LoginActivity extends AppCompatActivity {
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 esconderTeclado(LoginActivity.this, etx_email);
             }
         });
+
         etx_senha.setOnFocusChangeListener((v, hasFocus) ->  {
             if (!hasFocus && !etx_email.isFocused()) {
                 esconderTeclado(LoginActivity.this, etx_senha);
@@ -81,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btn_login_google.setOnClickListener(v -> signInGoogle());
 
-        btn_cadastrar_novo.setOnClickListener(v -> abrirCastroNovoUsuario());
+        btn_cadastrar_novo.setOnClickListener(v -> abrirCadastroNovoUsuario());
 
         btn_simulador_partida.setOnClickListener(v -> {
             limparCampos();
@@ -127,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
         db_auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        CarrierSemiActivity.limparSantuarioLocal(this);
                         abrirPrincipal();
                     } else {
                         etx_email.setError(getString(R.string.erro_login_incorreto));
@@ -141,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
         db_auth.signInWithCredential(credencial).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 Olimpia.printteste(this, "loging certo, abrir tela principal");
+                CarrierSemiActivity.limparSantuarioLocal(this);
                 abrirPrincipal();
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.erro_login_google_auth),
@@ -174,7 +178,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }
-    private void abrirCastroNovoUsuario(){
+
+    private void abrirCadastroNovoUsuario(){
         startActivity(new Intent(getApplicationContext(), CadastroActivity.class));
         finish();
     }

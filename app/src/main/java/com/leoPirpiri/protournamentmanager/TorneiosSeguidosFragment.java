@@ -100,7 +100,7 @@ public class TorneiosSeguidosFragment extends Fragment {
                         if(document.exists()){
                             usuario = document.toObject(Usuario.class);
                             Log.d(TAG, usuario.toString());
-                            if(listaTorneiosSeguidos.isEmpty()){
+                            if(listaTorneiosSeguidos.isEmpty() && !usuario.getTorneiosSeguidos().isEmpty()){
                                 buscarTorneiosRemotos();
                             }
                         } else {

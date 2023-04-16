@@ -43,19 +43,10 @@ public final class CarrierSemiActivity {
                 System.out.println("\nCarregar\n" + ex.getMessage());//apagar quando der certo.
                 Toast.makeText(ctx, R.string.dados_erro_leitura_santuario, Toast.LENGTH_LONG).show();
             }
-        }/*
-        if (user!=null){
-            Usuario usuario;
-
-            if (santuarioOlimpia.getTorneiosGerenciados().isEmpty()){
-                santuarioOlimpia.setTorneiosGerenciados(carregarSantuarioRemotoGerenciados(usuario.getId()));
-            }
-            if (santuarioOlimpia.getTorneiosSeguidos().isEmpty()){
-                santuarioOlimpia.setTorneiosSeguidos(carregarSantuarioRemotoSeguidos(usuario.getTorneiosSeguidos()));
-            }
-        }*/
+        }
         return santuarioOlimpia;
     }
+
     private static void salvarSantuarioLocal(Olimpia santuario, FileOutputStream fileOutputStream) throws IOException{
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(santuario);
@@ -88,15 +79,9 @@ public final class CarrierSemiActivity {
         return atualizar.get();
     }
 
-    public static void carregarSantuarioRemoto(){
-        FirebaseFirestore.getInstance().collection("torneios")
-                .document("nnFcWDDXoVgxRLE7trOv")
-                .addSnapshotListener((value, e) -> {
-                    if (value.exists()){
-                        Torneio aux = value.toObject(Torneio.class);
-                        Log.d("SEMIACTIVITY", aux.toString());
-                    }
-                });
+    public static void limparSantuarioLocal(Context ctx){
+        File arq = new File(ctx.getFileStreamPath(Olimpia.NOME_ARQUIVO_SERIALIZADO).toString());
+        if (arq.exists()) arq.delete();
     }
 /*
     public static ArrayList<Torneio> carregarSantuarioRemotoGerenciados(String userUid){
