@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -133,14 +134,49 @@ public class TorneiosBuscadosFragment extends Fragment {
     }
 
     private void construirListenersAdapterTorneio() {
-        adapterTorneio.setOnClickListener(v -> {
-            //montarAlertaSeguirTorneio(recyclerViewTorneiosBuscados.getChildAdapterPosition(v));
-        });
+        adapterTorneio.setOnClickListener(v -> montarAlertaSeguirTorneio(recyclerViewTorneiosBuscados.getChildAdapterPosition(v)));
 
         adapterTorneio.setOnLongClickListener(v -> {
             // Não há ação pensada no momento.
             return true;
         });
+    }
+
+    private void montarAlertaSeguirTorneio(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+
+        Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
+        Button btn_cancelar = view.findViewById(R.id.btn_cancelar_default);
+        TextView msg = view.findViewById(R.id.msg_alerta_default);
+        btn_confirmar.setVisibility(View.VISIBLE);
+        btn_cancelar.setVisibility(View.VISIBLE);
+        msg.setVisibility(View.VISIBLE);
+        msg.setText(R.string.msg_alerta_confir_follow_torneio);
+
+        btn_confirmar.setOnClickListener(arg0 -> seguirTorneio(listaTorneiosBuscados.get(position).buscarUuid()));
+
+        btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
+
+        builder.setView(view);
+        builder.setTitle(R.string.titulo_alerta_confir_unfollow_torneio);
+        superActivity.mostrarAlerta(builder);
+    }
+
+    private void seguirTorneio(String torneioUuid) {
+        usuario.addTorneioSeguido(torneioUuid);
+        atualizarUsuarioLogado(torneioUuid);
+    }
+
+    private void atualizarUsuarioLogado(String torneioUuid) {
+        firestoreDB.collection("usuarios")
+                .document(usuario.getId())
+                .set(usuario)
+                .addOnSuccessListener(aVoid -> {
+                    superActivity.abrirTorneio(torneioUuid);
+                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                    superActivity.esconderAlerta();
+                });
     }
 
     private void buscarUsuarioLogado() {

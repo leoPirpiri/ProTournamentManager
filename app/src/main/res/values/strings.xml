@@ -27,9 +27,11 @@
 
     <!-- Mensagens envolvendo Torneios -->
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
+    <string name="titulo_alerta_confir_follow_torneio">Acompanhar Torneio</string>
     <string name="titulo_alerta_confir_unfollow_torneio">Não acompanhar Torneio</string>
     <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
+    <string name="msg_alerta_confir_follow_torneio">Deseja seguir esse Torneio?</string>
     <string name="msg_alerta_confir_unfollow_torneio">Deixar de seguir esse Torneio?</string>
     <string name="torneio_cheio">Torneio cheio.</string>
     <string name="torneio_fechado">Torneio fechado.</string>
