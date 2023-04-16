@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="start"
     android:baselineAligned="false"
     android:padding="8dp">
+
         <TextView
             android:id="@+id/nome_torneio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Exemplo Super Cup"
-            android:textColor="#040489"
+            android:drawablePadding="@dimen/icon_default_padding"
+            android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        />
+            android:textColor="#040489"
+            app:drawableLeftCompat="@drawable/user_tipo_seguidor_torneio" />
         <TextView
             android:id="@+id/situacao_torneio"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Situação: aberto" />
+            android:layout_height="wrap_content" />
 </LinearLayout>

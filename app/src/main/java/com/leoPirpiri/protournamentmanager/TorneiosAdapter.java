@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -44,9 +48,19 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();
         String nome = torneios.get(position).getNome();
         String situacao = context.getResources().getStringArray(R.array.torneio_status)[torneios.get(position).pegarStatus()];
         holder.nomeTorneio.setText(nome);
+        if (usuarioAtual!=null && torneios.get(position).getGerenciadores().contains(usuarioAtual.getUid())){
+            holder.nomeTorneio.setCompoundDrawablesWithIntrinsicBounds(
+                    torneios.get(position).buscarDonoDoTorneio().equals(usuarioAtual.getUid()) ?
+                                ContextCompat.getDrawable(context, R.drawable.user_tipo_dono_torneio) :
+                                ContextCompat.getDrawable(context, R.drawable.user_tipo_mesario_torneio),
+                    null,
+                    null,
+                    null);
+        }
         holder.situacaoTorneio.setText(situacao);
     }
 
