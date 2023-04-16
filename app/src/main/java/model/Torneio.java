@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Torneio extends EntConcreta {
     public static final int MAX_EQUIPE = 16;
@@ -71,6 +72,12 @@ public class Torneio extends EntConcreta {
 
     public ArrayList<String> getGerenciadores() {
         return gerenciadores;
+    }
+
+    public ArrayList<String> getNomeFragmentado(){
+        return (ArrayList<String>) Arrays.stream(getNome().toLowerCase().split(" "))
+                                         .filter(s -> s.length()>2)
+                                         .collect(Collectors.toList());
     }
 
     public void setSede(String sede) {
