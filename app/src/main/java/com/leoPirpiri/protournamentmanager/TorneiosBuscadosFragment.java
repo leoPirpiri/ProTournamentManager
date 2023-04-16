@@ -138,7 +138,7 @@ public class TorneiosBuscadosFragment extends Fragment {
         });
 
         adapterTorneio.setOnLongClickListener(v -> {
-            //montarAlertaExcluirTorneio(recyclerViewTorneiosBuscados.getChildAdapterPosition(v));
+            // Não há ação pensada no momento.
             return true;
         });
     }
@@ -177,7 +177,8 @@ public class TorneiosBuscadosFragment extends Fragment {
                         listaTorneiosBuscados.clear();
                         for (QueryDocumentSnapshot document : documents) {
                             Torneio torneio = document.toObject(Torneio.class);
-                            if (!torneio.getGerenciadores().contains(usuario.getId())) {
+                            if (!torneio.getGerenciadores().contains(usuario.getId()) &&
+                                !usuario.getTorneiosSeguidos().contains(torneio.buscarUuid()) ) {
                                 listaTorneiosBuscados.add(torneio);
                             }
                             Log.d(TAG, torneio.toString());
