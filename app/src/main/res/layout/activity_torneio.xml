@@ -66,6 +66,8 @@
             android:id="@+id/tab_bar_torneio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabPaddingStart="@dimen/tap_pading_default"
+            app:tabPaddingEnd="@dimen/tap_pading_default"
             />
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/tab_conteudo_torneio"

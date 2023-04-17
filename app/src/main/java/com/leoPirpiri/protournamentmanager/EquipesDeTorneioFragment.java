@@ -44,8 +44,8 @@ public class EquipesDeTorneioFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public EquipesDeTorneioFragment(ArrayList<Equipe> equipes) {
-        this.listaEquipes = equipes;
+    public EquipesDeTorneioFragment(Torneio torneio) {
+        this.listaEquipes = torneio.getEquipes();
     }
 
     @Override
@@ -61,10 +61,10 @@ public class EquipesDeTorneioFragment extends Fragment {
 
         recyclerViewEquipesDoTorneio = v.findViewById(R.id.recyclerview_lista_equipes);
         txv_info_lista_equipes = v.findViewById(R.id.txv_msg_equipes_salvas);
-        FloatingActionButton btn_add_equipe = v.findViewById(R.id.btn_nova_equipe);
+
         listarTimes();
         //Listeners
-        btn_add_equipe.setOnClickListener(view -> {
+        ((FloatingActionButton) v.findViewById(R.id.btn_nova_equipe)).setOnClickListener(view -> {
             if(superActivity.torneioFechado() || listaEquipes.size() == Torneio.MAX_EQUIPE){
                 montarAlertaEquipeAdicaoNaoPermitida();
             } else {

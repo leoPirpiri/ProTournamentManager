@@ -39,6 +39,8 @@
     <dimen name="btn_shape_pad_hor">12dp</dimen>
     <dimen name="btn_shape_pad_ver">2dp</dimen>
     <dimen name="btn_shape_borda">2dp</dimen>
+    <dimen name="icon_default_padding">3dp</dimen>
+    <dimen name="tap_pading_default">0dp</dimen>
 
     <!-- Fontes -->
     <dimen name="cronometro_fonte">50sp</dimen>
@@ -53,5 +55,4 @@
     <dimen name="padding_msg_informacoes">15sp</dimen>
     <dimen name="padding_estatisticas">10sp</dimen>
     <dimen name="informacoes_fonte">18sp</dimen>
-    <dimen name="icon_default_padding">3dp</dimen>
 </resources>

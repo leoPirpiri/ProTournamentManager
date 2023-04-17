@@ -61,14 +61,12 @@ public class TorneiosSeguidosFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_torneios_diversos, container, false);
 
-        TableRow tablerow_acao = v.findViewById(R.id.tablerow_acao_torneios_recentes);
         txv_msg_torneios_seguidos_recentes = v.findViewById(R.id.txv_msg_lista_torneios_recentes);
         recyclerViewTorneiosSeguidos = v.findViewById(R.id.recyclerview_torneios_recentes);
-        Button btn_simulador_partida = v.findViewById(R.id.btn_simulador_tela_inicio);
 
         //Características iniciais dos elementos da tela do fragmento
-        tablerow_acao.setVisibility(View.GONE);
-        btn_simulador_partida.setVisibility(View.GONE);
+        v.findViewById(R.id.tablerow_acao_torneios_recentes).setVisibility(View.GONE);
+        v.findViewById(R.id.btn_simulador_tela_inicio).setVisibility(View.GONE);
 
         firestoreDB = FirebaseFirestore.getInstance();
 

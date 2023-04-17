@@ -25,14 +25,11 @@ import model.Olimpia;
 import model.Torneio;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MAIN";
 
     private Olimpia santuarioOlimpia;
     private AlertDialog alertaDialog;
-    /*private Usuario usuario = new Usuario();
-        usuario.setId(nowUser.getUid());
-    buscarUsuario();*/
     private FirebaseUser nowUser;
-    private static final String TAG = "MAIN";
     private FirebaseFirestore  firestore;
 
     @Override

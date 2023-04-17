@@ -221,7 +221,7 @@
     <string name="erro_login_incorreto">Usuário ou senha inválidos</string>
     <string name="btn_logout">SAIR</string>
     <string name="titulo_cadastro">Cadastro para o modo online</string>
-    <string name="dica_apelidio">Usuário</string>
+    <string name="dica_apelido">Usuário</string>
     <string name="dica_sede_padrao">Cidade sede dos torneios</string>
     <string name="btn_cadastrar">CADASTRAR</string>
     <string name="dica_info_cadastro">
@@ -244,6 +244,7 @@
         <item>Estatísticas</item>
         <item>Dicas</item>
     </string-array>
+    <string name="tab_bar_tela_torneio_nomes_fragmento_mesario">Mesários</string>
     <string-array name="tab_bar_tela_equipe_nomes">
         <item>Plantel</item>
         <item>Estatísticas</item>
@@ -251,6 +252,7 @@
     </string-array>
     <string name="hint_frag_torneios_etx_novo">Nome do torneio</string>
     <string name="hint_frag_torneios_etx_buscar">Nome do torneio</string>
+    <string name="hint_frag_mesarios_etx_buscar">Nome do usuário</string>
     <string name="lbl_btn_novo">CRIAR</string>
     <string name="lbl_btn_buscar">BUSCAR</string>
     <string name="erro_numero_max_torneios">Número máximo de torneio gerenciado alcançado.</string>
@@ -278,4 +280,6 @@
         * Para atribuir pontos, cartões e faltas apenas pressione no nome do jogador.\n\n
         * Para ver mais detalhes de um jogador, pressione e segure em seu nome.\n\n
     </string>
+    <string name="msg_torneio_sem_mesarios">Torneio sem mesários, \nVocê é o único gerenciador.</string>
+    <string name="msg_torneio_com_mesarios">Mesários atuais do torneio:</string>
 </resources>

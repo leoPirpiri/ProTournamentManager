@@ -1,11 +1,14 @@
 package com.leoPirpiri.protournamentmanager;
 
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
@@ -19,7 +22,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
@@ -29,22 +34,24 @@ import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
-    private String torneioIndice;
 
-    private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
-    private Torneio torneio;
+    private AlertDialog alertaDialog;
     private TextView txv_estado_torneio;
     private Button btn_gerar_tabela;
+
+    private String torneioIndice;
+    private Torneio torneio;
+    private FirebaseUser nowUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        nowUser = FirebaseAuth.getInstance().getCurrentUser();
         setContentView(R.layout.activity_torneio);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
         btn_gerar_tabela = findViewById(R.id.btn_gerar_tabela);
 
@@ -103,13 +110,16 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void setTabLayout() {
-        NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(
-                this,
-                Arrays.asList(new EquipesDeTorneioFragment(torneio.getEquipes()),
-                        new EstatisticasDeTorneioFragment(torneio),
-                        new InformacoesFragment(R.string.informacoes_tela_torneio)),
-                Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_torneio_nomes))
-        );
+        List<Fragment> fragmentosList = new ArrayList<>(Arrays.asList(new EquipesDeTorneioFragment(torneio),
+                                                      new EstatisticasDeTorneioFragment(torneio),
+                                                      new InformacoesFragment(R.string.informacoes_tela_torneio)));
+        List<String> titulosDosFragmentosList = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.tab_bar_tela_torneio_nomes)));
+
+        if (getUsuarioLogado().equals(torneio.buscarDonoDoTorneio())){
+            fragmentosList.add(2, new GerenciarMesariosDeTorneioFragment(torneio));
+            titulosDosFragmentosList.add(2, getString(R.string.tab_bar_tela_torneio_nomes_fragmento_mesario));
+        }
+        NavegacaoPorPaginasAdapter adapter = new NavegacaoPorPaginasAdapter(this, fragmentosList, titulosDosFragmentosList);
 
         ViewPager2 viewPager = findViewById(R.id.tab_conteudo_torneio);
         viewPager.setAdapter(adapter);
@@ -235,6 +245,10 @@ public class TorneioActivity extends AppCompatActivity {
             btn_gerar_tabela.setEnabled(true);
             btn_gerar_tabela.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
         }
+    }
+
+    public String getUsuarioLogado(){
+        return nowUser.getUid();
     }
 
     public boolean torneioFechado(){ return torneio.estarFechado(); }
