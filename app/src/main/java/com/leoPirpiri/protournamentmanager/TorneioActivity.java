@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
+import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
 import model.Equipe;
 import model.Olimpia;

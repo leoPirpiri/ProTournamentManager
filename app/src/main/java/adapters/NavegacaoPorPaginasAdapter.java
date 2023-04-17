@@ -1,4 +1,4 @@
-package com.leoPirpiri.protournamentmanager;
+package adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

@@ -1,6 +1,5 @@
 package com.leoPirpiri.protournamentmanager;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -8,12 +7,10 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import adapters.PartidasAdapter;
 import control.CarrierSemiActivity;
 import model.Olimpia;
 import model.Equipe;

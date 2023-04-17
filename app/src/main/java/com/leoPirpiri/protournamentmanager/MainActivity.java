@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
 import model.Olimpia;
 import model.Torneio;

@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
+import adapters.TorneiosAdapter;
 import model.Olimpia;
 import model.Torneio;
 

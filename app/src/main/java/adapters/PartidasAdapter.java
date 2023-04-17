@@ -1,4 +1,4 @@
-package com.leoPirpiri.protournamentmanager;
+package adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+
+import com.leoPirpiri.protournamentmanager.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

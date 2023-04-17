@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import adapters.JogadoresAdapter;
 import control.CarrierSemiActivity;
 import model.Olimpia;
 import model.Equipe;

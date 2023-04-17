@@ -1,4 +1,4 @@
-package com.leoPirpiri.protournamentmanager;
+package adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.leoPirpiri.protournamentmanager.R;
 
 import java.util.ArrayList;
 

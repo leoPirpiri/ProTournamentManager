@@ -24,6 +24,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+import adapters.EquipesAdapter;
 import model.Equipe;
 import model.Torneio;
 

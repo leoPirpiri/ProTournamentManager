@@ -23,7 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-import control.CarrierSemiActivity;
+import adapters.JogadoresAdapter;
 import model.Jogador;
 
 public class JogadoresDeEquipeFragment extends Fragment {

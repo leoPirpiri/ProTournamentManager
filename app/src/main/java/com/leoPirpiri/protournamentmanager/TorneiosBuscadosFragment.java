@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import adapters.TorneiosAdapter;
 import model.Torneio;
 import model.Usuario;
 

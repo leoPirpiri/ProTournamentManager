@@ -24,6 +24,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
 import model.Jogador;
 import model.Olimpia;
