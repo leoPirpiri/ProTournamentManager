@@ -227,7 +227,6 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void atualizouTorneio(){
         atualizarBotaoTabela();
-        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         persistirDados();
     }
 
@@ -253,5 +252,8 @@ public class TorneioActivity extends AppCompatActivity {
 
     public boolean torneioFechado(){ return torneio.estarFechado(); }
 
-    public void persistirDados(){ santuarioOlimpia.atualizar(true); }
+    public void persistirDados(){
+        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        santuarioOlimpia.atualizar(true);
+    }
 }

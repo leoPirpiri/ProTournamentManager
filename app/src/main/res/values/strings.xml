@@ -29,10 +29,15 @@
     <string name="titulo_alerta_confir_excluir_torneio">Excluindo Torneio</string>
     <string name="titulo_alerta_confir_follow_torneio">Acompanhar Torneio</string>
     <string name="titulo_alerta_confir_unfollow_torneio">Não acompanhar Torneio</string>
-    <string name="titulo_alerta_sorteio">Escalando jogadores…</string>
+    <string name="titulo_alerta_sorteio_pelada">Escalando jogadores…</string>
+    <string name="titulo_alerta_novo_mesario_torneio">Cadastra mesário</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="msg_alerta_confir_follow_torneio">Deseja seguir esse Torneio?</string>
     <string name="msg_alerta_confir_unfollow_torneio">Deixar de seguir esse Torneio?</string>
+    <string name="msg_alerta_confir_novo_mesario_torneio">Confirmar este usuário como um mesário do torneio?</string>
+    <string name="msg_alerta_erro_novo_mesario_torneio">Não foi possível adicionar este mesário.\nNúmero máximo de mesários atingido.</string>
+    <string name="msg_alerta_erro_novo_mesario_torneio_existente">Este mesário já é gerenciador desse torneio.</string>
+    <string name="msg_alerta_erro_novo_mesario_torneio_nao_encontrado">Mesário não encontrado.</string>
     <string name="torneio_cheio">Torneio cheio.</string>
     <string name="torneio_fechado">Torneio fechado.</string>
     <string name="torneio_com_equipes">Equipes participantes: </string>
@@ -282,4 +287,8 @@
     </string>
     <string name="msg_torneio_sem_mesarios">Torneio sem mesários, \nVocê é o único gerenciador.</string>
     <string name="msg_torneio_com_mesarios">Mesários atuais do torneio:</string>
+
+    <string name="msg_previlegios_dono_torneio">Só o dono do torneio possui privilégio pra esta alteração.</string>
+
+
 </resources>

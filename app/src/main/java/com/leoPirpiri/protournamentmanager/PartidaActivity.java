@@ -428,7 +428,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_sorteio);
+        builder.setTitle(R.string.titulo_alerta_sorteio_pelada);
         builder.setCancelable(false);
         mostrarAlerta(builder);
     }
