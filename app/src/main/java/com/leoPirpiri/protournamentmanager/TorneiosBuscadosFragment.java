@@ -166,18 +166,10 @@ public class TorneiosBuscadosFragment extends Fragment {
 
     private void seguirTorneio(String torneioUuid) {
         usuario.addTorneioSeguido(torneioUuid);
-        atualizarUsuarioLogado(torneioUuid);
-    }
-
-    private void atualizarUsuarioLogado(String torneioUuid) {
-        firestoreDB.collection("usuarios")
-                .document(usuario.getId())
-                .set(usuario)
-                .addOnSuccessListener(aVoid -> {
-                    superActivity.abrirTorneio(torneioUuid);
-                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                    superActivity.esconderAlerta();
-                });
+        if (usuario.atualizarUsuario(firestoreDB)){
+            superActivity.abrirTorneio(torneioUuid);
+            superActivity.esconderAlerta();
+        }
     }
 
     private void buscarUsuarioLogado() {

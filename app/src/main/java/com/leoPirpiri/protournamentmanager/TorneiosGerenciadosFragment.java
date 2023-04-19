@@ -36,7 +36,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     private final String TAG = "TORNEIOS_GERENCIADOS";
 
     private MainActivity superActivity;
-    private TorneiosAdapter adapterTorneio;
+    private TorneiosAdapter adapterTorneioGerenciados;
     private RecyclerView recyclerViewTorneiosGerenciados;
     private TextView txv_msg_torneios_gerenciados_recentes;
     private ArrayList<Torneio> listaTorneiosGerenciados;
@@ -130,17 +130,17 @@ public class TorneiosGerenciadosFragment extends Fragment {
 
     private void povoarRecycleView(){
         recyclerViewTorneiosGerenciados.setLayoutManager(new LinearLayoutManager(superActivity));
-        adapterTorneio = new TorneiosAdapter(superActivity, listaTorneiosGerenciados);
-        recyclerViewTorneiosGerenciados.setAdapter(adapterTorneio);
+        adapterTorneioGerenciados = new TorneiosAdapter(superActivity, listaTorneiosGerenciados);
+        recyclerViewTorneiosGerenciados.setAdapter(adapterTorneioGerenciados);
         construirListenersAdapterTorneio();
     }
 
     private void construirListenersAdapterTorneio() {
-        adapterTorneio.setOnClickListener(v -> abrirTorneioGerenciado(
+        adapterTorneioGerenciados.setOnClickListener(v -> abrirTorneioGerenciado(
                 listaTorneiosGerenciados.get(
                         recyclerViewTorneiosGerenciados.getChildAdapterPosition(v)).buscarUuid()));
 
-        adapterTorneio.setOnLongClickListener(v -> {
+        adapterTorneioGerenciados.setOnLongClickListener(v -> {
             montarAlertaExcluirTorneio(recyclerViewTorneiosGerenciados.getChildAdapterPosition(v));
             return true;
         });
@@ -198,8 +198,8 @@ public class TorneiosGerenciadosFragment extends Fragment {
     }
 
     private void excluirTorneioGerenciado(int position) {
-        if (superActivity.excluirTorneio(position)){
-            adapterTorneio.notifyItemRemoved(position);
+        if (superActivity.excluirTorneio(listaTorneiosGerenciados.get(position))){
+            adapterTorneioGerenciados.notifyItemRemoved(position);
             listarTorneios();
         }
     }
@@ -226,7 +226,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             superActivity.persistirDados();
-                            adapterTorneio.notifyDataSetChanged();
+                            adapterTorneioGerenciados.notifyDataSetChanged();
                             listarTorneios();
                         }
                     } else {

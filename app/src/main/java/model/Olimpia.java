@@ -41,7 +41,9 @@ public class Olimpia implements Serializable {
         }
     }
 
-    public Torneio delTorneioGerenciado(int pos){ return torneiosGerenciados.remove(pos); }
+    public boolean delTorneioGerenciado(Torneio torneio){ return torneiosGerenciados.remove(torneio); }
+
+    public boolean delTorneioSeguido(Torneio torneio){ return torneiosSeguidos.remove(torneio); }
 
     public Torneio getTorneioGerenciado(String idTorneio){
         for (Torneio t : torneiosGerenciados) {

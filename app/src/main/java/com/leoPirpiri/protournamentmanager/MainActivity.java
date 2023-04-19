@@ -144,11 +144,19 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean excluirTorneio(int posicaoTorneio) {
-        if(santuarioOlimpia.delTorneioGerenciado(posicaoTorneio) != null){
-            persistirDados();
-            return true;
+    public boolean excluirTorneio(Torneio torneio) {
+        if(torneio.getGerenciadores().contains(nowUser.getUid())){
+            if(santuarioOlimpia.delTorneioGerenciado(torneio)){
+                persistirDados();
+                return true;
+            }
+        } else {
+            if(santuarioOlimpia.delTorneioSeguido(torneio)){
+                persistirDados();
+                return true;
+            }
         }
+
         return false;
     }
 

@@ -15,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
@@ -93,7 +93,9 @@ public class TorneiosSeguidosFragment extends Fragment {
                         if(document.exists()){
                             usuario = document.toObject(Usuario.class);
                             Log.d(TAG, usuario.toString());
-                            if(listaTorneiosSeguidos.isEmpty() && !usuario.getTorneiosSeguidos().isEmpty()){
+                            if(usuario != null &&
+                              !usuario.getTorneiosSeguidos().isEmpty() &&
+                              (listaTorneiosSeguidos.isEmpty() || listaTorneiosSeguidos.size() != usuario.getTorneiosSeguidos().size())){
                                 buscarTorneiosRemotos();
                             }
                         } else {
@@ -187,9 +189,18 @@ public class TorneiosSeguidosFragment extends Fragment {
     }
 
     private void excluirTorneioSeguido(int position) {
-        if (superActivity.excluirTorneio(position)){
-            adapterTorneioSeguidos.notifyItemRemoved(position);
-            listarTorneios();
+        if(usuario!=null){
+            Torneio torneio = listaTorneiosSeguidos.get(position);
+            if(usuario.dellTroneioSeguido(torneio.buscarUuid()) && usuario.atualizarUsuario(firestoreDB)){
+                if (superActivity.excluirTorneio(torneio)){
+                    adapterTorneioSeguidos.notifyItemRemoved(position);
+                    listarTorneios();
+                }
+            } else {
+                Toast.makeText(superActivity, R.string.erro_sem_conexao_internet, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(superActivity, R.string.erro_sem_conexao_internet, Toast.LENGTH_SHORT).show();
         }
     }
 }
