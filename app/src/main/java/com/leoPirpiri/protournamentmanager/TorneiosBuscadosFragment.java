@@ -155,7 +155,7 @@ public class TorneiosBuscadosFragment extends Fragment {
         msg.setVisibility(View.VISIBLE);
         msg.setText(R.string.msg_alerta_confir_follow_torneio);
 
-        btn_confirmar.setOnClickListener(arg0 -> seguirTorneio(listaTorneiosBuscados.get(position).buscarUuid()));
+        btn_confirmar.setOnClickListener(arg0 -> seguirTorneio(listaTorneiosBuscados.get(position)));
 
         btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
@@ -164,10 +164,10 @@ public class TorneiosBuscadosFragment extends Fragment {
         superActivity.mostrarAlerta(builder);
     }
 
-    private void seguirTorneio(String torneioUuid) {
-        usuario.addTorneioSeguido(torneioUuid);
-        if (usuario.atualizarUsuario(firestoreDB)){
-            superActivity.abrirTorneio(torneioUuid);
+    private void seguirTorneio(Torneio torneio) {
+        if (usuario.ComecarSeguirTorneio(torneio.buscarUuid())){
+            usuario.atualizarUsuario(firestoreDB);
+            superActivity.abrirTorneio(torneio.buscarUuid());
             superActivity.esconderAlerta();
         }
     }

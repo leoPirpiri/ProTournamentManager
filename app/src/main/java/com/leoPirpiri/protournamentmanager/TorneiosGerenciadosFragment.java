@@ -171,7 +171,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     }
 
     private void desabilitarBtnNovoTorneio() {
-        if(Olimpia.TORNEIO_MAX==listaTorneiosGerenciados.size()) {
+        if(Olimpia.MAX_TORNEIOS_GERENCIADOS ==listaTorneiosGerenciados.size()) {
             etx_nome_novo_torneio.setHint(R.string.santuario_gerenciados_cheio);
         } else {
             etx_nome_novo_torneio.setHint(R.string.hint_frag_torneios_etx_novo);

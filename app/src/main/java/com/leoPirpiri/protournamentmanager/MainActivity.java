@@ -149,15 +149,17 @@ public class MainActivity extends AppCompatActivity {
             if(santuarioOlimpia.delTorneioGerenciado(torneio)){
                 persistirDados();
                 return true;
+            } else {
+                return false;
             }
         } else {
             if(santuarioOlimpia.delTorneioSeguido(torneio)){
                 persistirDados();
                 return true;
+            } else {
+                return false;
             }
         }
-
-        return false;
     }
 
     public void efetuarLogout(){

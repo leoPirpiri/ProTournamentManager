@@ -9,7 +9,8 @@ import java.util.ArrayList;
 //Os Jogos olímpicos da antiguidade eram disputados no santuário de Olímpia.
 public class Olimpia implements Serializable {
     public static final String NOME_ARQUIVO_SERIALIZADO = "default_santuario_de_olimpia.ser";
-    public static final int TORNEIO_MAX = 8;
+    public static final int MAX_TORNEIOS_GERENCIADOS = 6;
+    public static final int MAX_TORNEIOS_SEGUIDOS = 10;
     public static final int IDLENGTH = 5;
     public static final String TAG = "Nuvem";
 
@@ -33,7 +34,7 @@ public class Olimpia implements Serializable {
     }
 
     public int addTorneioGerenciado(Torneio torneio){
-        if(getOcupacao(torneio.buscarUuid()) < TORNEIO_MAX){
+        if(getOcupacao(torneio.buscarUuid()) < MAX_TORNEIOS_GERENCIADOS){
             torneiosGerenciados.add(torneio);
             return torneio.getId();
         } else {
@@ -43,7 +44,9 @@ public class Olimpia implements Serializable {
 
     public boolean delTorneioGerenciado(Torneio torneio){ return torneiosGerenciados.remove(torneio); }
 
-    public boolean delTorneioSeguido(Torneio torneio){ return torneiosSeguidos.remove(torneio); }
+    public boolean delTorneioSeguido(Torneio torneio){
+        return torneiosSeguidos.remove(torneio);
+    }
 
     public Torneio getTorneioGerenciado(String idTorneio){
         for (Torneio t : torneiosGerenciados) {

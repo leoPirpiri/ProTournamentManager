@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Usuario {
     private static final String TAG = "USUARIO_CONECTION";
@@ -40,27 +39,28 @@ public class Usuario {
         this.torneiosSeguidos = torneiosSeguidos;
     }
 
-    public void addTorneioSeguido (String uidTorneio){
-        this.torneiosSeguidos.add(uidTorneio);
+    public boolean ComecarSeguirTorneio(String uuidTorneio){
+        if(torneiosSeguidos.size()<Olimpia.MAX_TORNEIOS_SEGUIDOS && torneiosSeguidos.contains(uuidTorneio)){
+            this.torneiosSeguidos.add(uuidTorneio);
+            return true;
+        }
+        return false;
     }
 
-    public boolean dellTroneioSeguido (String uidTorneio) { return this.torneiosSeguidos.remove(uidTorneio); }
+    public boolean deixarSeguirTorneio(String uidTorneio) {
+        return this.torneiosSeguidos.remove(uidTorneio);
+    }
 
     public void setId(String uid) {
         this.id = uid;
     }
 
-    public boolean atualizarUsuario(FirebaseFirestore db){
-        AtomicBoolean sucesso = new AtomicBoolean(false);
-        db.collection("usuarios").
+    public void atualizarUsuario(FirebaseFirestore db){
+         db.collection("usuarios").
                 document(this.getId()).
                 update("torneiosSeguidos", this.torneiosSeguidos).
-                addOnSuccessListener(aVoid -> {
-                    sucesso.set(true);
-                    Log.d(TAG, "DocumentSnapshot successfully updated!");
-                }).
+                addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully updated!")).
                 addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
-        return sucesso.get();
     }
 
     @NonNull
