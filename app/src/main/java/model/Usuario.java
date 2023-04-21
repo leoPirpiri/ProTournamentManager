@@ -40,7 +40,7 @@ public class Usuario {
     }
 
     public boolean ComecarSeguirTorneio(String uuidTorneio){
-        if(torneiosSeguidos.size()<Olimpia.MAX_TORNEIOS_SEGUIDOS && torneiosSeguidos.contains(uuidTorneio)){
+        if(torneiosSeguidos.size()<Olimpia.MAX_TORNEIOS_SEGUIDOS && !torneiosSeguidos.contains(uuidTorneio)){
             this.torneiosSeguidos.add(uuidTorneio);
             return true;
         }

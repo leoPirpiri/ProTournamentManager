@@ -202,8 +202,8 @@ public class TorneiosBuscadosFragment extends Fragment {
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
                     QuerySnapshot documents = task.getResult();
+                    listaTorneiosBuscados.clear();
                     if(!documents.isEmpty()){
-                        listaTorneiosBuscados.clear();
                         for (QueryDocumentSnapshot document : documents) {
                             Torneio torneio = document.toObject(Torneio.class);
                             if (!torneio.getGerenciadores().contains(usuario.getId()) &&
@@ -213,8 +213,8 @@ public class TorneiosBuscadosFragment extends Fragment {
                             Log.d(TAG, torneio.toString());
                             Log.d(TAG, document.getId() + " => " + document.getData());
                         }
-                        listarTorneios();
                     }
+                    listarTorneios();
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
