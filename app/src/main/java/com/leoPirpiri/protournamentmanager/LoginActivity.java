@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import control.CarrierSemiActivity;
 import model.Olimpia;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = "TELA_LOGIN";
 
     private EditText etx_email;
     private EditText etx_senha;
@@ -129,12 +131,12 @@ public class LoginActivity extends AppCompatActivity {
         db_auth.signInWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+                        Log.d(TAG+"_PADRAO", task.getResult().toString());
                         CarrierSemiActivity.limparSantuarioLocal(this);
                         abrirPrincipal();
                     } else {
+                        Log.d(TAG+"_PADRAO", task.getException().getMessage());
                         etx_email.setError(getString(R.string.erro_login_incorreto));
-                        Toast.makeText(getApplicationContext(), getString(R.string.erro_login_padrao_auth),
-                                Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -143,10 +145,11 @@ public class LoginActivity extends AppCompatActivity {
         AuthCredential credencial = GoogleAuthProvider.getCredential(token, null);
         db_auth.signInWithCredential(credencial).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                Olimpia.printteste(this, "loging certo, abrir tela principal");
+                Log.d(TAG+"_GOOGLE", task.getResult().toString());
                 CarrierSemiActivity.limparSantuarioLocal(this);
                 abrirPrincipal();
             } else {
+                Log.d(TAG+"_GOOGLE", task.getException().getMessage());
                 Toast.makeText(getApplicationContext(), getString(R.string.erro_login_google_auth),
                         Toast.LENGTH_LONG).show();
             }

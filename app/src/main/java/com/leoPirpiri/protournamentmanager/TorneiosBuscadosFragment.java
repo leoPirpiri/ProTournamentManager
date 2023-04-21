@@ -160,7 +160,7 @@ public class TorneiosBuscadosFragment extends Fragment {
         btn_cancelar.setOnClickListener(arg0 -> superActivity.esconderAlerta());
 
         builder.setView(view);
-        builder.setTitle(R.string.titulo_alerta_confir_unfollow_torneio);
+        builder.setTitle(R.string.titulo_alerta_confir_follow_torneio);
         superActivity.mostrarAlerta(builder);
     }
 
