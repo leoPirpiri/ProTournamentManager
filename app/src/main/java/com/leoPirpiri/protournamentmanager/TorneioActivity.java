@@ -76,6 +76,13 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        metodoRaiz();
+        setTabLayout();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if(!santuarioOlimpia.estaAtualizado()){
@@ -88,10 +95,9 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        metodoRaiz();
-        setTabLayout();
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("Destruindo Atividade.");
     }
 
     private void metodoRaiz(){
