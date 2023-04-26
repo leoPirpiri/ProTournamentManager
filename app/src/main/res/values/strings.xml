@@ -31,6 +31,7 @@
     <string name="titulo_alerta_confir_unfollow_torneio">Não acompanhar Torneio</string>
     <string name="titulo_alerta_sorteio_pelada">Escalando jogadores…</string>
     <string name="titulo_alerta_novo_mesario_torneio">Cadastra mesário</string>
+    <string name="titulo_alerta_loading_torneio_remoto">Buscando torneio…</string>
     <string name="msg_alerta_confir_excluir_torneio">Deseja excluir esse Torneio?</string>
     <string name="msg_alerta_confir_follow_torneio">Deseja seguir esse Torneio?</string>
     <string name="msg_alerta_confir_unfollow_torneio">Deixar de seguir esse Torneio?</string>

@@ -3,11 +3,13 @@ package com.leoPirpiri.protournamentmanager;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.leoPirpiri.protournamentmanager.R.drawable;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -102,17 +104,20 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void metodoRaiz(){
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(TorneioActivity.this);
-        torneio = santuarioOlimpia.getTorneioGerenciado(torneioIndice);
+        torneio = santuarioOlimpia.getTorneio(torneioIndice);
         santuarioOlimpia.atualizar(false);
-
         if(torneio != null){
-            setTitle(torneio.getNome());
-            txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
-            atualizarBotaoTabela();
+            atualizarInformacoesInciais();
+            montarAlertaBuscarTorneioRemoto(torneioIndice);
         } else {
-            Toast.makeText(this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
-            finish();
+            montarAlertaBuscarTorneioRemoto(torneioIndice);
         }
+    }
+
+    private void atualizarInformacoesInciais(){
+        setTitle(torneio.getNome());
+        txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
+        atualizarBotaoTabela();
     }
 
     private void setTabLayout() {
@@ -138,15 +143,25 @@ public class TorneioActivity extends AppCompatActivity {
         mediator.attach();
     }
 
+    private void montarAlertaBuscarTorneioRemoto(String torneioIndice) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
+        GifImageView img = view.findViewById(R.id.img_alerta_default);
+        img.setImageResource(drawable.load);
+        img.setVisibility(View.VISIBLE);
+        builder.setOnDismissListener(dialog -> {
+            System.out.println("Ele somiu");
+        });
+        builder.setView(view);
+        builder.setCancelable(false);
+        builder.setTitle(R.string.titulo_alerta_loading_torneio_remoto);
+        mostrarAlerta(builder);
+    }
+
     private void montarAlertaSorteio(){
         final Handler handler = new Handler();
-        final Runnable runnable = () -> {
-            // verificar se a caixa de diálogo está visível
-            if (alertaDialog.isShowing()) {
-                // fecha a caixa de diálogo
-                alertaDialog.dismiss();
-            }
-        };
+        // verificar se existe caixa de diálogo visível e fecha a caixa de diálogo
+        final Runnable runnable = () -> { if (alertaDialog.isShowing()) alertaDialog.dismiss(); };
 
         handler.postDelayed(runnable, 3000);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
