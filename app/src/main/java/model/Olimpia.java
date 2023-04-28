@@ -42,6 +42,10 @@ public class Olimpia implements Serializable {
         }
     }
 
+    public void addTorneioSeguido(Torneio torneio){
+        torneiosSeguidos.add(torneio);
+    }
+
     public boolean delTorneioGerenciado(Torneio torneio){ return torneiosGerenciados.remove(torneio); }
 
     public boolean delTorneioSeguido(Torneio torneio){
@@ -63,7 +67,7 @@ public class Olimpia implements Serializable {
         return null;
     }
 
-    private Torneio getTorneioSeguido(String idTorneio){
+    public Torneio getTorneioSeguido(String idTorneio){
         for (Torneio t : torneiosSeguidos) {
             if (t.buscarUuid().equals(idTorneio)){
                 return t;

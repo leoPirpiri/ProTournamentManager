@@ -3,13 +3,14 @@ package com.leoPirpiri.protournamentmanager;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.leoPirpiri.protournamentmanager.R.drawable;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -36,6 +38,7 @@ import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
 public class TorneioActivity extends AppCompatActivity {
+    private final String TAG = "TORNEIO_ACTIVITY";
 
     private Olimpia santuarioOlimpia;
     private AlertDialog alertaDialog;
@@ -45,7 +48,6 @@ public class TorneioActivity extends AppCompatActivity {
     private String torneioIndice;
     private Torneio torneio;
     private FirebaseUser nowUser;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +71,7 @@ public class TorneioActivity extends AppCompatActivity {
             if(torneio.estarFechado()){
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
-                persistirDados();
+                persistirDadosSantuario();
                 montarAlertaSorteio();
             } else {
                 finish();
@@ -91,8 +93,8 @@ public class TorneioActivity extends AppCompatActivity {
             CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
             santuarioOlimpia.atualizar(false);
         }
-        if(alertaDialog!=null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
+        if(alertaDialog!=null){
+            esconderAlerta();
         }
     }
 
@@ -108,9 +110,10 @@ public class TorneioActivity extends AppCompatActivity {
         santuarioOlimpia.atualizar(false);
         if(torneio != null){
             atualizarInformacoesInciais();
-            montarAlertaBuscarTorneioRemoto(torneioIndice);
+            //montarAlertaBuscarTorneioRemoto();
         } else {
-            montarAlertaBuscarTorneioRemoto(torneioIndice);
+            torneio = new Torneio(-1, "", getUsuarioLogado());
+            montarAlertaBuscarTorneioRemoto();
         }
     }
 
@@ -143,25 +146,23 @@ public class TorneioActivity extends AppCompatActivity {
         mediator.attach();
     }
 
-    private void montarAlertaBuscarTorneioRemoto(String torneioIndice) {
+    private void montarAlertaBuscarTorneioRemoto() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
         GifImageView img = view.findViewById(R.id.img_alerta_default);
         img.setImageResource(drawable.load);
         img.setVisibility(View.VISIBLE);
-        builder.setOnDismissListener(dialog -> {
-            System.out.println("Ele somiu");
-        });
         builder.setView(view);
         builder.setCancelable(false);
         builder.setTitle(R.string.titulo_alerta_loading_torneio_remoto);
         mostrarAlerta(builder);
+        buscarTorneioRemoto();
     }
 
     private void montarAlertaSorteio(){
         final Handler handler = new Handler();
         // verificar se existe caixa de diálogo visível e fecha a caixa de diálogo
-        final Runnable runnable = () -> { if (alertaDialog.isShowing()) alertaDialog.dismiss(); };
+        final Runnable runnable = this::esconderAlerta;
 
         handler.postDelayed(runnable, 3000);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -213,7 +214,7 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     public void esconderAlerta(){
-        alertaDialog.dismiss();
+        if (alertaDialog.isShowing()) alertaDialog.dismiss();
     }
 
     public boolean adicionarEquipe(String nome, String sigla){
@@ -248,7 +249,7 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void atualizouTorneio(){
         atualizarBotaoTabela();
-        persistirDados();
+        persistirDadosSantuario();
     }
 
     private void atualizarBotaoTabela(){
@@ -273,8 +274,47 @@ public class TorneioActivity extends AppCompatActivity {
 
     public boolean torneioFechado(){ return torneio.estarFechado(); }
 
-    public void persistirDados(){
+    public void persistirDadosSantuario(){
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         santuarioOlimpia.atualizar(true);
     }
+
+    private void buscarTorneioRemoto(){
+        FirebaseFirestore.getInstance().collection("torneios").
+                document(torneioIndice).get().
+                addOnCompleteListener(task -> {
+                    esconderAlerta();
+                    if(task.isSuccessful()){
+                        DocumentSnapshot doc = task.getResult();
+                        if (doc.exists()){
+                            Torneio torneioRemoto = doc.toObject(Torneio.class);
+                            torneioEncontrado(torneioRemoto);
+                        } else {
+                            Toast.makeText(this, R.string.erro_torneio_nao_encontrado, Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        Log.d(TAG, task.getResult().toString());
+                    } else {
+                        Log.d(TAG, task.getResult().toString());
+                        finish();
+                    }
+                });
+    }
+
+    private void torneioEncontrado(Torneio torneioRemoto) {
+        if(torneioRemoto.getGerenciadores().contains(getUsuarioLogado())){
+            System.out.println("Torneio Gerenciado");
+        } else {
+            System.out.println("Torneio Seguido");
+            if(torneioRemoto.getDataAtualizacaoRemota() != torneio.getDataAtualizacaoRemota()){
+                santuarioOlimpia.delTorneioSeguido(torneio);
+                torneio = torneioRemoto;
+                santuarioOlimpia.addTorneioSeguido(torneioRemoto);
+                persistirDadosSantuario();
+                atualizarInformacoesInciais();
+                setTabLayout();
+            }
+        }
+    }
+
 }

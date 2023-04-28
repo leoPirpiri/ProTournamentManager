@@ -175,7 +175,7 @@ public class GerenciarMesariosDeTorneioFragment extends Fragment {
             adapterMesario.notifyItemInserted(listaDeMesarios.size()-1);
             torneio.adicionarMesario(novoMesario.getId());
             listarMesarios();
-            superActivity.persistirDados();
+            superActivity.persistirDadosSantuario();
             superActivity.esconderAlerta();
         });
 

@@ -194,6 +194,7 @@
     <string name="encerrar_partida">Finalizar Partida</string>
     <string name="encerrar_pelada">Finalizar Pelada</string>
     <string name="msg_alerta_aguarde">Aguarde!</string>
+    <string name="msg_sucesso_cadastrar_usuario">Cadastro realizado com sucesso.\nBem-vindo, </string>
 
     <!-- Mensagens de erros para o usuário -->
     <string name="dados_erro_leitura_santuario">Erro ao tentar acessar os torneios salvos!</string>
@@ -202,6 +203,7 @@
     <string name="dados_erro_transitar_em_activity">Erro fatal!
                                 \nPassagem de parâmetro entre telas!</string>
     <string name="erro_grave_padrao">Erro grave de sistema.\nEncerrando…</string>
+    <string name="erro_torneio_nao_encontrado">Torneio não encontrado.</string>
     <string name="erro_palavra_padrao">X</string>
     <string name="erro_atualizar_jogador_em_partida">Informações inválidas do jogador!</string>
     <string name="erro_atualizar_mesma_informacoes_da_entidade">Informações iguais!</string>
@@ -211,7 +213,6 @@
     <string name="titulo_alerta_erro_cadastro">Erro ao cadastrar usuário</string>
     <string name="erro_cadastrar_usuario_grave">Erro grave de comunicação com o banco de dados.</string>
     <string name="erro_cadastrar_usuario_duplicado">Esse usuário já existe.</string>
-    <string name="msg_sucesso_cadastrar_usuario">Cadastro realizado com sucesso.\nBem-vindo, </string>
 
     <string name="dica_info_login">
         Faça login para manter seus dados salvos.\n
