@@ -86,7 +86,7 @@ public class EquipeActivity extends AppCompatActivity {
     private void metodoRaiz() {
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(EquipeActivity.this);
         santuarioOlimpia.atualizar(false);
-        torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(equipeIndice));
+        torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(equipeIndice));
         if(torneio != null) {
             equipe = torneio.getEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
             if(equipe != null) {

@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -21,6 +22,8 @@ import java.util.Arrays;
 
 import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
+import model.ArvoreTabela;
+import model.Equipe;
 import model.Olimpia;
 import model.Torneio;
 
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        teste();
         metodoRaiz();
         setTabLayout();
     }
@@ -174,5 +178,23 @@ public class MainActivity extends AppCompatActivity {
 
     public void persistirDados(){
         santuarioOlimpia.atualizar(true);
+    }
+
+    private void teste(){
+        ArvoreTabela teste = new ArvoreTabela();
+        ArrayList<Equipe> equipes = new ArrayList<>();
+        equipes.add(new Equipe(20100, "Leicam do Maciel de Baixo", "LMB"));
+        equipes.add(new Equipe(20200, "Juventude do Pirpiri Futsal", "JPF"));
+        equipes.add(new Equipe(20300, "Sítio Escrivão Futsal", "SEF"));
+        equipes.add(new Equipe(20400, "Leicam do Maciel de Cima", "LMC"));
+        teste.gerarTabela(equipes, new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.partida_nomes))));
+        firestore.collection("teste")
+            .document("novotest1")
+            .set(teste)
+            .addOnSuccessListener(aVoid -> {
+                Log.d("Teste Aleatorio", "DocumentSnapshot successfully written!");
+            })
+            .addOnFailureListener(e -> Log.w("Teste Aleatorio", "Error writing document", e));
+
     }
 }
