@@ -15,14 +15,12 @@ import androidx.annotation.RequiresApi;
 import com.leoPirpiri.protournamentmanager.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import model.NoPartida;
-import model.Score;
+import model.Partida;
 import model.Torneio;
 
 public class PartidasAdapter extends BaseAdapter {
-    private ArrayList<NoPartida> partidas;
+    private ArrayList<Partida> partidas;
     private Torneio major;
     private boolean flagLadoEsquerdo;
     private Context ctx;
@@ -31,9 +29,9 @@ public class PartidasAdapter extends BaseAdapter {
         this.ctx = ctx;
         this.major = major;
         if (flagLadoEsquerdo){
-            this.partidas = major.getPartidasOitavas(2);
+            //this.partidas = major.getPartidasOitavas(2);
         } else {
-            this.partidas = major.getPartidasOitavas(18);
+            //this.partidas = major.getPartidasOitavas(18);
         }
         this.flagLadoEsquerdo = flagLadoEsquerdo;
     }
@@ -44,7 +42,7 @@ public class PartidasAdapter extends BaseAdapter {
     }
 
     @Override
-    public NoPartida getItem(int position) {
+    public Partida getItem(int position) {
         return partidas.get(position);
     }
 
@@ -73,9 +71,9 @@ public class PartidasAdapter extends BaseAdapter {
         TextView visitanteSigla = (TextView) v.findViewById(R.id.adp_visitor_nome);
         TextView visitanteScore = (TextView) v.findViewById(R.id.adp_visitor_ponto);
 
-        NoPartida partida = getItem(position);
+        Partida partida = getItem(position);
         System.out.println(partida.getMandante().getCampeaoId()+" e "+partida.getVisitante().getCampeaoId());
-        if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
+        /*if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
             if(partida.isEncerrada()) {
                 HashMap<String, Integer> placar = partida.getDetalhesPartida();
                 mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
@@ -90,16 +88,16 @@ public class PartidasAdapter extends BaseAdapter {
             chave.setVisibility(View.VISIBLE);
         } else {
             v.setClickable(true);
-        }
+        }*/
 
         if(partida.getMandante() != null && partida.getMandante().getCampeaoId()>0) {
-            mandanteSigla.setText(major.getEquipe(partida.getMandante().getCampeaoId()).getSigla());
+            mandanteSigla.setText(major.buscarEquipe(partida.getMandante().getCampeaoId()).getSigla());
         } else {
             mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
 
         if(partida.getVisitante() != null && partida.getVisitante().getCampeaoId()>0) {
-            visitanteSigla.setText(major.getEquipe(partida.getVisitante().getCampeaoId()).getSigla());
+            visitanteSigla.setText(major.buscarEquipe(partida.getVisitante().getCampeaoId()).getSigla());
         } else {
             visitanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }

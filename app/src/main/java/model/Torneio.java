@@ -10,15 +10,21 @@ public class Torneio extends EntConcreta {
     public static final int MAX_EQUIPE = 16;
     public static final int MIN_EQUIPE = 4;
     public static final int MAX_GERENCIADORES = 4;
-    public static final int STATUS_ABERTO = 0;
-    public static final int STATUS_FECHADO = 1;
-    public static final int STATUS_FINALIZADO = 2;
+    private static final int STATUS_ABERTO = -1;
+    private static final int STATUS_FECHADO = 0;
+    private static final int STATUS_FINALIZADO = 1;
 
     private String sede = "Guarabira";
     private long dataAtualizacaoRemota;
     private long dataAtualizacaoLocal;
-    private Equipe campeao;
-    private ArvoreTabela tabela;
+    /*
+    * O id do campeão será responsável por indicar o o status do torneio
+    * idCampeao sempre inicia com -1. Valor negativo.
+    * Será atribuído o valor 0 quado fechar o torneio e a tabela ser gerada.
+    * Um campeão só existe se o torneio estiver finalizado (id de uma equipe é sempre > 0. ex: 112200)
+    */
+    private int idCampeao;
+    private Tabela tabela;
     private ArrayList<Equipe> equipes;
     private ArrayList<String> gerenciadores;
 
@@ -27,8 +33,8 @@ public class Torneio extends EntConcreta {
 
     public Torneio(int id, String nome, String organizadorId) {
         super(id, nome);
-        this.campeao = null;
-        this.tabela = new ArvoreTabela();
+        this.idCampeao = STATUS_ABERTO;
+        this.tabela = new Tabela();
         this.equipes = new ArrayList<>();
         this.gerenciadores = new ArrayList<>();
         this.dataAtualizacaoRemota = System.currentTimeMillis();
@@ -52,17 +58,11 @@ public class Torneio extends EntConcreta {
         return dataAtualizacaoLocal;
     }
 
-    public Equipe getCampeao() {
-        if (this.campeao == null && estarFechado()) {
-            int raiz = tabela.getRaiz().getCampeaoId();
-            if (raiz != 0) {
-                campeao = getEquipe(raiz);
-            }
-        }
-        return this.campeao;
+    public Equipe buscarCampeao() {
+        return buscarEquipe(idCampeao);
     }
 
-    public ArvoreTabela getTabela() {
+    public Tabela getTabela() {
         return tabela;
     }
 
@@ -92,11 +92,11 @@ public class Torneio extends EntConcreta {
         this.dataAtualizacaoLocal = dataAtualizacaoLocal;
     }
 
-    public void setCampeao(Equipe campeao) {
-        this.campeao = campeao;
+    public void setIdCampeao(int idCampeao) {
+        this.idCampeao = idCampeao;
     }
 
-    public void setTabela(ArvoreTabela tabela) {
+    public void setTabela(Tabela tabela) {
         this.tabela = tabela;
     }
 
@@ -133,22 +133,24 @@ public class Torneio extends EntConcreta {
     }
 
     public boolean estarFechado() {
-        return tabela != null && tabela.getRaiz() != null;
+        return idCampeao >= STATUS_FECHADO;
+    }
+
+    public boolean estarFinalizado() {
+        return idCampeao >= STATUS_FINALIZADO;
     }
 
     public int pegarStatus() {
-        return (estarFechado() ? (campeao == null ? STATUS_FECHADO : STATUS_FINALIZADO) : STATUS_ABERTO);
-    }
-
-    public void setRaizTabela(NoPartida raiz) {
-        this.tabela.setRaiz(raiz);
+        // Torneio ao ser finalizado, recebe o id do Campeão, antes disso recebe os estado do torneio.
+        return (idCampeao > 0 ? STATUS_FINALIZADO : idCampeao);
     }
 
     public boolean fecharTorneio(String[] partida_nomes) {
         if (equipes.size() < MIN_EQUIPE) {
             return false;
         }
-        tabela.gerarTabela(new ArrayList<>(equipes), new ArrayList<>(Arrays.asList(partida_nomes)));
+        tabela.gerarTabela(equipes, new ArrayList<>(Arrays.asList(partida_nomes)));
+        idCampeao = STATUS_FECHADO;
         //tabela.testarArvore(tabela.getRaiz());
         return estarFechado();
     }
@@ -172,13 +174,13 @@ public class Torneio extends EntConcreta {
         return equipes.stream().noneMatch(e -> e.getSigla().equals(s));
     }
 
-    public Equipe delEquipe(int pos) {
+    public Equipe excluirEquipe(int pos) {
         if (!estarFechado()) {
             return equipes.remove(pos);
         } else return null;
     }
 
-    public Equipe getEquipe(int index) {
+    public Equipe buscarEquipe(int index) {
         for (Equipe e : equipes) {
             if (e.getId() == index) {
                 return e;
@@ -201,24 +203,16 @@ public class Torneio extends EntConcreta {
         return 0;
     }
 
-    public ArrayList<NoPartida> getPartidasOitavas(int c) {
-        ArrayList<NoPartida> oitavas = new ArrayList<>();
-        NoPartida p;
-        for (int i = c; i <= c + 12; i += 4) {
-            p = tabela.buscarPartida(i);
-            if (p != null) {
-                oitavas.add(p);
-            }
-        }
-        return oitavas;
-    }
 
     @NonNull
     public String toString() {
         return super.toString() +
                 " Quantidade de times: " + equipes.size() +
                 " Organizador: " + buscarDonoDoTorneio() +
-                " Estado: " + (estarFechado() ? (campeao == null ? "Fechado e Não finalizado" :
-                "Finalizado - Campeão: " + campeao.getNome()) : "Aberto");
+                " Estado: " + (
+                    estarFechado()
+                    ? (estarFinalizado() ? "Finalizado - Campeão: " + buscarCampeao().getNome() : "Fechado, mas não finalizado")
+                    : "Aberto"
+                );
     }
 }

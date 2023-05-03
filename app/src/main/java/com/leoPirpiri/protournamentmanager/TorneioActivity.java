@@ -240,7 +240,7 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     public boolean excluirEquipe(int posicao) {
-        if(!torneio.estarFechado() && torneio.delEquipe(posicao)!=null){
+        if(!torneio.estarFechado() && torneio.excluirEquipe(posicao)!=null){
             atualizouTorneio();
             return true;
         }

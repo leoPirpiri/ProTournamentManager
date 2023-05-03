@@ -1,26 +1,28 @@
 package control;
 
-import android.util.Log;
+import java.util.HashMap;
+import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-
-import model.Usuario;
+import model.Partida;
 
 public class UserControl {
+    private String exemplo;
+    Map<String, Partida> user;
 
     public UserControl() {
-        //nowUser = FirebaseAuth.getInstance().getCurrentUser();
-        //buscarUsuario();
+        this.exemplo = "teste";
+        this.user = new HashMap<>();
+    }
+
+    public String getExemplo() {
+        return exemplo;
+    }
+
+    public Map<String, Partida> getUser() {
+        return user;
+    }
+
+    public void setUser(Map<String, Partida> user) {
+        this.user = user;
     }
 }

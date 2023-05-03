@@ -88,7 +88,7 @@ public class EquipeActivity extends AppCompatActivity {
         santuarioOlimpia.atualizar(false);
         torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(equipeIndice));
         if(torneio != null) {
-            equipe = torneio.getEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
+            equipe = torneio.buscarEquipe(Olimpia.extrairIdInteiroDeIndices(equipeIndice));
             if(equipe != null) {
                 atualizarNomesEquipes();
             } else {

@@ -8,16 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NoPartida extends EntConcreta {
+public class Partida extends EntConcreta {
     private int campeaoId;
-    private NoPartida mandante; //Nó esquerdo do ramo. Equipe mandante da partida
-    private NoPartida visitante; //Nó direito do ramo. Equipe visitante
+    private Partida mandante; //Nó esquerdo do ramo. Equipe mandante da partida
+    private Partida visitante; //Nó direito do ramo. Equipe visitante
     private ArrayList<Score> placar;
     private long tempo;
 
-    public NoPartida(){}
+    public Partida(){}
 
-    public NoPartida(int id, String nome) {
+    public Partida(int id, String nome) {
         super(id, nome);
         this.mandante = null;
         this.visitante = null;
@@ -26,7 +26,7 @@ public class NoPartida extends EntConcreta {
         this.tempo = 0;
     }
 
-    public NoPartida(int id, String nome, int campeaoId) {
+    public Partida(int id, String nome, int campeaoId) {
         this(id, nome);
         this.campeaoId = campeaoId;
 
@@ -36,11 +36,11 @@ public class NoPartida extends EntConcreta {
         return this.campeaoId;
     }
 
-    public NoPartida getMandante() {
+    public Partida getMandante() {
         return mandante;
     }
 
-    public NoPartida getVisitante() {
+    public Partida getVisitante() {
         return visitante;
     }
 
@@ -56,11 +56,11 @@ public class NoPartida extends EntConcreta {
         this.campeaoId = campeaoId;
     }
 
-    public void setMandante(NoPartida mandante) {
+    public void setMandante(Partida mandante) {
         this.mandante = mandante;
     }
 
-    public void setVisitante(NoPartida visitante) {
+    public void setVisitante(Partida visitante) {
         this.visitante = visitante;
     }
 
@@ -68,8 +68,9 @@ public class NoPartida extends EntConcreta {
         this.tempo = tempo;
     }
 
+
     public boolean setEncerrada() {
-        HashMap<String, Integer> pontosGerais = getDetalhesPartida();
+        HashMap<String, Integer> pontosGerais = buscarDetalhesDaPartida();
         int pontosMandante  = pontosGerais.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) +
                               pontosGerais.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0);
         int pontosVisitante = pontosGerais.getOrDefault("Vist_"+Score.TIPO_PONTO, 0) +
@@ -93,11 +94,12 @@ public class NoPartida extends EntConcreta {
         return this.placar.remove(scoreDeletado);
     }
 
-    public HashMap<String, Integer> getDetalhesPartida() {
-        return new HashMap<String, Integer>((Map) getScoreGeral().get(2));
+
+    public HashMap<String, Integer> buscarDetalhesDaPartida() {
+        return new HashMap<String, Integer>((Map) buscarScoreGeral().get(2));
     }
 
-    public ArrayList<List> getScoreGeral() {
+    public ArrayList<List> buscarScoreGeral() {
         ArrayList<Score> rm = new ArrayList<>();
         ArrayList<Score> rv = new ArrayList<>();
         HashMap<String, Integer> r = new HashMap<>();

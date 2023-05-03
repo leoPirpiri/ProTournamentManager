@@ -40,7 +40,7 @@ import control.CarrierSemiActivity;
 import model.Olimpia;
 import model.Equipe;
 import model.Jogador;
-import model.NoPartida;
+import model.Partida;
 import model.Score;
 import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
@@ -54,7 +54,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     private Olimpia santuarioOlimpia;
     private Torneio torneio;
-    private NoPartida partida;
+    private Partida partida;
     private Equipe cobrador;
     private Equipe mandante;
     private Equipe visitante;
@@ -226,22 +226,22 @@ public class PartidaActivity extends AppCompatActivity {
                         getResources().getString(R.string.equipe_exemplo_visitante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
-                partida = new NoPartida(02, nome_padrao);
-                partida.setMandante(new NoPartida(01, nome_padrao, 990100));
-                partida.setVisitante(new NoPartida(03, nome_padrao, 990200));
-                torneio.setRaizTabela(partida);
+                partida = new Partida(02, nome_padrao);
+                partida.setMandante(new Partida(01, nome_padrao, 990100));
+                partida.setVisitante(new Partida(03, nome_padrao, 990200));
+                //torneio.setRaizTabela(partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
-                partida = torneio.getTabela().getRaiz();
+                //partida = torneio.getTabela().getRaiz();
             }
         } else {
             torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
-            partida = torneio.getTabela().buscarPartida(idPartida - torneio.getId());
+            partida = torneio.getTabela().buscarPartida(""+(idPartida - torneio.getId()));
         }
-        mandante = torneio.getEquipe(partida.getMandante().getCampeaoId());
-        visitante = torneio.getEquipe(partida.getVisitante().getCampeaoId());
+        mandante = torneio.buscarEquipe(partida.getMandante().getCampeaoId());
+        visitante = torneio.buscarEquipe(partida.getVisitante().getCampeaoId());
         deslocamento = partida.getTempo();
         relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
         if(partida.isEncerrada()){
@@ -259,9 +259,9 @@ public class PartidaActivity extends AppCompatActivity {
         atualizarNomesEquipes(true);
         atualizarNomesEquipes(false);
 
-        ArrayList<List> acoesGerais = partida.getScoreGeral();
+        /*ArrayList<List> acoesGerais = partida.getScoreGeral();
         atualizarCamposMandante(acoesGerais);
-        atualizarCamposVisitante(acoesGerais);
+        atualizarCamposVisitante(acoesGerais);*/
     }
 
     private void atualizarNomesEquipes(boolean isMandante){
@@ -299,11 +299,11 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void atualizarCamposTime(boolean isMandante) {
-        if(isMandante){
+        /*if(isMandante){
             atualizarCamposMandante(partida.getScoreGeral());
         } else {
             atualizarCamposVisitante(partida.getScoreGeral());
-        }
+        }*/
 
     }
 
@@ -1185,13 +1185,13 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void adicionarAcaoJogador(boolean isMandante, Score s) {
-        partida.addScore(s);
+//        partida.addScore(s);
         atualizar=true;
         atualizarAposAcao(isMandante, s);
     }
 
     private void apagarAcaoJogador(boolean isMandante, Score s) {
-        partida.delScore(s);
+//        partida.delScore(s);
         atualizar=true;
         atualizarAposAcao(isMandante, s);
     }
@@ -1229,7 +1229,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void finalizarPartida() {
-        if (partida.setEncerrada()){
+        /*if (partida.setEncerrada()){
             montarAlertaPremiacao();
         } else {
             if(isSimulacao()){
@@ -1237,7 +1237,7 @@ public class PartidaActivity extends AppCompatActivity {
             } else {
                 montarAlertaAbrirDesempate();
             }
-        }
+        }*/
     }
 
     private void ativarFinalizarPartida() {

@@ -36,7 +36,7 @@ public class EstatisticasDeTorneioFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_estatisticas_torneio, container, false);
         //Preenche estatísticas de campeão
-        Equipe campeao = torneio.getCampeao();
+        Equipe campeao = torneio.buscarCampeao();
 //        if (campeao != null){
 //            LinearLayout ll_campeao = v.findViewById(R.id.layout_estatica_campeao);
 //            TextView txv_campeao = v.findViewById(R.id.txv_estatistica_campeao);
