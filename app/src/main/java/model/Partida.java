@@ -29,7 +29,6 @@ public class Partida extends EntConcreta {
     public Partida(int id, String nome, int campeaoId) {
         this(id, nome);
         this.campeaoId = campeaoId;
-
     }
 
     public int getCampeaoId() {
