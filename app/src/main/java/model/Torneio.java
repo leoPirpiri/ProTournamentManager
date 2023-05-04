@@ -149,10 +149,10 @@ public class Torneio extends EntConcreta {
         if (equipes.size() < MIN_EQUIPE) {
             return false;
         }
-        tabela.gerarTabela(equipes, new ArrayList<>(Arrays.asList(partida_nomes)));
+        tabela.sortearTimesGerarTabela(equipes, partida_nomes);
         idCampeao = STATUS_FECHADO;
         //tabela.testarArvore(tabela.getRaiz());
-        return estarFechado();
+        return true;
     }
 
     public boolean ParticipacaoAcoesTorneio(int idJogador) {

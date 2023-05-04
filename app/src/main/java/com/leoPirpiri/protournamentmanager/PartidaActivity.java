@@ -227,8 +227,8 @@ public class PartidaActivity extends AppCompatActivity {
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
                 partida = new Partida(02, nome_padrao);
-                partida.setMandante(new Partida(01, nome_padrao, 990100));
-                partida.setVisitante(new Partida(03, nome_padrao, 990200));
+                partida.setMandante(990100);
+                partida.setVisitante(990200);
                 //torneio.setRaizTabela(partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
@@ -238,13 +238,13 @@ public class PartidaActivity extends AppCompatActivity {
             }
         } else {
             torneio = santuarioOlimpia.getTorneioGerenciado(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
-            partida = torneio.getTabela().buscarPartida(""+(idPartida - torneio.getId()));
+            partida = torneio.getTabela().buscarPartida((idPartida - torneio.getId()));
         }
-        mandante = torneio.buscarEquipe(partida.getMandante().getCampeaoId());
-        visitante = torneio.buscarEquipe(partida.getVisitante().getCampeaoId());
+        mandante = torneio.buscarEquipe(partida.getMandante());
+        visitante = torneio.buscarEquipe(partida.getVisitante());
         deslocamento = partida.getTempo();
         relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
-        if(partida.isEncerrada()){
+        if(partida.estaEncerrada()){
             btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
         }
         if(isEquipeVazia()){
@@ -724,7 +724,7 @@ public class PartidaActivity extends AppCompatActivity {
                 partida.setCampeaoId(visitante.getId());
             }
         }
-        if(partida.isEncerrada()){
+        if(partida.estaEncerrada()){
 //            CarrierSemiActivity.exemplo(this, "Campeão: " + partida.getCampeaoId());
 //            partida.setCampeaoId(0);
 //            alertaDialog.dismiss();
@@ -817,7 +817,7 @@ public class PartidaActivity extends AppCompatActivity {
             }
         } else {
             //Linha dos pontos a favor
-            if(partida.isEncerrada()){
+            if(partida.estaEncerrada()){
                 btn_del_gol_pro.setBackground(ic_gol_desabled);
                 btn_del_gol_pro.setForeground(ic_del_desabled);
                 btn_del_gol_pro.setEnabled(false);
@@ -1258,7 +1258,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     public void rodarCronometro(View v) {
-        if(!partida.isEncerrada()) {
+        if(!partida.estaEncerrada()) {
             if (relogio_parado) {
                 if (isEquipeVazia()) {
                     montarAlertaEquipeImcompleta();

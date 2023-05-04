@@ -23,6 +23,7 @@ import java.util.Arrays;
 import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
 import control.UserControl;
+import model.Equipe;
 import model.Partida;
 import model.Olimpia;
 import model.Torneio;
@@ -181,17 +182,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void teste(){
-//        UserControl teste = new UserControl();
-//        teste.getUser().put("1", new Partida(1, "oitava"));
-
-        /*teste.setUser(new UserControl());
-                new ArvoreTabela();
+        /*UserControl teste = new UserControl();
         ArrayList<Equipe> equipes = new ArrayList<>();
+        System.out.println("\nTestando sorteios de equipes\n");
         equipes.add(new Equipe(20100, "Leicam do Maciel de Baixo", "LMB"));
         equipes.add(new Equipe(20200, "Juventude do Pirpiri Futsal", "JPF"));
         equipes.add(new Equipe(20300, "Sítio Escrivão Futsal", "SEF"));
         equipes.add(new Equipe(20400, "Leicam do Maciel de Cima", "LMC"));
-        teste.gerarTabela(equipes, new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.partida_nomes))));
+        equipes.add(new Equipe(20500, "Guarabira de Cima", "GUC"));
+        equipes.add(new Equipe(20600, "Sítio Escrivão Futsal", "SEF"));
+        equipes.add(new Equipe(20700, "Leicam do Maciel de Cima", "LMC"));
+        equipes.add(new Equipe(20800, "Guarabira de Cima", "GUC"));
+        teste.getTabela().sortearTimesGerarTabela(equipes, (getResources().getStringArray(R.array.partida_nomes)));
+        System.out.println();
+        teste.getTabela().getPartidas().forEach((key, value) -> {
+            System.out.println(key + "=" + value.toString() + " ");
+        });
 
 
         firestore.collection("teste")

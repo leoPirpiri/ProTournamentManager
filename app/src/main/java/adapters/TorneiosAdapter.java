@@ -51,7 +51,7 @@ public class TorneiosAdapter extends RecyclerView.Adapter<TorneiosAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FirebaseUser usuarioAtual = FirebaseAuth.getInstance().getCurrentUser();
         String nome = torneios.get(position).getNome();
-        String situacao = context.getResources().getStringArray(R.array.torneio_status)[torneios.get(position).pegarStatus()];
+        String situacao = context.getResources().getStringArray(R.array.torneio_status)[torneios.get(position).pegarStatus()+1];
         holder.nomeTorneio.setText(nome);
         if (usuarioAtual!=null && torneios.get(position).getGerenciadores().contains(usuarioAtual.getUid())){
             holder.nomeTorneio.setCompoundDrawablesWithIntrinsicBounds(

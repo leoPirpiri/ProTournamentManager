@@ -119,7 +119,7 @@ public class TorneioActivity extends AppCompatActivity {
 
     private void atualizarInformacoesInciais(){
         setTitle(torneio.getNome());
-        txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()]);
+        txv_estado_torneio.setText(getResources().getStringArray(R.array.torneio_status)[torneio.pegarStatus()+1]);
         atualizarBotaoTabela();
     }
 

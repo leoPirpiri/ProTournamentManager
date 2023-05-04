@@ -4,25 +4,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Partida;
+import model.Tabela;
 
 public class UserControl {
     private String exemplo;
-    Map<String, Partida> user;
+    private Tabela tabela;
 
     public UserControl() {
         this.exemplo = "teste";
-        this.user = new HashMap<>();
+        this.tabela = new Tabela();
     }
 
     public String getExemplo() {
         return exemplo;
     }
 
-    public Map<String, Partida> getUser() {
-        return user;
+    public void setExemplo(String exemplo) {
+        this.exemplo = exemplo;
     }
 
-    public void setUser(Map<String, Partida> user) {
-        this.user = user;
+    public Tabela getTabela() {
+        return tabela;
+    }
+
+    public void setTabela(Tabela tabela) {
+        this.tabela = tabela;
     }
 }

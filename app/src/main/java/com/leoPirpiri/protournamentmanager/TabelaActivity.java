@@ -103,8 +103,8 @@ public class TabelaActivity extends AppCompatActivity {
     private void montarAlertaAbrirPartida(Partida partida){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        Equipe mandante = torneio.buscarEquipe(partida.getMandante().getCampeaoId());
-        Equipe visitante = torneio.buscarEquipe(partida.getVisitante().getCampeaoId());
+        Equipe mandante = torneio.buscarEquipe(partida.getMandante());
+        Equipe visitante = torneio.buscarEquipe(partida.getVisitante());
 
         View view = getLayoutInflater().inflate(R.layout.alerta_default, null);
         Button btn_confirmar = view.findViewById(R.id.btn_confirmar_default);
@@ -114,7 +114,7 @@ public class TabelaActivity extends AppCompatActivity {
 
         TextView msg = view.findViewById(R.id.msg_alerta_default);
         msg.setVisibility(View.VISIBLE);
-        String alerta = getString(partida.isEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
+        String alerta = getString(partida.estaEncerrada() ? R.string.lbl_msg_inicio_finalizada : R.string.lbl_msg_inicio_aberta)+
                           " "+partida.getNome()+"?";
         String nomeMandante = alerta + "\n\n" + mandante.getNome();
         String nomeVisitante = visitante.getNome();
@@ -159,18 +159,18 @@ public class TabelaActivity extends AppCompatActivity {
                 ltv_oitavas_esquerda.setVisibility(View.VISIBLE);
                 ltv_oitavas_esquerda.deferNotifyDataSetChanged();
             case 8:
-                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida("28"), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida(28), precessoresQuartas);
                 precessoresSemi = false;
             case 7:
-                desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().buscarPartida("12"), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().buscarPartida(12), precessoresQuartas);
             case 6:
-                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().buscarPartida("20"), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().buscarPartida(20), precessoresQuartas);
             case 5:
-                desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().buscarPartida("4"), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().buscarPartida(4), precessoresQuartas);
             default:
-                desenharChaveTabela(ltv_semifinal2, torneio.getTabela().buscarPartida("24"), precessoresSemi);
-                desenharChaveTabela(ltv_semifinal1, torneio.getTabela().buscarPartida("8"), precessoresSemi);
-                desenharChaveTabela(ltv_final, torneio.getTabela().buscarPartida("16"),false);
+                desenharChaveTabela(ltv_semifinal2, torneio.getTabela().buscarPartida(24), precessoresSemi);
+                desenharChaveTabela(ltv_semifinal1, torneio.getTabela().buscarPartida(8), precessoresSemi);
+                desenharChaveTabela(ltv_final, torneio.getTabela().buscarPartida(16),false);
                 break;
         }
     }
@@ -182,8 +182,8 @@ public class TabelaActivity extends AppCompatActivity {
         LinearLayout ltn0 = (LinearLayout) v.getChildAt(id <= 16 ? 0 : 1);
         LinearLayout ltn1 = (LinearLayout) ltn0.getChildAt(0);
         if(separarPrecessores){
-            if(partida.getMandante().getMandante().getCampeaoId()<=0 ||
-               partida.getMandante().getVisitante().getCampeaoId()<=0 ){
+            if(partida.getMandante()<=0 ||
+               partida.getMandante()<=0 ){
                 LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
@@ -194,8 +194,8 @@ public class TabelaActivity extends AppCompatActivity {
 
         ltn1 = (LinearLayout) ltn0.getChildAt(ltn0.getChildCount()-1);
         if(separarPrecessores){
-            if(partida.getVisitante().getMandante().getCampeaoId()<=0 ||
-                    partida.getVisitante().getVisitante().getCampeaoId()<=0 ){
+            if(partida.getVisitante()<=0 ||
+                    partida.getVisitante()<=0 ){
                 LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(id <= 16 ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
@@ -204,7 +204,7 @@ public class TabelaActivity extends AppCompatActivity {
         TextView visitanteSigla = (TextView) ltn2.getChildAt(id>=16 ? 1 : 0);
         TextView visitanteScore = (TextView) ltn2.getChildAt(id>=16 ? 0 : 1);
 
-        if(partida.isEncerrada() && partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
+        if(partida.estaEncerrada() && partida.getMandante()>0 && partida.getVisitante()>0){
             /*HashMap<String, Integer> placar = partida.getDetalhesPartida();
             mandanteScore.setText(Integer.toString(
                     placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)+
@@ -218,21 +218,22 @@ public class TabelaActivity extends AppCompatActivity {
             mandanteScore.setText(R.string.equipe_ponto_partida_aberta);
             visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
         }
-        if(partida.getMandante() != null && partida.getMandante().getCampeaoId() >0){
-            mandanteSigla.setText(torneio.buscarEquipe(partida.getMandante().getCampeaoId()).getSigla());
+        if(partida.getMandante() >0){
+            mandanteSigla.setText(torneio.buscarEquipe(partida.getMandante()).getSigla());
         } else {
             mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
-        if(partida.getVisitante() != null && partida.getVisitante().getCampeaoId() >0){
-            visitanteSigla.setText(torneio.buscarEquipe(partida.getVisitante().getCampeaoId()).getSigla());
+        if(partida.getVisitante() >0){
+            visitanteSigla.setText(torneio.buscarEquipe(partida.getVisitante()).getSigla());
         }else {
             visitanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
     }
 
     public void eventoLayoutParticaOnClick(View view) {
-        Partida partida = torneio.getTabela().buscarPartida(view.getTransitionName());
-        if (partida.getMandante().isEncerrada() && partida.getVisitante().isEncerrada()) {
+        int id = Integer.parseInt(view.getTransitionName());
+        Partida partida = torneio.getTabela().buscarPartida(id);
+        if (partida.getMandante() == partida.getVisitante()) {
             montarAlertaAbrirPartida(partida);
         }
     }

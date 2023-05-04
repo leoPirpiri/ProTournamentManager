@@ -20,9 +20,9 @@ public class ArvoreTabela implements Serializable {
         this.raiz = raiz;
     }
 
-    public Partida buscarPartida(int valor){
-        return caminharNo(raiz, valor);
-    }
+//    //public Partida buscarPartida(int valor){
+//        return caminharNo(raiz, valor);
+//    }
 
     public boolean verificarExclusaoSegura(int idJogador){
         return buscarParticipacaoJogador(raiz, idJogador);
@@ -38,6 +38,7 @@ public class ArvoreTabela implements Serializable {
         }*/
         return true;
     }
+/*
 
     private Partida caminharNo(Partida no, int valor) {
         if(no.getId() == valor) {
@@ -92,4 +93,5 @@ public class ArvoreTabela implements Serializable {
         Collections.shuffle(times);
         raiz=preencherTabela(i, f, times, nomesPartidas);
     }
+*/
 }

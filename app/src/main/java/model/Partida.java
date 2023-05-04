@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class Partida extends EntConcreta {
     private int campeaoId;
-    private Partida mandante; //Nó esquerdo do ramo. Equipe mandante da partida
-    private Partida visitante; //Nó direito do ramo. Equipe visitante
+    private int mandante; //Nó esquerdo do ramo. Equipe mandante da partida
+    private int visitante; //Nó direito do ramo. Equipe visitante
     private ArrayList<Score> placar;
     private long tempo;
 
@@ -19,8 +19,8 @@ public class Partida extends EntConcreta {
 
     public Partida(int id, String nome) {
         super(id, nome);
-        this.mandante = null;
-        this.visitante = null;
+        this.mandante = 0;
+        this.visitante = 0;
         this.placar = new ArrayList<>();
         this.campeaoId = 0;
         this.tempo = 0;
@@ -36,11 +36,11 @@ public class Partida extends EntConcreta {
         return this.campeaoId;
     }
 
-    public Partida getMandante() {
+    public int getMandante() {
         return mandante;
     }
 
-    public Partida getVisitante() {
+    public int getVisitante() {
         return visitante;
     }
 
@@ -48,7 +48,7 @@ public class Partida extends EntConcreta {
         return tempo;
     }
 
-    public boolean isEncerrada() {
+    public boolean estaEncerrada() {
         return (campeaoId!=0);
     }
 
@@ -56,11 +56,11 @@ public class Partida extends EntConcreta {
         this.campeaoId = campeaoId;
     }
 
-    public void setMandante(Partida mandante) {
+    public void setMandante(int mandante) {
         this.mandante = mandante;
     }
 
-    public void setVisitante(Partida visitante) {
+    public void setVisitante(int visitante) {
         this.visitante = visitante;
     }
 
@@ -77,11 +77,11 @@ public class Partida extends EntConcreta {
                               pontosGerais.getOrDefault("Mand_"+Score.TIPO_AUTO_PONTO, 0);
 
         if(pontosMandante>pontosVisitante){
-            setCampeaoId(mandante.getCampeaoId());
+            setCampeaoId(mandante);
         } else if(pontosVisitante>pontosMandante) {
-            setCampeaoId(visitante.getCampeaoId());
+            setCampeaoId(visitante);
         }
-        return isEncerrada();
+        return estaEncerrada();
     }
 
     public void addScore(Score score) {
@@ -104,7 +104,7 @@ public class Partida extends EntConcreta {
         ArrayList<Score> rv = new ArrayList<>();
         HashMap<String, Integer> r = new HashMap<>();
         for (Score s : placar) {
-            if(Olimpia.extrairIdEntidadeSuperiorLv1(s.getIdJogador()) == mandante.getCampeaoId()){
+            if(Olimpia.extrairIdEntidadeSuperiorLv1(s.getIdJogador()) == mandante){
                 rm.add(s);
                 r.compute("Mand_"+s.getTipo(), (k, v) -> (v == null) ? 1 : ++v);
             } else {
@@ -127,10 +127,9 @@ public class Partida extends EntConcreta {
     @NonNull
     public String toString() {
         return super.toString() +
-               " Nó Equipe MandanteId: " + (mandante!=null ? mandante.getId() : "Nó folha") +
-               " Nó Equipe VisitanteId: " + (visitante!=null ? visitante.getId() : "Nó folha") +
-               " Estado: " + (isEncerrada() ? "Partida encerrada." : "Partida em andamento.") +
+               "-> Equipe MandanteId: " + (mandante) + " Vs " +
+               " Equipe VisitanteId: " + (visitante) +
+               " , Estado: " + (estaEncerrada() ? "Partida encerrada." : "Partida em andamento.") +
                " IdCampeão: " + campeaoId;
-
     }
 }

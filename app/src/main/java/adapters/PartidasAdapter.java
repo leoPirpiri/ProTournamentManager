@@ -29,9 +29,9 @@ public class PartidasAdapter extends BaseAdapter {
         this.ctx = ctx;
         this.major = major;
         if (flagLadoEsquerdo){
-            //this.partidas = major.getPartidasOitavas(2);
+            this.partidas = major.getPartidasOitavas(2);
         } else {
-            //this.partidas = major.getPartidasOitavas(18);
+            this.partidas = major.getPartidasOitavas(18);
         }
         this.flagLadoEsquerdo = flagLadoEsquerdo;
     }
@@ -73,7 +73,7 @@ public class PartidasAdapter extends BaseAdapter {
 
         Partida partida = getItem(position);
         System.out.println(partida.getMandante().getCampeaoId()+" e "+partida.getVisitante().getCampeaoId());
-        /*if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
+        if(partida.getMandante().getCampeaoId()>0 && partida.getVisitante().getCampeaoId()>0){
             if(partida.isEncerrada()) {
                 HashMap<String, Integer> placar = partida.getDetalhesPartida();
                 mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
@@ -88,7 +88,7 @@ public class PartidasAdapter extends BaseAdapter {
             chave.setVisibility(View.VISIBLE);
         } else {
             v.setClickable(true);
-        }*/
+        }
 
         if(partida.getMandante() != null && partida.getMandante().getCampeaoId()>0) {
             mandanteSigla.setText(major.buscarEquipe(partida.getMandante().getCampeaoId()).getSigla());
