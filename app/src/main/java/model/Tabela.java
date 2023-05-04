@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Tabela  implements Serializable {
     private HashMap<Integer, Partida> partidas;
@@ -48,6 +49,13 @@ public class Tabela  implements Serializable {
 
     public Partida buscarPartida(Integer valor){
         return partidas.get(valor);
+    }
+
+    public ArrayList<Partida> buscarPartidasOitavas(boolean lado){
+        return (ArrayList<Partida>) partidas.values()
+                .stream()
+                .filter(e -> e.getId() >= (lado ? 8 : 12) && e.getId() <= (lado ? 11 : 15))
+                .collect(Collectors.toList());
     }
 
     public boolean verificarExclusaoSegura(int jogador){
