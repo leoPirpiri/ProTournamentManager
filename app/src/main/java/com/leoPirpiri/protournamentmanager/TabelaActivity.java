@@ -17,7 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import adapters.PartidasAdapter;
 import control.CarrierSemiActivity;
@@ -176,30 +180,32 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void desenharChaveTabela(LinearLayout v, Partida partida, boolean separarPrecessores){
         int id = partida.getId();
+        ArrayList nosEsquerdos = new ArrayList(Arrays.asList(1,2,5,4));
         v.setTransitionName(String.valueOf(id));
         v.setVisibility(View.VISIBLE);
-        LinearLayout ltn0 = (LinearLayout) v.getChildAt(40%id == 0 ? 0 : 1);
+        LinearLayout ltn0 = (LinearLayout) v.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
         LinearLayout ltn1 = (LinearLayout) ltn0.getChildAt(0);
         if(separarPrecessores){
             if(torneio.getTabela().buscarPartida(id*2) == null){
-                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(40%id == 0 ? 0 : 2);
+                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(nosEsquerdos.contains(id) ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
         }
         LinearLayout ltn2 = (LinearLayout) ltn1.getChildAt(1);
-        TextView mandanteSigla = (TextView) ltn2.getChildAt(40%id == 0 ? 0 : 1);
-        TextView mandanteScore = (TextView) ltn2.getChildAt(40%id == 0 ? 1 : 0);
+        TextView mandanteSigla = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
+        TextView mandanteScore = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 1 : 0);
 
         ltn1 = (LinearLayout) ltn0.getChildAt(ltn0.getChildCount()-1);
         if(separarPrecessores){
             if(torneio.getTabela().buscarPartida(id*2+1) == null ){
-                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(40%id == 0 ? 0 : 2);
+                LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(nosEsquerdos.contains(id) ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
         }
         ltn2 = (LinearLayout) ltn1.getChildAt(1);
-        TextView visitanteSigla = (TextView) ltn2.getChildAt(40%id == 0 ? 0 : 1);
-        TextView visitanteScore = (TextView) ltn2.getChildAt(40%id == 0 ? 1 : 0);
+        nosEsquerdos.remove(0);
+        TextView visitanteSigla = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
+        TextView visitanteScore = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 1 : 0);
 
         if(partida.estaEncerrada() && partida.getMandante()>0 && partida.getVisitante()>0){
             HashMap<String, Integer> placar = partida.buscarDetalhesDaPartida();
