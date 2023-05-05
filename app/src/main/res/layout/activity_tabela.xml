@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <control.ZoomLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -67,7 +66,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -110,7 +109,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -155,7 +154,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="12"
+                android:transitionName="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -181,7 +180,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -225,7 +224,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -277,7 +276,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="8"
+                android:transitionName="2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -302,7 +301,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -346,7 +345,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -398,7 +397,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="16"
+                android:transitionName="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -420,7 +419,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="right"
+                            android:gravity="end"
                             android:orientation="horizontal">
 
                             <TextView
@@ -446,7 +445,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/altura_trofeu"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/trofeu"></ImageView>
+                        android:src="@drawable/trofeu"
+                        android:contentDescription="@string/descricao_imagem_trofeu"/>
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -461,7 +461,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
 
                             <TextView
@@ -501,7 +501,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="24"
+                android:transitionName="3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <LinearLayout
@@ -533,7 +533,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -573,7 +573,7 @@
                             android:layout_width="@dimen/equipe_largura"
                             android:layout_height="wrap_content"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
 
                             <TextView
@@ -615,7 +615,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="20"
+                android:transitionName="6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -648,7 +648,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -688,7 +688,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
 
                             <TextView
@@ -723,7 +723,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:onClick="eventoLayoutParticaOnClick"
-                android:transitionName="28"
+                android:transitionName="7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/espaco_partida">
@@ -754,7 +754,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"
@@ -792,7 +792,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginVertical="@dimen/espaco_siglas_quartas"
                             android:background="@drawable/placar_time_shape"
-                            android:gravity="left"
+                            android:gravity="start"
                             android:orientation="horizontal">
                             <TextView
                                 android:layout_width="wrap_content"

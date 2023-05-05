@@ -162,12 +162,12 @@ public class TabelaActivity extends AppCompatActivity {
                 ltv_oitavas_esquerda.setVisibility(View.VISIBLE);
                 ltv_oitavas_esquerda.deferNotifyDataSetChanged();
             case 8:
-                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida(6), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida(7), precessoresQuartas);
                 precessoresSemi = false;
             case 7:
                 desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().buscarPartida(5), precessoresQuartas);
             case 6:
-                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().buscarPartida(7), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().buscarPartida(6), precessoresQuartas);
             case 5:
                 desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().buscarPartida(4), precessoresQuartas);
             default:
@@ -180,7 +180,7 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void desenharChaveTabela(LinearLayout v, Partida partida, boolean separarPrecessores){
         int id = partida.getId();
-        ArrayList nosEsquerdos = new ArrayList(Arrays.asList(1,2,5,4));
+        ArrayList<Integer> nosEsquerdos = new ArrayList<>(Arrays.asList(1,2,5,4));
         v.setTransitionName(String.valueOf(id));
         v.setVisibility(View.VISIBLE);
         LinearLayout ltn0 = (LinearLayout) v.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
@@ -229,7 +229,7 @@ public class TabelaActivity extends AppCompatActivity {
     public void eventoLayoutParticaOnClick(View view) {
         int id = Integer.parseInt(view.getTransitionName());
         Partida partida = torneio.getTabela().buscarPartida(id);
-        if (partida.getMandante() == partida.getVisitante()) {
+        if (partida.getMandante()>0 && partida.getVisitante()>0) {
             montarAlertaAbrirPartida(partida);
         }
     }
