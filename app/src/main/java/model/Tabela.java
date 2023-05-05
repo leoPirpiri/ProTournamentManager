@@ -52,10 +52,12 @@ public class Tabela  implements Serializable {
     }
 
     public ArrayList<Partida> buscarPartidasOitavas(boolean lado){
-        return (ArrayList<Partida>) partidas.values()
-                .stream()
-                .filter(e -> e.getId() >= (lado ? 8 : 12) && e.getId() <= (lado ? 11 : 15))
-                .collect(Collectors.toList());
+        // O lado é esquero se valor igual a true. Então a busca vai retornar as oitavas de finais para o lado esquerdo.
+        ArrayList<Partida> partidasOitavas = new ArrayList<>();
+        for (int i=(lado ? 8 : 12); i<= (lado ? 11 : 15); i++){
+            partidasOitavas.add(buscarPartida(i));
+        }
+        return partidasOitavas;
     }
 
     public boolean verificarExclusaoSegura(int jogador){

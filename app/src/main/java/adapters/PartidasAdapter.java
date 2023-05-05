@@ -64,12 +64,15 @@ public class PartidasAdapter extends BaseAdapter {
         TextView visitanteScore = (TextView) v.findViewById(R.id.adp_visitor_ponto);
 
         Partida partida = getItem(position);
-        System.out.println(partida.toString());
-        if(partida.getMandante()>0 && partida.getVisitante()>0){
-            if(partida.estaEncerrada()) {
+        if(partida!=null) {
+            System.out.println(partida);
+            chave.setVisibility(View.VISIBLE);
+            mandanteSigla.setText(torneio.buscarEquipe(partida.getMandante()).getSigla());
+            visitanteSigla.setText(torneio.buscarEquipe(partida.getVisitante()).getSigla());
+            if (partida.estaEncerrada()) {
                 HashMap<String, Integer> placar = partida.buscarDetalhesDaPartida();
-                mandanteScore.setText(Integer.toString(placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)));
-                visitanteScore.setText(Integer.toString(placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)));
+                mandanteScore.setText(String.valueOf(placar.getOrDefault("Mand_" + Score.TIPO_PONTO, 0)));
+                visitanteScore.setText(String.valueOf(placar.getOrDefault("Vist_" + Score.TIPO_PONTO, 0)));
                 v.setBackground(ContextCompat.getDrawable(ctx, R.drawable.chave_background_desabled));
             } else {
                 v.setBackground(ContextCompat.getDrawable(ctx, R.drawable.chave_background_enabled));
@@ -77,21 +80,8 @@ public class PartidasAdapter extends BaseAdapter {
                 visitanteScore.setText(R.string.equipe_ponto_partida_aberta);
             }
             v.setClickable(false);
-            chave.setVisibility(View.VISIBLE);
         } else {
             v.setClickable(true);
-        }
-
-        if(partida.getMandante() > 0) {
-            mandanteSigla.setText(torneio.buscarEquipe(partida.getMandante()).getSigla());
-        } else {
-            mandanteSigla.setText(R.string.equipe_sigla_partida_aberta);
-        }
-
-        if(partida.getVisitante() > 0) {
-            visitanteSigla.setText(torneio.buscarEquipe(partida.getVisitante()).getSigla());
-        } else {
-            visitanteSigla.setText(R.string.equipe_sigla_partida_aberta);
         }
         return v;
     }

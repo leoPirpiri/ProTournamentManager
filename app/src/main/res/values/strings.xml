@@ -292,6 +292,7 @@
 
     <string name="msg_previlegios_dono_torneio">Só o dono do torneio possui privilégio pra esta alteração.</string>
     <string name="erro_sem_conexao_internet">Esta função requer conexão com a internet.</string>
+    <string name="descricao_imagem_trofeu">Troféu dourado de campeão com uma placa e alças</string>
 
 
 </resources>

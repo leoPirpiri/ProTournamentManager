@@ -153,14 +153,14 @@ public class TabelaActivity extends AppCompatActivity {
         boolean precessoresQuartas = tamanhoTorneio != 16;
         boolean precessoresSemi = true;
         if(tamanhoTorneio>9) {
-            ltv_oitavas_direita.deferNotifyDataSetChanged();
+            //ltv_oitavas_direita.deferNotifyDataSetChanged();
             ltv_oitavas_direita.setVisibility(View.VISIBLE);
             tamanhoTorneio = 9;
         }
         switch (tamanhoTorneio){
             case 9:
+                //ltv_oitavas_esquerda.deferNotifyDataSetChanged();
                 ltv_oitavas_esquerda.setVisibility(View.VISIBLE);
-                ltv_oitavas_esquerda.deferNotifyDataSetChanged();
             case 8:
                 desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida(7), precessoresQuartas);
                 precessoresSemi = false;

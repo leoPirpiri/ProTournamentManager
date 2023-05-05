@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center|right"
+    android:gravity="center|end"
     >
     <LinearLayout
         android:id="@+id/layout_chave_oitava"
@@ -27,7 +27,7 @@
                     android:orientation="horizontal"
                     android:background="@drawable/placar_time_shape"
                     android:layout_marginVertical="@dimen/espaco_siglas_default"
-                    android:gravity="right"
+                    android:gravity="end"
                     >
                     <TextView
                         android:id="@+id/adp_homer_nome"
@@ -35,7 +35,6 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="@dimen/sigla_pad_hor"
                         android:paddingVertical="@dimen/sigla_pad_ver"
-                        android:text="PFC"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
                         />
@@ -48,7 +47,6 @@
                         android:paddingVertical="@dimen/placar_pad_ver"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
-                        android:text="2"
                         android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
@@ -68,7 +66,7 @@
                     android:orientation="horizontal"
                     android:background="@drawable/placar_time_shape"
                     android:layout_marginVertical="@dimen/espaco_siglas_default"
-                    android:gravity="right"
+                    android:gravity="end"
                     >
                     <TextView
                         android:id="@+id/adp_visitor_nome"
@@ -76,7 +74,6 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="@dimen/sigla_pad_hor"
                         android:paddingVertical="@dimen/sigla_pad_ver"
-                        android:text="MFCRS"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
                         />
@@ -89,7 +86,6 @@
                         android:paddingVertical="@dimen/placar_pad_ver"
                         android:textColor="@color/text_default"
                         android:textSize="@dimen/placar_fonte"
-                        android:text="10"
                         android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
