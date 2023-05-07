@@ -58,11 +58,15 @@ public class Torneio extends EntConcreta {
         return dataAtualizacaoLocal;
     }
 
+    public int getIdCampeao() {
+        return idCampeao;
+    }
+
     public Equipe buscarCampeao() {
         return buscarEquipe(idCampeao);
     }
 
-    public Tabela getTabela() {
+    public Tabela buscarTabela() {
         return tabela;
     }
 

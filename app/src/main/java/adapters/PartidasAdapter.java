@@ -29,7 +29,7 @@ public class PartidasAdapter extends BaseAdapter {
     public PartidasAdapter(Context ctx, Torneio torneio, boolean flagLadoEsquerdo) {
         this.ctx = ctx;
         this.torneio = torneio;
-        this.partidas = torneio.getTabela().buscarPartidasOitavas(flagLadoEsquerdo);
+        this.partidas = torneio.buscarTabela().buscarPartidasOitavas(flagLadoEsquerdo);
         this.flagLadoEsquerdo = flagLadoEsquerdo;
     }
 

@@ -224,20 +224,20 @@ public class PartidaActivity extends AppCompatActivity {
                         getResources().getString(R.string.equipe_exemplo_visitante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
-                partida = new Partida(02, nome_padrao);
-                partida.setMandante(torneio.buscarEquipe(0).getId());
-                partida.setVisitante(torneio.buscarEquipe(1).getId());
-                torneio.getTabela().addPartida(1, partida);
+                partida = new Partida(1, nome_padrao);
+                partida.setMandante(torneio.getEquipes().get(0).getId());
+                partida.setVisitante(torneio.getEquipes().get(1).getId());
+                torneio.buscarTabela().addPartida(partida.getId(), partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
-                partida = torneio.getTabela().buscarPartida(1);
+                partida = torneio.buscarTabela().buscarPartida(1);
             }
         } else {
             torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
             if(torneio==null) finish();
-            partida = torneio.getTabela().buscarPartida((Olimpia.extrairIdInteiroDeIndices(partidaIndice) - torneio.getId()));
+            partida = torneio.buscarTabela().buscarPartida((Olimpia.extrairIdInteiroDeIndices(partidaIndice) - torneio.getId()));
         }
         mandante = torneio.buscarEquipe(partida.getMandante());
         visitante = torneio.buscarEquipe(partida.getVisitante());

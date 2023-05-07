@@ -17,11 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import adapters.PartidasAdapter;
 import control.CarrierSemiActivity;
@@ -162,18 +160,18 @@ public class TabelaActivity extends AppCompatActivity {
                 //ltv_oitavas_esquerda.deferNotifyDataSetChanged();
                 ltv_oitavas_esquerda.setVisibility(View.VISIBLE);
             case 8:
-                desenharChaveTabela(ltv_quartafinal4, torneio.getTabela().buscarPartida(7), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal4, torneio.buscarTabela().buscarPartida(7), precessoresQuartas);
                 precessoresSemi = false;
             case 7:
-                desenharChaveTabela(ltv_quartafinal2, torneio.getTabela().buscarPartida(5), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal2, torneio.buscarTabela().buscarPartida(5), precessoresQuartas);
             case 6:
-                desenharChaveTabela(ltv_quartafinal3, torneio.getTabela().buscarPartida(6), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal3, torneio.buscarTabela().buscarPartida(6), precessoresQuartas);
             case 5:
-                desenharChaveTabela(ltv_quartafinal1, torneio.getTabela().buscarPartida(4), precessoresQuartas);
+                desenharChaveTabela(ltv_quartafinal1, torneio.buscarTabela().buscarPartida(4), precessoresQuartas);
             default:
-                desenharChaveTabela(ltv_semifinal2, torneio.getTabela().buscarPartida(3), precessoresSemi);
-                desenharChaveTabela(ltv_semifinal1, torneio.getTabela().buscarPartida(2), precessoresSemi);
-                desenharChaveTabela(ltv_final, torneio.getTabela().buscarPartida(1),false);
+                desenharChaveTabela(ltv_semifinal2, torneio.buscarTabela().buscarPartida(3), precessoresSemi);
+                desenharChaveTabela(ltv_semifinal1, torneio.buscarTabela().buscarPartida(2), precessoresSemi);
+                desenharChaveTabela(ltv_final, torneio.buscarTabela().buscarPartida(1),false);
                 break;
         }
     }
@@ -186,7 +184,7 @@ public class TabelaActivity extends AppCompatActivity {
         LinearLayout ltn0 = (LinearLayout) v.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
         LinearLayout ltn1 = (LinearLayout) ltn0.getChildAt(0);
         if(separarPrecessores){
-            if(torneio.getTabela().buscarPartida(id*2) == null){
+            if(torneio.buscarTabela().buscarPartida(id*2) == null){
                 LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(nosEsquerdos.contains(id) ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
@@ -197,7 +195,7 @@ public class TabelaActivity extends AppCompatActivity {
 
         ltn1 = (LinearLayout) ltn0.getChildAt(ltn0.getChildCount()-1);
         if(separarPrecessores){
-            if(torneio.getTabela().buscarPartida(id*2+1) == null ){
+            if(torneio.buscarTabela().buscarPartida(id*2+1) == null ){
                 LinearLayout lt_linha = (LinearLayout) ltn1.getChildAt(nosEsquerdos.contains(id) ? 0 : 2);
                 lt_linha.setVisibility(View.INVISIBLE);
             }
@@ -228,7 +226,7 @@ public class TabelaActivity extends AppCompatActivity {
 
     public void eventoLayoutParticaOnClick(View view) {
         int id = Integer.parseInt(view.getTransitionName());
-        Partida partida = torneio.getTabela().buscarPartida(id);
+        Partida partida = torneio.buscarTabela().buscarPartida(id);
         if (partida.getMandante()>0 && partida.getVisitante()>0) {
             montarAlertaAbrirPartida(partida);
         }
