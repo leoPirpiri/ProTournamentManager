@@ -206,7 +206,6 @@ public class TorneiosGerenciadosFragment extends Fragment {
 
     private void abrirSimulador(){
         Intent intent = new Intent(superActivity, PartidaActivity.class);
-        intent.putExtra("partida", -1);
         startActivity(intent);
     }
 

@@ -173,7 +173,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void abrirSimulador(){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", -1);
         startActivity(intent);
     }
 

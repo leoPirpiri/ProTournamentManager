@@ -236,7 +236,7 @@ public class TabelaActivity extends AppCompatActivity {
 
     private void abrirPartida(int idPartida){
         Intent intent = new Intent(getApplicationContext(), PartidaActivity.class);
-        intent.putExtra("partida", torneio.buscarUuid()+(torneio.getId()+idPartida));
+        intent.putExtra("partida", torneio.buscarDonoDoTorneio()+(torneio.getId()+idPartida));
         startActivity(intent);
     }
 

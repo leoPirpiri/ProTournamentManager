@@ -69,8 +69,8 @@ public class TorneioActivity extends AppCompatActivity {
         }
 
         btn_gerar_tabela.setOnClickListener(v -> {
-            torneio.getEquipes().add(new Equipe(torneio.pegarIdParaNovaEquipe(), "Equipe teste "+new Random().nextInt(50), "A"+new Random().nextInt(99)));
-            if(!torneio.estarFechado()){
+            //torneio.getEquipes().add(new Equipe(torneio.pegarIdParaNovaEquipe(), "Equipe teste "+new Random().nextInt(50), "A"+new Random().nextInt(99)));
+            if(torneio.estarFechado()){
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
                 persistirDadosSantuario();

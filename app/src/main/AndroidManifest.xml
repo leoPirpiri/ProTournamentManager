@@ -20,13 +20,12 @@
         </activity>
         <activity
             android:name=".CadastroActivity"
-            android:label="@string/nome_app"
+            android:parentActivityName=".LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="@string/nome_app"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
         <activity
@@ -36,14 +35,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TabelaActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"/>
         <activity
             android:name=".EquipeActivity"
+            android:parentActivityName=".MainActivity"
             android:label="@string/titulo_tela_equipe"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PartidaActivity"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
     </application>
