@@ -47,10 +47,10 @@ import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
 public class PartidaActivity extends AppCompatActivity {
+    private static final int PADRAO_PARTIDA_SIMULACAO = 0;
     private boolean relogio_parado;
     private boolean atualizar = false;
     private long deslocamento;
-    private ArrayList<String> nomes_jogadores = new ArrayList<>();
 
     private Olimpia santuarioOlimpia;
     private Torneio torneio;
@@ -200,10 +200,10 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private boolean isSimulacao() {
-        return partida.getId() == -1;
+        return partida.getId() == PADRAO_PARTIDA_SIMULACAO;
     }
 
-    private boolean isEquipeVazia() {
+    private boolean haEquipeVazia() {
         return mandante.getJogadores().isEmpty() || visitante.getJogadores().isEmpty();
     }
 
@@ -223,8 +223,8 @@ public class PartidaActivity extends AppCompatActivity {
                 torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
                         getResources().getString(R.string.equipe_exemplo_visitante),
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
-                String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
-                partida = new Partida(1, nome_padrao);
+                String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[PADRAO_PARTIDA_SIMULACAO];
+                partida = new Partida(PADRAO_PARTIDA_SIMULACAO, nome_padrao);
                 partida.setMandante(torneio.getEquipes().get(0).getId());
                 partida.setVisitante(torneio.getEquipes().get(1).getId());
                 torneio.buscarTabela().addPartida(partida.getId(), partida);
@@ -246,7 +246,7 @@ public class PartidaActivity extends AppCompatActivity {
         if(partida.estaEncerrada()){
             btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
         }
-        if(isEquipeVazia()){
+        if(haEquipeVazia()){
             montarAlertaEquipeImcompleta();
         } else {
             atualizarCampos();
@@ -359,6 +359,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void montarAlertaAbrirSorteioJogadores() {
+        ArrayList<String> nomes_jogadores = new ArrayList<>();
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_lista_jogadores_sorteio, null);
         ArrayAdapter<String> adapterJogadores = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nomes_jogadores);
@@ -1259,7 +1260,7 @@ public class PartidaActivity extends AppCompatActivity {
     public void rodarCronometro(View v) {
         if(!partida.estaEncerrada()) {
             if (relogio_parado) {
-                if (isEquipeVazia()) {
+                if (haEquipeVazia()) {
                     montarAlertaEquipeImcompleta();
                 } else {
                     v.setBackground(ContextCompat.getDrawable(this, android.R.drawable.ic_media_pause));
