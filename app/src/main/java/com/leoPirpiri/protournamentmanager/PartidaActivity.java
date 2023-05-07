@@ -210,9 +210,8 @@ public class PartidaActivity extends AppCompatActivity {
     private void metodoRaiz() {
         Intent intent = getIntent();
         String partidaIndice = intent.getStringExtra("partida");
-
-        //Carrega ou inicia o santuário onde ocorre os jogos.
         santuarioOlimpia = CarrierSemiActivity.carregarSantuario(PartidaActivity.this);
+        // A partida é uma simulação se o índice vindo da Activity anterior for nulo
         if (partidaIndice == null) {
             torneio = santuarioOlimpia.getSimulacaoDePelada();
             btn_finalizar_partida.setText(R.string.encerrar_pelada);
@@ -226,14 +225,14 @@ public class PartidaActivity extends AppCompatActivity {
                         siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[0];
                 partida = new Partida(02, nome_padrao);
-                partida.setMandante(990100);
-                partida.setVisitante(990200);
-                //torneio.setRaizTabela(partida);
+                partida.setMandante(torneio.buscarEquipe(0).getId());
+                partida.setVisitante(torneio.buscarEquipe(1).getId());
+                torneio.getTabela().addPartida(1, partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
                 atualizar=true;
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
-                //partida = torneio.getTabela().getRaiz();
+                partida = torneio.getTabela().buscarPartida(1);
             }
         } else {
             torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));

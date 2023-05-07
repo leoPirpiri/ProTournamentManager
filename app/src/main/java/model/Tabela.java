@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Tabela  implements Serializable {
     private HashMap<Integer, Partida> partidas;
@@ -19,7 +18,7 @@ public class Tabela  implements Serializable {
         return partidas;
     }
 
-    private void adddPartidas(Integer key, Partida partida) {
+    public void addPartida(Integer key, Partida partida) {
         this.partidas.put(key, partida);
     }
 
@@ -29,7 +28,7 @@ public class Tabela  implements Serializable {
     }
     private void gerarTabela(List<Equipe> equipesRestantes, String[] nomesPartidas, int idPartida){
         Partida novaPartida = new Partida(idPartida, nomesPartidas[idPartida]);
-        partidas.put(idPartida, novaPartida);
+        addPartida(idPartida, novaPartida);
         int meio = (int)Math.round(equipesRestantes.size()/2.0);
         switch (equipesRestantes.size()){
             case 3:
