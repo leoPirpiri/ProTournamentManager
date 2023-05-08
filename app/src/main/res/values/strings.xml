@@ -11,6 +11,8 @@
     <string name="btn_adicionar">Adicionar</string>
     <string name="btn_editar">Editar</string>
     <string name="btn_cancelar">Cancelar</string>
+    <string name="btn_individual">Individualmente</string>
+    <string name="btn_aleatorio">Aleatoriamente</string>
     <string name="btn_sortear">Sortear!</string>
     <string name="btn_partida_encerrada">Partida Encerrada</string>
     <string name="btn_desempate_mandante">Mandante</string>
@@ -172,8 +174,7 @@
     <string name="lbl_msg_partida_empatada">A partida terminou empatada! </string>
     <string name="lbl_msg_partida_equipe_vazia_pelada">
         O árbitro só iniciará a pelada quando ambas as equipes estiverem prontas e uma das equipes não possui jogadores em seu plantel.\n
-        Deseja adicionar nomes de jogadores para que sejam distribuídos aleatoriamente entre as equipes, como um sorteio?\n
-        \nCaso contrário o sistema contratará jogadores padrões.
+        Deseja distribuir jogadores padrões entre as equipes ou adicionar um por um e fazer um sorteio?
     </string>
     <string name="lbl_msg_partida_equipe_vazia_partida">
         O árbitro não autorizou a partida porque há uma equipe sem jogadores, você pode redefini-la
@@ -293,6 +294,7 @@
     <string name="msg_previlegios_dono_torneio">Só o dono do torneio possui privilégio pra esta alteração.</string>
     <string name="erro_sem_conexao_internet">Esta função requer conexão com a internet.</string>
     <string name="descricao_imagem_trofeu">Troféu dourado de campeão com uma placa e alças</string>
+    <string name="descrisao_divisao_placar">Sinal de x trabalhado para separar o valores no placar</string>
 
 
 </resources>

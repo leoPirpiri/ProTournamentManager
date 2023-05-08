@@ -3,7 +3,10 @@ package com.leoPirpiri.protournamentmanager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -17,6 +20,7 @@ import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -53,6 +57,7 @@ public class PartidaActivity extends AppCompatActivity {
     private long deslocamento;
 
     private Olimpia santuarioOlimpia;
+    private AlertDialog alertaDialog;
     private Torneio torneio;
     private Partida partida;
     private Equipe cobrador;
@@ -60,9 +65,14 @@ public class PartidaActivity extends AppCompatActivity {
     private Equipe visitante;
     private Chronometer relogio;
     private MediaPlayer efeitos_sonoros;
-    private ListView ltv_jogadores_mandantes;
-    private ListView ltv_jogadores_visitantes;
+    private RecyclerView recyclerViewJogadoresMandantes;
+    private RecyclerView recyclerViewJogadoresVisitantes;
+    private JogadoresAdapter jam;
+    private JogadoresAdapter jav;
+    private ArrayList<Score> acoesMandantes;
+    private ArrayList<Score> acoesVisitantes;
     private TextView txv_partida_nome;
+
     private TextView txv_partida_sigla_mandante;
     private TextView txv_partida_sigla_visitante;
     private TextView txv_partida_score_ponto_mandante;
@@ -72,9 +82,6 @@ public class PartidaActivity extends AppCompatActivity {
     private TextView txv_partida_nome_mandante;
     private TextView txv_partida_nome_visitante;
     private Button btn_finalizar_partida;
-    private AlertDialog alertaDialog;
-    private JogadoresAdapter jam;
-    private JogadoresAdapter jav;
 
     private Drawable ic_gol_pro;
     private Drawable ic_gol_contra;
@@ -94,8 +101,8 @@ public class PartidaActivity extends AppCompatActivity {
         relogio_parado = true;
 
         relogio = findViewById(R.id.cronometro);
-        ltv_jogadores_mandantes = findViewById(R.id.list_partida_jogadores_mandantes);
-        ltv_jogadores_visitantes = findViewById(R.id.list_partida_jogadores_visitantes);
+        recyclerViewJogadoresMandantes = findViewById(R.id.recyclerview_lista_jogadores_mandantes);
+        recyclerViewJogadoresVisitantes = findViewById(R.id.recyclerview_lista_jogadores_visitates);
 
         txv_partida_nome = findViewById(R.id.txv_partida_nome);
         txv_partida_sigla_mandante = findViewById(R.id.txv_partida_sigla_mandante);
@@ -156,24 +163,6 @@ public class PartidaActivity extends AppCompatActivity {
             }
             return false;
         });
-
-        ltv_jogadores_mandantes.setOnItemClickListener((parent, view, position, id) -> {
-            //montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
-        });
-
-        ltv_jogadores_visitantes.setOnItemClickListener((parent, view, position, id) -> {
-            //montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
-        });
-
-        ltv_jogadores_mandantes.setOnItemLongClickListener((parent, view, position, id) -> {
-            //montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
-            return true;
-        });
-
-        ltv_jogadores_visitantes.setOnItemLongClickListener((parent, view, position, id) -> {
-            //montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
-            return true;
-        });
     }
 
     @Override
@@ -232,7 +221,7 @@ public class PartidaActivity extends AppCompatActivity {
                 atualizar=true;
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
-                partida = torneio.buscarTabela().buscarPartida(1);
+                partida = torneio.buscarTabela().buscarPartida(PADRAO_PARTIDA_SIMULACAO);
             }
         } else {
             torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
@@ -241,60 +230,50 @@ public class PartidaActivity extends AppCompatActivity {
         }
         mandante = torneio.buscarEquipe(partida.getMandante());
         visitante = torneio.buscarEquipe(partida.getVisitante());
+        povoarRecycleView();
         deslocamento = partida.getTempo();
         relogio.setBase(SystemClock.elapsedRealtime() - deslocamento);
         if(partida.estaEncerrada()){
             btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
         }
-        if(haEquipeVazia()){
-            montarAlertaEquipeImcompleta();
-        } else {
-            atualizarCampos();
-        }
+    }
+
+    private void atualizarNomesEquipes(){
+        txv_partida_nome_mandante.setText(mandante.getNome());
+        txv_partida_nome_visitante.setText(visitante.getNome());
+        txv_partida_sigla_mandante.setText(mandante.getSigla());
+        txv_partida_sigla_visitante.setText(visitante.getSigla());
     }
 
     private void atualizarCampos() {
         txv_partida_nome.setText(partida.getNome());
-        atualizarNomesEquipes(true);
-        atualizarNomesEquipes(false);
-
-        /*ArrayList<List> acoesGerais = partida.getScoreGeral();
-        atualizarCamposMandante(acoesGerais);
-        atualizarCamposVisitante(acoesGerais);*/
+        atualizarNomesEquipes();
+        atualizarPlacarEletronico();
     }
 
-    private void atualizarNomesEquipes(boolean isMandante){
-        if(isMandante){
-            txv_partida_sigla_mandante.setText(mandante.getSigla());
-            txv_partida_nome_mandante.setText(mandante.getNome());
-        } else {
-            txv_partida_sigla_visitante.setText(visitante.getSigla());
-            txv_partida_nome_visitante.setText(visitante.getNome());
-        }
-    }
-
-    private void atualizarCamposMandante(ArrayList<List> acoesGerais) {
+    private void atualizarPlacarEletronico() {
+        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
+        atualizarAcoesDeJogadores(acoesGerais);
         HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
-        txv_partida_score_ponto_mandante.setText(Integer.toString(
-                placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0)+
-                  placar.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0)
+        txv_partida_score_ponto_mandante.setText(String.valueOf(
+                placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) + placar.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0)
             ));
-        txv_partida_score_falta_mandante.setText(Integer.toString(
+        txv_partida_score_ponto_visitante.setText(String.valueOf(
+                placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0) + placar.getOrDefault("Mand_"+Score.TIPO_AUTO_PONTO, 0)
+        ));
+        txv_partida_score_falta_mandante.setText(String.valueOf(
                 placar.getOrDefault("Mand_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
             ));
-        listarJogadoresMandantes((ArrayList<Score>) acoesGerais.get(0));
+        txv_partida_score_falta_visitante.setText(String.valueOf(
+                placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
+        ));
     }
 
-    private void atualizarCamposVisitante(ArrayList<List> acoesGerais) {
-        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
-        txv_partida_score_ponto_visitante.setText(Integer.toString(
-                placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)+
-                   placar.getOrDefault("Mand_"+Score.TIPO_AUTO_PONTO, 0)
-        ));
-        txv_partida_score_falta_visitante.setText(Integer.toString(
-                placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
-            ));
-        listarJogadoresVisitantes((ArrayList<Score>) acoesGerais.get(1));
+    private void atualizarAcoesDeJogadores(ArrayList<List> acoesGerais) {
+        acoesMandantes = (ArrayList<Score>) acoesGerais.get(0);
+        acoesVisitantes = (ArrayList<Score>) acoesGerais.get(1);
+        listarJogadores(jam);
+        listarJogadores(jav);
     }
 
     private void atualizarCamposTime(boolean isMandante) {
@@ -306,16 +285,51 @@ public class PartidaActivity extends AppCompatActivity {
 
     }
 
-    private void listarJogadoresMandantes(ArrayList<Score> acoesMandantes) {
+    private void povoarRecycleView(){
+        recyclerViewJogadoresMandantes.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewJogadoresVisitantes.setLayoutManager(new LinearLayoutManager(this));
+        acoesMandantes = new ArrayList<>();
+        acoesVisitantes = new ArrayList<>();
         jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
-        //ltv_jogadores_mandantes.setAdapter(jam);
-        jam.notifyDataSetChanged();
+        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
+        recyclerViewJogadoresMandantes.setAdapter(jam);
+        recyclerViewJogadoresVisitantes.setAdapter(jav);
+        construirListenersAdapterJogadores();
+        atualizarCampos();
+        if(haEquipeVazia()){
+            montarAlertaEquipeImcompleta();
+        }
     }
 
-    private void listarJogadoresVisitantes(ArrayList<Score> acoesVisitantes) {
-        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
-        //ltv_jogadores_visitantes.setAdapter(jav);
-        jav.notifyDataSetChanged();
+    private void construirListenersAdapterJogadores() {
+        jam.setOnClickListener(v -> {
+            Olimpia.printteste(this, "clique curto no jogador mandante");
+            //montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+            /*int position = recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v);
+            montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);*/
+        });
+        jam.setOnLongClickListener(v -> {
+            Olimpia.printteste(this, "clique longo no jogador mandante");
+            //montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
+//            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
+            return true;
+        });
+        jav.setOnClickListener(v -> {
+            Olimpia.printteste(this, "clique curto no jogador visitatne");
+            //montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+            /*int position = recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v);
+            montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);*/
+        });
+        jav.setOnLongClickListener(v -> {
+            Olimpia.printteste(this, "clique longo no jogador visitante");
+            //montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
+//            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
+            return true;
+        });
+    }
+
+    private void listarJogadores(JogadoresAdapter ja) {
+        ja.notifyDataSetChanged();
     }
 
     private void montarAlertaEquipeImcompleta() {
@@ -330,10 +344,11 @@ public class PartidaActivity extends AppCompatActivity {
 
         if(isSimulacao()) {
             btn_confirmar.setVisibility(View.VISIBLE);
-            btn_confirmar.setText(R.string.btn_adicionar);
+            btn_confirmar.setText(R.string.btn_individual);
+            btn_cancelar.setText(R.string.btn_aleatorio);
             msg.setText(R.string.lbl_msg_partida_equipe_vazia_pelada);
             btn_confirmar.setOnClickListener(arg0 -> {
-                alertaDialog.dismiss();
+                esconderAlerta();
                 montarAlertaAbrirSorteioJogadores();
             });
 
@@ -341,15 +356,16 @@ public class PartidaActivity extends AppCompatActivity {
                 preencherEquipe(mandante);
                 preencherEquipe(visitante);
                 atualizarCampos();
-                alertaDialog.dismiss();
+                esconderAlerta();
             });
             builder.setCancelable(false);
         } else {
             msg.setText(R.string.lbl_msg_partida_equipe_vazia_partida);
             btn_cancelar.setText(R.string.btn_confirmar);
+
             btn_cancelar.setOnClickListener(arg0 -> {
                 atualizarCampos();
-                alertaDialog.dismiss();
+                esconderAlerta();
             });
         }
 
@@ -435,13 +451,7 @@ public class PartidaActivity extends AppCompatActivity {
 
     private void montarAlertaSorteioJogadores() {
         final Handler handler = new Handler();
-        final Runnable runnable = () -> {
-            // verificar se a caixa de diálogo está visível
-            if (alertaDialog.isShowing()) {
-                // fecha a caixa de diálogo
-                alertaDialog.dismiss();
-            }
-        };
+        final Runnable runnable = this::esconderAlerta;
 
         handler.postDelayed(runnable, 3000);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -960,7 +970,7 @@ public class PartidaActivity extends AppCompatActivity {
         spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
         ArrayList<Integer> numeros;
 
-        if(j==null){
+        if (j==null) {
             builder.setTitle(R.string.titulo_alerta_novo_jogador);
             if(isMandante) {
                 numeros = mandante.buscarNumerosLivresNoPlantel(-1);
@@ -968,7 +978,6 @@ public class PartidaActivity extends AppCompatActivity {
                 numeros = visitante.buscarNumerosLivresNoPlantel(-1);
             }
             btn_confirma_jogador.setText(R.string.btn_adicionar);
-
         } else {
             builder.setTitle(R.string.titulo_alerta_partida_detalhes_jogador);
             etx_nome_jogador.setText(j.getNome());
@@ -1126,7 +1135,7 @@ public class PartidaActivity extends AppCompatActivity {
                 }
                 if (mudou){
                     atualizar = true;
-                    atualizarNomesEquipes(isMandante);
+                    atualizarNomesEquipes();
                 } else {
                     CarrierSemiActivity.exemplo(PartidaActivity.this, getString(R.string.erro_atualizar_informacoes_equipe));
                 }
@@ -1175,9 +1184,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void mostrarAlerta(AlertDialog.Builder builder, int background) {
-        if (alertaDialog != null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
-        }
+        esconderAlerta();
         alertaDialog = builder.create();
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
@@ -1285,5 +1292,16 @@ public class PartidaActivity extends AppCompatActivity {
         efeitos_sonoros.setLooping(false);
         efeitos_sonoros.seekTo(0);
         efeitos_sonoros.start();
+    }
+
+    public void esconderAlerta(){
+        if (alertaDialog != null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
+        }
+    }
+
+    public void esconderTeclado(View editText) {
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 }

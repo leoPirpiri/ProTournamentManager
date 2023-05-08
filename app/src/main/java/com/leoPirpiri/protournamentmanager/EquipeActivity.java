@@ -221,7 +221,9 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     public void esconderAlerta(){
-        alertaDialog.dismiss();
+        if (alertaDialog != null && alertaDialog.isShowing()){
+            alertaDialog.dismiss();
+        }
     }
 
     public void esconderTeclado(View editText) {

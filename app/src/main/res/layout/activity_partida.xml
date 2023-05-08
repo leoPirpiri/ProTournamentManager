@@ -23,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/placar_time_shape"
-                android:gravity="center|left"
+                android:gravity="center"
                 android:text="@string/nome_partida"
                 android:textSize="@dimen/partida_fonte"
                 android:textStyle="bold" />
@@ -38,19 +38,18 @@
                     android:id="@+id/txv_partida_sigla_mandante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AUXFC"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/partida_pad_hor"
+                    android:contentDescription="@string/descrisao_divisao_placar"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
                 <TextView
                     android:id="@+id/txv_partida_sigla_visitante"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="AUXFC"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -65,7 +64,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/placar_time_shape"
-                android:gravity="center|left"
+                android:gravity="center|start"
                 android:text="@string/partida_score_gols"
                 android:textSize="@dimen/partida_fonte"
                 android:textStyle="bold" />
@@ -84,7 +83,6 @@
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:text="6"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
@@ -92,6 +90,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/descrisao_divisao_placar"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
                 <TextView
@@ -102,7 +101,6 @@
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:text="8"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
@@ -118,7 +116,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/placar_time_shape"
-                android:gravity="center|left"
+                android:gravity="center|start"
                 android:text="@string/partida_score_falta"
                 android:textSize="@dimen/partida_fonte"
                 android:textStyle="bold" />
@@ -139,7 +137,6 @@
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:text="6"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
@@ -147,6 +144,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/descrisao_divisao_placar"
                     app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
                 <TextView
@@ -157,7 +155,6 @@
                     android:background="@color/background_default"
                     android:paddingHorizontal="@dimen/partida_pad_hor"
                     android:paddingVertical="@dimen/placar_pad_ver"
-                    android:text="8"
                     android:textColor="@color/text_default"
                     android:textSize="@dimen/partida_fonte"
                     android:textStyle="bold" />
@@ -212,11 +209,12 @@
         android:paddingHorizontal="10dp">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:orientation="vertical">
                     <TextView
@@ -224,25 +222,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/equipe_pad_ver"
-                        android:layout_marginRight="@dimen/placar_pad_ver"
+                        android:layout_marginEnd="@dimen/placar_pad_ver"
                         android:background="@drawable/placar_time_shape"
                         android:drawableTint="@color/colorPrimaryDark"
                         android:drawableTintMode="multiply"
                         android:singleLine="true"
-                        android:gravity="center|left"
-                        android:text="Clube Pirpiri"
+                        android:gravity="center|start"
                         android:textSize="@dimen/partida_fonte"
                         android:textStyle="bold" />
-                    <ListView
-                        android:id="@+id/list_partida_jogadores_mandantes"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingBottom="@dimen/lista_pad_default">
-                    </ListView>
+                    <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_lista_jogadores_mandantes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="@dimen/lista_pad_default" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:orientation="vertical">
                     <TextView
@@ -250,21 +246,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="@dimen/equipe_pad_ver"
-                        android:layout_marginRight="@dimen/placar_pad_ver"
+                        android:layout_marginEnd="@dimen/placar_pad_ver"
                         android:background="@drawable/placar_time_shape"
                         android:drawableTint="@color/colorPrimaryDark"
                         android:drawableTintMode="multiply"
                         android:singleLine="true"
-                        android:gravity="center|left"
-                        android:text="Clube Maciel de Cima pro"
+                        android:gravity="center|start"
                         android:textSize="@dimen/partida_fonte"
                         android:textStyle="bold" />
-                    <ListView
-                        android:id="@+id/list_partida_jogadores_visitantes"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerview_lista_jogadores_visitates"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingBottom="@dimen/lista_pad_default">
-                    </ListView>
+                        android:paddingBottom="@dimen/lista_pad_default" />
                 </LinearLayout>
             </LinearLayout>
         <Button
