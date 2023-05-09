@@ -217,19 +217,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.5"
                     android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/txv_partida_nome_mandante"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingVertical="@dimen/equipe_pad_ver"
                         android:layout_marginEnd="@dimen/placar_pad_ver"
                         android:background="@drawable/placar_time_shape"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:drawableTintMode="multiply"
-                        android:singleLine="true"
                         android:gravity="center|start"
+                        android:paddingVertical="@dimen/equipe_pad_ver"
+                        android:singleLine="true"
                         android:textSize="@dimen/partida_fonte"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@android:drawable/ic_input_add"
+                        app:drawableTint="@color/colorPrimaryDark" />
                     <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview_lista_jogadores_mandantes"
                     android:layout_width="match_parent"
@@ -248,12 +249,12 @@
                         android:paddingVertical="@dimen/equipe_pad_ver"
                         android:layout_marginEnd="@dimen/placar_pad_ver"
                         android:background="@drawable/placar_time_shape"
-                        android:drawableTint="@color/colorPrimaryDark"
-                        android:drawableTintMode="multiply"
                         android:singleLine="true"
                         android:gravity="center|start"
                         android:textSize="@dimen/partida_fonte"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        app:drawableEndCompat="@android:drawable/ic_input_add"
+                        app:drawableTint="@color/colorPrimaryDark" />
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerview_lista_jogadores_visitates"
                         android:layout_width="match_parent"

@@ -1,11 +1,13 @@
 package com.leoPirpiri.protournamentmanager;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -53,7 +55,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class PartidaActivity extends AppCompatActivity {
     private static final int PADRAO_PARTIDA_SIMULACAO = 0;
     private boolean relogio_parado;
-    private boolean atualizar = false;
     private long deslocamento;
 
     private Olimpia santuarioOlimpia;
@@ -99,8 +100,8 @@ public class PartidaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partida);
         relogio_parado = true;
-
         relogio = findViewById(R.id.cronometro);
+
         recyclerViewJogadoresMandantes = findViewById(R.id.recyclerview_lista_jogadores_mandantes);
         recyclerViewJogadoresVisitantes = findViewById(R.id.recyclerview_lista_jogadores_visitates);
 
@@ -129,22 +130,13 @@ public class PartidaActivity extends AppCompatActivity {
 
         metodoRaiz();
 
-        if(isSimulacao()){
-            txv_partida_nome_mandante.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.ic_menu_myplaces, 0);
-            txv_partida_nome_visitante.setCompoundDrawablesWithIntrinsicBounds(0, 0, android.R.drawable.ic_menu_myplaces, 0);
-        }
+        txv_partida_nome_mandante.setOnClickListener(v -> montarAlertaAdicionarJogador(true));
 
-        txv_partida_nome_mandante.setOnClickListener(v -> {
-            if(isSimulacao()) montarAlertaInfromacoesIndividuais(true, null, new HashMap<>());
-        });
+        txv_partida_nome_visitante.setOnClickListener(v -> montarAlertaAdicionarJogador(false));
 
         txv_partida_nome_mandante.setOnLongClickListener(v -> {
             montarAlertaEditarEquipe(true);
             return false;
-        });
-
-        txv_partida_nome_visitante.setOnClickListener(v -> {
-            if(isSimulacao()) montarAlertaInfromacoesIndividuais(false, null, new HashMap<>());
         });
 
         txv_partida_nome_visitante.setOnLongClickListener(v -> {
@@ -168,13 +160,11 @@ public class PartidaActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(alertaDialog!=null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
+        if(!santuarioOlimpia.estaAtualizado()){
+            CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
+            santuarioOlimpia.atualizar(false);
         }
-        if(atualizar){
-            CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
-            atualizar=false;
-        }
+        esconderAlerta();
     }
 
     @Override
@@ -207,18 +197,18 @@ public class PartidaActivity extends AppCompatActivity {
             if (torneio == null){
                 torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio), "");
                 torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
-                        getResources().getString(R.string.equipe_exemplo_mandante),
-                        siglatation(getResources().getString(R.string.equipe_exemplo_mandante))));
+                        getResources().getString(R.string.equipe_nome_padrao_mandante),
+                        siglatation(getResources().getString(R.string.equipe_nome_padrao_mandante))));
                 torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
-                        getResources().getString(R.string.equipe_exemplo_visitante),
-                        siglatation(getResources().getString(R.string.equipe_exemplo_visitante))));
+                        getResources().getString(R.string.equipe_nome_padrao_visitante),
+                        siglatation(getResources().getString(R.string.equipe_nome_padrao_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[PADRAO_PARTIDA_SIMULACAO];
                 partida = new Partida(PADRAO_PARTIDA_SIMULACAO, nome_padrao);
                 partida.setMandante(torneio.getEquipes().get(0).getId());
                 partida.setVisitante(torneio.getEquipes().get(1).getId());
                 torneio.buscarTabela().addPartida(partida.getId(), partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
-                atualizar=true;
+                persistirDados();
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
                 partida = torneio.buscarTabela().buscarPartida(PADRAO_PARTIDA_SIMULACAO);
@@ -328,7 +318,8 @@ public class PartidaActivity extends AppCompatActivity {
         });
     }
 
-    private void listarJogadores(JogadoresAdapter ja) {
+    @SuppressLint("NotifyDataSetChanged")
+    private void listarJogadores(@NonNull JogadoresAdapter ja) {
         ja.notifyDataSetChanged();
     }
 
@@ -437,8 +428,8 @@ public class PartidaActivity extends AppCompatActivity {
                         ));
                     }
                 }
-                atualizar=true;
-                alertaDialog.dismiss();
+                persistirDados();
+                esconderAlerta();
                 montarAlertaSorteioJogadores();
             }
         });
@@ -958,7 +949,11 @@ public class PartidaActivity extends AppCompatActivity {
         mostrarAlerta(builder);
     }
 
-    private void montarAlertaInfromacoesIndividuais(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
+    private void montarAlertaAdicionarJogador(boolean isMandante){
+        montarAlertaAdicionarOuEditarOuInfromacoesJogador(isMandante, null, null, isMandante?mandante.getJogadores().size():visitante.getJogadores().size());
+    }
+
+    private void montarAlertaAdicionarOuEditarOuInfromacoesJogador(boolean isMandante, Jogador jogador, HashMap<Integer, Integer> acoes_jogador, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         //Preenchendo atributos pessoais do jogador.
@@ -967,10 +962,10 @@ public class PartidaActivity extends AppCompatActivity {
         Button btn_deletar_jogador = view.findViewById(R.id.btn_del_jogador);
         Spinner spnr_posicao = view.findViewById(R.id.spr_pos_novo_jogador);
         Spinner spnr_numero = view.findViewById(R.id.spr_num_novo_jogador);
-        spnr_posicao.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
+        spnr_posicao.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
         ArrayList<Integer> numeros;
 
-        if (j==null) {
+        if (jogador == null) {
             builder.setTitle(R.string.titulo_alerta_novo_jogador);
             if(isMandante) {
                 numeros = mandante.buscarNumerosLivresNoPlantel(-1);
@@ -980,21 +975,21 @@ public class PartidaActivity extends AppCompatActivity {
             btn_confirma_jogador.setText(R.string.btn_adicionar);
         } else {
             builder.setTitle(R.string.titulo_alerta_partida_detalhes_jogador);
-            etx_nome_jogador.setText(j.getNome());
-            spnr_posicao.setSelection(j.getPosicao());
-            if(isMandante) {
-                numeros = mandante.buscarNumerosLivresNoPlantel(j.getNumero());
+            etx_nome_jogador.setText(jogador.getNome());
+            spnr_posicao.setSelection(jogador.getPosicao());
+            if (isMandante) {
+                numeros = mandante.buscarNumerosLivresNoPlantel(jogador.getNumero());
             } else {
-                numeros = visitante.buscarNumerosLivresNoPlantel(j.getNumero());
+                numeros = visitante.buscarNumerosLivresNoPlantel(jogador.getNumero());
             }
             btn_confirma_jogador.setText(R.string.btn_editar);
-            if(isSimulacao()){
-                if(acoes_jogador.isEmpty()) {
+            if (isSimulacao()){
+                if (acoes_jogador.isEmpty()) {
                     btn_deletar_jogador.setVisibility(View.VISIBLE);
                 }
             } else {
-                if(acoes_jogador.isEmpty() &&
-                    !torneio.ParticipacaoAcoesTorneio(j.getId())){
+                if (acoes_jogador.isEmpty() &&
+                    !torneio.ParticipacaoAcoesTorneio(jogador.getId())){
                     btn_deletar_jogador.setVisibility(View.VISIBLE);
                 }
             }
@@ -1045,46 +1040,50 @@ public class PartidaActivity extends AppCompatActivity {
             }
         }
         etx_nome_jogador.requestFocus();
-        spnr_numero.setAdapter(new ArrayAdapter(this, R.layout.spinner_item_style, numeros));
+        spnr_numero.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item_style, numeros));
         spnr_numero.setSelection(0);
-        btn_confirma_jogador.setEnabled(true);
-        btn_confirma_jogador.setBackground(getDrawable(R.drawable.button_shape_enabled));
 
+        btn_confirma_jogador.setEnabled(true);
+        btn_confirma_jogador.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
         btn_confirma_jogador.setOnClickListener(arg0 -> {
             String nome = etx_nome_jogador.getText().toString().trim();
             if(!nome.isEmpty()) {
                 int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
                 int posicao = spnr_posicao.getSelectedItemPosition();
-                if(j!=null) {
-                    if (!nome.equals(j.getNome()) || numero != j.getNumero() || posicao != j.getPosicao()) {
-                        j.setNome(nome);
-                        j.setNumero(numero);
-                        j.setPosicao(posicao);
-                        atualizar = true;
-                        atualizarCamposTime(isMandante);
+                if(jogador==null) {
+                    if (adicionarJogadorValidacao((isMandante ? mandante: visitante), nome, posicao, numero)){
+                        Toast.makeText(this, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
+                        persistirDados();
+                        if (isMandante) jam.notifyItemInserted(position);
+                        else jav.notifyItemInserted(position);
                     } else {
-                        Toast.makeText(PartidaActivity.this, R.string.erro_atualizar_mesma_informacoes_da_entidade, Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, R.string.jogador_erro_adicionar, Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    if(isMandante) mandante.addJogador(new Jogador(mandante.bucarIdParaNovoJogador(), nome, posicao, numero));
-                    else visitante.addJogador(new Jogador(visitante.bucarIdParaNovoJogador(), nome, posicao, numero));
-                    atualizar = true;
-                    atualizarCamposTime(isMandante);
+                } else if (!jogador.getNome().equals(nome) ||
+                            jogador.getNumero() != numero ||
+                            jogador.getPosicao() != posicao) {
+                    jogador.setNome(nome);
+                    jogador.setNumero(numero);
+                    jogador.setPosicao(posicao);
+                    persistirDados();
+                    if (isMandante) jam.notifyItemChanged(position);
+                    else jav.notifyItemChanged(position);
+                    Toast.makeText(this, R.string.jogador_editado, Toast.LENGTH_SHORT).show();
                 }
-                alertaDialog.dismiss();
+                esconderAlerta();
             } else {
-                Toast.makeText(PartidaActivity.this, R.string.erro_atualizar_jogador_em_partida, Toast.LENGTH_LONG).show();
+                etx_nome_jogador.setError(getString(R.string.erro_campo_texto_vazio));
             }
         });
 
         btn_deletar_jogador.setOnClickListener(arg0 -> {
             if(isMandante){
-                if(atualizar = false){ //ajustar lógica visitante.delJogador(j)
+                if(false){ //ajustar lógica visitante.delJogador(j)
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
                 }
             } else {
-                if (atualizar = false) { //ajustar lógica visitante.delJogador(j)
+                if (false) { //ajustar lógica visitante.delJogador(j)
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
                 }
@@ -1096,7 +1095,7 @@ public class PartidaActivity extends AppCompatActivity {
 
         builder.setView(view);
         mostrarAlerta(builder);
-        if(j!=null)alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        if(jogador!=null)alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void montarAlertaEditarEquipe(boolean isMandante) {
@@ -1112,7 +1111,7 @@ public class PartidaActivity extends AppCompatActivity {
         EditText etx_sigla_equipe = view.findViewById(R.id.etx_sigla_nova_equipe);
         Button btn_confirma_equipe = view.findViewById(R.id.btn_confirmar_nova_equipe);
         btn_confirma_equipe.setEnabled(true);
-        btn_confirma_equipe.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        btn_confirma_equipe.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
         btn_confirma_equipe.setText(R.string.btn_editar);
 
         etx_nome_equipe.setText(equipeAtualizando.getNome());
@@ -1134,7 +1133,7 @@ public class PartidaActivity extends AppCompatActivity {
                     mudou = true;
                 }
                 if (mudou){
-                    atualizar = true;
+                    persistirDados();
                     atualizarNomesEquipes();
                 } else {
                     CarrierSemiActivity.exemplo(PartidaActivity.this, getString(R.string.erro_atualizar_informacoes_equipe));
@@ -1187,24 +1186,24 @@ public class PartidaActivity extends AppCompatActivity {
         esconderAlerta();
         alertaDialog = builder.create();
         alertaDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        alertaDialog.getWindow().setBackgroundDrawable(getDrawable(background));
+        alertaDialog.getWindow().setBackgroundDrawable(ContextCompat.getDrawable(this, background));
         alertaDialog.show();
     }
 
     private void adicionarAcaoJogador(boolean isMandante, Score s) {
 //        partida.addScore(s);
-        atualizar=true;
+        persistirDados();
         atualizarAposAcao(isMandante, s);
     }
 
     private void apagarAcaoJogador(boolean isMandante, Score s) {
 //        partida.delScore(s);
-        atualizar=true;
+        persistirDados();
         atualizarAposAcao(isMandante, s);
     }
 
     private void atualizarAposAcao(boolean isMandante, Score s){
-        if(s.getTipo()==s.TIPO_AUTO_PONTO){
+        if(s.getTipo()==Score.TIPO_AUTO_PONTO){
             atualizarCampos();
         } else {
             atualizarCamposTime(isMandante);
@@ -1249,12 +1248,12 @@ public class PartidaActivity extends AppCompatActivity {
 
     private void ativarFinalizarPartida() {
         btn_finalizar_partida.setEnabled(true);
-        btn_finalizar_partida.setBackground(getDrawable(R.drawable.button_shape_enabled));
+        btn_finalizar_partida.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
     }
 
     private void desativarFinalizarPartida() {
         btn_finalizar_partida.setEnabled(false);
-        btn_finalizar_partida.setBackground(getDrawable(R.drawable.button_shape_desabled));
+        btn_finalizar_partida.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_desabled));
     }
 
     public void zerarCronometro(View v) {
@@ -1281,7 +1280,7 @@ public class PartidaActivity extends AppCompatActivity {
                 relogio.stop();
                 deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
                 partida.setTempo(deslocamento);
-                atualizar = true;
+                persistirDados();
                 ativarFinalizarPartida();
                 relogio_parado = true;
             }
@@ -1295,13 +1294,20 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     public void esconderAlerta(){
-        if (alertaDialog != null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
-        }
+        if (alertaDialog != null && alertaDialog.isShowing()) alertaDialog.dismiss();
     }
 
     public void esconderTeclado(View editText) {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+    public void persistirDados(){
+        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        santuarioOlimpia.atualizar(true);
+    }
+
+    private boolean adicionarJogadorValidacao(Equipe equipe, String nome, int numero, int posicao){
+        return equipe.addJogador(new Jogador(equipe.bucarIdParaNovoJogador(), nome, posicao, numero)) != -1;
     }
 }

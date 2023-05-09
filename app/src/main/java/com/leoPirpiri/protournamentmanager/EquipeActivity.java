@@ -31,7 +31,7 @@ import model.Olimpia;
 import model.Equipe;
 import model.Torneio;
 
-public class EquipeActivity extends AppCompatActivity {
+public class EquipeActivity extends AppCompatActivity{
 
     private AlertDialog alertaDialog;
     private Olimpia santuarioOlimpia;
@@ -66,9 +66,7 @@ public class EquipeActivity extends AppCompatActivity {
             CarrierSemiActivity.persistirSantuario(this, santuarioOlimpia);
             santuarioOlimpia.atualizar(false);
         }
-        if(alertaDialog!=null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
-        }
+        esconderAlerta();
     }
 
     @Override
@@ -221,9 +219,7 @@ public class EquipeActivity extends AppCompatActivity {
     }
 
     public void esconderAlerta(){
-        if (alertaDialog != null && alertaDialog.isShowing()){
-            alertaDialog.dismiss();
-        }
+        if (alertaDialog != null && alertaDialog.isShowing()) alertaDialog.dismiss();
     }
 
     public void esconderTeclado(View editText) {

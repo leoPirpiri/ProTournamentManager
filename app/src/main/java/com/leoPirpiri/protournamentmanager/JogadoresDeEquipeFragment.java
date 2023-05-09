@@ -95,7 +95,7 @@ public class JogadoresDeEquipeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void montarAlertaNovoOuEditarJogador(Jogador velhoJogador, int position) {
+    private void montarAlertaNovoOuEditarJogador(Jogador Jogador, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(superActivity);
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -106,17 +106,17 @@ public class JogadoresDeEquipeFragment extends Fragment {
         spnr_posicao.setAdapter(new ArrayAdapter<>(superActivity, R.layout.spinner_item_style, getResources().getStringArray(R.array.posicoes_jogador)));
         ArrayList<Integer> numerosDisponiveis;
 
-        if (velhoJogador == null) {
+        if (Jogador == null) {
             builder.setTitle(R.string.titulo_alerta_novo_jogador);
             numerosDisponiveis = superActivity.numerosDisponiveisNaEquipe(-1);
             spnr_posicao.setSelection(0);
         } else {
             builder.setTitle(R.string.titulo_alerta_editar_jogador);
-            numerosDisponiveis = superActivity.numerosDisponiveisNaEquipe(velhoJogador.getNumero());
+            numerosDisponiveis = superActivity.numerosDisponiveisNaEquipe(Jogador.getNumero());
             btn_confirma_jogador.setText(R.string.btn_editar);
-            etx_nome_jogador.setText(velhoJogador.getNome());
-            spnr_posicao.setSelection(velhoJogador.getPosicao());
-            if(!superActivity.validarParticipacaoAcoesTorneio(velhoJogador.getId())){
+            etx_nome_jogador.setText(Jogador.getNome());
+            spnr_posicao.setSelection(Jogador.getPosicao());
+            if(!superActivity.validarParticipacaoAcoesTorneio(Jogador.getId())){
                 btn_excluir_jogador.setVisibility(View.VISIBLE);
             }
         }
@@ -135,13 +135,10 @@ public class JogadoresDeEquipeFragment extends Fragment {
 
         btn_confirma_jogador.setOnClickListener(arg0 -> {
             String nome = etx_nome_jogador.getText().toString().trim();
-            int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
-            int posicao = spnr_posicao.getSelectedItemPosition();
-
-            if(nome.isEmpty()){
-                etx_nome_jogador.setError(getString(R.string.erro_campo_texto_vazio));
-            } else {
-                if(velhoJogador==null) {
+            if (!nome.isEmpty()) {
+                int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
+                int posicao = spnr_posicao.getSelectedItemPosition();
+                if(Jogador==null) {
                     if(superActivity.adicionarJogador(nome, numero, posicao)){
                         Toast.makeText(superActivity, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
                         superActivity.persistirDados();
@@ -150,17 +147,19 @@ public class JogadoresDeEquipeFragment extends Fragment {
                     } else {
                         Toast.makeText(superActivity, R.string.jogador_erro_adicionar, Toast.LENGTH_SHORT).show();
                     }
-                } else if (!velhoJogador.getNome().equals(nome) ||
-                            velhoJogador.getNumero() != numero ||
-                            velhoJogador.getPosicao() != posicao) {
-                    velhoJogador.setNome(nome);
-                    velhoJogador.setNumero(numero);
-                    velhoJogador.setPosicao(posicao);
+                } else if (!Jogador.getNome().equals(nome) ||
+                            Jogador.getNumero() != numero ||
+                            Jogador.getPosicao() != posicao) {
+                    Jogador.setNome(nome);
+                    Jogador.setNumero(numero);
+                    Jogador.setPosicao(posicao);
                     superActivity.persistirDados();
                     adapterJogadores.notifyItemChanged(position);
                     Toast.makeText(superActivity, R.string.jogador_editado, Toast.LENGTH_SHORT).show();
                 }
                 superActivity.esconderAlerta();
+            } else {
+                etx_nome_jogador.setError(getString(R.string.erro_campo_texto_vazio));
             }
         });
 
