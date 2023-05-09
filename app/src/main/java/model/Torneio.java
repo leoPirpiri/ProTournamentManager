@@ -120,12 +120,10 @@ public class Torneio extends EntConcreta {
         return !buscarDonoDoTorneio().equals(usuarioId) && gerenciadores.contains(usuarioId);
     }
 
-    public boolean adicionarMesario(String usuarioId) {
+    public void adicionarMesario(String usuarioId) {
         if (gerenciadores.size() < MAX_GERENCIADORES) {
             gerenciadores.add(usuarioId);
-            return true;
         }
-        return false;
     }
 
     public boolean removerMesario(int posicao) {
@@ -150,9 +148,8 @@ public class Torneio extends EntConcreta {
     }
 
     public boolean fecharTorneio(String[] partida_nomes) {
-        if (equipes.size() < MIN_EQUIPE) {
-            return false;
-        }
+        if (equipes.size() < MIN_EQUIPE) return false;
+        if (tabela == null) tabela = new Tabela();
         tabela.sortearTimesGerarTabela(equipes, partida_nomes);
         idCampeao = STATUS_FECHADO;
         //tabela.testarArvore(tabela.getRaiz());
