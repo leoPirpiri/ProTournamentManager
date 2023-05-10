@@ -1022,7 +1022,7 @@ public class PartidaActivity extends AppCompatActivity {
                 int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
                 int posicao = spnr_posicao.getSelectedItemPosition();
                 if(jogador==null) {
-                    if (adicionarJogadorValidacao((isMandante ? mandante: visitante), nome, posicao, numero)){
+                    if (adicionarJogadorValidacao((isMandante ? mandante: visitante), nome, numero, posicao)){
                         Toast.makeText(this, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
                         persistirDados();
                         if (isMandante) jam.notifyItemInserted(position);
