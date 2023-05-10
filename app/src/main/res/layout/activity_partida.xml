@@ -267,7 +267,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/btn_margin_bottom"
             android:layout_weight="1"
             android:background="@drawable/button_shape_desabled"
             android:enabled="false"
@@ -278,5 +278,30 @@
             android:text="@string/encerrar_partida"
             android:textColor="@color/btn_texto_ic"
             android:textSize="18sp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_novo_jogador_mandante"
+            android:contentDescription="@string/descricao_btn_adicao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/btn_margin_bottom"
+            android:tint="@color/colorPrimaryDark"
+            app:backgroundTint="@color/core"
+            app:fabCustomSize="@dimen/tamanho_btn_adicao_obj"
+            app:maxImageSize="@dimen/tamanho_ic_adicao_obj"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_novo_jogador_visitante"
+            android:contentDescription="@string/descricao_btn_adicao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/btn_margin_bottom"
+            android:tint="@color/colorPrimaryDark"
+            app:backgroundTint="@color/core"
+            app:fabCustomSize="@dimen/tamanho_btn_adicao_obj"
+            app:maxImageSize="@dimen/tamanho_ic_adicao_obj"
+            app:srcCompat="@android:drawable/ic_input_add" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

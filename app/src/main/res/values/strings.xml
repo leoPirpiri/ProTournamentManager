@@ -65,9 +65,9 @@
     <string name="erro_excluir_equipe">Não foi possível excluir esta equipe!</string>
     <string name="equipe_sigla_partida_aberta"> </string>
     <string name="equipe_ponto_partida_aberta">-</string>
-    <string name="equipe_nome_padrao_mandante">Pirpiri F.C.</string>
-    <string name="equipe_nome_padrao_visitante">Maciel F.C.</string>
-    <string name="dica_sigla_equipe">CEE</string>
+    <string name="equipe_nome_padrao_mandante">Colete Azul F.C.</string>
+    <string name="equipe_nome_padrao_visitante">Colete Verde F.C.</string>
+    <string name="dica_sigla_equipe">CBF</string>
     <string name="lbl_sigla_equipe">SIGLA:</string>
     <string name="lbl_nome_equipe">Nome: </string>
     <string name="dica_nome_equipe">Clube Esportivo Exemplo</string>
@@ -295,6 +295,8 @@
     <string name="erro_sem_conexao_internet">Esta função requer conexão com a internet.</string>
     <string name="descricao_imagem_trofeu">Troféu dourado de campeão com uma placa e alças</string>
     <string name="descrisao_divisao_placar">Sinal de x trabalhado para separar o valores no placar</string>
+    <string name="descricao_btn_adicao">Botão verde e amarelo com um sinal de adição para acrescentar novos objetos</string>
+    <string name="msg_jogadores_insuficientes">Adicione mais jogadores</string>
 
 
 </resources>

@@ -55,4 +55,7 @@
     <dimen name="padding_msg_informacoes">15sp</dimen>
     <dimen name="padding_estatisticas">10sp</dimen>
     <dimen name="informacoes_fonte">18sp</dimen>
+    <dimen name="btn_margin_bottom">5dp</dimen>
+    <dimen name="tamanho_ic_adicao_obj">50dp</dimen>
+    <dimen name="tamanho_btn_adicao_obj">48dp</dimen>
 </resources>
