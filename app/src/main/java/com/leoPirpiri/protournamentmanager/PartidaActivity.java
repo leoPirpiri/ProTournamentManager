@@ -198,10 +198,10 @@ public class PartidaActivity extends AppCompatActivity {
                 torneio = new Torneio(990000, getResources().getString(R.string.novo_torneio), "");
                 torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
                         getResources().getString(R.string.equipe_nome_padrao_mandante),
-                        siglatation(getResources().getString(R.string.equipe_nome_padrao_mandante))));
+                        Equipe.formatarSigla(getString(R.string.equipe_nome_padrao_mandante))));
                 torneio.addEquipe(new Equipe(torneio.pegarIdParaNovaEquipe(),
                         getResources().getString(R.string.equipe_nome_padrao_visitante),
-                        siglatation(getResources().getString(R.string.equipe_nome_padrao_visitante))));
+                        Equipe.formatarSigla(getString(R.string.equipe_nome_padrao_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[PADRAO_PARTIDA_SIMULACAO];
                 partida = new Partida(PADRAO_PARTIDA_SIMULACAO, nome_padrao);
                 partida.setMandante(torneio.getEquipes().get(0).getId());
@@ -1181,19 +1181,6 @@ public class PartidaActivity extends AppCompatActivity {
                     i
                 ));
         }
-    }
-
-    private String siglatation(String entrada) {
-        String sigla = "";
-        for (String word : entrada.split(" ")) {
-            if (word.length()>2){
-                sigla = sigla.concat(word.substring(0,1));
-            }
-            if(sigla.length()>4){
-                break;
-            }
-        }
-        return sigla.toUpperCase();
     }
 
     private void finalizarPartida() {
