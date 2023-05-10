@@ -1070,12 +1070,8 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void montarAlertaEditarEquipe(boolean isMandante) {
-        Equipe equipeAtualizando;
-        if(isMandante){
-            equipeAtualizando = mandante;
-        } else {
-            equipeAtualizando = visitante;
-        }
+        Equipe equipeAtualizando = isMandante ? mandante : visitante;
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_nova_equipe, null);
         EditText etx_nome_equipe = view.findViewById(R.id.etx_nome_nova_equipe);
@@ -1122,25 +1118,20 @@ public class PartidaActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 String nome = etx_nome_equipe.getText().toString().trim();
                 String sigla = etx_sigla_equipe.getText().toString();
                 if (nome.isEmpty()) {
                     etx_sigla_equipe.setText("");
                 } else {
-                    String sigla_bot;
-                    if (nome.contains(" ")) {
-                        sigla_bot = siglatation(nome);
-                    } else {
-                        sigla_bot = nome.substring(0, 1).toUpperCase();
-                    }
+                    String sigla_bot = nome.contains(" ") ? Equipe.formatarSigla(nome) : nome.substring(0, 1).toUpperCase();
                     if (!sigla.trim().equals(sigla_bot)) {
                         etx_sigla_equipe.setText(sigla_bot);
                     }
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -1217,6 +1208,16 @@ public class PartidaActivity extends AppCompatActivity {
         }*/
     }
 
+    private void toggleBtnsAdicionarJogadores(){
+        if(btn_novo_jogador_mandante.getVisibility()==View.VISIBLE){
+            btn_novo_jogador_mandante.setVisibility(View.GONE);
+            btn_novo_jogador_visitante.setVisibility(View.GONE);
+        } else {
+            btn_novo_jogador_mandante.setVisibility(View.VISIBLE);
+            btn_novo_jogador_visitante.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void ativarFinalizarPartida() {
         btn_finalizar_partida.setEnabled(true);
         btn_finalizar_partida.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
@@ -1245,6 +1246,7 @@ public class PartidaActivity extends AppCompatActivity {
                     relogio.start();
                     desativarFinalizarPartida();
                     relogio_parado = false;
+                    toggleBtnsAdicionarJogadores();
                 }
             } else {
                 v.setBackground(ContextCompat.getDrawable(this, android.R.drawable.ic_media_play));
@@ -1254,6 +1256,7 @@ public class PartidaActivity extends AppCompatActivity {
                 persistirDados();
                 ativarFinalizarPartida();
                 relogio_parado = true;
+                toggleBtnsAdicionarJogadores();
             }
         }
     }
@@ -1268,7 +1271,7 @@ public class PartidaActivity extends AppCompatActivity {
         if (alertaDialog != null && alertaDialog.isShowing()) alertaDialog.dismiss();
     }
 
-    public void esconderTeclado(View editText) {
+    public void esconderTeclado(@NonNull View editText) {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
@@ -1278,7 +1281,7 @@ public class PartidaActivity extends AppCompatActivity {
         santuarioOlimpia.atualizar(true);
     }
 
-    private boolean adicionarJogadorValidacao(Equipe equipe, String nome, int numero, int posicao){
+    private boolean adicionarJogadorValidacao(@NonNull Equipe equipe, String nome, int numero, int posicao){
         return equipe.addJogador(new Jogador(equipe.bucarIdParaNovoJogador(), nome, posicao, numero)) != -1;
     }
 }

@@ -163,11 +163,13 @@ public class EquipeActivity extends AppCompatActivity{
 
         etx_nome_equipe.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {    }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {   }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 String nome = etx_nome_equipe.getText().toString().trim();
                 String sigla = etx_sigla_equipe.getText().toString();
                 if (nome.isEmpty()) {
@@ -178,10 +180,6 @@ public class EquipeActivity extends AppCompatActivity{
                         etx_sigla_equipe.setText(sigla_bot);
                     }
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
 
