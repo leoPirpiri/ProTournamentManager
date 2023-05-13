@@ -72,8 +72,6 @@ public class PartidaActivity extends AppCompatActivity {
     private RecyclerView recyclerViewJogadoresVisitantes;
     private JogadoresAdapter jam;
     private JogadoresAdapter jav;
-    private ArrayList<Score> acoesMandantes;
-    private ArrayList<Score> acoesVisitantes;
     private TextView txv_partida_nome;
 
     private TextView txv_partida_sigla_mandante;
@@ -178,14 +176,6 @@ public class PartidaActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isSimulacao() {
-        return partida.getId() == PADRAO_PARTIDA_SIMULACAO;
-    }
-
-    private boolean haEquipeVazia() {
-        return mandante.getJogadores().isEmpty() || visitante.getJogadores().isEmpty();
-    }
-
     private void metodoRaiz() {
         Intent intent = getIntent();
         String partidaIndice = intent.getStringExtra("partida");
@@ -228,6 +218,14 @@ public class PartidaActivity extends AppCompatActivity {
         }
     }
 
+    private void atualizarCamposGerais() {
+        txv_partida_nome.setText(partida.getNome());
+        atualizarNomesEquipes();
+        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
+        atualizarPlacarEletronico((HashMap) acoesGerais.get(2));
+        atualizarAcoesDeJogadores(acoesGerais);
+    }
+
     private void atualizarNomesEquipes(){
         txv_partida_nome_mandante.setText(mandante.getNome());
         txv_partida_nome_visitante.setText(visitante.getNome());
@@ -235,16 +233,7 @@ public class PartidaActivity extends AppCompatActivity {
         txv_partida_sigla_visitante.setText(visitante.getSigla());
     }
 
-    private void atualizarCampos() {
-        txv_partida_nome.setText(partida.getNome());
-        atualizarNomesEquipes();
-        atualizarPlacarEletronico();
-    }
-
-    private void atualizarPlacarEletronico() {
-        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
-        atualizarAcoesDeJogadores(acoesGerais);
-        HashMap<String, Integer> placar = (HashMap) acoesGerais.get(2);
+    private void atualizarPlacarEletronico(HashMap<String, Integer> placar) {
         txv_partida_score_ponto_mandante.setText(String.valueOf(
                 placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) + placar.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0)
             ));
@@ -260,8 +249,8 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void atualizarAcoesDeJogadores(ArrayList<List> acoesGerais) {
-        acoesMandantes = (ArrayList<Score>) acoesGerais.get(0);
-        acoesVisitantes = (ArrayList<Score>) acoesGerais.get(1);
+        jam.setAcoesTime((ArrayList<Score>) acoesGerais.get(0));
+        jav.setAcoesTime((ArrayList<Score>) acoesGerais.get(1));
         listarJogadores(jam);
         listarJogadores(jav);
     }
@@ -272,44 +261,33 @@ public class PartidaActivity extends AppCompatActivity {
         } else {
             atualizarCamposVisitante(partida.getScoreGeral());
         }*/
-
     }
 
     private void povoarRecycleView(){
         recyclerViewJogadoresMandantes.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewJogadoresVisitantes.setLayoutManager(new LinearLayoutManager(this));
-        acoesMandantes = new ArrayList<>();
-        acoesVisitantes = new ArrayList<>();
-        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), acoesMandantes);
-        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), acoesVisitantes);
+        jam = new JogadoresAdapter(PartidaActivity.this, mandante.getJogadores(), new ArrayList<>());
+        jav = new JogadoresAdapter(PartidaActivity.this, visitante.getJogadores(), new ArrayList<>());
         recyclerViewJogadoresMandantes.setAdapter(jam);
         recyclerViewJogadoresVisitantes.setAdapter(jav);
         construirListenersAdapterJogadores();
-        atualizarCampos();
+        atualizarCamposGerais();
         if(haEquipeVazia()){
             montarAlertaEquipeImcompleta();
         }
     }
 
     private void construirListenersAdapterJogadores() {
-        jam.setOnClickListener(v -> {
-            Olimpia.printteste(this, "clique curto no jogador mandante");
-            //montarAlertaAcaoPartida(true, jam.getItem(position), jam.getAcoesIndividuais(position));
-            /*int position = recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v);
-            montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);*/
-        });
+        jam.setOnClickListener(v -> montarAlertaAcaoPartida(jam, recyclerViewJogadoresMandantes.getChildAdapterPosition(v)));
+
         jam.setOnLongClickListener(v -> {
             Olimpia.printteste(this, "clique longo no jogador mandante");
             //montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
 //            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
             return true;
         });
-        jav.setOnClickListener(v -> {
-            Olimpia.printteste(this, "clique curto no jogador visitatne");
-            //montarAlertaAcaoPartida(false, jav.getItem(position), jav.getAcoesIndividuais(position));
-            /*int position = recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v);
-            montarAlertaNovoOuEditarJogador(listaJogadores.get(position), position);*/
-        });
+        jav.setOnClickListener(v -> montarAlertaAcaoPartida(jav, recyclerViewJogadoresVisitantes.getChildAdapterPosition(v)));
+
         jav.setOnLongClickListener(v -> {
             Olimpia.printteste(this, "clique longo no jogador visitante");
             //montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
@@ -321,6 +299,14 @@ public class PartidaActivity extends AppCompatActivity {
     @SuppressLint("NotifyDataSetChanged")
     private void listarJogadores(@NonNull JogadoresAdapter ja) {
         ja.notifyDataSetChanged();
+    }
+
+    private boolean isSimulacao() {
+        return partida.getId() == PADRAO_PARTIDA_SIMULACAO;
+    }
+
+    private boolean haEquipeVazia() {
+        return mandante.getJogadores().isEmpty() || visitante.getJogadores().isEmpty();
     }
 
     private void montarAlertaEquipeImcompleta() {
@@ -346,7 +332,7 @@ public class PartidaActivity extends AppCompatActivity {
             btn_cancelar.setOnClickListener(arg0 -> {
                 preencherEquipe(mandante);
                 preencherEquipe(visitante);
-                atualizarCampos();
+                atualizarCamposGerais();
                 esconderAlerta();
             });
             builder.setCancelable(false);
@@ -355,7 +341,7 @@ public class PartidaActivity extends AppCompatActivity {
             btn_cancelar.setText(R.string.btn_confirmar);
 
             btn_cancelar.setOnClickListener(arg0 -> {
-                atualizarCampos();
+                atualizarCamposGerais();
                 esconderAlerta();
             });
         }
@@ -432,7 +418,7 @@ public class PartidaActivity extends AppCompatActivity {
 
         builder.setOnDismissListener(dialog -> {
             handler.removeCallbacks(runnable);
-            atualizarCampos();
+            atualizarCamposGerais();
         });
 
         builder.setView(view);
@@ -726,7 +712,10 @@ public class PartidaActivity extends AppCompatActivity {
         }
     }
 
-    private void montarAlertaAcaoPartida(boolean isMandante, Jogador j, HashMap<Integer, Integer> acoes_jogador) {
+    private void montarAlertaAcaoPartida(JogadoresAdapter ja, int position) {
+        Jogador j = ja.getItem(position);
+        HashMap<Integer, Integer> acoes_jogador = ja.getAcoesIndividuais(position);
+        
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.alerta_acao_placar, null);
 
@@ -750,15 +739,11 @@ public class PartidaActivity extends AppCompatActivity {
         acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
         acao_jogador_nome.setText(j.getNome());
 
-        if( acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0) >= 2
-           || acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
+        if(acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0) >= 2 || acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
             //Jogador expulso: NÃO recebe ponto, falta ou novo cartão
-            btn_add_gol_pro.setBackground(ic_gol_desabled);
-            btn_add_gol_pro.setEnabled(false);
-            btn_add_gol_contra.setBackground(ic_gol_desabled);
-            btn_add_gol_contra.setEnabled(false);
-            btn_add_falta.setBackground(ic_falta_desabled);
-            btn_add_falta.setEnabled(false);
+            montarBtnAcao(btn_add_gol_pro,ic_gol_desabled, null, false);
+            montarBtnAcao(btn_add_gol_contra, ic_gol_desabled, null, false);
+            montarBtnAcao(btn_add_falta, ic_falta_desabled, null, false);
             btn_add_vermelho.setBackground(ic_cartao_desabled);
             btn_add_vermelho.setEnabled(false);
             btn_add_amarelo.setBackground(ic_cartao_desabled);
@@ -860,56 +845,56 @@ public class PartidaActivity extends AppCompatActivity {
         btn_add_gol_pro.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_PONTO));
+            adicionarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_PONTO));
             esconderAlerta();
         });
 
         btn_add_gol_contra.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_gol);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_AUTO_PONTO));
+            adicionarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_AUTO_PONTO));
             esconderAlerta();
         });
 
         btn_add_falta.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_falta);
             play_efeito_sonoro();
-            adicionarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+            adicionarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
             esconderAlerta();
         });
 
         btn_add_vermelho.setOnClickListener(arg0 -> {
-            adicionarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_VERMELHO));
+            adicionarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_VERMELHO));
             esconderAlerta();
         });
 
         btn_add_amarelo.setOnClickListener(arg0 -> {
-            adicionarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_AMARELO));
+            adicionarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_AMARELO));
             esconderAlerta();
         });
 
         btn_del_gol_pro.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_PONTO));
+            apagarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_PONTO));
             esconderAlerta();
         });
 
         btn_del_gol_contra.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_AUTO_PONTO));
+            apagarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_AUTO_PONTO));
             esconderAlerta();
         });
 
         btn_del_falta.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
+            apagarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_FALTA_INDIVIDUAL));
             esconderAlerta();
         });
 
         btn_del_vermelho.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_VERMELHO));
+            apagarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_VERMELHO));
             esconderAlerta();
         });
 
         btn_del_amarelo.setOnClickListener(arg0 -> {
-            apagarAcaoJogador(isMandante, new Score(partida.getId(), j.getId(), Score.TIPO_AMARELO));
+            apagarAcaoJogador(ja, position, new Score(partida.getId(), j.getId(), Score.TIPO_AMARELO));
             esconderAlerta();
         });
 
@@ -918,6 +903,12 @@ public class PartidaActivity extends AppCompatActivity {
         builder.setView(view);
         builder.setTitle(R.string.titulo_alerta_partida_acao_jogador);
         mostrarAlerta(builder);
+    }
+
+    private void montarBtnAcao(Button btn, Drawable fundo, Drawable frente, boolean ativo){
+        btn.setBackground(fundo);
+        if (frente != null) btn.setForeground(frente);
+        btn.setEnabled(ativo);
     }
 
     private void montarAlertaAdicionarJogador(boolean isMandante){
@@ -1152,23 +1143,32 @@ public class PartidaActivity extends AppCompatActivity {
         alertaDialog.show();
     }
 
-    private void adicionarAcaoJogador(boolean isMandante, Score s) {
-//        partida.addScore(s);
-        persistirDados();
-        atualizarAposAcao(isMandante, s);
+    private void adicionarAcaoJogador(JogadoresAdapter ja, int position, Score s) {
+        partida.addScore(s);
+        atualizarAposAcao(ja, position, s);
     }
 
-    private void apagarAcaoJogador(boolean isMandante, Score s) {
-//        partida.delScore(s);
-        persistirDados();
-        atualizarAposAcao(isMandante, s);
-    }
-
-    private void atualizarAposAcao(boolean isMandante, Score s){
-        if(s.getTipo()==Score.TIPO_AUTO_PONTO){
-            atualizarCampos();
+    private void apagarAcaoJogador(JogadoresAdapter ja, int position, Score s) {
+        if(partida.delScore(s)){
+            atualizarAposAcao(ja, position, s);
         } else {
-            atualizarCamposTime(isMandante);
+            Toast.makeText(this, R.string.erro_apagar_acao, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void atualizarAposAcao(JogadoresAdapter ja, int position, Score s){
+        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
+        ja.setAcoesTime((ArrayList<Score>) acoesGerais.get(mandante.getId() == Olimpia.extrairIdEntidadeSuperiorLv1(ja.getItem(position).getId()) ? 0 : 1));
+        ja.notifyItemChanged(position);
+        persistirDados();
+        switch (s.getTipo()){
+            case Score.TIPO_PONTO:
+            case Score.TIPO_FALTA_INDIVIDUAL:
+            case Score.TIPO_AUTO_PONTO:
+                atualizarPlacarEletronico((HashMap) acoesGerais.get(2));
+                break;
+            default:
+                break;
         }
     }
 

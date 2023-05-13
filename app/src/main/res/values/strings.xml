@@ -297,6 +297,7 @@
     <string name="descrisao_divisao_placar">Sinal de x trabalhado para separar o valores no placar</string>
     <string name="descricao_btn_adicao">Botão verde e amarelo com um sinal de adição para acrescentar novos objetos</string>
     <string name="msg_jogadores_insuficientes">Adicione mais jogadores</string>
+    <string name="erro_apagar_acao">A ação não pode ser desfeita.</string>
 
 
 </resources>
