@@ -134,9 +134,9 @@ public class PartidaActivity extends AppCompatActivity {
 
         metodoRaiz();
 
-        btn_novo_jogador_mandante.setOnClickListener(v -> montarAlertaAdicionarJogador(true));
+        btn_novo_jogador_mandante.setOnClickListener(v -> montarAlertaAdicionarJogador(jam));
 
-        btn_novo_jogador_visitante.setOnClickListener(v -> montarAlertaAdicionarJogador(false));
+        btn_novo_jogador_visitante.setOnClickListener(v -> montarAlertaAdicionarJogador(jav));
 
         txv_partida_nome_mandante.setOnClickListener(v -> montarAlertaEditarEquipe(true));
 
@@ -281,17 +281,14 @@ public class PartidaActivity extends AppCompatActivity {
         jam.setOnClickListener(v -> montarAlertaAcaoPartida(jam, recyclerViewJogadoresMandantes.getChildAdapterPosition(v)));
 
         jam.setOnLongClickListener(v -> {
-            Olimpia.printteste(this, "clique longo no jogador mandante");
-            //montarAlertaInfromacoesIndividuais(true, jam.getItem(position), jam.getAcoesIndividuais(position));
-//            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
+            montarAlertaAdicionarOuEditarOuInfromacoesJogador(jam, recyclerViewJogadoresMandantes.getChildAdapterPosition(v));
             return true;
         });
+
         jav.setOnClickListener(v -> montarAlertaAcaoPartida(jav, recyclerViewJogadoresVisitantes.getChildAdapterPosition(v)));
 
         jav.setOnLongClickListener(v -> {
-            Olimpia.printteste(this, "clique longo no jogador visitante");
-            //montarAlertaInfromacoesIndividuais(false, jav.getItem(position), jav.getAcoesIndividuais(position));
-//            montarAlertaExcluirJogador(recyclerViewJogadoresDeEquipe.getChildAdapterPosition(v));
+            montarAlertaAdicionarOuEditarOuInfromacoesJogador(jav, recyclerViewJogadoresVisitantes.getChildAdapterPosition(v));
             return true;
         });
     }
@@ -842,12 +839,15 @@ public class PartidaActivity extends AppCompatActivity {
         btn.setEnabled(ativo);
     }
 
-    private void montarAlertaAdicionarJogador(boolean isMandante){
-        montarAlertaAdicionarOuEditarOuInfromacoesJogador(isMandante, null, null, isMandante?mandante.getJogadores().size():visitante.getJogadores().size());
+    private void montarAlertaAdicionarJogador(JogadoresAdapter ja){
+        montarAlertaAdicionarOuEditarOuInfromacoesJogador(ja, ja.getItemCount());
     }
 
-    private void montarAlertaAdicionarOuEditarOuInfromacoesJogador(boolean isMandante, Jogador jogador, HashMap<Integer, Integer> acoes_jogador, int position) {
+    private void montarAlertaAdicionarOuEditarOuInfromacoesJogador(JogadoresAdapter ja,  int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Equipe equipe = ja == jam ? mandante : visitante;
+        Jogador jogador = ja.getItemCount() == position ? null : ja.getItem(position);
+
         View view = getLayoutInflater().inflate(R.layout.alerta_novo_jogador, null);
         //Preenchendo atributos pessoais do jogador.
         EditText etx_nome_jogador = view.findViewById(R.id.etx_nome_novo_jogador);
@@ -860,22 +860,15 @@ public class PartidaActivity extends AppCompatActivity {
 
         if (jogador == null) {
             builder.setTitle(R.string.titulo_alerta_novo_jogador);
-            if(isMandante) {
-                numeros = mandante.buscarNumerosLivresNoPlantel(-1);
-            } else {
-                numeros = visitante.buscarNumerosLivresNoPlantel(-1);
-            }
+            numeros = equipe.buscarNumerosLivresNoPlantel(-1);
             btn_confirma_jogador.setText(R.string.btn_adicionar);
         } else {
             builder.setTitle(R.string.titulo_alerta_partida_detalhes_jogador);
+            numeros = equipe.buscarNumerosLivresNoPlantel(jogador.getNumero());
+            btn_confirma_jogador.setText(R.string.btn_editar);
             etx_nome_jogador.setText(jogador.getNome());
             spnr_posicao.setSelection(jogador.getPosicao());
-            if (isMandante) {
-                numeros = mandante.buscarNumerosLivresNoPlantel(jogador.getNumero());
-            } else {
-                numeros = visitante.buscarNumerosLivresNoPlantel(jogador.getNumero());
-            }
-            btn_confirma_jogador.setText(R.string.btn_editar);
+            HashMap<Integer, Integer> acoes_jogador = ja.getAcoesIndividuais(position);
             if (isSimulacao()){
                 if (acoes_jogador.isEmpty()) {
                     btn_deletar_jogador.setVisibility(View.VISIBLE);
@@ -932,23 +925,24 @@ public class PartidaActivity extends AppCompatActivity {
                 }
             }
         }
+
         etx_nome_jogador.requestFocus();
         spnr_numero.setAdapter(new ArrayAdapter<>(this, R.layout.spinner_item_style, numeros));
         spnr_numero.setSelection(0);
 
         btn_confirma_jogador.setEnabled(true);
         btn_confirma_jogador.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_enabled));
+
         btn_confirma_jogador.setOnClickListener(arg0 -> {
             String nome = etx_nome_jogador.getText().toString().trim();
             if(!nome.isEmpty()) {
                 int numero = Integer.parseInt(spnr_numero.getSelectedItem().toString());
                 int posicao = spnr_posicao.getSelectedItemPosition();
                 if(jogador==null) {
-                    if (adicionarJogadorValidacao((isMandante ? mandante: visitante), nome, numero, posicao)){
+                    if (adicionarJogadorValidacao(equipe, nome, numero, posicao)){
                         Toast.makeText(this, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
                         persistirDados();
-                        if (isMandante) jam.notifyItemInserted(position);
-                        else jav.notifyItemInserted(position);
+                        ja.notifyItemInserted(position);
                     } else {
                         Toast.makeText(this, R.string.jogador_erro_adicionar, Toast.LENGTH_SHORT).show();
                     }
@@ -959,8 +953,7 @@ public class PartidaActivity extends AppCompatActivity {
                     jogador.setNumero(numero);
                     jogador.setPosicao(posicao);
                     persistirDados();
-                    if (isMandante) jam.notifyItemChanged(position);
-                    else jav.notifyItemChanged(position);
+                    ja.notifyItemChanged(position);
                     Toast.makeText(this, R.string.jogador_editado, Toast.LENGTH_SHORT).show();
                 }
                 esconderAlerta();
@@ -970,7 +963,7 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         btn_deletar_jogador.setOnClickListener(arg0 -> {
-            if(isMandante){
+            /*if(isMandante){
                 if(false){ //ajustar lógica visitante.delJogador(j)
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
@@ -980,7 +973,7 @@ public class PartidaActivity extends AppCompatActivity {
                     Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
                     atualizarCamposTime(isMandante);
                 }
-            }
+            }*/
             esconderAlerta();
         });
 
