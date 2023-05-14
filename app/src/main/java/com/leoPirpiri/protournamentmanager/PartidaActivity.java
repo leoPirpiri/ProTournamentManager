@@ -147,9 +147,9 @@ public class PartidaActivity extends AppCompatActivity {
 
         findViewById(R.id.btn_cron_pause).setOnLongClickListener(v -> {
             if(isSimulacao() && relogio_parado){
-                santuarioOlimpia.setSimulacaoDePelada(null);
                 desativarFinalizarPartida();
-                CarrierSemiActivity.persistirSantuario(PartidaActivity.this, santuarioOlimpia);
+                persistirDados();
+                santuarioOlimpia.setSimulacaoDePelada(null);
                 metodoRaiz();
             }
             return false;

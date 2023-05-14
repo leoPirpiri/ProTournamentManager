@@ -2,8 +2,6 @@ package model;
 
 import androidx.annotation.NonNull;
 
-import org.checkerframework.checker.units.qual.m;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -45,6 +43,10 @@ public class Partida extends EntConcreta {
 
     public int getVisitante() {
         return visitante;
+    }
+
+    public ArrayList<Score> getPlacar(){
+        return placar;
     }
 
     public String getMesario() {

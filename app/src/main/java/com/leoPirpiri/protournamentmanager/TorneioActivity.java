@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 import com.leoPirpiri.protournamentmanager.R.drawable;
 
 import androidx.appcompat.app.AlertDialog;
@@ -29,7 +30,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
@@ -49,12 +49,14 @@ public class TorneioActivity extends AppCompatActivity {
     private String torneioIndice;
     private Torneio torneio;
     private FirebaseUser nowUser;
+    private FirebaseFirestore  firestore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nowUser = FirebaseAuth.getInstance().getCurrentUser();
-        setContentView(R.layout.activity_torneio);
+        firestore = FirebaseFirestore.getInstance();
 
+        setContentView(R.layout.activity_torneio);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         txv_estado_torneio = findViewById(R.id.txv_estado_torneio);
@@ -74,11 +76,28 @@ public class TorneioActivity extends AppCompatActivity {
                 abrirTabela();
             } else if (torneio.fecharTorneio(getResources().getStringArray(R.array.partida_nomes))) {
                 persistirDadosSantuario();
+                salvarPartidasRemotas();
                 montarAlertaSorteio();
             } else {
                 finish();
             }
         });
+    }
+
+    private void salvarPartidasRemotas() {
+        WriteBatch batch = firestore.batch();
+        torneio.buscarTabela().getPartidas().forEach((key, partida) -> {
+            batch.set(firestore.collection("torneios").document(torneio.buscarUuid())
+                            .collection("partidas").document(String.valueOf(key)),
+                    partida);
+        });
+        batch.commit().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()){
+                Toast.makeText(this, R.string.erro_grave_padrao, Toast.LENGTH_LONG).show();
+                finish();
+            }
+        });
+
     }
 
     @Override
@@ -282,7 +301,7 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void buscarTorneioRemoto(){
-        FirebaseFirestore.getInstance().collection("torneios").
+        firestore.collection("torneios").
                 document(torneioIndice).get().
                 addOnCompleteListener(task -> {
                     esconderAlerta();
