@@ -675,7 +675,6 @@ public class PartidaActivity extends AppCompatActivity {
             }
         }
         if(partida.estaEncerrada()){
-            partida.setCampeaoId(0);
             esconderAlerta();
             montarAlertaPremiacao();
         }
