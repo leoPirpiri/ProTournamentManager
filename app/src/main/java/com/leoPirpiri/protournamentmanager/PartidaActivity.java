@@ -41,6 +41,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -217,12 +218,12 @@ public class PartidaActivity extends AppCompatActivity {
             btn_finalizar_partida.setText(R.string.btn_partida_encerrada);
         }
     }
-
+    @SuppressWarnings("unchecked")
     private void atualizarCamposGerais() {
         txv_partida_nome.setText(partida.getNome());
         atualizarNomesEquipes();
-        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
-        atualizarPlacarEletronico((HashMap) acoesGerais.get(2));
+        ArrayList<List<?>> acoesGerais = partida.buscarScoreGeral();
+        atualizarPlacarEletronico((HashMap<String, Integer>) acoesGerais.get(2));
         atualizarAcoesDeJogadores(acoesGerais);
     }
 
@@ -233,7 +234,9 @@ public class PartidaActivity extends AppCompatActivity {
         txv_partida_sigla_visitante.setText(visitante.getSigla());
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void atualizarPlacarEletronico(HashMap<String, Integer> placar) {
+        //noinspection
         txv_partida_score_ponto_mandante.setText(String.valueOf(
                 placar.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) + placar.getOrDefault("Vist_"+Score.TIPO_AUTO_PONTO, 0)
             ));
@@ -247,20 +250,12 @@ public class PartidaActivity extends AppCompatActivity {
                 placar.getOrDefault("Vist_"+Score.TIPO_FALTA_INDIVIDUAL, 0)
         ));
     }
-
-    private void atualizarAcoesDeJogadores(ArrayList<List> acoesGerais) {
+    @SuppressWarnings("unchecked")
+    private void atualizarAcoesDeJogadores(ArrayList<List<?>> acoesGerais) {
         jam.setAcoesTime((ArrayList<Score>) acoesGerais.get(0));
         jav.setAcoesTime((ArrayList<Score>) acoesGerais.get(1));
         listarJogadores(jam);
         listarJogadores(jav);
-    }
-
-    private void atualizarCamposTime(boolean isMandante) {
-        /*if(isMandante){
-            atualizarCamposMandante(partida.getScoreGeral());
-        } else {
-            atualizarCamposVisitante(partida.getScoreGeral());
-        }*/
     }
 
     private void povoarRecycleView(){
@@ -491,7 +486,7 @@ public class PartidaActivity extends AppCompatActivity {
         btn_confirmar.setVisibility(View.VISIBLE);
         btn_cancelar.setVisibility(View.VISIBLE);
         msg.setVisibility(View.VISIBLE);
-        msg.setText(getString(R.string.lbl_msg_partida_empatada) + "\n\n" + getString(R.string.lbl_msg_inicio_desempate));
+        msg.setText(String.format("%s\n\n%s", getString(R.string.lbl_msg_partida_empatada), getString(R.string.lbl_msg_inicio_desempate)));
 
         btn_confirmar.setOnClickListener(arg0 -> montarAlertaAbrirDesempate());
 
@@ -536,8 +531,8 @@ public class PartidaActivity extends AppCompatActivity {
         int corCobrador = getColor(R.color.midle);
 
         ArrayList<Score> score_parcial = new ArrayList<>();
-        ArrayList<String> score_parcial_mandante = new ArrayList(Arrays.asList("n", "n", "n", "n", "n"));
-        ArrayList<String> score_parcial_visitante = new ArrayList(Arrays.asList("n", "n", "n", "n", "n"));
+        ArrayList<String> score_parcial_mandante = new ArrayList<>(Arrays.asList("n", "n", "n", "n", "n"));
+        ArrayList<String> score_parcial_visitante = new ArrayList<>(Arrays.asList("n", "n", "n", "n", "n"));
 
         btn_mandante_primeiro.setOnClickListener(arg0 -> {
             cobrador = mandante;
@@ -680,9 +675,8 @@ public class PartidaActivity extends AppCompatActivity {
             }
         }
         if(partida.estaEncerrada()){
-//            CarrierSemiActivity.exemplo(this, "Campeão: " + partida.getCampeaoId());
-//            partida.setCampeaoId(0);
-//            esconderAlerta();
+            partida.setCampeaoId(0);
+            esconderAlerta();
             montarAlertaPremiacao();
         }
     }
@@ -735,6 +729,7 @@ public class PartidaActivity extends AppCompatActivity {
         acao_jogador_posicao.setText(getResources().getStringArray(R.array.posicoes_jogador)[j.getPosicao()].substring(0, 3));
         acao_jogador_nome.setText(j.getNome());
 
+        //noinspection ConstantConditions
         if(acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0) >= 2 || acoes_jogador.containsKey(Score.TIPO_VERMELHO)){
             //Jogador expulso: NÃO recebe ponto, falta ou novo cartão
             montarBtnAcao(btn_add_gol_pro,ic_gol_desabled, null, false);
@@ -905,6 +900,7 @@ public class PartidaActivity extends AppCompatActivity {
                 }
             } else {
                 txv_jogador_divisor.setVisibility(View.GONE);
+                //noinspection ConstantConditions
                 switch (acoes_jogador.getOrDefault(Score.TIPO_AMARELO, 0)){
                     case 2:
                         img_primeiro_amarelo.setVisibility(View.VISIBLE);
@@ -963,17 +959,13 @@ public class PartidaActivity extends AppCompatActivity {
         });
 
         btn_deletar_jogador.setOnClickListener(arg0 -> {
-            /*if(isMandante){
-                if(false){ //ajustar lógica visitante.delJogador(j)
-                    Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
-                    atualizarCamposTime(isMandante);
-                }
+            if(!torneio.ParticipacaoAcoesTorneio(Objects.requireNonNull(jogador).getId()) && equipe.delJogador(position)!=null){
+                Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
+                persistirDados();
+                ja.notifyItemRemoved(position);
             } else {
-                if (false) { //ajustar lógica visitante.delJogador(j)
-                    Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
-                    atualizarCamposTime(isMandante);
-                }
-            }*/
+                Toast.makeText(PartidaActivity.this, R.string.msg_alerta_erro_excluir_jogador, Toast.LENGTH_LONG).show();
+            }
             esconderAlerta();
         });
 
@@ -1081,9 +1073,9 @@ public class PartidaActivity extends AppCompatActivity {
         }
         esconderAlerta();
     }
-
+    @SuppressWarnings("unchecked")
     private void atualizarAposAcao(JogadoresAdapter ja, int position, Score s){
-        ArrayList<List> acoesGerais = partida.buscarScoreGeral();
+        ArrayList<List<?>> acoesGerais = partida.buscarScoreGeral();
         ja.setAcoesTime((ArrayList<Score>) acoesGerais.get(mandante.getId() == Olimpia.extrairIdEntidadeSuperiorLv1(ja.getItem(position).getId()) ? 0 : 1));
         ja.notifyItemChanged(position);
         persistirDados();
@@ -1091,7 +1083,7 @@ public class PartidaActivity extends AppCompatActivity {
             case Score.TIPO_PONTO:
             case Score.TIPO_FALTA_INDIVIDUAL:
             case Score.TIPO_AUTO_PONTO:
-                atualizarPlacarEletronico((HashMap) acoesGerais.get(2));
+                atualizarPlacarEletronico((HashMap<String, Integer>) acoesGerais.get(2));
                 break;
             default:
                 break;
@@ -1110,7 +1102,7 @@ public class PartidaActivity extends AppCompatActivity {
     }
 
     private void finalizarPartida() {
-        /*if (partida.setEncerrada()){
+        if (partida.setEncerrada()){
             montarAlertaPremiacao();
         } else {
             if(isSimulacao()){
@@ -1118,7 +1110,7 @@ public class PartidaActivity extends AppCompatActivity {
             } else {
                 montarAlertaAbrirDesempate();
             }
-        }*/
+        }
     }
 
     private void toggleBtnsAdicionarJogadores(){

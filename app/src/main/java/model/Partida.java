@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class Partida extends EntConcreta {
     private int campeaoId;
-    private int mandante; //Nó esquerdo do ramo. Equipe mandante da partida
-    private int visitante; //Nó direito do ramo. Equipe visitante
+    private int mandante;
+    private int visitante;
     private ArrayList<Score> placar;
     private long tempo;
 
@@ -67,7 +67,7 @@ public class Partida extends EntConcreta {
         this.tempo = tempo;
     }
 
-
+    @SuppressWarnings("ConstantConditions")
     public boolean setEncerrada() {
         HashMap<String, Integer> pontosGerais = buscarDetalhesDaPartida();
         int pontosMandante  = pontosGerais.getOrDefault("Mand_"+Score.TIPO_PONTO, 0) +
@@ -87,6 +87,7 @@ public class Partida extends EntConcreta {
         this.placar.add(score);
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public boolean delScore(Score score) {
         Score scoreDeletado = placar.stream().filter(s -> s.getTipo() == score.getTipo()
                 && s.getIdJogador() == score.getIdJogador()).findFirst().get();
@@ -94,11 +95,13 @@ public class Partida extends EntConcreta {
     }
 
 
+    @SuppressWarnings("unchecked")
     public HashMap<String, Integer> buscarDetalhesDaPartida() {
-        return new HashMap<String, Integer>((Map) buscarScoreGeral().get(2));
+        return new HashMap<>((Map<String, Integer>) buscarScoreGeral().get(2));
     }
 
-    public ArrayList<List> buscarScoreGeral() {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public ArrayList<List<?>> buscarScoreGeral() {
         ArrayList<Score> rm = new ArrayList<>();
         ArrayList<Score> rv = new ArrayList<>();
         HashMap<String, Integer> r = new HashMap<>();
