@@ -171,8 +171,8 @@ public class JogadoresAdapter extends RecyclerView.Adapter<JogadoresAdapter.View
     @org.jetbrains.annotations.NotNull
     private String getNomeCompacto(String nomeBruto){
         ArrayList<String> pulos = new ArrayList<>(Arrays.asList("da", "do", "de", "das", "dos"));
-        int limite = 9;
-        int margemErro = limite+3;
+        int limite = 10;
+        int margemErro = limite+5;
         String nome = "";
         for(String s : nomeBruto.split(" ")){
             if(!pulos.contains(s.toLowerCase())){
@@ -181,7 +181,8 @@ public class JogadoresAdapter extends RecyclerView.Adapter<JogadoresAdapter.View
                 } else if (nome.length() + s.length() <= margemErro){
                     nome = nome.concat(s);
                     break;
-                } else{
+                } else {
+                    if(nome.isEmpty()) nome=s;
                     break;
                 }
             }

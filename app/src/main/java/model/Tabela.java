@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Tabela  implements Serializable {
-    private HashMap<Integer, Partida> partidas;
+    private final HashMap<Integer, Partida> partidas;
 
     public Tabela() {
         this.partidas = new HashMap<>();
@@ -22,26 +22,26 @@ public class Tabela  implements Serializable {
         this.partidas.put(key, partida);
     }
 
-    public void sortearTimesGerarTabela(ArrayList<Equipe> equipes, String[] nomesPartidas){
+    public void sortearTimesGerarTabela(ArrayList<Equipe> equipes, String[] nomesPartidas, String mesario){
         Collections.shuffle(equipes);
-        gerarTabela(equipes, nomesPartidas, 1);
+        gerarTabela(equipes, nomesPartidas, 1, mesario);
     }
-    private void gerarTabela(List<Equipe> equipesRestantes, String[] nomesPartidas, int idPartida){
-        Partida novaPartida = new Partida(idPartida, nomesPartidas[idPartida]);
+    private void gerarTabela(List<Equipe> equipesRestantes, String[] nomesPartidas, int idPartida, String mesario){
+        Partida novaPartida = new Partida(idPartida, nomesPartidas[idPartida], mesario);
         addPartida(idPartida, novaPartida);
         int meio = (int)Math.round(equipesRestantes.size()/2.0);
         switch (equipesRestantes.size()){
             case 3:
                 novaPartida.setVisitante(equipesRestantes.get(2).getId());
-                gerarTabela(equipesRestantes.subList(0, meio), nomesPartidas, idPartida*2);
+                gerarTabela(equipesRestantes.subList(0, meio), nomesPartidas, idPartida*2, mesario);
                 break;
             case 2:
                 novaPartida.setMandante(equipesRestantes.get(0).getId());
                 novaPartida.setVisitante(equipesRestantes.get(1).getId());
                 break;
             default:
-                gerarTabela(equipesRestantes.subList(0, meio), nomesPartidas, idPartida*2);
-                gerarTabela(equipesRestantes.subList(meio, equipesRestantes.size()), nomesPartidas, (idPartida*2)+1);
+                gerarTabela(equipesRestantes.subList(0, meio), nomesPartidas, idPartida*2, mesario);
+                gerarTabela(equipesRestantes.subList(meio, equipesRestantes.size()), nomesPartidas, (idPartida*2)+1, mesario);
                 break;
         }
     }

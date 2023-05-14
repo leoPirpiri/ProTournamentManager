@@ -150,9 +150,8 @@ public class Torneio extends EntConcreta {
     public boolean fecharTorneio(String[] partida_nomes) {
         if (equipes.size() < MIN_EQUIPE) return false;
         if (tabela == null) tabela = new Tabela();
-        tabela.sortearTimesGerarTabela(equipes, partida_nomes);
+        tabela.sortearTimesGerarTabela(equipes, partida_nomes, buscarDonoDoTorneio());
         idCampeao = STATUS_FECHADO;
-        //tabela.testarArvore(tabela.getRaiz());
         return true;
     }
 

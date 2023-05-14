@@ -194,7 +194,7 @@ public class PartidaActivity extends AppCompatActivity {
                         getResources().getString(R.string.equipe_nome_padrao_visitante),
                         Equipe.formatarSigla(getString(R.string.equipe_nome_padrao_visitante))));
                 String nome_padrao = getResources().getStringArray(R.array.partida_nomes)[PADRAO_PARTIDA_SIMULACAO];
-                partida = new Partida(PADRAO_PARTIDA_SIMULACAO, nome_padrao);
+                partida = new Partida(PADRAO_PARTIDA_SIMULACAO, nome_padrao, torneio.buscarDonoDoTorneio());
                 partida.setMandante(torneio.getEquipes().get(0).getId());
                 partida.setVisitante(torneio.getEquipes().get(1).getId());
                 torneio.buscarTabela().addPartida(partida.getId(), partida);

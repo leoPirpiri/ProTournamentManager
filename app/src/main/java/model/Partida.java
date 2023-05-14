@@ -2,6 +2,8 @@ package model;
 
 import androidx.annotation.NonNull;
 
+import org.checkerframework.checker.units.qual.m;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,21 +15,23 @@ public class Partida extends EntConcreta {
     private int mandante;
     private int visitante;
     private ArrayList<Score> placar;
+    private String mesario;
     private long tempo;
 
     public Partida(){}
 
-    public Partida(int id, String nome) {
+    public Partida(int id, String nome, String mesario) {
         super(id, nome);
         this.mandante = 0;
         this.visitante = 0;
         this.placar = new ArrayList<>();
         this.campeaoId = 0;
+        this.mesario = mesario;
         this.tempo = 0;
     }
 
-    public Partida(int id, String nome, int campeaoId) {
-        this(id, nome);
+    public Partida(int id, String nome, int campeaoId, String mesario) {
+        this(id, nome, mesario);
         this.campeaoId = campeaoId;
     }
 
@@ -41,6 +45,10 @@ public class Partida extends EntConcreta {
 
     public int getVisitante() {
         return visitante;
+    }
+
+    public String getMesario() {
+        return mesario;
     }
 
     public long getTempo() {
@@ -61,6 +69,10 @@ public class Partida extends EntConcreta {
 
     public void setVisitante(int visitante) {
         this.visitante = visitante;
+    }
+
+    public void setMesario(String mesario){
+        this.mesario = mesario;
     }
 
     public void setTempo(long tempo) {
