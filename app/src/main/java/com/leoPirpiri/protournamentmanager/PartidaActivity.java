@@ -35,6 +35,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,12 +72,10 @@ public class PartidaActivity extends AppCompatActivity {
     private Equipe visitante;
     private Chronometer relogio;
     private MediaPlayer efeitos_sonoros;
-    private RecyclerView recyclerViewJogadoresMandantes;
-    private RecyclerView recyclerViewJogadoresVisitantes;
-    private JogadoresAdapter jam;
-    private JogadoresAdapter jav;
-    private TextView txv_partida_nome;
+    private FirebaseUser nowUser;
+    private FirebaseFirestore  firestore;
 
+    private TextView txv_partida_nome;
     private TextView txv_partida_sigla_mandante;
     private TextView txv_partida_sigla_visitante;
     private TextView txv_partida_score_ponto_mandante;
@@ -86,6 +87,10 @@ public class PartidaActivity extends AppCompatActivity {
     private Button btn_finalizar_partida;
     private FloatingActionButton btn_novo_jogador_mandante;
     private FloatingActionButton btn_novo_jogador_visitante;
+    private RecyclerView recyclerViewJogadoresMandantes;
+    private RecyclerView recyclerViewJogadoresVisitantes;
+    private JogadoresAdapter jam;
+    private JogadoresAdapter jav;
 
     private Drawable ic_gol_pro;
     private Drawable ic_gol_contra;
@@ -102,6 +107,8 @@ public class PartidaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partida);
+        nowUser = FirebaseAuth.getInstance().getCurrentUser();
+        firestore = FirebaseFirestore.getInstance();
         relogio_parado = true;
         relogio = findViewById(R.id.cronometro);
 
@@ -146,9 +153,9 @@ public class PartidaActivity extends AppCompatActivity {
         btn_finalizar_partida.setOnClickListener(v -> montarAlertaFinalizarPartida());
 
         findViewById(R.id.btn_cron_pause).setOnLongClickListener(v -> {
-            if(isSimulacao() && relogio_parado){
+            if(ehSimulacao() && relogio_parado){
                 desativarFinalizarPartida();
-                persistirDados();
+                persistirDadosTorneio();
                 santuarioOlimpia.setSimulacaoDePelada(null);
                 metodoRaiz();
             }
@@ -199,7 +206,7 @@ public class PartidaActivity extends AppCompatActivity {
                 partida.setVisitante(torneio.getEquipes().get(1).getId());
                 torneio.buscarTabela().addPartida(partida.getId(), partida);
                 santuarioOlimpia.setSimulacaoDePelada(torneio);
-                persistirDados();
+                persistirDadosTorneio();
             } else {
                 btn_finalizar_partida.setText(R.string.encerrar_pelada);
                 partida = torneio.buscarTabela().buscarPartida(PADRAO_PARTIDA_SIMULACAO);
@@ -208,6 +215,9 @@ public class PartidaActivity extends AppCompatActivity {
             torneio = santuarioOlimpia.getTorneio(Olimpia.extrairUuidTorneioDeIndices(partidaIndice));
             if(torneio==null) finish();
             partida = torneio.buscarTabela().buscarPartida((Olimpia.extrairIdInteiroDeIndices(partidaIndice) - torneio.getId()));
+            if(!UsuarioLogadoEhMesarioResponsavel()){
+                sincronizarPartidaRemota();
+            }
         }
         mandante = torneio.buscarEquipe(partida.getMandante());
         visitante = torneio.buscarEquipe(partida.getVisitante());
@@ -293,8 +303,12 @@ public class PartidaActivity extends AppCompatActivity {
         ja.notifyDataSetChanged();
     }
 
-    private boolean isSimulacao() {
+    private boolean ehSimulacao() {
         return partida.getId() == PADRAO_PARTIDA_SIMULACAO;
+    }
+
+    private boolean UsuarioLogadoEhMesarioResponsavel(){
+        return nowUser.getUid().equals(partida.getMesario());
     }
 
     private boolean haEquipeVazia() {
@@ -311,7 +325,7 @@ public class PartidaActivity extends AppCompatActivity {
         btn_cancelar.setVisibility(View.VISIBLE);
         msg.setVisibility(View.VISIBLE);
 
-        if(isSimulacao()) {
+        if(ehSimulacao()) {
             btn_confirmar.setVisibility(View.VISIBLE);
             btn_confirmar.setText(R.string.btn_individual);
             btn_cancelar.setText(R.string.btn_aleatorio);
@@ -384,7 +398,7 @@ public class PartidaActivity extends AppCompatActivity {
                         visitante.addJogador(new Jogador(visitante.bucarIdParaNovoJogador(), nome,4, k++ ));
                     }
                 }
-                persistirDados();
+                persistirDadosTorneio();
                 esconderAlerta();
                 montarAlertaSorteioJogadores();
             } else {
@@ -430,7 +444,7 @@ public class PartidaActivity extends AppCompatActivity {
         btn_cancelar.setVisibility(View.VISIBLE);
         msg.setVisibility(View.VISIBLE);
 
-        msg.setText(isSimulacao() ? R.string.lbl_msg_finalizar_pelada: R.string.lbl_msg_finalizar_partida);
+        msg.setText(ehSimulacao() ? R.string.lbl_msg_finalizar_pelada: R.string.lbl_msg_finalizar_partida);
 
         btn_confirmar.setOnClickListener(arg0 -> {
             efeitos_sonoros = MediaPlayer.create(PartidaActivity.this, R.raw.aviso_fim_jogo);
@@ -442,7 +456,7 @@ public class PartidaActivity extends AppCompatActivity {
         btn_cancelar.setOnClickListener(arg0 -> esconderAlerta());
 
         builder.setView(view);
-        builder.setTitle(isSimulacao() ? R.string.titulo_alerta_confir_finalizar_pelada : R.string.titulo_alerta_confir_finalizar_partida);
+        builder.setTitle(ehSimulacao() ? R.string.titulo_alerta_confir_finalizar_pelada : R.string.titulo_alerta_confir_finalizar_partida);
         mostrarAlerta(builder);
     }
 
@@ -863,7 +877,7 @@ public class PartidaActivity extends AppCompatActivity {
             etx_nome_jogador.setText(jogador.getNome());
             spnr_posicao.setSelection(jogador.getPosicao());
             HashMap<Integer, Integer> acoes_jogador = ja.getAcoesIndividuais(position);
-            if (isSimulacao()){
+            if (ehSimulacao()){
                 if (acoes_jogador.isEmpty()) {
                     btn_deletar_jogador.setVisibility(View.VISIBLE);
                 }
@@ -936,7 +950,7 @@ public class PartidaActivity extends AppCompatActivity {
                 if(jogador==null) {
                     if (adicionarJogadorValidacao(equipe, nome, numero, posicao)){
                         Toast.makeText(this, R.string.jogador_adicionado, Toast.LENGTH_SHORT).show();
-                        persistirDados();
+                        persistirDadosTorneio();
                         ja.notifyItemInserted(position);
                     } else {
                         Toast.makeText(this, R.string.jogador_erro_adicionar, Toast.LENGTH_SHORT).show();
@@ -947,7 +961,7 @@ public class PartidaActivity extends AppCompatActivity {
                     jogador.setNome(nome);
                     jogador.setNumero(numero);
                     jogador.setPosicao(posicao);
-                    persistirDados();
+                    persistirDadosTorneio();
                     ja.notifyItemChanged(position);
                     Toast.makeText(this, R.string.jogador_editado, Toast.LENGTH_SHORT).show();
                 }
@@ -960,7 +974,7 @@ public class PartidaActivity extends AppCompatActivity {
         btn_deletar_jogador.setOnClickListener(arg0 -> {
             if(!torneio.ParticipacaoAcoesTorneio(Objects.requireNonNull(jogador).getId()) && equipe.delJogador(position)!=null){
                 Toast.makeText(PartidaActivity.this, R.string.msg_alerta_sucesso_excluir_jogador, Toast.LENGTH_LONG).show();
-                persistirDados();
+                persistirDadosTorneio();
                 ja.notifyItemRemoved(position);
             } else {
                 Toast.makeText(PartidaActivity.this, R.string.msg_alerta_erro_excluir_jogador, Toast.LENGTH_LONG).show();
@@ -1006,7 +1020,7 @@ public class PartidaActivity extends AppCompatActivity {
                     mudou = true;
                 }
                 if (mudou){
-                    persistirDados();
+                    persistirDadosTorneio();
                     atualizarNomesEquipes();
                 } else {
                     CarrierSemiActivity.exemplo(PartidaActivity.this, getString(R.string.erro_atualizar_informacoes_equipe));
@@ -1077,7 +1091,7 @@ public class PartidaActivity extends AppCompatActivity {
         ArrayList<List<?>> acoesGerais = partida.buscarScoreGeral();
         ja.setAcoesTime((ArrayList<Score>) acoesGerais.get(mandante.getId() == Olimpia.extrairIdEntidadeSuperiorLv1(ja.getItem(position).getId()) ? 0 : 1));
         ja.notifyItemChanged(position);
-        persistirDados();
+        persistirDadosTorneio();
         switch (s.getTipo()){
             case Score.TIPO_PONTO:
             case Score.TIPO_FALTA_INDIVIDUAL:
@@ -1104,7 +1118,7 @@ public class PartidaActivity extends AppCompatActivity {
         if (partida.setEncerrada()){
             montarAlertaPremiacao();
         } else {
-            if(isSimulacao()){
+            if(ehSimulacao()){
                 montarAlertaPerguntarDesempate();
             } else {
                 montarAlertaAbrirDesempate();
@@ -1132,6 +1146,17 @@ public class PartidaActivity extends AppCompatActivity {
         btn_finalizar_partida.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_desabled));
     }
 
+    private void sincronizarPartidaRemota(){
+        firestore.collection("torneios").document(torneio.buscarUuid())
+                .collection("partidas").document(String.valueOf(partida.getId()))
+                .addSnapshotListener((value, e) -> {
+                    if(value.exists()){
+                        partida = value.toObject(Partida.class);
+                        System.out.println(partida.toString());
+                    }
+                });
+    }
+
     public void zerarCronometro(View v) {
         if(relogio_parado) {
             relogio.setBase(SystemClock.elapsedRealtime());
@@ -1157,7 +1182,7 @@ public class PartidaActivity extends AppCompatActivity {
                 relogio.stop();
                 deslocamento = SystemClock.elapsedRealtime() - relogio.getBase();
                 partida.setTempo(deslocamento);
-                persistirDados();
+                persistirDadosTorneio();
                 ativarFinalizarPartida();
                 relogio_parado = true;
                 toggleBtnsAdicionarJogadores();
@@ -1180,9 +1205,13 @@ public class PartidaActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
-    public void persistirDados(){
+    public void persistirDadosTorneio(){
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         santuarioOlimpia.atualizar(true);
+    }
+
+    public void persistirDadosPartida(){
+        persistirDadosTorneio();
     }
 
     private boolean adicionarJogadorValidacao(@NonNull Equipe equipe, String nome, int numero, int posicao){
