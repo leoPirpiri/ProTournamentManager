@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.leoPirpiri.protournamentmanager.R.drawable;
 
@@ -35,6 +36,8 @@ import adapters.NavegacaoPorPaginasAdapter;
 import control.CarrierSemiActivity;
 import model.Equipe;
 import model.Olimpia;
+import model.Partida;
+import model.Tabela;
 import model.Torneio;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -301,15 +304,27 @@ public class TorneioActivity extends AppCompatActivity {
     }
 
     private void buscarTorneioRemoto(){
-        firestore.collection("torneios").
-                document(torneioIndice).get().
-                addOnCompleteListener(task -> {
+        firestore.collection("torneios")
+                .document(torneioIndice).get()
+                .addOnCompleteListener(task -> {
                     esconderAlerta();
                     if(task.isSuccessful()){
                         DocumentSnapshot doc = task.getResult();
                         if (doc.exists()){
                             Torneio torneioRemoto = doc.toObject(Torneio.class);
-                            torneioEncontrado(torneioRemoto);
+                            if (torneioRemoto!=null) {
+                                if(torneioRemoto.estarFechado()) {
+                                    firestore.collection(doc.getReference().getPath()+"/partidas")
+                                            .get().addOnSuccessListener(querySnapshot -> {
+                                                if(torneioRemoto.buscarTabela() == null) torneioRemoto.setTabela(new Tabela());
+                                                for (QueryDocumentSnapshot docPartida : querySnapshot) {
+                                                    Partida partida = docPartida.toObject(Partida.class);
+                                                    torneioRemoto.buscarTabela().addPartida(partida.getId(), partida);
+                                                }
+                                            });
+                                }
+                                torneioEncontrado(torneioRemoto);
+                            }
                         } else {
                             Toast.makeText(this, R.string.erro_torneio_nao_encontrado, Toast.LENGTH_SHORT).show();
                             finish();

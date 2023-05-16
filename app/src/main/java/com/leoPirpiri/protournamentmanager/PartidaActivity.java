@@ -1091,7 +1091,7 @@ public class PartidaActivity extends AppCompatActivity {
         ArrayList<List<?>> acoesGerais = partida.buscarScoreGeral();
         ja.setAcoesTime((ArrayList<Score>) acoesGerais.get(mandante.getId() == Olimpia.extrairIdEntidadeSuperiorLv1(ja.getItem(position).getId()) ? 0 : 1));
         ja.notifyItemChanged(position);
-        persistirDadosTorneio();
+        persistirDadosPartida();
         switch (s.getTipo()){
             case Score.TIPO_PONTO:
             case Score.TIPO_FALTA_INDIVIDUAL:
@@ -1146,12 +1146,25 @@ public class PartidaActivity extends AppCompatActivity {
         btn_finalizar_partida.setBackground(ContextCompat.getDrawable(this, R.drawable.button_shape_desabled));
     }
 
+    public void persistirDadosTorneio(){
+        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
+        santuarioOlimpia.atualizar(true);
+    }
+
+    public void persistirDadosPartida(){
+        firestore.collection("torneios/"+torneio.buscarUuid()+"/partidas")
+                .document(String.valueOf(partida.getId()))
+                .set(partida);
+        persistirDadosTorneio();
+    }
+
     private void sincronizarPartidaRemota(){
         firestore.collection("torneios").document(torneio.buscarUuid())
                 .collection("partidas").document(String.valueOf(partida.getId()))
                 .addSnapshotListener((value, e) -> {
                     if(value.exists()){
                         partida = value.toObject(Partida.class);
+                        atualizarCamposGerais();
                         System.out.println(partida.toString());
                     }
                 });
@@ -1203,15 +1216,6 @@ public class PartidaActivity extends AppCompatActivity {
     public void esconderTeclado(@NonNull View editText) {
         InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-    }
-
-    public void persistirDadosTorneio(){
-        torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
-        santuarioOlimpia.atualizar(true);
-    }
-
-    public void persistirDadosPartida(){
-        persistirDadosTorneio();
     }
 
     private boolean adicionarJogadorValidacao(@NonNull Equipe equipe, String nome, int numero, int posicao){
