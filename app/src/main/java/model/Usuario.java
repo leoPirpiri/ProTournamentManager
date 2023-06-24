@@ -12,6 +12,7 @@ public class Usuario {
     private static final String TAG = "USUARIO_CONECTION";
     private String id;
     private String apelido;
+    private String email;
     private ArrayList<String> torneiosSeguidos;
 
     public Usuario(){
@@ -30,6 +31,8 @@ public class Usuario {
     public String getApelido() {
         return apelido;
     }
+
+    public String getEmail() { return email; }
 
     public ArrayList<String> getTorneiosSeguidos() {
         return torneiosSeguidos;
@@ -53,6 +56,10 @@ public class Usuario {
 
     public void setId(String uid) {
         this.id = uid;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void atualizarUsuario(FirebaseFirestore db){

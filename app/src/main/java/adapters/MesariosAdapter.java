@@ -51,7 +51,7 @@ public class MesariosAdapter extends RecyclerView.Adapter<MesariosAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String nome = mesarios.get(position).getApelido();
-        String email = mesarios.get(position).getId();
+        String email = mesarios.get(position).getEmail();
         holder.nomeMesario.setText(nome);
         holder.emailMesario.setText(email);
     }
