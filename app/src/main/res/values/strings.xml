@@ -308,4 +308,8 @@
     <string name="cabecalho_estatistica_jogo_limpo">Jogo Limpo:</string>
     <string name="erro_torneio_sem_estatistica">Torneio ainda aberto!\nAguardando por estatísticas…</string>
     <string name="erro_torneio_sem_estatistica_especifica">Aguardando dados para gerar estatísticas…</string>
+    <string name="saldacoes_equipe_campea">Parabéns por ser o Campeão!</string>
+    <string name="cabecalho_estatistica_artilharia_equipe">Artilheiros da equipe:</string>
+    <string name="cabecalho_estatistica_fairplay_equipe">Número de faltas:</string>
+    <string name="cabecalho_estatistica_jogo_limpo_equipe">Número de cartões:</string>
 </resources>

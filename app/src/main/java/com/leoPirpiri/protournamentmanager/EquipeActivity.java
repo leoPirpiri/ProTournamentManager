@@ -234,4 +234,6 @@ public class EquipeActivity extends AppCompatActivity{
         torneio.setDataAtualizacaoLocal(System.currentTimeMillis());
         santuarioOlimpia.atualizar(true);
     }
+
+    public Torneio getTorneioTrabalhado() { return torneio; }
 }

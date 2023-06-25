@@ -40,12 +40,12 @@ public class EstatisticasDeTorneioFragment extends Fragment {
         if (torneio.estarFechado() && torneio.buscarTabela() != null){
             v.findViewById(R.id.layout_estatisticas_geral).setVisibility(View.VISIBLE);
             if (torneio.estarFinalizado()){
-                v.findViewById(R.id.layout_estatica_campeao).setVisibility(View.VISIBLE);
+                v.findViewById(R.id.layout_estatistica_campeao).setVisibility(View.VISIBLE);
                 TextView txv_campeao = v.findViewById(R.id.txv_estatistica_campeao);
                 txv_campeao.setText(String.format("%s - %s", torneio.buscarCampeao().getNome(), torneio.buscarCampeao().getSigla()));
             }
             HashMap<String, ArrayList<Score>> estatisticasGerais = torneio.buscarEstatisticasTorneio();
-            int n_registro_padrao = 5;
+            int n_registro_padrao = 4;
 
             //Preenche estatísticas de artilharia
             ArrayList<Score> artilharia = estatisticasGerais.get("ponto");

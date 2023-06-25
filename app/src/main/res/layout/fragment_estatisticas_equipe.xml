@@ -8,115 +8,136 @@
     tools:context=".EquipeActivity"
     android:layout_gravity="center"
     android:padding="@dimen/padding_msg_informacoes">
-        <LinearLayout
-            android:id="@+id/layout_estatica_campeao"
+        <TextView
+            android:id="@+id/msg_estatistica_equipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:padding="@dimen/padding_estatisticas">
-                <ImageView
-                    android:layout_width="@dimen/largura_trofeu"
-                    android:layout_height="@dimen/altura_trofeu"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/trofeu"></ImageView>
-                <TextView
-                    android:id="@+id/txv_estatistica_campeao"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Nome do campeão aqui."
-                    android:textStyle="bold"
-                    android:textSize="@dimen/informacoes_fonte"
-                    android:paddingStart="@dimen/padding_estatisticas"/>
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/erro_torneio_sem_estatistica"
             android:gravity="center"
-            android:padding="@dimen/padding_estatisticas">
-                <ImageView
-                    android:layout_width="@dimen/largura_trofeu"
-                    android:layout_height="@dimen/altura_trofeu"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/acao_add_ponto_pro"></ImageView>
-                <TextView
-                    android:id="@+id/txv_estatistica_artilheiros"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Estatiscas da equipe"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/informacoes_fonte"
-                    android:paddingStart="@dimen/padding_estatisticas" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            />
+            android:textStyle="bold"
+            android:textSize="@dimen/informacoes_fonte"/>
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/layout_estatisticas_geral_equipe"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/padding_estatisticas">
-                <ImageView
-                    android:layout_width="@dimen/largura_trofeu"
-                    android:layout_height="@dimen/altura_trofeu"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/acao_add_falta"></ImageView>
-                <TextView
-                    android:id="@+id/txv_estatistica_faltas"
-                    android:gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Estatiscas da equipe"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/informacoes_fonte"
-                    android:paddingStart="@dimen/padding_estatisticas" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/padding_estatisticas">
+            android:orientation="vertical"
+            android:visibility="visible">
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                        <ImageView
-                            android:layout_width="@dimen/largura_trofeu"
-                            android:layout_height="@dimen/altura_trofeu"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/acao_add_card_vermelho"></ImageView>
-                        <ImageView
-                            android:layout_width="@dimen/largura_trofeu"
-                            android:layout_height="@dimen/altura_trofeu"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/acao_add_card_amarelo"></ImageView>
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/txv_estatistica_cartoes"
-                    android:gravity="center_vertical"
+                    android:id="@+id/layout_estatistica_campeao_equipe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Estatiscas da equipe"
-                    android:textStyle="normal"
-                    android:textSize="@dimen/informacoes_fonte"
-                    android:paddingStart="@dimen/padding_estatisticas" />
+                    android:visibility="gone"
+                    android:padding="@dimen/padding_estatisticas">
+                        <ImageView
+                            android:layout_width="@dimen/largura_trofeu"
+                            android:layout_height="@dimen/altura_trofeu"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/trofeu"
+                            android:contentDescription="@string/descricao_imagem_trofeu"/>
+                        <TextView
+                            android:id="@+id/txv_estatistica_campeao"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/saldacoes_equipe_campea"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/informacoes_fonte"
+                            android:paddingStart="@dimen/padding_estatisticas"/>
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_estatisticas">
+                        <ImageView
+                            android:layout_width="@dimen/largura_trofeu"
+                            android:layout_height="@dimen/altura_trofeu"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/acao_add_ponto_pro"
+                            android:contentDescription="@string/descricao_btn_gol_pro" />
+                        <TextView
+                            android:id="@+id/txv_estatistica_artilheiros"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/erro_torneio_sem_estatistica_especifica"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/informacoes_fonte"
+                            android:paddingStart="@dimen/padding_estatisticas" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_estatisticas">
+                        <ImageView
+                            android:layout_width="@dimen/largura_trofeu"
+                            android:layout_height="@dimen/altura_trofeu"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/acao_add_falta"
+                            android:contentDescription="@string/descricao_btn_falta" />
+                        <TextView
+                            android:id="@+id/txv_estatistica_faltas"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/erro_torneio_sem_estatistica_especifica"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/informacoes_fonte"
+                            android:paddingStart="@dimen/padding_estatisticas" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_estatisticas">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                                <ImageView
+                                    android:layout_width="@dimen/largura_trofeu"
+                                    android:layout_height="@dimen/altura_trofeu"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/acao_add_card_vermelho"
+                                    android:contentDescription="@string/descricao_btn_cartao_vermelho"/>
+                                <ImageView
+                                    android:layout_width="@dimen/largura_trofeu"
+                                    android:layout_height="@dimen/altura_trofeu"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/acao_add_card_amarelo"
+                                    android:contentDescription="@string/descricao_btn_cartao_amarelo"/>
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/txv_estatistica_cartoes"
+                            android:gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/erro_torneio_sem_estatistica_especifica"
+                            android:textStyle="normal"
+                            android:textSize="@dimen/informacoes_fonte"
+                            android:paddingStart="@dimen/padding_estatisticas" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorPrimaryDark"
+                    />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorPrimaryDark"
-            />
 </LinearLayout>

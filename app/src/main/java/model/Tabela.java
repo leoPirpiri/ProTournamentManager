@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Tabela  implements Serializable {
     private final HashMap<Integer, Partida> partidas;
@@ -59,10 +60,19 @@ public class Tabela  implements Serializable {
         return partidasOitavas;
     }
 
-    public ArrayList<Score> buscarEstatisticasGerais(){
+    public ArrayList<Score> buscarEstatisticasGerais(int idEquipe){
         ArrayList<Score> r = new ArrayList<>();
         for (Map.Entry<Integer, Partida> entry : partidas.entrySet()) {
-            r.addAll(entry.getValue().getPlacar());
+            if (idEquipe>0){
+                if (entry.getValue().getMandante() == idEquipe || entry.getValue().getVisitante() == idEquipe){
+                    r.addAll(entry.getValue().getPlacar().stream()
+                            .filter(score -> Olimpia.extrairIdEntidadeSuperiorLv1(score.getIdJogador()) == idEquipe)
+                            .collect(Collectors.toList())
+                    );
+                }
+            } else {
+                r.addAll(entry.getValue().getPlacar());
+            }
         }
         return r;
     }

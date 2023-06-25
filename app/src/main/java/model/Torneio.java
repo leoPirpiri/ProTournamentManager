@@ -205,11 +205,15 @@ public class Torneio extends EntConcreta {
     }
 
     public HashMap<String, ArrayList<Score>> buscarEstatisticasTorneio(){
+        return buscarEstatisticasTorneio(0);
+    }
+
+    public HashMap<String, ArrayList<Score>> buscarEstatisticasTorneio(int idEquipe){
         ArrayList<Score> ponto = new ArrayList<>();
         ArrayList<Score> cartao = new ArrayList<>();
         ArrayList<Score> falta = new ArrayList<>();
 
-        for (Score s : tabela.buscarEstatisticasGerais()) {
+        for (Score s : tabela.buscarEstatisticasGerais(idEquipe)) {
             switch (s.getTipo()){
                 case Score.TIPO_PONTO:
                     ponto.add(s);
