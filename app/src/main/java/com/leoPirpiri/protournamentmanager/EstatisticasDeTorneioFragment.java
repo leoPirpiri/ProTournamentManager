@@ -17,6 +17,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import model.Equipe;
 import model.Olimpia;
 import model.Score;
 import model.Torneio;
@@ -44,7 +45,7 @@ public class EstatisticasDeTorneioFragment extends Fragment {
                 txv_campeao.setText(String.format("%s - %s", torneio.buscarCampeao().getNome(), torneio.buscarCampeao().getSigla()));
             }
             HashMap<String, ArrayList<Score>> estatisticasGerais = torneio.buscarEstatisticasTorneio();
-            int n_registro_padrao = 3;
+            int n_registro_padrao = 5;
 
             //Preenche estatísticas de artilharia
             ArrayList<Score> artilharia = estatisticasGerais.get("ponto");
@@ -62,7 +63,7 @@ public class EstatisticasDeTorneioFragment extends Fragment {
                 for (Integer key : dados.keySet()) {
                     msg_artilheiros = String.format("%s\n%d %s - %s (%s)", msg_artilheiros,
                             dados.get(key),
-                            dados.get(key)==1 ? "Gol" : "Gols",
+                            dados.get(key)>1 ? "Gols" : "Gol",
                             torneio.buscarEquipe(Olimpia.extrairIdEntidadeSuperiorLv1(key)).buscarJogador(key).getNome(),
                             torneio.buscarEquipe(Olimpia.extrairIdEntidadeSuperiorLv1(key)).getNome()
                             );
@@ -72,9 +73,64 @@ public class EstatisticasDeTorneioFragment extends Fragment {
             }
 
             //Preenche estatísticas de falta
-            ArrayList<Score> faltas = estatisticasGerais.get("faltas");
+            ArrayList<Score> faltas = estatisticasGerais.get("falta");
+
+            if (!faltas.isEmpty()){
+                String msg_faltas = getString(R.string.cabecalho_estatistica_fairplay);
+                Map<Integer, Long> dados = faltas.stream()
+                        .peek(s -> s.setIdJogador(Olimpia.extrairIdEntidadeSuperiorLv1(s.getIdJogador())))
+                        .collect(Collectors.groupingBy(Score::getIdJogador, Collectors.counting()));
+                for (Equipe e: torneio.getEquipes()) {
+                    if(!dados.containsKey(e.getId())){
+                        dados.put(e.getId(), 0L);
+                    }
+                }
+                int posicoes=0;
+                for (Integer key: dados.entrySet()
+                                    .stream().sorted(Map.Entry.comparingByValue())
+                                    .collect(Collectors.toMap(
+                                            Map.Entry::getKey,
+                                            Map.Entry::getValue,
+                                            (oldValue, newValue) -> oldValue, LinkedHashMap::new)).keySet()){
+                    msg_faltas = String.format("%s\n%d %s - %s", msg_faltas,
+                        dados.get(key),
+                        dados.get(key)>1 ? "Faltas" : "Falta",
+                        torneio.buscarEquipe(key).getNome()
+                );
+                    if (++posicoes == n_registro_padrao) break;
+                }
+                ((TextView) v.findViewById(R.id.txv_estatistica_faltas)).setText(msg_faltas);
+            }
 
             //Preenche estatísticas de cartões
+            ArrayList<Score> cartoes = estatisticasGerais.get("cartao");
+
+            if (!cartoes.isEmpty()){
+                String msg_cartoes = getString(R.string.cabecalho_estatistica_jogo_limpo);
+                Map<Integer, Long> dados = cartoes.stream()
+                        .peek(s -> s.setIdJogador(Olimpia.extrairIdEntidadeSuperiorLv1(s.getIdJogador())))
+                        .collect(Collectors.groupingBy(Score::getIdJogador, Collectors.counting()));
+                for (Equipe e: torneio.getEquipes()) {
+                    if(!dados.containsKey(e.getId())){
+                        dados.put(e.getId(), 0L);
+                    }
+                }
+                int posicoes=0;
+                for (Integer key: dados.entrySet()
+                        .stream().sorted(Map.Entry.comparingByValue())
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey,
+                                Map.Entry::getValue,
+                                (oldValue, newValue) -> oldValue, LinkedHashMap::new)).keySet()){
+                    msg_cartoes = String.format("%s\n%d %s - %s", msg_cartoes,
+                            dados.get(key),
+                            dados.get(key)>1 ? "Cartões" : "Cartão",
+                            torneio.buscarEquipe(key).getNome()
+                    );
+                    if (++posicoes == n_registro_padrao) break;
+                }
+                ((TextView) v.findViewById(R.id.txv_estatistica_cartoes)).setText(msg_cartoes);
+            }
 
         } else {
             v.findViewById(R.id.msg_estatistica).setVisibility(View.VISIBLE);

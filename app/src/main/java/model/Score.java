@@ -30,11 +30,15 @@ public class Score extends EntGeral {
         return tipo;
     }
 
+    public void setIdJogador(int idJogador) {
+        this.idJogador = idJogador;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return super.toString() +
-                "Tipo: " + tipo +
-                "Id do Jogador: " + idJogador;
+                " - TipoScore: " + tipo +
+                " - Id do Jogador: " + idJogador;
     }
 }

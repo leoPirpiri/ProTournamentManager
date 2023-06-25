@@ -217,9 +217,11 @@ public class Torneio extends EntConcreta {
                 case Score.TIPO_AMARELO:
                 case Score.TIPO_VERMELHO:
                     cartao.add(s);
+                    break;
                 case Score.TIPO_FALTA_INDIVIDUAL:
                 case Score.TIPO_FALTA_TATICA_COLETIVA:
                     falta.add(s);
+                    break;
                 default:
                     break;
             }
