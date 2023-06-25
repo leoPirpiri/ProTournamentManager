@@ -134,7 +134,6 @@ public class TorneioActivity extends AppCompatActivity {
         santuarioOlimpia.atualizar(false);
         if(torneio != null){
             atualizarInformacoesInciais();
-            //montarAlertaBuscarTorneioRemoto();
         } else {
             torneio = new Torneio(-1, "", getUsuarioLogado());
             montarAlertaBuscarTorneioRemoto();

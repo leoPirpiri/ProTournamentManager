@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Torneio extends EntConcreta {
@@ -180,9 +181,9 @@ public class Torneio extends EntConcreta {
         } else return null;
     }
 
-    public Equipe buscarEquipe(int index) {
+    public Equipe buscarEquipe(int id) {
         for (Equipe e : equipes) {
-            if (e.getId() == index) {
+            if (e.getId() == id) {
                 return e;
             }
         }
@@ -203,6 +204,33 @@ public class Torneio extends EntConcreta {
         return 0;
     }
 
+    public HashMap<String, ArrayList<Score>> buscarEstatisticasTorneio(){
+        ArrayList<Score> ponto = new ArrayList<>();
+        ArrayList<Score> cartao = new ArrayList<>();
+        ArrayList<Score> falta = new ArrayList<>();
+
+        for (Score s : tabela.buscarEstatisticasGerais()) {
+            switch (s.getTipo()){
+                case Score.TIPO_PONTO:
+                    ponto.add(s);
+                    break;
+                case Score.TIPO_AMARELO:
+                case Score.TIPO_VERMELHO:
+                    cartao.add(s);
+                case Score.TIPO_FALTA_INDIVIDUAL:
+                case Score.TIPO_FALTA_TATICA_COLETIVA:
+                    falta.add(s);
+                default:
+                    break;
+            }
+        }
+        HashMap<String, ArrayList<Score>> retorno = new HashMap<>();
+        retorno.put("ponto", ponto);
+        retorno.put("cartao", cartao);
+        retorno.put("falta", falta);
+
+        return retorno;
+    }
 
     @NonNull
     public String toString() {

@@ -59,6 +59,14 @@ public class Tabela  implements Serializable {
         return partidasOitavas;
     }
 
+    public ArrayList<Score> buscarEstatisticasGerais(){
+        ArrayList<Score> r = new ArrayList<>();
+        for (Map.Entry<Integer, Partida> entry : partidas.entrySet()) {
+            r.addAll(entry.getValue().getPlacar());
+        }
+        return r;
+    }
+
     public boolean verificarExclusaoSegura(int jogador){
         for (Map.Entry<Integer, Partida> entry : partidas.entrySet()) {
             Partida partida = entry.getValue();

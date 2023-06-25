@@ -29,6 +29,8 @@ import java.util.ArrayList;
 
 import adapters.TorneiosAdapter;
 import model.Olimpia;
+import model.Partida;
+import model.Tabela;
 import model.Torneio;
 
 
@@ -219,9 +221,19 @@ public class TorneiosGerenciadosFragment extends Fragment {
                         QuerySnapshot documents = task.getResult();
                         if(!documents.isEmpty()){
                             for (QueryDocumentSnapshot document : documents) {
-                                Torneio aux = document.toObject(Torneio.class);
-                                listaTorneiosGerenciados.add(aux);
-                                Log.d(TAG, aux.toString());
+                                Torneio torneioRemoto = document.toObject(Torneio.class);
+                                if (torneioRemoto!=null &&torneioRemoto.estarFechado()) {
+                                    FirebaseFirestore.getInstance().collection(document.getReference().getPath()+"/partidas")
+                                        .get().addOnSuccessListener(querySnapshot -> {
+                                            if(torneioRemoto.buscarTabela() == null) torneioRemoto.setTabela(new Tabela());
+                                            for (QueryDocumentSnapshot docPartida : querySnapshot) {
+                                                Partida partida = docPartida.toObject(Partida.class);
+                                                torneioRemoto.buscarTabela().addPartida(partida.getId(), partida);
+                                            }
+                                            });
+                                }
+                                listaTorneiosGerenciados.add(torneioRemoto);
+                                Log.d(TAG, torneioRemoto.toString());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             superActivity.persistirDados();

@@ -296,8 +296,16 @@
     <string name="descricao_imagem_trofeu">Troféu dourado de campeão com uma placa e alças</string>
     <string name="descrisao_divisao_placar">Sinal de x trabalhado para separar o valores no placar</string>
     <string name="descricao_btn_adicao">Botão verde e amarelo com um sinal de adição para acrescentar novos objetos</string>
+    <string name="descricao_btn_gol_pro">Bola de futebol verde</string>
+    <string name="descricao_btn_gol_contra">Bola de futebol vermelha</string>
+    <string name="descricao_btn_falta">Apito preto</string>
+    <string name="descricao_btn_cartao_amarelo">Cartão amarelo</string>
+    <string name="descricao_btn_cartao_vermelho">Cartão vermelho</string>
     <string name="msg_jogadores_insuficientes">Adicione mais jogadores</string>
     <string name="erro_apagar_acao">A ação não pode ser desfeita.</string>
-
-
+    <string name="cabecalho_estatistica_artilharia">Artilharia:</string>
+    <string name="cabecalho_estatistica_fairplay">Conduta Fairplay:</string>
+    <string name="cabecalho_estatistica_jogo_limpo">Jogo Limpo:</string>
+    <string name="erro_torneio_sem_estatistica">Torneio ainda aberto!\nAguardando por estatísticas…</string>
+    <string name="erro_torneio_sem_estatistica_especifica">Aguardando dados para gerar estatísticas…</string>
 </resources>

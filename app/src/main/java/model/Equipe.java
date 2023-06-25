@@ -105,4 +105,13 @@ public class Equipe extends EntConcreta {
                " Sigla: "+ sigla +
                " Quantidade de jogadores: " + jogadores.size();
     }
+
+    public EntConcreta buscarJogador(int id) {
+        for (Jogador j : jogadores) {
+            if (j.getId() == id) {
+                return j;
+            }
+        }
+        return null;
+    }
 }
