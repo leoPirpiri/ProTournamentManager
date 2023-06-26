@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
                 <LinearLayout
                     android:id="@+id/layout_estatistica_campeao_equipe"
                     android:layout_width="match_parent"

@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private Olimpia santuarioOlimpia;
     private AlertDialog alertaDialog;
     private FirebaseUser nowUser;
-    private FirebaseFirestore  firestore;
+    private FirebaseFirestore firestoreDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         nowUser = FirebaseAuth.getInstance().getCurrentUser();
-        firestore = FirebaseFirestore.getInstance();
+        firestoreDB = FirebaseFirestore.getInstance();
 
         setContentView(R.layout.activity_principal);
         Button btn_logout_padrao = findViewById(R.id.btn_logout_padrao);
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         if (nowUser!=null){
             for (Torneio torneio: santuarioOlimpia.getTorneiosGerenciados()) {
                 if(torneio.getDataAtualizacaoRemota()!=torneio.getDataAtualizacaoLocal()) {
-                    if(CarrierSemiActivity.salvarSantuarioRemoto(torneio, firestore)){
+                    if(CarrierSemiActivity.salvarSantuarioRemoto(torneio, firestoreDB)){
                         santuarioOlimpia.atualizar(true);
                     }
                 }

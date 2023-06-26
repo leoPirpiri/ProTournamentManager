@@ -44,6 +44,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     private ArrayList<Torneio> listaTorneiosGerenciados;
     private EditText etx_nome_novo_torneio;
     private Button btn_novo_torneio;
+    private FirebaseFirestore firestoreDB;
 
     public TorneiosGerenciadosFragment() {
         // Required empty public constructor
@@ -63,6 +64,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_torneios_diversos, container, false);
+        firestoreDB = FirebaseFirestore.getInstance();
 
         etx_nome_novo_torneio = v.findViewById(R.id.etx_torneios_recentes);
         btn_novo_torneio = v.findViewById(R.id.btn_torneios_recentes);
@@ -214,7 +216,7 @@ public class TorneiosGerenciadosFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void buscarTorneiosRemotos() {
         if(listaTorneiosGerenciados.isEmpty()) {
-            FirebaseFirestore.getInstance().collection("torneios").
+            firestoreDB.collection("torneios").
                 whereArrayContains("gerenciadores", superActivity.getUsuarioLogado()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -222,18 +224,18 @@ public class TorneiosGerenciadosFragment extends Fragment {
                         if(!documents.isEmpty()){
                             for (QueryDocumentSnapshot document : documents) {
                                 Torneio torneioRemoto = document.toObject(Torneio.class);
-                                if (torneioRemoto!=null &&torneioRemoto.estarFechado()) {
-                                    FirebaseFirestore.getInstance().collection(document.getReference().getPath()+"/partidas")
+                                if (torneioRemoto!=null && torneioRemoto.estarFechado()) {
+                                    firestoreDB.collection(document.getReference().getPath()+"/partidas")
                                         .get().addOnSuccessListener(querySnapshot -> {
                                             if(torneioRemoto.buscarTabela() == null) torneioRemoto.setTabela(new Tabela());
                                             for (QueryDocumentSnapshot docPartida : querySnapshot) {
                                                 Partida partida = docPartida.toObject(Partida.class);
                                                 torneioRemoto.buscarTabela().addPartida(partida.getId(), partida);
+                                                Log.d(TAG, partida.toString());
                                             }
-                                            });
+                                        });
                                 }
                                 listaTorneiosGerenciados.add(torneioRemoto);
-                                Log.d(TAG, torneioRemoto.toString());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             superActivity.persistirDados();
