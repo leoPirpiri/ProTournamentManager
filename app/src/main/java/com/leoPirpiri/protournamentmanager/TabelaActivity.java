@@ -1,5 +1,7 @@
 package com.leoPirpiri.protournamentmanager;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -10,16 +12,25 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import adapters.PartidasAdapter;
 import control.CarrierSemiActivity;
@@ -28,12 +39,14 @@ import model.Equipe;
 import model.Partida;
 import model.Score;
 import model.Torneio;
+import model.Usuario;
 
 public class TabelaActivity extends AppCompatActivity {
     private String torneioIndice;
     private Olimpia santuarioOlimpia;
     private MediaPlayer efeitos_sonoros;
     private Torneio torneio;
+    private ArrayList<Usuario> listaDeMesarios;
     private LinearLayout ltv_final;
     private LinearLayout ltv_semifinal1;
     private LinearLayout ltv_semifinal2;
@@ -46,6 +59,8 @@ public class TabelaActivity extends AppCompatActivity {
     private PartidasAdapter partidasAdapterE;
     private PartidasAdapter partidasAdapterD;
     private AlertDialog alertaDialog;
+
+    private FirebaseFirestore firestoreDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +75,9 @@ public class TabelaActivity extends AppCompatActivity {
         ltv_quartafinal4 = findViewById(R.id.layout_quarta4);
         ltv_oitavas_esquerda = findViewById(R.id.ltv_partidas_oitava_e);
         ltv_oitavas_direita = findViewById(R.id.ltv_partidas_oitava_d);
+
+        firestoreDB = FirebaseFirestore.getInstance();
+        listaDeMesarios = new ArrayList<>();
 
         Intent intent = getIntent();
         Bundle dados = intent.getExtras();
@@ -95,10 +113,31 @@ public class TabelaActivity extends AppCompatActivity {
             ltv_oitavas_esquerda.setAdapter(partidasAdapterE);
             ltv_oitavas_direita.setAdapter(partidasAdapterD);
             listarPartidas();
+            if(torneio.getGerenciadores().size()>1) carregarMesarios();
         } else {
             Toast.makeText(TabelaActivity.this, R.string.dados_erro_transitar_em_activity, Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    private void carregarMesarios() {
+        firestoreDB.collection("usuarios").
+                whereIn(FieldPath.documentId(), torneio.getGerenciadores()).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot documents = task.getResult();
+                        if(!documents.isEmpty()){
+                            for (QueryDocumentSnapshot document : documents) {
+                                Usuario mesario = document.toObject(Usuario.class);
+                                listaDeMesarios.add(mesario);
+                                Log.d(TAG, mesario.toString());
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
     }
 
     private void montarAlertaAbrirPartida(Partida partida){
@@ -123,6 +162,17 @@ public class TabelaActivity extends AppCompatActivity {
         SpannableString textoNegrito = new SpannableString(nomeMandante + "\n" + getString(R.string.lbl_vs_padrao) + "\n" + nomeVisitante);
         textoNegrito.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), nomeMandante.length(), textoNegrito.length() - nomeVisitante.length(), 0);
         msg.setText(textoNegrito);
+
+        if(torneio.getGerenciadores().size()>1){
+            view.findViewById(R.id.ic_mesario).setVisibility(View.VISIBLE);
+            Spinner spn_mesarios = view.findViewById(R.id.spr_mesarios);
+            spn_mesarios.setVisibility(View.VISIBLE);
+            spn_mesarios.setAdapter(new ArrayAdapter<>(
+                    this,
+                    R.layout.spinner_item_style,
+                    listaDeMesarios.stream().map(Usuario::getApelido).collect(Collectors.toList())));
+            spn_mesarios.setSelection(listaDeMesarios.stream().map(Usuario::getId).collect(Collectors.toList()).indexOf(partida.getMesario()));
+        }
 
         btn_confirmar.setOnClickListener(arg0 -> {
             alertaDialog.dismiss();

@@ -60,6 +60,16 @@ public class Tabela  implements Serializable {
         return partidasOitavas;
     }
 
+    public void subirCampeaoDeChave(int partidaId){
+        if (partidaId != 1) {
+            if (partidaId % 2 == 0) {
+                partidas.get(partidaId / 2).setMandante(partidas.get(partidaId).getCampeaoId());
+            } else {
+                partidas.get(partidaId / 2).setVisitante(partidas.get(partidaId).getCampeaoId());
+            }
+        }
+    }
+
     public ArrayList<Score> buscarEstatisticasGerais(int idEquipe){
         ArrayList<Score> r = new ArrayList<>();
         for (Map.Entry<Integer, Partida> entry : partidas.entrySet()) {

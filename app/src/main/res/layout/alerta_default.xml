@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/cor_transparente"
     android:padding="@dimen/espaco_partida">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
+
         <TextView
             android:id="@+id/msg_alerta_default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:padding="2dp"
             android:text="Algum tipo de texto aqui! mas muito,"
-            android:padding="5dp"
             android:textAlignment="center"
-            android:visibility="gone"/>
+            android:textSize="20dp"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/ic_mesario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:drawableLeftCompat="@drawable/user_tipo_mesario_torneio" />
+        <Spinner
+            android:id="@+id/spr_mesarios"
+            android:layout_width="@dimen/largura_spinner_padrao"
+            android:layout_height="wrap_content"
+            android:scrollbarSize="2dp"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

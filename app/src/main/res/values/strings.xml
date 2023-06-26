@@ -166,8 +166,8 @@
     <string name="titulo_alerta_partida_desempate">Pênaltis</string>
     <string name="titulo_alerta_partida_campeao">Vitória!</string>
     <string name="lbl_vs_padrao">Vs.</string>
-    <string name="lbl_msg_inicio_aberta">Deseja iniciar partida: </string>
-    <string name="lbl_msg_inicio_finalizada">Rever os dados da partida: </string>
+    <string name="lbl_msg_inicio_aberta">Iniciar a partida: </string>
+    <string name="lbl_msg_inicio_finalizada">Rever dados da partida: </string>
     <string name="lbl_msg_inicio_desempate">Deseja iniciar o módulo de desempate? </string>
     <string name="lbl_msg_finalizar_partida">Deseja finalizar a partida </string>
     <string name="lbl_msg_finalizar_pelada">Deseja finalizar a pelada </string>

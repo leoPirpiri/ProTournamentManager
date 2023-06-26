@@ -689,8 +689,16 @@ public class PartidaActivity extends AppCompatActivity {
             }
         }
         if(partida.estaEncerrada()){
+            subirCampeaoDaChave();
             esconderAlerta();
             montarAlertaPremiacao();
+        }
+    }
+
+    private void subirCampeaoDaChave() {
+        if(!ehSimulacao()){
+            torneio.buscarTabela().subirCampeaoDeChave(partida.getId());
+            persistirDadosPartida();
         }
     }
 
@@ -1117,6 +1125,7 @@ public class PartidaActivity extends AppCompatActivity {
     private void finalizarPartida() {
         if (partida.setEncerrada()){
             montarAlertaPremiacao();
+            subirCampeaoDaChave();
         } else {
             if(ehSimulacao()){
                 montarAlertaPerguntarDesempate();
