@@ -255,14 +255,16 @@ public class TabelaActivity extends AppCompatActivity {
         TextView visitanteSigla = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 0 : 1);
         TextView visitanteScore = (TextView) ltn2.getChildAt(nosEsquerdos.contains(id) ? 1 : 0);
 
-        if(partida.estaEncerrada() && partida.getMandante()>0 && partida.getVisitante()>0){
+        if(partida.estaEncerrada()){
             HashMap<String, Integer> placar = partida.buscarDetalhesDaPartida();
+            System.out.println("aqui");
+            System.out.println(placar);;
             mandanteScore.setText(String.valueOf(
-                    placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0)+
+                    placar.getOrDefault("Mand_"+ Score.TIPO_PONTO, 0) +
                     placar.getOrDefault("Vist_"+ Score.TIPO_AUTO_PONTO, 0)
             ));
             visitanteScore.setText(String.valueOf(
-                    placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0)+
+                    placar.getOrDefault("Vist_"+Score.TIPO_PONTO, 0) +
                     placar.getOrDefault("Mand_"+ Score.TIPO_AUTO_PONTO, 0)
             ));
         } else {

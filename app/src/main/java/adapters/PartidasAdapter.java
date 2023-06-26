@@ -71,8 +71,10 @@ public class PartidasAdapter extends BaseAdapter {
             visitanteSigla.setText(torneio.buscarEquipe(partida.getVisitante()).getSigla());
             if (partida.estaEncerrada()) {
                 HashMap<String, Integer> placar = partida.buscarDetalhesDaPartida();
-                mandanteScore.setText(String.valueOf(placar.getOrDefault("Mand_" + Score.TIPO_PONTO, 0)));
-                visitanteScore.setText(String.valueOf(placar.getOrDefault("Vist_" + Score.TIPO_PONTO, 0)));
+                mandanteScore.setText(String.valueOf(placar.getOrDefault("Mand_" + Score.TIPO_PONTO, 0) +
+                                                     placar.getOrDefault("Vist_"+ Score.TIPO_AUTO_PONTO, 0)));
+                visitanteScore.setText(String.valueOf(placar.getOrDefault("Vist_" + Score.TIPO_PONTO, 0) +
+                                                      placar.getOrDefault("Mand_"+ Score.TIPO_AUTO_PONTO, 0)));
                 v.setBackground(ContextCompat.getDrawable(ctx, R.drawable.chave_background_desabled));
             } else {
                 v.setBackground(ContextCompat.getDrawable(ctx, R.drawable.chave_background_enabled));
